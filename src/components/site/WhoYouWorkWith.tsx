@@ -30,14 +30,14 @@ export function WhoYouWorkWith() {
               fontWeight: 500,
             }}
           >
-            Two senior operators. No account layer.
+            Senior-led. No account layer.
           </h2>
         </Reveal>
         <Reveal delay={80} className="md:col-span-5">
           <p className="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            You work directly with the people shaping and shipping the product. Strategy,
-            design, engineering, and delivery stay close enough that context does not leak
-            between handoffs.
+            You work directly with the people shaping and shipping the product.
+            When the brief needs more hands, we bring in trusted specialists —
+            without adding an account layer between you and the work.
           </p>
         </Reveal>
       </div>
@@ -55,7 +55,7 @@ export function WhoYouWorkWith() {
               </div>
               <div className="flex flex-col">
                 <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                  Founder / 0{i + 1}
+                  Studio lead / 0{i + 1}
                 </p>
                 <h3 className="mt-4 text-2xl font-medium text-foreground">{person.name}</h3>
                 <p className="mt-2 text-sm text-foreground">{person.role}</p>

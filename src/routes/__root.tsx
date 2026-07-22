@@ -80,13 +80,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "kbell + postman is an Amsterdam digital product studio. We build the products agencies and founders don't have the team to build — end to end.",
+          "kbell + postman is an Amsterdam digital product studio. We build digital products end to end — when the idea outgrows the team.",
       },
       { name: "author", content: "kbell + postman" },
       { property: "og:title", content: "kbell + postman — Digital product studio, Amsterdam" },
       {
         property: "og:description",
-        content: "The build partner agencies call when the idea is bigger than their in-house capacity.",
+        content: "Validate, build, evolve and support digital products — for agencies, founders, and product teams.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

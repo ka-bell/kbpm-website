@@ -117,7 +117,7 @@ const CELLS: Cell[] = [
   { key: "roadmap", label: "Roadmap + product thinking", row: 5, col: 4, colSpan: 2, packages: ["product"], tooltip: "We push back and propose." },
   { key: "monitor", label: "Monitoring + fixes", row: 5, col: 6, packages: ["product", "infra"], tooltip: "Uptime, perf, bugs — handled." },
   { key: "seo", label: "SEO + performance", row: 5, col: 7, packages: ["gtm"], tooltip: "Core Web Vitals, indexing, tracking." },
-  { key: "access", label: "Direct partner access", row: 5, col: 8, packages: ["product"], tooltip: "Both partners, one shared inbox." },
+  { key: "access", label: "Direct partner access", row: 5, col: 8, packages: ["product"], tooltip: "Senior leads on the work — no account layer." },
 ];
 
 const ROW_LABELS = ["Discovery", "Design", "Build", "Launch", "Operate"];

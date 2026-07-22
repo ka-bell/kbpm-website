@@ -10,7 +10,7 @@ export const Route = createFileRoute("/about")({
       {
         name: "description",
         content:
-          "The full stack in two heads: product strategy, design, engineering, and EU-first infrastructure. What kbell + postman actually does.",
+          "Strategy, design, engineering, and EU-first infrastructure — what kbell + postman actually does.",
       },
       { property: "og:title", content: "About — kbell + postman" },
       {
@@ -95,8 +95,8 @@ const TOOLS: Array<{ name: string; color: string; use: string; mono: string }> =
 const PRINCIPLES: Array<{ n: string; title: string; body: string }> = [
   {
     n: "A",
-    title: "Two named senior operators.",
-    body: "You get the people you met on the call, on the tools, every week. No account managers, no juniors on the keyboard, no offshore hand-off.",
+    title: "Senior people on the work.",
+    body: "You work with the people shaping the product — and specialists join when the brief needs them. No account-manager theatre, no junior hand-off of the core decisions.",
   },
   {
     n: "B",
@@ -215,7 +215,7 @@ function AboutPage() {
               >
                 The full stack,
                 <br />
-                <span className="text-accent">in two heads.</span>
+                <span className="text-accent">end to end.</span>
               </h1>
             </Reveal>
           </div>
@@ -224,9 +224,8 @@ function AboutPage() {
               <p className="max-w-sm text-lg leading-relaxed text-muted-foreground">
                 kbell + postman is a small, named studio in Amsterdam. We take
                 products from idea to production — strategy, design, code, and
-                the EU-first infrastructure they run on. The build partner
-                agencies call when the idea is bigger than their in-house
-                capacity.
+                the EU-first infrastructure they run on. Built for teams whose
+                ideas have outgrown their in-house capacity.
               </p>
             </Reveal>
           </div>
@@ -236,9 +235,9 @@ function AboutPage() {
           <div className="mt-20 grid grid-cols-2 gap-8 border-t border-border pt-10 md:mt-28 md:grid-cols-4 md:gap-10">
             {[
               ["10+", "years shipping products"],
-              ["2", "senior operators, always"],
+              ["Senior", "led on every engagement"],
               ["EU", "first infra, by default"],
-              ["1", "shared inbox"],
+              ["Fixed", "scope, fixed price"],
             ].map(([n, l]) => (
               <div key={l}>
                 <p
@@ -294,8 +293,9 @@ function AboutPage() {
               <div className="md:col-span-5 md:col-start-8">
                 <Reveal>
                   <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">
-                    Four disciplines, held by the same two people. Keep scrolling here:
-                    the capability cards move sideways, then the page continues.
+                    Four disciplines in one studio. Specialists join when the brief
+                    needs them. Keep scrolling here: the capability cards move
+                    sideways, then the page continues.
                   </p>
                 </Reveal>
               </div>
@@ -635,7 +635,7 @@ function AboutPage() {
                 fontWeight: 500,
               }}
             >
-              Two desks, one shared inbox, and a decade of shipping.
+              Amsterdam. A decade of shipping — and the team the brief needs.
             </p>
           </div>
         </div>

@@ -2,20 +2,21 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
 import { serviceOfferings } from "@/components/site/service-offerings";
+import { serviceListsByPhase } from "@/components/site/service-lists";
 
 export const Route = createFileRoute("/services/")({
   head: () => ({
     meta: [
-      { title: "Services — kbell + postman" },
+      { title: "All services — kbell + postman" },
       {
         name: "description",
         content:
-          "Validate, Build, Evolve, Support — the product lifecycle moments where clients engage kbell + postman.",
+          "All kbell + postman services across Validate, Build, Evolve, and Support.",
       },
-      { property: "og:title", content: "Services — kbell + postman" },
+      { property: "og:title", content: "All services — kbell + postman" },
       {
         property: "og:description",
-        content: "One lifecycle. Four moments to engage.",
+        content: "Work with us from start to finish — or bring us in for exactly what you need.",
       },
     ],
     links: [{ rel: "canonical", href: "/services" }],
@@ -39,13 +40,12 @@ function ServicesIndex() {
                   fontWeight: 500,
                 }}
               >
-                One product lifecycle.
+                All services.
               </h1>
             </Reveal>
             <Reveal delay={80} className="md:col-span-4">
               <p className="max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">
-                These are not packages. They are the typical moments clients engage KB+PM —
-                from first idea through long-term support.
+                Work with us from start to finish — or bring us in for exactly what you need.
               </p>
             </Reveal>
           </div>
@@ -53,60 +53,56 @@ function ServicesIndex() {
       </section>
 
       <section className="bg-background">
-        <div className="mx-auto max-w-[1440px] px-6 py-16 md:px-8 md:py-24">
-          <div className="mb-5 flex items-center justify-between border-b border-border pb-4">
-            <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-              Lifecycle
-            </p>
-            <p className="hidden text-sm text-muted-foreground md:block">
-              Validate → Build → Evolve → Support
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 overflow-hidden border border-border md:grid-cols-2">
-            {serviceOfferings.map((phase, index) => (
-              <Reveal key={phase.slug} delay={index * 70}>
-                <Link
-                  to="/services/$slug"
-                  params={{ slug: phase.slug }}
-                  className={`group flex min-h-[420px] flex-col bg-background p-7 transition-colors hover:bg-surface-alt md:p-8 ${
-                    index % 2 === 0 ? "md:border-r" : ""
-                  } ${index < serviceOfferings.length - 2 ? "border-b" : ""} border-border`}
-                >
-                  <div className="flex items-center justify-between gap-4">
-                    <p className="font-mono-label text-muted-foreground">0{phase.order}</p>
+        <div className="mx-auto max-w-[1440px] space-y-16 px-6 py-16 md:space-y-24 md:px-8 md:py-24">
+          {serviceOfferings.map((phase, phaseIndex) => (
+            <Reveal key={phase.slug} delay={phaseIndex * 40}>
+              <div id={phase.slug} className="scroll-mt-28">
+                <div className="mb-5 flex flex-col gap-3 border-b border-border pb-4 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
                     <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                      Phase
+                      0{phase.order} / {phase.name}
                     </p>
+                    <p className="mt-2 text-sm text-muted-foreground">{phase.goal}</p>
                   </div>
-                  <h2 className="mt-10 text-3xl font-medium leading-none text-foreground">
-                    {phase.name}
-                  </h2>
-                  <p className="mt-4 text-lg leading-snug text-foreground">{phase.goal}</p>
-                  <p className="mt-6 text-sm leading-relaxed text-muted-foreground">{phase.when}</p>
-                  <ul className="mt-8 space-y-1">
-                    {phase.capabilities.slice(0, 5).map((cap) => (
-                      <li key={cap} className="text-sm text-foreground">
-                        {cap}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-auto border-t border-border pt-6">
-                    <div className="flex items-center justify-between gap-4">
-                      <p className="text-sm text-muted-foreground">{phase.outcome}</p>
-                      <span className="inline-flex h-12 w-12 items-center justify-center border border-border transition-colors group-hover:bg-background">
-                        <ArrowRight
-                          className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                          strokeWidth={1.7}
-                          aria-hidden
-                        />
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
+                  <Link
+                    to="/services/$slug"
+                    params={{ slug: phase.slug }}
+                    className="group inline-flex items-center gap-2 text-sm font-medium text-foreground"
+                  >
+                    Open {phase.name}
+                    <ArrowRight
+                      className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                      strokeWidth={1.7}
+                      aria-hidden
+                    />
+                  </Link>
+                </div>
+
+                <ul className="divide-y divide-border border border-border">
+                  {serviceListsByPhase[phase.slug].all.map((name) => (
+                    <li key={name}>
+                      <Link
+                        to="/services/$slug"
+                        params={{ slug: phase.slug }}
+                        className="group flex items-center justify-between gap-6 px-5 py-5 transition-colors hover:bg-surface-alt md:px-6 md:py-6"
+                      >
+                        <span className="text-base font-medium text-foreground md:text-lg">
+                          {name}
+                        </span>
+                        <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center border border-border transition-colors group-hover:bg-background">
+                          <ArrowRight
+                            className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                            strokeWidth={1.7}
+                            aria-hidden
+                          />
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </section>
     </>

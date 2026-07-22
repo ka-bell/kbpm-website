@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Digital product studio in Amsterdam. Validate, build, evolve and support complex digital products for agencies, startups and ambitious companies.",
+          "Digital product studio in Amsterdam. Validate, build, evolve and support complex digital products — end to end.",
       },
       { property: "og:title", content: "kbell + postman — Digital product studio" },
       {

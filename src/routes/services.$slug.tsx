@@ -7,9 +7,8 @@ import { cases } from "@/components/site/cases-data";
 import {
   getServiceOffering,
   legacyServiceRedirects,
-  serviceOfferings,
-  type ServiceSlug,
 } from "@/components/site/service-offerings";
+import { getServicePanelCopy } from "@/components/site/service-lists";
 
 export const Route = createFileRoute("/services/$slug")({
   loader: ({ params }) => {
@@ -51,10 +50,6 @@ function ServiceDetail() {
     setActiveCapability(service.capabilities[0]);
   }, [service.slug, service.capabilities]);
   const relatedCases = cases.filter((c) => service.cases.includes(c.slug));
-  const nextService = serviceOfferings.find((p) => p.slug === service.nextSlug)!;
-  const prevSlug = serviceOfferings[
-    (service.order - 2 + serviceOfferings.length) % serviceOfferings.length
-  ]?.slug as ServiceSlug;
 
   return (
     <>
@@ -70,7 +65,7 @@ function ServiceDetail() {
               strokeWidth={1.7}
               aria-hidden
             />
-            Lifecycle
+            All services
           </Link>
 
           <div className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-8">
@@ -122,12 +117,12 @@ function ServiceDetail() {
         </div>
       </section>
 
-      {/* Capabilities */}
+      {/* Services in this phase */}
       <section className="border-b border-border bg-background">
         <div className="mx-auto max-w-[1440px] px-6 py-16 md:px-8 md:py-24">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-8">
             <Reveal className="md:col-span-4">
-              <p className="eyebrow">Capabilities</p>
+              <p className="eyebrow">Services</p>
               <h2
                 className="font-display mt-5 max-w-lg text-foreground"
                 style={{
@@ -136,10 +131,10 @@ function ServiceDetail() {
                   fontWeight: 500,
                 }}
               >
-                What we do in this phase.
+                What we offer in this phase.
               </h2>
               <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-                Select a capability. Each sits in one place in the lifecycle only.
+                Select a service. Each sits in one place in the lifecycle only.
               </p>
             </Reveal>
             <div className="md:col-span-8">
@@ -167,13 +162,22 @@ function ServiceDetail() {
                   </p>
                   <h3 className="mt-4 text-2xl font-medium text-foreground">{activeCapability}</h3>
                   <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                    Part of {service.name}. Related examples and projects update with the phase —
-                    copy comes in Phase 3.
+                    {getServicePanelCopy(activeCapability, service.name)}
                   </p>
                   <div className="mt-auto pt-8">
                     <div className="aspect-[16/10] overflow-hidden border border-border bg-background">
-                      <ImagePlaceholder label="Capability visual" />
+                      <ImagePlaceholder
+                        key={activeCapability}
+                        label={`${activeCapability} visual`}
+                      />
                     </div>
+                    <Link
+                      to="/contact"
+                      className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-foreground underline decoration-accent decoration-2 underline-offset-4"
+                    >
+                      Start a project
+                      <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.7} aria-hidden />
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -182,36 +186,7 @@ function ServiceDetail() {
         </div>
       </section>
 
-      {/* Examples */}
-      <section className="border-b border-border bg-surface-alt">
-        <div className="mx-auto max-w-[1440px] px-6 py-16 md:px-8 md:py-24">
-          <Reveal>
-            <p className="eyebrow">Examples of work</p>
-            <h2
-              className="font-display mt-5 max-w-3xl text-foreground"
-              style={{
-                fontSize: "clamp(2.25rem, 4.4vw, 4.5rem)",
-                lineHeight: 0.95,
-                fontWeight: 500,
-              }}
-            >
-              What this looks like in practice.
-            </h2>
-          </Reveal>
-          <div className="mt-12 grid grid-cols-1 gap-px border border-border bg-border md:grid-cols-2 lg:grid-cols-3">
-            {service.examples.map((example, index) => (
-              <Reveal key={example} delay={index * 50}>
-                <article className="bg-background p-6">
-                  <p className="font-mono-label text-muted-foreground">
-                    {String(index + 1).padStart(2, "0")}
-                  </p>
-                  <p className="mt-6 text-lg font-medium text-foreground">{example}</p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* Related projects */}
       <section className="border-b border-border bg-background">
@@ -282,71 +257,42 @@ function ServiceDetail() {
         </div>
       </section>
 
-      {/* Next phase + CTA */}
+      {/* CTA */}
       <section className="bg-background">
         <div className="mx-auto max-w-[1440px] px-6 py-16 md:px-8 md:py-24">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
-            <Reveal className="md:col-span-7">
-              <div className="border border-border bg-foreground p-7 text-background md:p-8">
+          <Reveal>
+            <div className="flex flex-col gap-8 border border-border bg-foreground p-8 text-background md:flex-row md:items-end md:justify-between md:p-10">
+              <div className="max-w-2xl">
                 <p className="font-mono-label uppercase tracking-wider text-background/70">
-                  Next in the lifecycle
+                  Next step
                 </p>
                 <h2
-                  className="font-display mt-6 text-background"
+                  className="font-display mt-5 text-background"
                   style={{
-                    fontSize: "clamp(2.25rem, 4.4vw, 4.5rem)",
+                    fontSize: "clamp(2.25rem, 4.4vw, 4rem)",
                     lineHeight: 0.95,
                     fontWeight: 500,
                   }}
                 >
-                  {nextService.name}
+                  Ready to talk about {service.name.toLowerCase()}?
                 </h2>
-                <p className="mt-4 max-w-xl text-sm leading-relaxed text-background/80">
-                  {nextService.goal}
+                <p className="mt-4 text-sm leading-relaxed text-background/80">
+                  Tell us where the product sits — we&apos;ll map the right next step.
                 </p>
-                <Link
-                  to="/services/$slug"
-                  params={{ slug: nextService.slug }}
-                  className="group mt-10 inline-flex items-center gap-2 border border-background/40 px-5 py-3 text-sm font-medium text-background transition-colors hover:bg-background hover:text-foreground"
-                >
-                  Continue to {nextService.name}
-                  <ArrowRight
-                    className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                    strokeWidth={1.7}
-                    aria-hidden
-                  />
-                </Link>
               </div>
-            </Reveal>
-            <Reveal delay={80} className="md:col-span-5">
-              <div className="flex h-full flex-col justify-between border border-border bg-surface-alt p-7 md:p-8">
-                <div>
-                  <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                    Enter from any stage
-                  </p>
-                  <p className="mt-4 text-base leading-relaxed text-foreground">
-                    Clients may start at {service.name}. The lifecycle stays connected.
-                  </p>
-                </div>
-                <div className="mt-10 flex flex-col gap-3">
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center justify-between gap-3 bg-foreground px-5 py-3 text-sm font-medium text-background"
-                  >
-                    Start a project
-                    <ArrowRight className="h-4 w-4" strokeWidth={1.7} aria-hidden />
-                  </Link>
-                  <Link
-                    to="/services/$slug"
-                    params={{ slug: prevSlug }}
-                    className="text-sm text-muted-foreground hover:text-foreground"
-                  >
-                    ← Previous phase
-                  </Link>
-                </div>
-              </div>
-            </Reveal>
-          </div>
+              <Link
+                to="/contact"
+                className="group inline-flex shrink-0 items-center gap-3 bg-background px-6 py-4 text-sm font-medium text-foreground transition-opacity hover:opacity-90"
+              >
+                Start a project
+                <ArrowRight
+                  className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                  strokeWidth={1.7}
+                  aria-hidden
+                />
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
     </>

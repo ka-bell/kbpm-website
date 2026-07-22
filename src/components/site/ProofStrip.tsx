@@ -1,13 +1,12 @@
 const metrics = [
-  { value: "MVP", label: "Video publishing platform launched", client: "SpilNews" },
-  { value: "2", label: "Live destination experiences", client: "HopPlay" },
-  { value: "+85%", label: "Team hours saved", client: "Academion" },
+  { value: "7", label: "Years as a company" },
+  { value: "500K+", label: "Daily users on our biggest platform" },
+  { value: "31", label: "Platforms we still maintain today" },
 ];
 
 export function ProofStrip() {
   return (
     <section className="border-y border-border">
-      {/* Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-3">
         {metrics.map((m, i) => (
           <div
@@ -28,9 +27,8 @@ export function ProofStrip() {
             >
               {m.value}
             </p>
-            <div className="mt-6 flex items-baseline justify-between border-t border-border pt-4">
+            <div className="mt-6 border-t border-border pt-4">
               <p className="text-sm text-foreground">{m.label}</p>
-              <p className="font-mono-label text-muted-foreground">{m.client}</p>
             </div>
           </div>
         ))}

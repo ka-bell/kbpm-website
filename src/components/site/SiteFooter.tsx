@@ -14,7 +14,7 @@ export function SiteFooter() {
               className="font-display mt-8 max-w-xs text-foreground"
               style={{ fontSize: "1.5rem", letterSpacing: "-0.03em", fontWeight: 500, lineHeight: 1.1 }}
             >
-              The build partner agencies call when the idea is bigger than their team.
+              Digital products end to end — when the idea is bigger than the team.
             </p>
             <p className="mt-8 text-sm text-muted-foreground">
               Jan van Galenstraat 122<br />

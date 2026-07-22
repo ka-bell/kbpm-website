@@ -53,7 +53,7 @@ export const cases: CaseStudy[] = [
     serviceSlug: "build",
     serviceCta: "This was a Build engagement. Want one?",
     context:
-      "SpilNews / Mediahuis needed a modern publishing environment for video-first news. The product had to support editorial workflows, metadata, scheduling, permissions, and distribution without forcing the team into a system built mainly for written articles.",
+      "Brought in as the product build partner for SpilNews / Mediahuis. They needed a modern publishing environment for video-first news — editorial workflows, metadata, scheduling, permissions, and distribution without forcing the team into a system built mainly for written articles.",
     problem:
       "Traditional publishing systems are primarily built around written articles, making it difficult for editorial teams to efficiently manage and publish video content within the same workflow.",
     built:
@@ -97,7 +97,7 @@ export const cases: CaseStudy[] = [
     serviceSlug: "validate",
     serviceCta: "This was a Validate → Build engagement. Want one?",
     context:
-      "Mix Interiors needed a way to connect editorial inspiration with the actual products featured inside interior imagery. Readers were inspired by project photography, but finding the product behind a chair, light, table, or finish often meant manual search.",
+      "Delivered as an agency product build for Mix Interiors: connect editorial inspiration with the actual products featured inside interior imagery. Readers were inspired by project photography, but finding the product behind a chair, light, table, or finish often meant manual search.",
     problem:
       "Interior inspiration often starts with beautiful project photography, but identifying the products featured within an image usually requires time-consuming manual searches.",
     built:
@@ -213,6 +213,8 @@ export const cases: CaseStudy[] = [
     service: "Build → Support",
     serviceSlug: "support",
     serviceCta: "This was a Build → Support engagement. Want one?",
+    context:
+      "An agency product build for Academion: replace email threads, Word docs, and shared drives with a structured accreditation workflow European universities could trust.",
     problem:
       "Academion runs accreditation for European universities — a process that lived in email threads, Word docs, and shared drives. Every review cycle burned weeks. It wasn't a UX problem; it was an operations problem.",
     built:

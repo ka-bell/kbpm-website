@@ -1,9 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { primaryNav, services, aboutItems } from "./nav-data";
+import { primaryNav, services } from "./nav-data";
 import { Wordmark } from "./Wordmark";
-
-const aboutMenuItems = aboutItems.filter((item) => item.href !== "/about");
 
 export function MobileNavDrawer({
   open,
@@ -13,7 +11,6 @@ export function MobileNavDrawer({
   onClose: () => void;
 }) {
   const [servicesExpanded, setServicesExpanded] = useState(true);
-  const [aboutExpanded, setAboutExpanded] = useState(false);
 
   useEffect(() => {
     if (open) {
@@ -83,42 +80,13 @@ export function MobileNavDrawer({
           </div>
         )}
 
-        <button
-          type="button"
-          onClick={() => setAboutExpanded((v) => !v)}
-          className="flex w-full items-center justify-between border-b border-border py-5 text-left"
-          aria-expanded={aboutExpanded}
+        <Link
+          to="/about"
+          onClick={onClose}
+          className="block border-b border-border py-5 font-display text-3xl text-foreground"
         >
-          <span className="font-display text-3xl text-foreground">About</span>
-          <svg
-            className={`h-4 w-4 transition-transform ${aboutExpanded ? "rotate-180" : ""}`}
-            viewBox="0 0 16 16"
-            fill="none"
-            aria-hidden
-          >
-            <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.3" />
-          </svg>
-        </button>
-        {aboutExpanded && (
-          <div className="border-b border-border py-4">
-            {aboutMenuItems.map((s, i) => (
-              <Link
-                key={s.name}
-                to={s.href}
-                onClick={onClose}
-                className="flex items-baseline justify-between py-3"
-              >
-                <span className="flex items-baseline gap-3">
-                  <span className="eyebrow text-muted-foreground">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="text-base text-foreground">{s.name}</span>
-                </span>
-                <span className="eyebrow text-muted-foreground">{s.tag}</span>
-              </Link>
-            ))}
-          </div>
-        )}
+          About
+        </Link>
 
         {primaryNav.map((item) => (
           <Link

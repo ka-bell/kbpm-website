@@ -116,8 +116,8 @@ export function TrustedBy() {
               </h2>
             </div>
             <p className="max-w-md text-sm leading-relaxed text-muted-foreground md:col-span-4 md:col-start-9">
-              A sample of teams, agencies, and product groups we have helped move from idea to
-              working software.
+              A sample of the founders, agencies and companies we've helped move from idea to
+              working product.
             </p>
           </div>
         </Reveal>

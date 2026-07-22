@@ -18,7 +18,7 @@ export function Hero() {
                 fontWeight: 500,
               }}
             >
-              We build the digital products agencies don't have the team to build.
+              We build digital products when the idea outgrows the team.
             </h1>
           </Reveal>
         </div>
@@ -53,8 +53,7 @@ export function Hero() {
           <div className="mt-10 grid grid-cols-1 items-end gap-8 md:mt-14 md:grid-cols-12 md:gap-10">
             <div className="md:col-span-7">
               <p className="text-xl text-foreground md:text-2xl" style={{ letterSpacing: "-0.01em" }}>
-                From validated idea to working product. End to end. The build partner agencies
-                call when the idea is bigger than their in-house capacity.
+                Seven years as a company. Built for scale. Still trusted to maintain it.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-4 md:col-span-5 md:justify-end">

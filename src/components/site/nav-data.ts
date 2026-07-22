@@ -47,32 +47,3 @@ export const primaryNav = [
   { label: "Work", to: "/work" as const },
   { label: "Contact", to: "/contact" as const },
 ] as const;
-
-export const aboutItems = [
-  {
-    name: "About",
-    href: "/about" as const,
-    tag: "The studio",
-    blurb: "Strategy, design, engineering — what we actually do.",
-    thumb:
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=400&q=80",
-  },
-  {
-    name: "Team",
-    href: "/team" as const,
-    tag: "The people",
-    blurb: "The names and faces behind the work.",
-    thumb:
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=400&q=80",
-  },
-] as const;
-
-export const aboutFeature = {
-  image:
-    "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80",
-  title: "Meet the studio.",
-  blurb:
-    "Two people, one shared inbox, and a decade of shipping. Tell us what you're building.",
-  ctaLabel: "Start a project",
-  ctaHref: "/contact" as const,
-};

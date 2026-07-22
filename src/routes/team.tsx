@@ -8,17 +8,17 @@ export const Route = createFileRoute("/team")({
       {
         name: "description",
         content:
-          "The people behind kbell + postman. A small, named studio in Amsterdam.",
+          "The people behind kbell + postman. A senior-led studio in Amsterdam — specialists when the brief needs them.",
       },
       { property: "og:title", content: "Team — kbell + postman" },
-      { property: "og:description", content: "The people behind kbell + postman." },
+      { property: "og:description", content: "Senior-led studio. Specialists when needed." },
     ],
   }),
   component: () => (
     <StubPage
       section="§ Team"
       title="The people behind the work."
-      body="A small, named studio in Amsterdam. Full team page coming soon."
+      body="A senior-led studio in Amsterdam. Named leads on every engagement, with specialists brought in when the brief needs them. Full team page coming soon."
     />
   ),
 });

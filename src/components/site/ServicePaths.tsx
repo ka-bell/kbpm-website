@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Reveal } from "./Reveal";
 import { serviceOfferings } from "./service-offerings";
+import { serviceListsByPhase } from "./service-lists";
 
 export function ServicePaths() {
   return (
@@ -24,8 +25,7 @@ export function ServicePaths() {
               Validate. Build. Evolve. Support.
             </h2>
             <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              Not packages — the typical lifecycle of a digital product, and the moments clients
-              engage KB+PM.
+              Work with us from start to finish — or bring us in for exactly what you need.
             </p>
           </div>
           <div className="hidden md:col-span-4 md:flex md:justify-end">
@@ -33,7 +33,7 @@ export function ServicePaths() {
               to="/services"
               className="font-mono-label inline-flex items-center gap-3 uppercase tracking-wider text-foreground"
             >
-              Explore the lifecycle
+              All services
               <svg className="h-4 w-4" viewBox="0 0 14 14" fill="none" aria-hidden>
                 <path d="M3 11 11 3M11 3H5M11 3v6" stroke="currentColor" strokeWidth="1.5" />
               </svg>
@@ -41,63 +41,45 @@ export function ServicePaths() {
           </div>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 overflow-hidden border border-border md:mt-20 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16 grid grid-cols-1 gap-10 md:mt-20 md:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:overflow-hidden lg:border lg:border-border">
           {serviceOfferings.map((phase, i) => (
             <Reveal key={phase.slug} delay={i * 60}>
-              <Link
-                to="/services/$slug"
-                params={{ slug: phase.slug }}
-                className={`group flex min-h-[380px] flex-col bg-background p-8 transition-colors hover:bg-surface-alt md:p-8 ${
-                  i < serviceOfferings.length - 1
-                    ? "border-b border-border lg:border-b-0 lg:border-r"
-                    : ""
+              <div
+                className={`flex flex-col border border-border bg-background p-6 md:p-8 lg:border-0 ${
+                  i < serviceOfferings.length - 1 ? "lg:border-r lg:border-border" : ""
                 }`}
               >
-                <div>
+                <Link to="/services/$slug" params={{ slug: phase.slug }} className="group">
                   <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                    0{phase.order} / Lifecycle
+                    0{phase.order} / {phase.name}
                   </p>
-                  <h3
-                    className="font-display mt-4 text-foreground"
-                    style={{
-                      fontSize: "clamp(1.75rem, 2.8vw, 2.5rem)",
-                      letterSpacing: "-0.03em",
-                      lineHeight: 1,
-                      fontWeight: 500,
-                    }}
-                  >
-                    {phase.name}
-                  </h3>
-                  <p className="mt-4 text-base text-muted-foreground">{phase.goal}</p>
-                </div>
-                <ul className="mt-8 space-y-1.5">
-                  {phase.capabilities.slice(0, 4).map((cap) => (
-                    <li key={cap} className="text-sm text-foreground">
-                      {cap}
+                </Link>
+                <ul className="mt-8 flex flex-1 flex-col">
+                  {serviceListsByPhase[phase.slug].widget.map((name) => (
+                    <li key={name} className="border-t border-border first:border-t-0">
+                      <Link
+                        to="/services/$slug"
+                        params={{ slug: phase.slug }}
+                        className="group flex items-center justify-between gap-3 py-3.5 text-sm text-foreground transition-colors hover:text-accent"
+                      >
+                        <span>{name}</span>
+                        <svg
+                          className="h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                          aria-hidden
+                        >
+                          <path
+                            d="M3 11 11 3M11 3H5M11 3v6"
+                            stroke="currentColor"
+                            strokeWidth="1.4"
+                          />
+                        </svg>
+                      </Link>
                     </li>
                   ))}
-                  {phase.capabilities.length > 4 && (
-                    <li className="text-sm text-muted-foreground">
-                      +{phase.capabilities.length - 4} more
-                    </li>
-                  )}
                 </ul>
-                <div className="mt-auto border-t border-border pt-6">
-                  <div className="flex items-center justify-between gap-6">
-                    <p className="text-sm text-muted-foreground line-clamp-2">{phase.outcome}</p>
-                    <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center border border-border transition-colors group-hover:bg-background">
-                      <svg
-                        className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                        viewBox="0 0 14 14"
-                        fill="none"
-                        aria-hidden
-                      >
-                        <path d="M3 11 11 3M11 3H5M11 3v6" stroke="currentColor" strokeWidth="1.5" />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-              </Link>
+              </div>
             </Reveal>
           ))}
         </div>

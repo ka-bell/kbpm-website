@@ -1,13 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Wordmark } from "./Wordmark";
-import {
-  primaryNav,
-  services,
-  servicesFeature,
-  aboutItems,
-  aboutFeature,
-} from "./nav-data";
+import { primaryNav, services, servicesFeature } from "./nav-data";
 import { ImagePlaceholder } from "./ImagePlaceholder";
 import { MobileNavDrawer } from "./MobileNavDrawer";
 
@@ -27,8 +21,6 @@ type Feature = {
   ctaLabel: string;
   ctaHref: "/contact";
 };
-
-const aboutMenuItems = aboutItems.filter((item) => item.href !== "/about");
 
 function MegaMenu({
   label,
@@ -165,7 +157,6 @@ function MegaMenu({
 export function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
-  const [aboutOpen, setAboutOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -204,25 +195,28 @@ export function SiteNav() {
               onOpen={() => {
                 cancelClose();
                 setServicesOpen(true);
-                setAboutOpen(false);
               }}
               onClose={() => scheduleClose(setServicesOpen)}
               items={services}
               feature={servicesFeature}
             />
 
-            <MegaMenu
-              label="About"
-              open={aboutOpen}
-              onOpen={() => {
-                cancelClose();
-                setAboutOpen(true);
-                setServicesOpen(false);
-              }}
-              onClose={() => scheduleClose(setAboutOpen)}
-              items={aboutMenuItems}
-              feature={aboutFeature}
-            />
+            <Link
+              to="/about"
+              className="group relative py-2 text-sm text-foreground"
+              activeProps={{ className: "text-foreground" }}
+            >
+              {({ isActive }) => (
+                <span className="relative">
+                  About
+                  <span
+                    className={`absolute -bottom-0.5 left-0 h-px bg-accent transition-all duration-300 ${
+                      isActive ? "w-full" : "w-0 group-hover:w-full"
+                    }`}
+                  />
+                </span>
+              )}
+            </Link>
 
             {primaryNav.map((item) => (
               <Link

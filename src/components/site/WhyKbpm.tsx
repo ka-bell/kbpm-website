@@ -6,8 +6,8 @@ const columns = [
     body: "You get a full technical team on day one — product, design, engineering. No recruiters, no ramp-up, no dead weight.",
   },
   {
-    title: "Pitch bigger ideas.",
-    body: "We're the build partner behind the pitches your competitors can't win. Bring us in as the invisible ninth floor.",
+    title: "Ship bigger ideas.",
+    body: "A senior-led studio that can take on work that outgrows a standard delivery team — with specialists when the brief needs them.",
   },
   {
     title: "One partner, end to end.",
@@ -30,7 +30,7 @@ export function WhyKbpm() {
               fontWeight: 500,
             }}
           >
-            What agencies get when they call us.
+            What you get with a senior studio.
           </h2>
         </div>
 

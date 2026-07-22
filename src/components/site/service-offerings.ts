@@ -1,5 +1,7 @@
 /** Lifecycle phases — not service packages. From Phase 1 architecture. */
 
+import { serviceListsByPhase } from "./service-lists";
+
 export type ServiceSlug = "validate" | "build" | "evolve" | "support";
 
 export type LifecyclePhase = {
@@ -11,7 +13,7 @@ export type LifecyclePhase = {
   /** Goal of this phase */
   goal: string;
   capabilities: string[];
-  /** Concrete examples of work (not case studies) */
+  /** Concrete offers in this phase */
   examples: string[];
   outcome: string;
   /** Related case slugs */
@@ -27,20 +29,8 @@ export const serviceOfferings: LifecyclePhase[] = [
     order: 1,
     when: "They have an idea but need clarity before investing in design or development.",
     goal: "Create direction before build starts.",
-    capabilities: [
-      "Discovery Workshops",
-      "Product Strategy",
-      "User Research",
-      "Technical Discovery",
-      "AI Opportunity Scan",
-      "Roadmapping",
-    ],
-    examples: [
-      "Validate an AI product concept",
-      "Define the roadmap for a SaaS platform",
-      "Technical due diligence before development",
-      "Scope a complex platform",
-    ],
+    capabilities: [...serviceListsByPhase.validate.all],
+    examples: [...serviceListsByPhase.validate.all],
     outcome: "A validated product direction and clear execution plan.",
     cases: ["mix-interiors", "virtue-worldwide"],
     nextSlug: "build",
@@ -51,24 +41,8 @@ export const serviceOfferings: LifecyclePhase[] = [
     order: 2,
     when: "They know what they want to build and need a senior product team to design and develop it.",
     goal: "Design and develop the product.",
-    capabilities: [
-      "UX/UI Design",
-      "Product Engineering",
-      "Front-end",
-      "Back-end",
-      "AI Integrations",
-      "CMS Development",
-      "Infrastructure",
-      "QA & Launch",
-    ],
-    examples: [
-      "Headless website",
-      "AI platform",
-      "Customer portal",
-      "Campaign platform",
-      "Internal tooling",
-      "SaaS product",
-    ],
+    capabilities: [...serviceListsByPhase.build.all],
+    examples: [...serviceListsByPhase.build.all],
     outcome: "A production-ready digital product.",
     cases: ["spilnews", "mix-interiors", "virtue-worldwide"],
     nextSlug: "evolve",
@@ -79,20 +53,8 @@ export const serviceOfferings: LifecyclePhase[] = [
     order: 3,
     when: "Their product is live and they want to keep improving it.",
     goal: "Continuously improve a live product.",
-    capabilities: [
-      "Feature Development",
-      "Product Optimisation",
-      "AI Enhancements",
-      "Performance",
-      "Analytics",
-      "Product Roadmapping",
-    ],
-    examples: [
-      "Add AI functionality",
-      "Improve subscription flows",
-      "Extend an existing CMS",
-      "Optimise platform performance",
-    ],
+    capabilities: [...serviceListsByPhase.evolve.all],
+    examples: [...serviceListsByPhase.evolve.all],
     outcome: "A product that continuously improves.",
     cases: ["hopplay", "spilnews"],
     nextSlug: "support",
@@ -103,22 +65,8 @@ export const serviceOfferings: LifecyclePhase[] = [
     order: 4,
     when: "They need a trusted technical partner to keep everything running.",
     goal: "Keep the product stable, secure and supported.",
-    capabilities: [
-      "Monitoring",
-      "Maintenance",
-      "Hosting",
-      "Security",
-      "Bug Fixes",
-      "Technical Support",
-      "Incident Response",
-    ],
-    examples: [
-      "Ongoing support after launch",
-      "Hosting and infrastructure management",
-      "Security updates",
-      "Incident resolution",
-      "Monthly maintenance",
-    ],
+    capabilities: [...serviceListsByPhase.support.all],
+    examples: [...serviceListsByPhase.support.all],
     outcome: "A stable, secure and supported digital product.",
     cases: ["academion", "hopplay"],
     nextSlug: "evolve",
