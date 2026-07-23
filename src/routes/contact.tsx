@@ -82,8 +82,8 @@ function ContactPage() {
             <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div className="border border-border p-4">
                 <p className="eyebrow">Direct</p>
-                <a href="mailto:hello@kbpm.nl" className="mt-2 block text-sm text-foreground">
-                  hello@kbpm.nl
+                <a href="mailto:info@kbpm.nl" className="mt-2 block text-sm text-foreground">
+                  info@kbpm.nl
                 </a>
               </div>
               <div className="border border-border p-4">
@@ -135,7 +135,7 @@ function ContactPage() {
 
         <div className="md:col-span-8">
           <form
-            action="mailto:hello@kbpm.nl"
+            action="mailto:info@kbpm.nl"
             method="post"
             encType="text/plain"
             className="border border-border bg-background"
@@ -189,7 +189,7 @@ function ContactPage() {
 
             <div className="flex flex-col gap-4 p-5 md:flex-row md:items-center md:justify-between md:p-6">
               <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-                Prefer email? Write to hello@kbpm.nl.
+                Prefer email? Write to info@kbpm.nl.
               </p>
               <button
                 type="submit"

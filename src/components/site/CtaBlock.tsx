@@ -21,7 +21,7 @@ export function CtaBlock() {
                   fontWeight: 500,
                 }}
               >
-                Ready to start? <span className="text-accent">Tell us</span> what you're building.
+                <span className="text-accent">Tell us</span> what you're building.
               </h2>
             </div>
             <div className="flex flex-col justify-end gap-6 md:col-span-4">
@@ -36,8 +36,11 @@ export function CtaBlock() {
               </Link>
               <div className="space-y-1 text-sm text-background/70">
                 <p>Or a slower way in:</p>
-                <a href="mailto:hello@kbpm.nl" className="block text-background underline decoration-accent decoration-2 underline-offset-4">
-                  hello@kbpm.nl
+                <a
+                  href="mailto:info@kbpm.nl"
+                  className="block text-background transition-opacity hover:opacity-70"
+                >
+                  info@kbpm.nl
                 </a>
                 <p>Amsterdam — CET</p>
               </div>

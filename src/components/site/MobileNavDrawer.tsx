@@ -112,7 +112,7 @@ export function MobileNavDrawer({
           </svg>
         </Link>
         <p className="mt-4 text-center text-xs text-muted-foreground">
-          hello@kbpm.nl · Amsterdam
+          info@kbpm.nl · Amsterdam
         </p>
       </div>
     </div>

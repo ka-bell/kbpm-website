@@ -36,10 +36,10 @@ export function StubPage({
             Back home
           </Link>
           <a
-            href="mailto:hello@kbpm.nl"
+            href="mailto:info@kbpm.nl"
             className="inline-flex items-center gap-2 rounded-full border border-foreground/15 px-6 py-4 text-sm text-foreground transition-colors hover:border-foreground"
           >
-            hello@kbpm.nl
+            info@kbpm.nl
           </a>
         </div>
       </div>

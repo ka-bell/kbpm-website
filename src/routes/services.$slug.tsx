@@ -256,45 +256,6 @@ function ServiceDetail() {
           </div>
         </div>
       </section>
-
-      {/* CTA */}
-      <section className="bg-background">
-        <div className="mx-auto max-w-[1440px] px-6 py-16 md:px-8 md:py-24">
-          <Reveal>
-            <div className="flex flex-col gap-8 border border-border bg-foreground p-8 text-background md:flex-row md:items-end md:justify-between md:p-10">
-              <div className="max-w-2xl">
-                <p className="font-mono-label uppercase tracking-wider text-background/70">
-                  Next step
-                </p>
-                <h2
-                  className="font-display mt-5 text-background"
-                  style={{
-                    fontSize: "clamp(2.25rem, 4.4vw, 4rem)",
-                    lineHeight: 0.95,
-                    fontWeight: 500,
-                  }}
-                >
-                  Ready to talk about {service.name.toLowerCase()}?
-                </h2>
-                <p className="mt-4 text-sm leading-relaxed text-background/80">
-                  Tell us where the product sits — we&apos;ll map the right next step.
-                </p>
-              </div>
-              <Link
-                to="/contact"
-                className="group inline-flex shrink-0 items-center gap-3 bg-background px-6 py-4 text-sm font-medium text-foreground transition-opacity hover:opacity-90"
-              >
-                Start a project
-                <ArrowRight
-                  className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                  strokeWidth={1.7}
-                  aria-hidden
-                />
-              </Link>
-            </div>
-          </Reveal>
-        </div>
-      </section>
     </>
   );
 }

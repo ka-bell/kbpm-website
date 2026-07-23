@@ -21,10 +21,10 @@ export function SiteFooter() {
               1056 CA Amsterdam
             </p>
             <a
-              href="mailto:hello@kbpm.nl"
+              href="mailto:info@kbpm.nl"
               className="mt-2 inline-block text-sm text-foreground underline decoration-accent decoration-2 underline-offset-4"
             >
-              hello@kbpm.nl
+              info@kbpm.nl
             </a>
           </div>
 

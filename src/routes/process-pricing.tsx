@@ -286,7 +286,7 @@ function ProcessPricing() {
                   </svg>
                 </Link>
                 <a
-                  href="mailto:hello@kbpm.nl"
+                  href="mailto:info@kbpm.nl"
                   className="group inline-flex items-center justify-between gap-4 rounded-full border border-background/30 px-6 py-4 text-sm font-medium text-background transition-colors hover:border-background hover:bg-background/5"
                 >
                   Email us directly
