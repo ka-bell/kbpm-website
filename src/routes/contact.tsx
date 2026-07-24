@@ -1,13 +1,27 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { useEffect, useRef } from "react";
 
 const projectTypes = [
+  "Launch Scan — vibecode readiness (€250)",
+  "Release Ready — vibecode hardening (€1,500)",
+  "EU Stack Scan — map providers & residency",
+  "EU-First Setup — foundations on EU infra",
+  "EU Migration Plan — move without breaking",
   "Validate — clarity before we build",
   "Build — design and develop the product",
   "Evolve — improve a live product",
   "Support — keep everything running",
   "Not sure yet",
 ];
+
+const INTEREST_TO_TYPE: Record<string, string> = {
+  scan: "Launch Scan — vibecode readiness (€250)",
+  release: "Release Ready — vibecode hardening (€1,500)",
+  "eu-scan": "EU Stack Scan — map providers & residency",
+  "eu-setup": "EU-First Setup — foundations on EU infra",
+  "eu-migrate": "EU Migration Plan — move without breaking",
+};
 
 const nextSteps = [
   {
@@ -24,7 +38,15 @@ const nextSteps = [
   },
 ];
 
+type ContactSearch = {
+  interest?: string;
+};
+
 export const Route = createFileRoute("/contact")({
+  validateSearch: (search: Record<string, unknown>): ContactSearch => ({
+    interest:
+      typeof search.interest === "string" ? search.interest : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Contact - kbell + postman" },
@@ -55,6 +77,16 @@ const fieldClass =
   "mt-3 w-full border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-foreground";
 
 function ContactPage() {
+  const { interest } = Route.useSearch();
+  const preselected = INTEREST_TO_TYPE[interest ?? ""] ?? "";
+  const selectRef = useRef<HTMLSelectElement>(null);
+
+  useEffect(() => {
+    if (preselected && selectRef.current) {
+      selectRef.current.value = preselected;
+    }
+  }, [preselected]);
+
   return (
     <main>
       <section className="border-b border-border">
@@ -163,7 +195,13 @@ function ContactPage() {
               </div>
               <div className="p-5 md:p-6">
                 <FieldLabel htmlFor="projectType">What do you need?</FieldLabel>
-                <select id="projectType" name="project_type" className={fieldClass} defaultValue="">
+                <select
+                  id="projectType"
+                  name="project_type"
+                  ref={selectRef}
+                  className={fieldClass}
+                  defaultValue={preselected}
+                >
                   <option value="" disabled>
                     Choose a path
                   </option>

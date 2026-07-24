@@ -1,6 +1,12 @@
 import { Reveal } from "./Reveal";
 
-const steps = [
+export type ProcessStep = {
+  name: string;
+  duration: string;
+  copy: string;
+};
+
+const DEFAULT_STEPS: ProcessStep[] = [
   {
     name: "First call",
     duration: "30 min",
@@ -33,12 +39,24 @@ const steps = [
   },
 ];
 
-export function ProcessTimeline() {
+type ProcessTimelineProps = {
+  eyebrow?: string;
+  title?: string;
+  steps?: ProcessStep[];
+  className?: string;
+};
+
+export function ProcessTimeline({
+  eyebrow = "§ Process",
+  title = "How a project flows.",
+  steps = DEFAULT_STEPS,
+  className = "border-y border-border bg-surface-alt",
+}: ProcessTimelineProps) {
   return (
-    <section className="border-y border-border bg-surface-alt">
+    <section className={className}>
       <div className="mx-auto max-w-[1440px] px-6 py-20 md:px-8 md:py-28">
         <div className="mb-12 md:mb-16">
-          <p className="eyebrow">§ Process</p>
+          <p className="eyebrow">{eyebrow}</p>
           <h2
             className="font-display mt-5 max-w-3xl text-foreground"
             style={{
@@ -48,7 +66,7 @@ export function ProcessTimeline() {
               fontWeight: 500,
             }}
           >
-            How a project flows.
+            {title}
           </h2>
         </div>
 
@@ -57,12 +75,16 @@ export function ProcessTimeline() {
             <Reveal key={s.name} delay={i * 60}>
               <li className="grid grid-cols-12 items-baseline gap-4 border-b border-border py-8 md:py-10">
                 <span className="col-span-2 font-mono-label text-muted-foreground md:col-span-1">
-                  0{i + 1}
+                  {String(i + 1).padStart(2, "0")}
                 </span>
                 <div className="col-span-10 md:col-span-4">
                   <h3
                     className="font-display text-foreground"
-                    style={{ fontSize: "clamp(1.5rem, 2.4vw, 2rem)", letterSpacing: "-0.03em", fontWeight: 500 }}
+                    style={{
+                      fontSize: "clamp(1.5rem, 2.4vw, 2rem)",
+                      letterSpacing: "-0.03em",
+                      fontWeight: 500,
+                    }}
                   >
                     {s.name}
                   </h3>

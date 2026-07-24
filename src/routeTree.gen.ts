@@ -13,14 +13,20 @@ import { Route as WorkRouteImport } from './routes/work'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ProcessPricingRouteImport } from './routes/process-pricing'
+import { Route as PlaygroundRouteImport } from './routes/playground'
+import { Route as GoToMarketRouteImport } from './routes/go-to-market'
 import { Route as ExpertiseRouteImport } from './routes/expertise'
+import { Route as EuropeanFirstInfrastructureRouteImport } from './routes/european-first-infrastructure'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WorkIndexRouteImport } from './routes/work.index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
+import { Route as PlaygroundIndexRouteImport } from './routes/playground.index'
 import { Route as WorkSlugRouteImport } from './routes/work.$slug'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as PlaygroundSlugRouteImport } from './routes/playground.$slug'
+import { Route as ServicesOfferSlugRouteImport } from './routes/services.offer.$slug'
 
 const WorkRoute = WorkRouteImport.update({
   id: '/work',
@@ -42,11 +48,27 @@ const ProcessPricingRoute = ProcessPricingRouteImport.update({
   path: '/process-pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlaygroundRoute = PlaygroundRouteImport.update({
+  id: '/playground',
+  path: '/playground',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GoToMarketRoute = GoToMarketRouteImport.update({
+  id: '/go-to-market',
+  path: '/go-to-market',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ExpertiseRoute = ExpertiseRouteImport.update({
   id: '/expertise',
   path: '/expertise',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EuropeanFirstInfrastructureRoute =
+  EuropeanFirstInfrastructureRouteImport.update({
+    id: '/european-first-infrastructure',
+    path: '/european-first-infrastructure',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -72,6 +94,11 @@ const ServicesIndexRoute = ServicesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ServicesRoute,
 } as any)
+const PlaygroundIndexRoute = PlaygroundIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PlaygroundRoute,
+} as any)
 const WorkSlugRoute = WorkSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -82,47 +109,74 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ServicesRoute,
 } as any)
+const PlaygroundSlugRoute = PlaygroundSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => PlaygroundRoute,
+} as any)
+const ServicesOfferSlugRoute = ServicesOfferSlugRouteImport.update({
+  id: '/offer/$slug',
+  path: '/offer/$slug',
+  getParentRoute: () => ServicesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/european-first-infrastructure': typeof EuropeanFirstInfrastructureRoute
   '/expertise': typeof ExpertiseRoute
+  '/go-to-market': typeof GoToMarketRoute
+  '/playground': typeof PlaygroundRouteWithChildren
   '/process-pricing': typeof ProcessPricingRoute
   '/services': typeof ServicesRouteWithChildren
   '/team': typeof TeamRoute
   '/work': typeof WorkRouteWithChildren
+  '/playground/$slug': typeof PlaygroundSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/work/$slug': typeof WorkSlugRoute
+  '/playground/': typeof PlaygroundIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/work/': typeof WorkIndexRoute
+  '/services/offer/$slug': typeof ServicesOfferSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/european-first-infrastructure': typeof EuropeanFirstInfrastructureRoute
   '/expertise': typeof ExpertiseRoute
+  '/go-to-market': typeof GoToMarketRoute
   '/process-pricing': typeof ProcessPricingRoute
   '/team': typeof TeamRoute
+  '/playground/$slug': typeof PlaygroundSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/work/$slug': typeof WorkSlugRoute
+  '/playground': typeof PlaygroundIndexRoute
   '/services': typeof ServicesIndexRoute
   '/work': typeof WorkIndexRoute
+  '/services/offer/$slug': typeof ServicesOfferSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/european-first-infrastructure': typeof EuropeanFirstInfrastructureRoute
   '/expertise': typeof ExpertiseRoute
+  '/go-to-market': typeof GoToMarketRoute
+  '/playground': typeof PlaygroundRouteWithChildren
   '/process-pricing': typeof ProcessPricingRoute
   '/services': typeof ServicesRouteWithChildren
   '/team': typeof TeamRoute
   '/work': typeof WorkRouteWithChildren
+  '/playground/$slug': typeof PlaygroundSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/work/$slug': typeof WorkSlugRoute
+  '/playground/': typeof PlaygroundIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/work/': typeof WorkIndexRoute
+  '/services/offer/$slug': typeof ServicesOfferSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -130,48 +184,68 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/european-first-infrastructure'
     | '/expertise'
+    | '/go-to-market'
+    | '/playground'
     | '/process-pricing'
     | '/services'
     | '/team'
     | '/work'
+    | '/playground/$slug'
     | '/services/$slug'
     | '/work/$slug'
+    | '/playground/'
     | '/services/'
     | '/work/'
+    | '/services/offer/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/contact'
+    | '/european-first-infrastructure'
     | '/expertise'
+    | '/go-to-market'
     | '/process-pricing'
     | '/team'
+    | '/playground/$slug'
     | '/services/$slug'
     | '/work/$slug'
+    | '/playground'
     | '/services'
     | '/work'
+    | '/services/offer/$slug'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/contact'
+    | '/european-first-infrastructure'
     | '/expertise'
+    | '/go-to-market'
+    | '/playground'
     | '/process-pricing'
     | '/services'
     | '/team'
     | '/work'
+    | '/playground/$slug'
     | '/services/$slug'
     | '/work/$slug'
+    | '/playground/'
     | '/services/'
     | '/work/'
+    | '/services/offer/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  EuropeanFirstInfrastructureRoute: typeof EuropeanFirstInfrastructureRoute
   ExpertiseRoute: typeof ExpertiseRoute
+  GoToMarketRoute: typeof GoToMarketRoute
+  PlaygroundRoute: typeof PlaygroundRouteWithChildren
   ProcessPricingRoute: typeof ProcessPricingRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   TeamRoute: typeof TeamRoute
@@ -208,11 +282,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProcessPricingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/playground': {
+      id: '/playground'
+      path: '/playground'
+      fullPath: '/playground'
+      preLoaderRoute: typeof PlaygroundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/go-to-market': {
+      id: '/go-to-market'
+      path: '/go-to-market'
+      fullPath: '/go-to-market'
+      preLoaderRoute: typeof GoToMarketRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/expertise': {
       id: '/expertise'
       path: '/expertise'
       fullPath: '/expertise'
       preLoaderRoute: typeof ExpertiseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/european-first-infrastructure': {
+      id: '/european-first-infrastructure'
+      path: '/european-first-infrastructure'
+      fullPath: '/european-first-infrastructure'
+      preLoaderRoute: typeof EuropeanFirstInfrastructureRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -250,6 +345,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesIndexRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/playground/': {
+      id: '/playground/'
+      path: '/'
+      fullPath: '/playground/'
+      preLoaderRoute: typeof PlaygroundIndexRouteImport
+      parentRoute: typeof PlaygroundRoute
+    }
     '/work/$slug': {
       id: '/work/$slug'
       path: '/$slug'
@@ -264,17 +366,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/playground/$slug': {
+      id: '/playground/$slug'
+      path: '/$slug'
+      fullPath: '/playground/$slug'
+      preLoaderRoute: typeof PlaygroundSlugRouteImport
+      parentRoute: typeof PlaygroundRoute
+    }
+    '/services/offer/$slug': {
+      id: '/services/offer/$slug'
+      path: '/offer/$slug'
+      fullPath: '/services/offer/$slug'
+      preLoaderRoute: typeof ServicesOfferSlugRouteImport
+      parentRoute: typeof ServicesRoute
+    }
   }
 }
+
+interface PlaygroundRouteChildren {
+  PlaygroundSlugRoute: typeof PlaygroundSlugRoute
+  PlaygroundIndexRoute: typeof PlaygroundIndexRoute
+}
+
+const PlaygroundRouteChildren: PlaygroundRouteChildren = {
+  PlaygroundSlugRoute: PlaygroundSlugRoute,
+  PlaygroundIndexRoute: PlaygroundIndexRoute,
+}
+
+const PlaygroundRouteWithChildren = PlaygroundRoute._addFileChildren(
+  PlaygroundRouteChildren,
+)
 
 interface ServicesRouteChildren {
   ServicesSlugRoute: typeof ServicesSlugRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
+  ServicesOfferSlugRoute: typeof ServicesOfferSlugRoute
 }
 
 const ServicesRouteChildren: ServicesRouteChildren = {
   ServicesSlugRoute: ServicesSlugRoute,
   ServicesIndexRoute: ServicesIndexRoute,
+  ServicesOfferSlugRoute: ServicesOfferSlugRoute,
 }
 
 const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
@@ -297,7 +429,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  EuropeanFirstInfrastructureRoute: EuropeanFirstInfrastructureRoute,
   ExpertiseRoute: ExpertiseRoute,
+  GoToMarketRoute: GoToMarketRoute,
+  PlaygroundRoute: PlaygroundRouteWithChildren,
   ProcessPricingRoute: ProcessPricingRoute,
   ServicesRoute: ServicesRouteWithChildren,
   TeamRoute: TeamRoute,

@@ -229,8 +229,7 @@ function ProcessPricing() {
                         ))}
                       </ul>
                       <Link
-                        to="/services/$slug"
-                        params={{ slug: getServiceSlugByPackage(p.id) }}
+                        to={p.id === "gtm" ? "/go-to-market" : "/european-first-infrastructure"}
                         className="group mt-6 inline-flex items-center justify-between gap-3 border border-border bg-background px-5 py-3 text-sm font-medium text-foreground transition-colors hover:border-foreground"
                       >
                         View details

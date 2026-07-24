@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Reveal } from "./Reveal";
 import { serviceOfferings } from "./service-offerings";
 import { serviceListsByPhase } from "./service-lists";
+import { getServiceDetailByPlainName } from "./service-details";
 
 export function ServicePaths() {
   return (
@@ -55,29 +56,48 @@ export function ServicePaths() {
                   </p>
                 </Link>
                 <ul className="mt-8 flex flex-1 flex-col">
-                  {serviceListsByPhase[phase.slug].widget.map((name) => (
-                    <li key={name} className="border-t border-border first:border-t-0">
-                      <Link
-                        to="/services/$slug"
-                        params={{ slug: phase.slug }}
-                        className="group flex items-center justify-between gap-3 py-3.5 text-sm text-foreground transition-colors hover:text-accent"
+                  {serviceListsByPhase[phase.slug].widget.map((name) => {
+                    const offer = getServiceDetailByPlainName(name);
+                    const linkClass =
+                      "group flex items-center justify-between gap-3 py-3.5 text-sm text-foreground transition-colors hover:text-accent";
+                    const arrow = (
+                      <svg
+                        className="h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent"
+                        viewBox="0 0 14 14"
+                        fill="none"
+                        aria-hidden
                       >
-                        <span>{name}</span>
-                        <svg
-                          className="h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent"
-                          viewBox="0 0 14 14"
-                          fill="none"
-                          aria-hidden
-                        >
-                          <path
-                            d="M3 11 11 3M11 3H5M11 3v6"
-                            stroke="currentColor"
-                            strokeWidth="1.4"
-                          />
-                        </svg>
-                      </Link>
-                    </li>
-                  ))}
+                        <path
+                          d="M3 11 11 3M11 3H5M11 3v6"
+                          stroke="currentColor"
+                          strokeWidth="1.4"
+                        />
+                      </svg>
+                    );
+                    return (
+                      <li key={name} className="border-t border-border first:border-t-0">
+                        {offer ? (
+                          <Link
+                            to="/services/offer/$slug"
+                            params={{ slug: offer.slug }}
+                            className={linkClass}
+                          >
+                            <span>{name}</span>
+                            {arrow}
+                          </Link>
+                        ) : (
+                          <Link
+                            to="/services/$slug"
+                            params={{ slug: phase.slug }}
+                            className={linkClass}
+                          >
+                            <span>{name}</span>
+                            {arrow}
+                          </Link>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </Reveal>

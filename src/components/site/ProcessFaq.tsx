@@ -5,7 +5,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const faqs = [
+export type FaqItem = { q: string; a: string };
+
+const DEFAULT_FAQS: FaqItem[] = [
   {
     q: "Do you work with clients outside the Netherlands?",
     a: "Yes. Most of our communication is async anyway, and we have experience working with teams across Europe and the Middle East.",
@@ -24,13 +26,23 @@ const faqs = [
   },
 ];
 
-export function ProcessFaq() {
+type ProcessFaqProps = {
+  eyebrow?: string;
+  title?: string;
+  faqs?: FaqItem[];
+};
+
+export function ProcessFaq({
+  eyebrow = "§ FAQ",
+  title = "Honest answers to common questions.",
+  faqs = DEFAULT_FAQS,
+}: ProcessFaqProps) {
   return (
     <section className="bg-background">
       <div className="mx-auto max-w-[1440px] px-6 py-20 md:px-8 md:py-28">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-16">
           <div className="md:col-span-4">
-            <p className="eyebrow">§ FAQ</p>
+            <p className="eyebrow">{eyebrow}</p>
             <h2
               className="font-display mt-5 text-foreground"
               style={{
@@ -40,7 +52,7 @@ export function ProcessFaq() {
                 fontWeight: 500,
               }}
             >
-              Honest answers to common questions.
+              {title}
             </h2>
           </div>
 
@@ -53,7 +65,11 @@ export function ProcessFaq() {
                       <span className="font-mono-label text-muted-foreground">Q.</span>
                       <span
                         className="font-display text-foreground"
-                        style={{ fontSize: "clamp(1.125rem, 1.6vw, 1.375rem)", letterSpacing: "-0.02em", fontWeight: 500 }}
+                        style={{
+                          fontSize: "clamp(1.125rem, 1.6vw, 1.375rem)",
+                          letterSpacing: "-0.02em",
+                          fontWeight: 500,
+                        }}
                       >
                         {item.q}
                       </span>

@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { ImagePlaceholder } from "@/components/site/ImagePlaceholder";
 import { Reveal } from "@/components/site/Reveal";
+import { WhoYouWorkWith } from "@/components/site/WhoYouWorkWith";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -640,6 +641,11 @@ function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* Who you work with */}
+      <div className="border-t border-border">
+        <WhoYouWorkWith />
+      </div>
 
       {/* CTA */}
       <section className="border-t border-border">

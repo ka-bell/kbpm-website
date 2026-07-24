@@ -75,11 +75,8 @@ export const serviceOfferings: LifecyclePhase[] = [
 
 /** Old package URLs → lifecycle phase */
 export const legacyServiceRedirects: Record<string, ServiceSlug> = {
-  "proof-sprint": "validate",
   "prototype-sprint": "build",
   "product-development": "evolve",
-  "go-to-market": "build",
-  "eu-first-infrastructure": "support",
 };
 
 export function getServiceOffering(slug: string) {

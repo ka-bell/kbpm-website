@@ -4,7 +4,6 @@ import { ProofStrip } from "@/components/site/ProofStrip";
 import { ServicePaths } from "@/components/site/ServicePaths";
 import { FeaturedCase } from "@/components/site/FeaturedCase";
 import { MoreWork } from "@/components/site/MoreWork";
-import { WhoYouWorkWith } from "@/components/site/WhoYouWorkWith";
 import { TrustedBy } from "@/components/site/TrustedBy";
 import { WhyKbpm } from "@/components/site/WhyKbpm";
 import { CtaBlock } from "@/components/site/CtaBlock";
@@ -38,7 +37,6 @@ function Index() {
       <FeaturedCase />
       <MoreWork />
       <WhyKbpm />
-      <WhoYouWorkWith />
       <CtaBlock />
     </>
   );

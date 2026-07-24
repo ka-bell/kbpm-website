@@ -9,9 +9,16 @@ import {
   legacyServiceRedirects,
 } from "@/components/site/service-offerings";
 import { getServicePanelCopy } from "@/components/site/service-lists";
+import { getServiceDetailByPlainName } from "@/components/site/service-details";
 
 export const Route = createFileRoute("/services/$slug")({
   loader: ({ params }) => {
+    if (params.slug === "eu-first-infrastructure") {
+      throw redirect({ to: "/european-first-infrastructure" });
+    }
+    if (params.slug === "go-to-market") {
+      throw redirect({ to: "/go-to-market" });
+    }
     const legacy = legacyServiceRedirects[params.slug];
     if (legacy) {
       throw redirect({ to: "/services/$slug", params: { slug: legacy } });
@@ -50,6 +57,7 @@ function ServiceDetail() {
     setActiveCapability(service.capabilities[0]);
   }, [service.slug, service.capabilities]);
   const relatedCases = cases.filter((c) => service.cases.includes(c.slug));
+  const activeOffer = getServiceDetailByPlainName(activeCapability);
 
   return (
     <>
@@ -171,13 +179,24 @@ function ServiceDetail() {
                         label={`${activeCapability} visual`}
                       />
                     </div>
-                    <Link
-                      to="/contact"
-                      className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-foreground underline decoration-accent decoration-2 underline-offset-4"
-                    >
-                      Start a project
-                      <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.7} aria-hidden />
-                    </Link>
+                    {activeOffer ? (
+                      <Link
+                        to="/services/offer/$slug"
+                        params={{ slug: activeOffer.slug }}
+                        className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-foreground underline decoration-accent decoration-2 underline-offset-4"
+                      >
+                        View {activeOffer.name}
+                        <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.7} aria-hidden />
+                      </Link>
+                    ) : (
+                      <Link
+                        to="/contact"
+                        className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-foreground underline decoration-accent decoration-2 underline-offset-4"
+                      >
+                        Start a project
+                        <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.7} aria-hidden />
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>
@@ -186,7 +205,72 @@ function ServiceDetail() {
         </div>
       </section>
 
-
+      {service.slug === "support" || service.slug === "build" ? (
+        <section className="border-b border-border bg-background">
+          <div className="mx-auto max-w-[1440px] px-6 py-12 md:px-8 md:py-16">
+            <Reveal>
+              <div
+                className={`grid grid-cols-1 gap-4 ${
+                  service.slug === "build" ? "md:grid-cols-2" : ""
+                }`}
+              >
+                {service.slug === "build" ? (
+                  <Link
+                    to="/go-to-market"
+                    className="group flex flex-col justify-between gap-6 border border-border p-6 transition-colors hover:bg-surface-alt md:p-8"
+                  >
+                    <div>
+                      <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
+                        Related
+                      </p>
+                      <h2 className="mt-4 text-2xl font-medium text-foreground">
+                        Go-to-Market
+                      </h2>
+                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                        Vibecoded app looks ready? We harden it for real users —
+                        scan, fix, and ship.
+                      </p>
+                    </div>
+                    <span className="inline-flex items-center gap-3 text-sm font-medium text-foreground">
+                      Read more
+                      <ArrowRight
+                        className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                        strokeWidth={1.7}
+                        aria-hidden
+                      />
+                    </span>
+                  </Link>
+                ) : null}
+                <Link
+                  to="/european-first-infrastructure"
+                  className="group flex flex-col justify-between gap-6 border border-border p-6 transition-colors hover:bg-surface-alt md:p-8"
+                >
+                  <div>
+                    <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
+                      Related
+                    </p>
+                    <h2 className="mt-4 text-2xl font-medium text-foreground">
+                      European-first infrastructure
+                    </h2>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                      Where the product runs matters — data residency, providers,
+                      migration and a practical EU stack.
+                    </p>
+                  </div>
+                  <span className="inline-flex items-center gap-3 text-sm font-medium text-foreground">
+                    Read more
+                    <ArrowRight
+                      className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                      strokeWidth={1.7}
+                      aria-hidden
+                    />
+                  </span>
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      ) : null}
 
       {/* Related projects */}
       <section className="border-b border-border bg-background">

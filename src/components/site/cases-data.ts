@@ -24,6 +24,9 @@ export type CaseStudy = {
   metricLabel: string;
   img: string;
   year: string;
+  industry: string;
+  productUrl?: string;
+  keyFeatures: string[];
   service: string;
   serviceSlug: "validate" | "build" | "evolve" | "support";
   serviceCta: string;
@@ -49,6 +52,12 @@ export const cases: CaseStudy[] = [
     metricLabel: "Launched into SPIL ecosystem",
     img: spilImg,
     year: "2025",
+    industry: "Media / Publishing",
+    keyFeatures: [
+      "Video content management",
+      "Editorial scheduling & permissions",
+      "Distribution workflow",
+    ],
     service: "Build → Evolve",
     serviceSlug: "build",
     serviceCta: "This was a Build engagement. Want one?",
@@ -93,6 +102,12 @@ export const cases: CaseStudy[] = [
     metricLabel: "Product launch",
     img: plusImg,
     year: "2026",
+    industry: "Interior Design / Media",
+    keyFeatures: [
+      "Interactive image hotspots",
+      "Product recognition & matching",
+      "Manufacturer catalogue sync",
+    ],
     service: "Validate → Build",
     serviceSlug: "validate",
     serviceCta: "This was a Validate → Build engagement. Want one?",
@@ -132,6 +147,12 @@ export const cases: CaseStudy[] = [
     metricLabel: "Strategy support",
     img: seaImg,
     year: "2025",
+    industry: "Advertising / Strategy",
+    keyFeatures: [
+      "Interactive knowledge graphs",
+      "Community detection",
+      "Cultural trend exploration",
+    ],
     service: "Build → Evolve",
     serviceSlug: "build",
     serviceCta: "This was a Build engagement. Want one?",
@@ -171,6 +192,12 @@ export const cases: CaseStudy[] = [
     metricLabel: "Live destinations",
     img: blinkImg,
     year: "2026",
+    industry: "Travel & Tourism",
+    keyFeatures: [
+      "GPS-based city adventures",
+      "Route & challenge builder",
+      "Multi-city CMS",
+    ],
     service: "Build → Evolve",
     serviceSlug: "evolve",
     serviceCta: "This was an Evolve engagement. Want one?",
@@ -210,6 +237,12 @@ export const cases: CaseStudy[] = [
     metricLabel: "Team hours saved",
     img: academionImg,
     year: "2024",
+    industry: "Higher Education",
+    keyFeatures: [
+      "Structured accreditation workflow",
+      "Role-based permissions",
+      "Immutable audit trail",
+    ],
     service: "Build → Support",
     serviceSlug: "support",
     serviceCta: "This was a Build → Support engagement. Want one?",
