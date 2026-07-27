@@ -1,4 +1,6 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import { Link } from "@/components/Link";
 import { useEffect, useState } from "react";
 import { primaryNav, services } from "./nav-data";
 import { Wordmark } from "./Wordmark";

@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "@/components/Link";
 import { Reveal } from "./Reveal";
 import { serviceOfferings } from "./service-offerings";
 import { serviceListsByPhase } from "./service-lists";

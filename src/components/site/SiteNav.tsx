@@ -1,4 +1,7 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import { Link } from "@/components/Link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Wordmark } from "./Wordmark";
 import { primaryNav, services, servicesFeature } from "./nav-data";
@@ -155,6 +158,7 @@ function MegaMenu({
 }
 
 export function SiteNav() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -201,31 +205,28 @@ export function SiteNav() {
               feature={servicesFeature}
             />
 
-            <Link
-              to="/about"
-              className="group relative py-2 text-sm text-foreground"
-              activeProps={{ className: "text-foreground" }}
-            >
-              {({ isActive }) => (
-                <span className="relative">
-                  About
-                  <span
-                    className={`absolute -bottom-0.5 left-0 h-px bg-accent transition-all duration-300 ${
-                      isActive ? "w-full" : "w-0 group-hover:w-full"
-                    }`}
-                  />
-                </span>
-              )}
+            <Link to="/about" className="group relative py-2 text-sm text-foreground">
+              <span className="relative">
+                About
+                <span
+                  className={`absolute -bottom-0.5 left-0 h-px bg-accent transition-all duration-300 ${
+                    pathname === "/about" || pathname.startsWith("/about/")
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  }`}
+                />
+              </span>
             </Link>
 
-            {primaryNav.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className="group relative py-2 text-sm text-foreground"
-                activeProps={{ className: "text-foreground" }}
-              >
-                {({ isActive }) => (
+            {primaryNav.map((item) => {
+              const isActive =
+                pathname === item.to || pathname.startsWith(`${item.to}/`);
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className="group relative py-2 text-sm text-foreground"
+                >
                   <span className="relative">
                     {item.label}
                     <span
@@ -234,9 +235,9 @@ export function SiteNav() {
                       }`}
                     />
                   </span>
-                )}
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </nav>
 
           <div className="flex items-center gap-3">

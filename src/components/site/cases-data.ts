@@ -1,8 +1,3 @@
-import spilImg from "@/assets/case-spilnews.jpg";
-import plusImg from "@/assets/case-plus.jpg";
-import seaImg from "@/assets/case-sea.jpg";
-import blinkImg from "@/assets/case-blink.jpg";
-import academionImg from "@/assets/case-academion.jpg";
 
 export type Filter =
   | "All"
@@ -50,7 +45,7 @@ export const cases: CaseStudy[] = [
     displayTags: ["Mediahuis", "Video Platform", "CMS"],
     metric: "MVP",
     metricLabel: "Launched into SPIL ecosystem",
-    img: spilImg,
+    img: "/assets/case-spilnews.jpg",
     year: "2025",
     industry: "Media / Publishing",
     keyFeatures: [
@@ -70,14 +65,14 @@ export const cases: CaseStudy[] = [
     craft:
       "The work combined product strategy, UX design, UI design, a design system, front-end development, back-end development, and product management. The platform was shaped around practical editorial use: fast publishing, clear dashboard states, reusable CMS structures, and room for future video workflows.",
     screens: [
-      { src: spilImg, caption: "Product hero — video-first publishing platform", ratio: "aspect-[16/9]" },
-      { src: spilImg, caption: "Editorial dashboard — video content, metadata, and status", ratio: "aspect-[4/5]" },
-      { src: spilImg, caption: "Publishing workflow — scheduling and distribution logic", ratio: "aspect-[4/5]" },
-      { src: spilImg, caption: "CMS structure — content management for modern editorial teams", ratio: "aspect-[21/9]" },
-      { src: spilImg, caption: "Permissions model — clear roles across the newsroom", ratio: "aspect-[16/10]" },
-      { src: spilImg, caption: "Wireframes — workflow mapped before build", ratio: "aspect-[4/5]" },
-      { src: spilImg, caption: "Mobile screens — video content prepared for smaller contexts", ratio: "aspect-[4/5]" },
-      { src: spilImg, caption: "Design system — reusable patterns for daily publishing", ratio: "aspect-[16/10]" },
+      { src: "/assets/case-spilnews.jpg", caption: "Product hero — video-first publishing platform", ratio: "aspect-[16/9]" },
+      { src: "/assets/case-spilnews.jpg", caption: "Editorial dashboard — video content, metadata, and status", ratio: "aspect-[4/5]" },
+      { src: "/assets/case-spilnews.jpg", caption: "Publishing workflow — scheduling and distribution logic", ratio: "aspect-[4/5]" },
+      { src: "/assets/case-spilnews.jpg", caption: "CMS structure — content management for modern editorial teams", ratio: "aspect-[21/9]" },
+      { src: "/assets/case-spilnews.jpg", caption: "Permissions model — clear roles across the newsroom", ratio: "aspect-[16/10]" },
+      { src: "/assets/case-spilnews.jpg", caption: "Wireframes — workflow mapped before build", ratio: "aspect-[4/5]" },
+      { src: "/assets/case-spilnews.jpg", caption: "Mobile screens — video content prepared for smaller contexts", ratio: "aspect-[4/5]" },
+      { src: "/assets/case-spilnews.jpg", caption: "Design system — reusable patterns for daily publishing", ratio: "aspect-[16/10]" },
     ],
     results: [
       { value: "MVP", label: "Successfully launched" },
@@ -100,7 +95,7 @@ export const cases: CaseStudy[] = [
     displayTags: ["Interior Design", "AI", "CMS"],
     metric: "2026",
     metricLabel: "Product launch",
-    img: plusImg,
+    img: "/assets/case-plus.jpg",
     year: "2026",
     industry: "Interior Design / Media",
     keyFeatures: [
@@ -120,9 +115,9 @@ export const cases: CaseStudy[] = [
     craft:
       "The platform combines interactive image hotspots, product recognition and matching, similar-product recommendations, API integrations, automated data synchronisation, and direct manufacturer linking. The result is a structured product database that keeps editorial content connected to real commercial product data.",
     screens: [
-      { src: plusImg, caption: "Visual discovery — products identified from interior imagery", ratio: "aspect-[16/10]" },
-      { src: plusImg, caption: "Image hotspots — editorial photography becomes interactive", ratio: "aspect-[4/5]" },
-      { src: plusImg, caption: "Product matching — recognition, recommendations, and direct links", ratio: "aspect-[4/5]" },
+      { src: "/assets/case-plus.jpg", caption: "Visual discovery — products identified from interior imagery", ratio: "aspect-[16/10]" },
+      { src: "/assets/case-plus.jpg", caption: "Image hotspots — editorial photography becomes interactive", ratio: "aspect-[4/5]" },
+      { src: "/assets/case-plus.jpg", caption: "Product matching — recognition, recommendations, and direct links", ratio: "aspect-[4/5]" },
     ],
     results: [
       { value: "Interactive", label: "Product discovery experience" },
@@ -145,7 +140,7 @@ export const cases: CaseStudy[] = [
     displayTags: ["Strategy", "Knowledge Graph", "Data Visualisation"],
     metric: "Global",
     metricLabel: "Strategy support",
-    img: seaImg,
+    img: "/assets/case-sea.jpg",
     year: "2025",
     industry: "Advertising / Strategy",
     keyFeatures: [
@@ -165,9 +160,9 @@ export const cases: CaseStudy[] = [
     craft:
       "The product combines data engineering, relationship mapping, community detection, trend discovery, audience intelligence, and interactive data visualisation. The interface had to make complex network data usable for strategic and creative teams, not only analysts.",
     screens: [
-      { src: seaImg, caption: "Network graph — people, organisations, and topics mapped together", ratio: "aspect-[16/10]" },
-      { src: seaImg, caption: "Community detection — emerging clusters and relationships", ratio: "aspect-[4/5]" },
-      { src: seaImg, caption: "Trend exploration — strategic research through interactive data", ratio: "aspect-[4/5]" },
+      { src: "/assets/case-sea.jpg", caption: "Network graph — people, organisations, and topics mapped together", ratio: "aspect-[16/10]" },
+      { src: "/assets/case-sea.jpg", caption: "Community detection — emerging clusters and relationships", ratio: "aspect-[4/5]" },
+      { src: "/assets/case-sea.jpg", caption: "Trend exploration — strategic research through interactive data", ratio: "aspect-[4/5]" },
     ],
     results: [
       { value: "Graphs", label: "Interactive knowledge maps" },
@@ -190,7 +185,7 @@ export const cases: CaseStudy[] = [
     displayTags: ["Travel & Tourism", "Mobile Gameplay", "CMS"],
     metric: "2",
     metricLabel: "Live destinations",
-    img: blinkImg,
+    img: "/assets/case-blink.jpg",
     year: "2026",
     industry: "Travel & Tourism",
     keyFeatures: [
@@ -210,9 +205,9 @@ export const cases: CaseStudy[] = [
     craft:
       "The platform combines interactive maps, GPS-based experiences, route building, challenge systems, gamification, CMS development, and multi-city management. It was built to support live implementations for Giethoorn and Sightseeing Vienna while remaining scalable for future destinations.",
     screens: [
-      { src: blinkImg, caption: "Adventure platform — routes, challenges, and destination content", ratio: "aspect-[16/10]" },
-      { src: blinkImg, caption: "Mobile gameplay — GPS-based visitor experiences", ratio: "aspect-[4/5]" },
-      { src: blinkImg, caption: "CMS dashboard — manage routes, cities, and challenges", ratio: "aspect-[4/5]" },
+      { src: "/assets/case-blink.jpg", caption: "Adventure platform — routes, challenges, and destination content", ratio: "aspect-[16/10]" },
+      { src: "/assets/case-blink.jpg", caption: "Mobile gameplay — GPS-based visitor experiences", ratio: "aspect-[4/5]" },
+      { src: "/assets/case-blink.jpg", caption: "CMS dashboard — manage routes, cities, and challenges", ratio: "aspect-[4/5]" },
     ],
     results: [
       { value: "Live", label: "City experiences launched" },
@@ -235,7 +230,7 @@ export const cases: CaseStudy[] = [
     displayTags: ["Platform", "Laravel", "Vue.js"],
     metric: "+85%",
     metricLabel: "Team hours saved",
-    img: academionImg,
+    img: "/assets/case-academion.jpg",
     year: "2024",
     industry: "Higher Education",
     keyFeatures: [
@@ -255,9 +250,9 @@ export const cases: CaseStudy[] = [
     craft:
       "The interesting part was designing a permissions model flexible enough to survive university politics. We built it around explicit roles, delegated review, and immutable audit — so nobody can argue with the trail, even three years later.",
     screens: [
-      { src: academionImg, caption: "Review dashboard — every artefact, every state", ratio: "aspect-[16/10]" },
-      { src: academionImg, caption: "Reviewer view — scoped, focused, offline-ready", ratio: "aspect-[4/5]" },
-      { src: academionImg, caption: "Type system — heavy on tables, light on decoration", ratio: "aspect-[4/5]" },
+      { src: "/assets/case-academion.jpg", caption: "Review dashboard — every artefact, every state", ratio: "aspect-[16/10]" },
+      { src: "/assets/case-academion.jpg", caption: "Reviewer view — scoped, focused, offline-ready", ratio: "aspect-[4/5]" },
+      { src: "/assets/case-academion.jpg", caption: "Type system — heavy on tables, light on decoration", ratio: "aspect-[4/5]" },
     ],
     results: [
       { value: "+85%", label: "Team hours saved" },

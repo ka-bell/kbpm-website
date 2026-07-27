@@ -1,5 +1,7 @@
+"use client";
+
 import { useMemo } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link } from "@/components/Link";
 
 export type PackageId = "proof" | "prototype" | "product" | "gtm" | "infra";
 

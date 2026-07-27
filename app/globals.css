@@ -1,0 +1,249 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@source ".";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * KBPM wireframe design system.
+ * White canvas, black ink, neutral grey surfaces, dashed media placeholders.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface-alt: var(--surface-alt);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+}
+
+:root {
+  --radius: 0.5rem;
+
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.14 0 0);
+  --surface-alt: oklch(0.96 0 0);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.14 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.14 0 0);
+
+  --primary: oklch(0.14 0 0);
+  --primary-foreground: oklch(1 0 0);
+
+  --secondary: oklch(0.96 0 0);
+  --secondary-foreground: oklch(0.14 0 0);
+
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.52 0 0);
+
+  --accent: oklch(0.14 0 0);
+  --accent-foreground: oklch(1 0 0);
+
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  --border: oklch(0.14 0 0 / 0.2);
+  --input: oklch(0.14 0 0 / 0.24);
+  --ring: oklch(0.14 0 0 / 0.35);
+
+  --wire-card: oklch(1 0 0);
+  --wire-fill: oklch(0.94 0 0);
+  --wire-line: oklch(0.48 0 0);
+}
+
+.dark {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.14 0 0);
+  --surface-alt: oklch(0.96 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.14 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.14 0 0);
+  --primary: oklch(0.14 0 0);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.96 0 0);
+  --secondary-foreground: oklch(0.14 0 0);
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.52 0 0);
+  --accent: oklch(0.14 0 0);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.14 0 0 / 0.2);
+  --input: oklch(0.14 0 0 / 0.24);
+  --ring: oklch(0.14 0 0 / 0.35);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background-color: var(--color-foreground);
+    color: var(--color-background);
+  }
+
+  h1,
+  h2,
+  h3,
+  blockquote,
+  .font-display {
+    letter-spacing: 0 !important;
+  }
+
+  body [class*="rounded-"],
+  body .rounded-full {
+    border-radius: 0.5rem !important;
+  }
+
+  body [class*="shadow"] {
+    box-shadow: none !important;
+  }
+
+  body .bg-gradient-to-t,
+  body .bg-gradient-to-b,
+  body .bg-gradient-to-r,
+  body .bg-gradient-to-l {
+    background-image: none !important;
+  }
+
+  body [class*="bg-accent"],
+  body [class*="bg-foreground"] {
+    background-color: var(--wire-card) !important;
+    color: var(--color-foreground) !important;
+  }
+
+  body [class*="text-accent"],
+  body [class*="text-background"] {
+    color: var(--color-foreground) !important;
+  }
+
+  body [class*="border-accent"],
+  body [class*="border-foreground"] {
+    border-color: var(--color-border) !important;
+  }
+
+  section[class*="bg-accent"],
+  section [class*="bg-foreground"] {
+    border-block: 1px solid var(--color-border);
+  }
+
+  a,
+  button {
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+@utility font-mono-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  font-weight: 400;
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--color-muted-foreground);
+}
+
+/* Marquee */
+@keyframes kbpm-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.kbpm-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: kbpm-marquee 45s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .kbpm-marquee-track { animation: none; }
+}
+
+/* Reveal */
+.kbpm-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 700ms ease, transform 700ms ease;
+}
+.kbpm-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .kbpm-reveal { opacity: 1; transform: none; transition: none; }
+}
+
+.wire-image {
+  position: relative;
+  overflow: hidden;
+  border: 1.5px dashed var(--wire-line);
+  background:
+    linear-gradient(135deg, transparent calc(50% - 0.5px), var(--wire-line) 50%, transparent calc(50% + 0.5px)),
+    linear-gradient(45deg, transparent calc(50% - 0.5px), var(--wire-line) 50%, transparent calc(50% + 0.5px)),
+    var(--wire-fill);
+  color: oklch(0.36 0 0);
+}
+
+.wire-image > span {
+  position: relative;
+  z-index: 1;
+  border: 1px solid var(--wire-line);
+  background: var(--color-background);
+  padding: 0.45rem 0.7rem;
+}

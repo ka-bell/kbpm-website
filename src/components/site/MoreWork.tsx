@@ -1,4 +1,6 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import { Link } from "@/components/Link";
 import { useRef } from "react";
 import { ImagePlaceholder } from "./ImagePlaceholder";
 

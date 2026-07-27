@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "@/components/Link";
 import type { ReactNode } from "react";
 import { Reveal } from "./Reveal";
 
@@ -7,7 +7,7 @@ type CtaBlockProps = {
   title?: ReactNode;
   ctaLabel?: string;
   to?: "/contact";
-  search?: { interest?: string };
+  search?: Record<string, string | undefined>;
   aside?: ReactNode;
 };
 

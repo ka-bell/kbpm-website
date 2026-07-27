@@ -1,6 +1,3 @@
-import heroAbstract from "@/assets/hero-abstract.jpg";
-import caseSea from "@/assets/case-sea.jpg";
-import caseGeneric from "@/assets/case-generic.jpg";
 
 export type PlaygroundPost = {
   slug: string;
@@ -23,7 +20,7 @@ export const playgroundPosts: PlaygroundPost[] = [
       "ORMs are fine until the query becomes the product. Notes from a platform that started hiding its own data.",
     tags: ["Architecture", "Backend"],
     author: "Alex",
-    image: caseGeneric,
+    image: "/assets/case-generic.jpg",
     imageAlt: "Abstract technical texture",
     body: [
       "Most products don't die from bad UI. They die from a data model nobody can explain anymore — wrapped in an ORM that papered over the mess until the mess became load-bearing.",
@@ -40,7 +37,7 @@ export const playgroundPosts: PlaygroundPost[] = [
       "Data residency isn't a checkbox for legal. It changes how you design auth, backups, and incident response.",
     tags: ["Infrastructure", "EU"],
     author: "Alex",
-    image: caseSea,
+    image: "/assets/case-sea.jpg",
     imageAlt: "Network and infrastructure visual",
     body: [
       "Teams often treat \"EU hosting\" as a procurement line. Pick a region, tick GDPR, ship.",
@@ -57,7 +54,7 @@ export const playgroundPosts: PlaygroundPost[] = [
       "A short filter for when AI belongs in a live product — and when it's just noise with an API bill.",
     tags: ["AI", "Product"],
     author: "Alex",
-    image: heroAbstract,
+    image: "/assets/hero-abstract.jpg",
     imageAlt: "Abstract product surface",
     body: [
       "The useful question is not \"can we add AI?\" It's \"what decision gets better, faster, or cheaper if we do?\"",
