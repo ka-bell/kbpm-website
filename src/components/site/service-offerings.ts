@@ -1,79 +1,84 @@
-/** Lifecycle phases — not service packages. From Phase 1 architecture. */
+/** Service groups — umbrellas for ordering individual services, not packages. */
 
 import { serviceListsByPhase } from "./service-lists";
 
 export type ServiceSlug = "validate" | "build" | "evolve" | "support";
 
-export type LifecyclePhase = {
+export type ServiceGroup = {
   slug: ServiceSlug;
   name: string;
   order: number;
-  /** When does a client come to us? */
+  /** When these services usually fit */
   when: string;
-  /** Goal of this phase */
+  /** Short group framing */
   goal: string;
+  /** Intro under "What we offer" on the group page */
+  panelIntro: string;
   capabilities: string[];
-  /** Concrete offers in this phase */
   examples: string[];
   outcome: string;
-  /** Related case slugs */
   cases: string[];
-  /** Next phase in the lifecycle */
-  nextSlug: ServiceSlug;
 };
 
-export const serviceOfferings: LifecyclePhase[] = [
+/** @deprecated Use ServiceGroup */
+export type LifecyclePhase = ServiceGroup;
+
+export const serviceOfferings: ServiceGroup[] = [
   {
     slug: "validate",
     name: "Validate",
     order: 1,
-    when: "They have an idea but need clarity before investing in design or development.",
-    goal: "Create direction before build starts.",
+    when: "You need clarity before investing in design or development.",
+    goal: "Direction before you commit to building.",
+    panelIntro:
+      "Audits, workshops and feasibility work — so you know what to build before you spend on it.",
     capabilities: [...serviceListsByPhase.validate.all],
     examples: [...serviceListsByPhase.validate.all],
-    outcome: "A validated product direction and clear execution plan.",
+    outcome: "A clear direction and a plan you can act on.",
     cases: ["mix-interiors", "virtue-worldwide"],
-    nextSlug: "build",
   },
   {
     slug: "build",
     name: "Build",
     order: 2,
-    when: "They know what they want to build and need a senior product team to design and develop it.",
+    when: "You know what to make and need a senior team to design and develop it.",
     goal: "Design and develop the product.",
+    panelIntro:
+      "From prototype to platform — we design and develop the product end to end.",
     capabilities: [...serviceListsByPhase.build.all],
     examples: [...serviceListsByPhase.build.all],
-    outcome: "A production-ready digital product.",
+    outcome: "A working digital product ready for real users.",
     cases: ["spilnews", "mix-interiors", "virtue-worldwide"],
-    nextSlug: "evolve",
   },
   {
     slug: "evolve",
     name: "Evolve",
     order: 3,
-    when: "Their product is live and they want to keep improving it.",
-    goal: "Continuously improve a live product.",
+    when: "Your product is live and you want to keep improving it.",
+    goal: "Improve a product that's already in use.",
+    panelIntro:
+      "Features, AI, performance and analytics — for products that are already live.",
     capabilities: [...serviceListsByPhase.evolve.all],
     examples: [...serviceListsByPhase.evolve.all],
-    outcome: "A product that continuously improves.",
+    outcome: "A product that keeps getting better.",
     cases: ["hopplay", "spilnews"],
-    nextSlug: "support",
   },
   {
     slug: "support",
     name: "Support",
     order: 4,
-    when: "They need a trusted technical partner to keep everything running.",
+    when: "You need a trusted technical partner to keep everything running.",
     goal: "Keep the product stable, secure and supported.",
+    panelIntro:
+      "Maintenance, hosting, emergencies and fractional CTO — so nothing gets neglected after launch.",
     capabilities: [...serviceListsByPhase.support.all],
     examples: [...serviceListsByPhase.support.all],
-    outcome: "A stable, secure and supported digital product.",
+    outcome: "A stable, secure product you don't have to babysit.",
     cases: ["academion", "hopplay"],
-    nextSlug: "evolve",
   },
 ];
 
-/** Old package URLs → lifecycle phase */
+/** Old package URLs → service group */
 export const legacyServiceRedirects: Record<string, ServiceSlug> = {
   "prototype-sprint": "build",
   "product-development": "evolve",
@@ -81,14 +86,14 @@ export const legacyServiceRedirects: Record<string, ServiceSlug> = {
 
 export function getServiceOffering(slug: string) {
   const resolved = legacyServiceRedirects[slug] ?? slug;
-  return serviceOfferings.find((phase) => phase.slug === resolved);
+  return serviceOfferings.find((group) => group.slug === resolved);
 }
 
 export function getServicePath(slug: ServiceSlug) {
   return `/services/${slug}` as const;
 }
 
-/** @deprecated Package model removed — maps old package ids to lifecycle slugs */
+/** @deprecated Package model removed — maps old package ids to service group slugs */
 export function getServiceSlugByPackage(id: string) {
   const map: Record<string, ServiceSlug> = {
     proof: "validate",

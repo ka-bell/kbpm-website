@@ -70,7 +70,7 @@ export function MoreWork() {
                 fontWeight: 500,
               }}
             >
-              More proof, less noise.
+              Recent work.
             </h2>
           </div>
           <div className="flex flex-wrap items-center gap-3">

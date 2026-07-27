@@ -693,7 +693,7 @@ function AboutPage() {
                   to="/services"
                   className="text-sm text-muted-foreground underline decoration-accent decoration-2 underline-offset-4 hover:text-foreground"
                 >
-                  Or explore the product lifecycle →
+                  Or explore all services →
                 </Link>
               </div>
             </div>

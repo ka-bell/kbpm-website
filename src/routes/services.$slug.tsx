@@ -36,7 +36,7 @@ export const Route = createFileRoute("/services/$slug")({
         },
         {
           name: "description",
-          content: service?.when ?? "Product lifecycle phase from kbell + postman.",
+          content: service?.when ?? "Services from kbell + postman.",
         },
         {
           property: "og:title",
@@ -79,7 +79,7 @@ function ServiceDetail() {
           <div className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-8">
             <Reveal className="md:col-span-8">
               <p className="eyebrow">
-                0{service.order} — Lifecycle phase
+                SERVICES / {service.name.toUpperCase()}
               </p>
               <h1
                 className="font-display mt-5 max-w-5xl text-foreground"
@@ -99,12 +99,12 @@ function ServiceDetail() {
             <Reveal delay={80} className="md:col-span-4">
               <div className="border border-border bg-surface-alt p-6">
                 <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                  When clients come
+                  When this fits
                 </p>
                 <p className="mt-4 text-sm leading-relaxed text-foreground">{service.when}</p>
                 <div className="mt-6 border-t border-border pt-6">
                   <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                    Outcome
+                    What you leave with
                   </p>
                   <p className="mt-3 text-sm leading-relaxed text-foreground">{service.outcome}</p>
                 </div>
@@ -125,7 +125,7 @@ function ServiceDetail() {
         </div>
       </section>
 
-      {/* Services in this phase */}
+      {/* Services in this group */}
       <section className="border-b border-border bg-background">
         <div className="mx-auto max-w-[1440px] px-6 py-16 md:px-8 md:py-24">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-8">
@@ -139,10 +139,10 @@ function ServiceDetail() {
                   fontWeight: 500,
                 }}
               >
-                What we offer in this phase.
+                What we offer.
               </h2>
               <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-                Select a service. Each sits in one place in the lifecycle only.
+                {service.panelIntro}
               </p>
             </Reveal>
             <div className="md:col-span-8">
@@ -286,7 +286,7 @@ function ServiceDetail() {
                   fontWeight: 500,
                 }}
               >
-                Work in this phase.
+                Work from this group.
               </h2>
             </div>
             <Link

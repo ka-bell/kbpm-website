@@ -26,7 +26,8 @@ export function ServicePaths() {
               Validate. Build. Evolve. Support.
             </h2>
             <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              Work with us from start to finish — or bring us in for exactly what you need.
+              Work with us from start to finish — or bring us in for exactly what
+              you need.
             </p>
           </div>
           <div className="hidden md:col-span-4 md:flex md:justify-end">
@@ -43,20 +44,20 @@ export function ServicePaths() {
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-10 md:mt-20 md:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:overflow-hidden lg:border lg:border-border">
-          {serviceOfferings.map((phase, i) => (
-            <Reveal key={phase.slug} delay={i * 60}>
+          {serviceOfferings.map((group, i) => (
+            <Reveal key={group.slug} delay={i * 60}>
               <div
                 className={`flex flex-col border border-border bg-background p-6 md:p-8 lg:border-0 ${
                   i < serviceOfferings.length - 1 ? "lg:border-r lg:border-border" : ""
                 }`}
               >
-                <Link to="/services/$slug" params={{ slug: phase.slug }} className="group">
+                <Link to="/services/$slug" params={{ slug: group.slug }} className="group">
                   <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                    0{phase.order} / {phase.name}
+                    0{group.order} / {group.name}
                   </p>
                 </Link>
                 <ul className="mt-8 flex flex-1 flex-col">
-                  {serviceListsByPhase[phase.slug].widget.map((name) => {
+                  {serviceListsByPhase[group.slug].widget.map((name) => {
                     const offer = getServiceDetailByPlainName(name);
                     const linkClass =
                       "group flex items-center justify-between gap-3 py-3.5 text-sm text-foreground transition-colors hover:text-accent";
@@ -88,7 +89,7 @@ export function ServicePaths() {
                         ) : (
                           <Link
                             to="/services/$slug"
-                            params={{ slug: phase.slug }}
+                            params={{ slug: group.slug }}
                             className={linkClass}
                           >
                             <span>{name}</span>

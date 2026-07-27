@@ -46,7 +46,8 @@ function ServicesIndex() {
             </Reveal>
             <Reveal delay={80} className="md:col-span-4">
               <p className="max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">
-                Work with us from start to finish — or bring us in for exactly what you need.
+                Work with us from start to finish — or bring us in for exactly
+                what you need.
               </p>
             </Reveal>
           </div>
@@ -55,22 +56,22 @@ function ServicesIndex() {
 
       <section className="bg-background">
         <div className="mx-auto max-w-[1440px] space-y-16 px-6 py-16 md:space-y-24 md:px-8 md:py-24">
-          {serviceOfferings.map((phase, phaseIndex) => (
-            <Reveal key={phase.slug} delay={phaseIndex * 40}>
-              <div id={phase.slug} className="scroll-mt-28">
+          {serviceOfferings.map((group, groupIndex) => (
+            <Reveal key={group.slug} delay={groupIndex * 40}>
+              <div id={group.slug} className="scroll-mt-28">
                 <div className="mb-5 flex flex-col gap-3 border-b border-border pb-4 sm:flex-row sm:items-end sm:justify-between">
                   <div>
                     <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                      0{phase.order} / {phase.name}
+                      0{group.order} / {group.name}
                     </p>
-                    <p className="mt-2 text-sm text-muted-foreground">{phase.goal}</p>
+                    <p className="mt-2 text-sm text-muted-foreground">{group.goal}</p>
                   </div>
                   <Link
                     to="/services/$slug"
-                    params={{ slug: phase.slug }}
+                    params={{ slug: group.slug }}
                     className="group inline-flex items-center gap-2 text-sm font-medium text-foreground"
                   >
-                    Open {phase.name}
+                    Open {group.name}
                     <ArrowRight
                       className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
                       strokeWidth={1.7}
@@ -80,7 +81,7 @@ function ServicesIndex() {
                 </div>
 
                 <ul className="divide-y divide-border border border-border">
-                  {serviceListsByPhase[phase.slug].all.map((name) => {
+                  {serviceListsByPhase[group.slug].all.map((name) => {
                     const offer = getServiceDetailByPlainName(name);
                     return (
                       <li key={name}>
@@ -104,7 +105,7 @@ function ServicesIndex() {
                         ) : (
                           <Link
                             to="/services/$slug"
-                            params={{ slug: phase.slug }}
+                            params={{ slug: group.slug }}
                             className="group flex items-center justify-between gap-6 px-5 py-5 transition-colors hover:bg-surface-alt md:px-6 md:py-6"
                           >
                             <span className="text-base font-medium text-foreground md:text-lg">

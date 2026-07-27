@@ -79,7 +79,7 @@ function ServiceOfferDetail() {
             <Reveal delay={80} className="md:col-span-4">
               <div className="border border-border bg-surface-alt p-6">
                 <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                  Phase
+                  Group
                 </p>
                 <p className="mt-3 text-lg font-medium text-foreground capitalize">
                   {offer.phase}

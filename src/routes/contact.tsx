@@ -15,6 +15,8 @@ const projectTypes = [
   "Not sure yet",
 ];
 
+// Note: Validate/Build/Evolve/Support here are service groups, not packages.
+
 const INTEREST_TO_TYPE: Record<string, string> = {
   scan: "Launch Scan — vibecode readiness (€250)",
   release: "Release Ready — vibecode hardening (€1,500)",
