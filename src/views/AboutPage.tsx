@@ -59,36 +59,18 @@ const CAPABILITIES: Array<{ label: string; title: string; items: string[] }> = [
 ];
 
 const TOOLS: Array<{ name: string; color: string; use: string; mono: string }> = [
-  { name: "React",       color: "#61DAFB", mono: "R",  use: "The default view layer." },
-  { name: "TanStack",    color: "#FF4154", mono: "TS", use: "Router, Query, Table." },
-  { name: "Next.js",     color: "#FFFFFF", mono: "N",  use: "When we need App Router." },
-  { name: "TypeScript",  color: "#3178C6", mono: "TS", use: "Non-negotiable, everywhere." },
-  { name: "Supabase",    color: "#3ECF8E", mono: "S",  use: "Auth, Postgres, storage, edge." },
-  { name: "Postgres",    color: "#4479A1", mono: "PG", use: "Data lives here. RLS on." },
-  { name: "Cloudflare",  color: "#F38020", mono: "CF", use: "Edge, Workers, R2, DNS." },
-  { name: "Stripe",      color: "#635BFF", mono: "$",  use: "Payments, subscriptions, tax." },
-  { name: "Figma",       color: "#F24E1E", mono: "F",  use: "Design, prototype, hand-off." },
-  { name: "Expo",        color: "#4630EB", mono: "E",  use: "iOS + Android from one codebase." },
-  { name: "Hetzner",     color: "#D50C2D", mono: "H",  use: "EU-first bare metal & cloud." },
-  { name: "OpenAI",      color: "#10A37F", mono: "AI", use: "LLMs, embeddings, agents." },
-];
-
-const PRINCIPLES: Array<{ n: string; title: string; body: string }> = [
-  {
-    n: "A",
-    title: "Senior people on the work.",
-    body: "You work with the people shaping the product — and specialists join when the brief needs them. No account-manager theatre, no junior hand-off of the core decisions.",
-  },
-  {
-    n: "B",
-    title: "Fixed scope, fixed price.",
-    body: "We size the work in sprints with a firm number. If we misjudge, that's on us. You never get surprised by a change-order invoice at the end.",
-  },
-  {
-    n: "C",
-    title: "EU-first by default.",
-    body: "Data stays in the EU unless you have a reason to send it elsewhere. Hetzner, Scaleway, OVH, Supabase EU — sovereign infra without the compliance theatre.",
-  },
+  { name: "React", color: "#61DAFB", mono: "R", use: "The default view layer." },
+  { name: "TanStack", color: "#FF4154", mono: "TS", use: "Router, Query, Table." },
+  { name: "Next.js", color: "#FFFFFF", mono: "N", use: "When we need App Router." },
+  { name: "TypeScript", color: "#3178C6", mono: "TS", use: "Non-negotiable, everywhere." },
+  { name: "Supabase", color: "#3ECF8E", mono: "S", use: "Auth, Postgres, storage, edge." },
+  { name: "Postgres", color: "#4479A1", mono: "PG", use: "Data lives here. RLS on." },
+  { name: "Cloudflare", color: "#F38020", mono: "CF", use: "Edge, Workers, R2, DNS." },
+  { name: "Stripe", color: "#635BFF", mono: "$", use: "Payments, subscriptions, tax." },
+  { name: "Figma", color: "#F24E1E", mono: "F", use: "Design, prototype, hand-off." },
+  { name: "Expo", color: "#4630EB", mono: "E", use: "iOS + Android from one codebase." },
+  { name: "Hetzner", color: "#D50C2D", mono: "H", use: "EU-first bare metal & cloud." },
+  { name: "OpenAI", color: "#10A37F", mono: "AI", use: "LLMs, embeddings, agents." },
 ];
 
 const TESTIMONIALS: Array<{
@@ -99,7 +81,7 @@ const TESTIMONIALS: Array<{
 }> = [
   {
     quote:
-      "We came to kbell + postman with a vibe-coded prototype and a deadline. Six weeks later we had a production app, EU-hosted, paying customers on it. They act like a co-founder, not a vendor.",
+      "We came to Kbell & Postman with a vibe-coded prototype and a deadline. Six weeks later we had a production app, EU-hosted, paying customers on it. They act like a co-founder, not a vendor.",
     name: "Marijn de Vries",
     role: "Founder — Halden (fintech, Amsterdam)",
     marker: "§ Case coming soon",
@@ -138,7 +120,7 @@ export function AboutPage() {
       if (!section || !viewport || !track) return;
 
       const sectionRect = section.getBoundingClientRect();
-      const scrollableDistance = Math.max(sectionRect.height - window.innerHeight, 1);
+      const scrollableDistance = Math.max(section.offsetHeight - window.innerHeight, 1);
       const progress = Math.min(Math.max(-sectionRect.top / scrollableDistance, 0), 1);
       const maxTranslate = Math.max(track.scrollWidth - viewport.clientWidth, 0);
 
@@ -177,7 +159,7 @@ export function AboutPage() {
           <div className="flex items-center gap-3">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-              § Expertise & Capabilities
+              ABOUT US
             </p>
           </div>
         </Reveal>
@@ -194,19 +176,19 @@ export function AboutPage() {
                   fontWeight: 500,
                 }}
               >
-                The full stack,
+                Senior-led.
                 <br />
-                <span className="text-accent">end to end.</span>
+                <span className="text-accent">No account layer.</span>
               </h1>
             </Reveal>
           </div>
           <div className="flex items-end md:col-span-4">
             <Reveal>
               <p className="max-w-sm text-lg leading-relaxed text-muted-foreground">
-                kbell + postman is a small, named studio in Amsterdam. We take
-                products from idea to production — strategy, design, code, and
-                the EU-first infrastructure they run on. Built for teams whose
-                ideas have outgrown their in-house capacity.
+                Kbell &amp; Postman is a small, senior studio in Amsterdam. We
+                take products from idea to production — strategy, design, and
+                code — for teams whose ideas have outgrown their in-house
+                capacity.
               </p>
             </Reveal>
           </div>
@@ -215,10 +197,10 @@ export function AboutPage() {
         <Reveal>
           <div className="mt-20 grid grid-cols-2 gap-8 border-t border-border pt-10 md:mt-28 md:grid-cols-4 md:gap-10">
             {[
-              ["10+", "years shipping products"],
-              ["Senior", "led on every engagement"],
-              ["EU", "first infra, by default"],
-              ["Fixed", "scope, fixed price"],
+              ["30+", "Combined years in digital products"],
+              ["Senior", "Led on every engagement"],
+              ["EU", "Infra, when it matters"],
+              ["Direct", "No account layer, ever"],
             ].map(([n, l]) => (
               <div key={l}>
                 <p
@@ -241,7 +223,107 @@ export function AboutPage() {
         </Reveal>
       </section>
 
-      {/* Capabilities */}
+      {/* Client quote — prominent, early */}
+      <section className="border-t border-border bg-surface-alt/40">
+        <div className="mx-auto max-w-[1440px] px-6 py-28 md:px-10 md:py-40">
+          <Reveal>
+            <div className="overflow-hidden py-4">
+              <div
+                className="flex transition-transform duration-700 ease-out"
+                style={{ transform: `translate3d(${-activeTestimonial * 100}%, 0, 0)` }}
+              >
+                {TESTIMONIALS.map((testimonial) => (
+                  <figure key={testimonial.name} className="w-full shrink-0 pr-2">
+                    <svg
+                      className="h-12 w-12 text-accent md:h-14 md:w-14"
+                      viewBox="0 0 40 40"
+                      fill="none"
+                      aria-hidden
+                    >
+                      <path
+                        d="M8 26c0-6 4-11 10-13v4c-3.5 1.5-6 4.5-6 8h6v10H8V26zm18 0c0-6 4-11 10-13v4c-3.5 1.5-6 4.5-6 8h6v10H26V26z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    <blockquote
+                      className="font-display mt-12 max-w-5xl text-foreground"
+                      style={{
+                        fontSize: "clamp(2rem, 5vw, 4.25rem)",
+                        lineHeight: 1.05,
+                        letterSpacing: "-0.035em",
+                        fontWeight: 500,
+                      }}
+                    >
+                      "{testimonial.quote}"
+                    </blockquote>
+                    <figcaption className="mt-14 flex flex-col gap-1 border-t border-border pt-8 md:flex-row md:items-center md:justify-between">
+                      <div>
+                        <p className="text-base text-foreground md:text-lg">
+                          {testimonial.name}
+                        </p>
+                        <p className="text-sm text-muted-foreground md:text-base">
+                          {testimonial.role}
+                        </p>
+                      </div>
+                      <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
+                        {testimonial.marker}
+                      </p>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-5">
+              <div className="flex gap-2" aria-label="Testimonial slides">
+                {TESTIMONIALS.map((testimonial, index) => (
+                  <button
+                    key={testimonial.name}
+                    type="button"
+                    onClick={() => setActiveTestimonial(index)}
+                    className={`h-2.5 w-10 border border-border transition-colors ${
+                      activeTestimonial === index ? "bg-foreground" : "bg-background"
+                    }`}
+                    aria-label={`Show testimonial ${index + 1}`}
+                    aria-pressed={activeTestimonial === index}
+                  />
+                ))}
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setActiveTestimonial((current) =>
+                      current === 0 ? TESTIMONIALS.length - 1 : current - 1,
+                    )
+                  }
+                  className="inline-flex h-10 w-10 items-center justify-center border border-border text-sm"
+                  aria-label="Previous testimonial"
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setActiveTestimonial((current) => (current + 1) % TESTIMONIALS.length)
+                  }
+                  className="inline-flex h-10 w-10 items-center justify-center border border-border text-sm"
+                  aria-label="Next testimonial"
+                >
+                  →
+                </button>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Team / founders */}
+      <div className="border-t border-border">
+        <WhoYouWorkWith />
+      </div>
+
+      {/* One team, three disciplines */}
       <section
         ref={capabilitiesSectionRef}
         className="relative border-t border-border"
@@ -293,7 +375,7 @@ export function AboutPage() {
                 {CAPABILITIES.map((c) => (
                   <article
                     key={c.title}
-                    className="flex min-h-[390px] w-[78vw] max-w-[520px] flex-col border border-border bg-background p-6 md:min-h-[430px] md:w-[42vw] md:p-8 lg:w-[34vw]"
+                    className="flex min-h-[390px] w-[78vw] max-w-[520px] shrink-0 flex-col border border-border bg-background p-6 md:min-h-[430px] md:w-[42vw] md:p-8 lg:w-[34vw]"
                   >
                     <div className="flex items-start justify-between gap-8 border-b border-border pb-6">
                       <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
@@ -336,181 +418,20 @@ export function AboutPage() {
                 />
               </div>
               <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                {String(Math.min(Math.floor(capabilityProgress * CAPABILITIES.length) + 1, CAPABILITIES.length)).padStart(2, "0")} /{" "}
-                {String(CAPABILITIES.length).padStart(2, "0")}
+                {String(
+                  Math.min(
+                    Math.floor(capabilityProgress * CAPABILITIES.length) + 1,
+                    CAPABILITIES.length,
+                  ),
+                ).padStart(2, "0")}{" "}
+                / {String(CAPABILITIES.length).padStart(2, "0")}
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Full-width image break */}
-      <section className="border-t border-border">
-        <Reveal>
-          <div className="relative h-[52vh] min-h-[380px] w-full overflow-hidden md:h-[70vh]">
-            <ImagePlaceholder label="Image" className="absolute inset-0" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 mx-auto max-w-[1440px] px-6 pb-10 md:px-10 md:pb-14">
-              <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                § Under the hood
-              </p>
-              <p
-                className="font-display mt-4 max-w-3xl text-foreground"
-                style={{
-                  fontSize: "clamp(1.5rem, 3vw, 2.5rem)",
-                  lineHeight: 1.1,
-                  letterSpacing: "-0.03em",
-                  fontWeight: 500,
-                }}
-              >
-                Technical depth is the thing you can't fake. It's the reason
-                the work ships, stays up, and doesn't rot.
-              </p>
-            </div>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* Principles / how */}
-      <section className="border-t border-border">
-        <div className="mx-auto max-w-[1440px] px-6 py-24 md:px-10 md:py-32">
-          <Reveal>
-            <div className="flex items-center gap-3">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                § How we operate
-              </p>
-            </div>
-          </Reveal>
-          <div className="mt-14 grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
-            {PRINCIPLES.map((p) => (
-              <Reveal key={p.title}>
-                <div className="border-t border-border pt-8">
-                  <p className="font-mono-label uppercase tracking-wider text-accent">
-                    § {p.n}
-                  </p>
-                  <h3
-                    className="font-display mt-6"
-                    style={{
-                      fontSize: "clamp(1.5rem, 2.2vw, 2rem)",
-                      letterSpacing: "-0.028em",
-                      lineHeight: 1.05,
-                      fontWeight: 500,
-                    }}
-                  >
-                    {p.title}
-                  </h3>
-                  <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
-                    {p.body}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonial */}
-      <section className="border-t border-border">
-        <div className="mx-auto max-w-[1440px] px-6 py-28 md:px-10 md:py-40">
-          <Reveal>
-            <div className="flex items-center gap-3">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                § Don't take our word for it
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal>
-            <div className="mt-14 overflow-hidden border-y border-border py-10">
-              <div
-                className="flex transition-transform duration-700 ease-out"
-                style={{ transform: `translate3d(${-activeTestimonial * 100}%, 0, 0)` }}
-              >
-                {TESTIMONIALS.map((testimonial) => (
-                  <figure key={testimonial.name} className="w-full shrink-0 pr-2">
-                    <svg
-                      className="h-10 w-10 text-accent"
-                      viewBox="0 0 40 40"
-                      fill="none"
-                      aria-hidden
-                    >
-                      <path
-                        d="M8 26c0-6 4-11 10-13v4c-3.5 1.5-6 4.5-6 8h6v10H8V26zm18 0c0-6 4-11 10-13v4c-3.5 1.5-6 4.5-6 8h6v10H26V26z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                    <blockquote
-                      className="font-display mt-10 max-w-5xl text-foreground"
-                      style={{
-                        fontSize: "clamp(1.75rem, 4vw, 3.75rem)",
-                        lineHeight: 1.08,
-                        letterSpacing: "-0.03em",
-                        fontWeight: 500,
-                      }}
-                    >
-                      "{testimonial.quote}"
-                    </blockquote>
-                    <figcaption className="mt-12 flex flex-col gap-1 border-t border-border pt-6 md:flex-row md:items-center md:justify-between">
-                      <div>
-                        <p className="text-base text-foreground">{testimonial.name}</p>
-                        <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                      </div>
-                      <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                        {testimonial.marker}
-                      </p>
-                    </figcaption>
-                  </figure>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-6 flex flex-wrap items-center justify-between gap-5">
-              <div className="flex gap-2" aria-label="Testimonial slides">
-                {TESTIMONIALS.map((testimonial, index) => (
-                  <button
-                    key={testimonial.name}
-                    type="button"
-                    onClick={() => setActiveTestimonial(index)}
-                    className={`h-2.5 w-10 border border-border transition-colors ${
-                      activeTestimonial === index ? "bg-foreground" : "bg-background"
-                    }`}
-                    aria-label={`Show testimonial ${index + 1}`}
-                    aria-pressed={activeTestimonial === index}
-                  />
-                ))}
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() =>
-                    setActiveTestimonial((current) =>
-                      current === 0 ? TESTIMONIALS.length - 1 : current - 1,
-                    )
-                  }
-                  className="inline-flex h-10 w-10 items-center justify-center border border-border text-sm"
-                  aria-label="Previous testimonial"
-                >
-                  ←
-                </button>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setActiveTestimonial((current) => (current + 1) % TESTIMONIALS.length)
-                  }
-                  className="inline-flex h-10 w-10 items-center justify-center border border-border text-sm"
-                  aria-label="Next testimonial"
-                >
-                  →
-                </button>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Tools */}
+      {/* Tech stack — bottom */}
       <section className="border-t border-border">
         <div className="mx-auto max-w-[1440px] px-6 py-24 md:px-10 md:py-32">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:items-end">
@@ -596,9 +517,7 @@ export function AboutPage() {
         </div>
       </section>
 
-
-
-      {/* Full-width office image */}
+      {/* Closing — Amsterdam */}
       <section className="border-t border-border">
         <div className="relative h-[90vh] w-full overflow-hidden">
           <ImagePlaceholder label="Image" className="absolute inset-0" />
@@ -616,16 +535,11 @@ export function AboutPage() {
                 fontWeight: 500,
               }}
             >
-              Amsterdam. A decade of shipping — and the team the brief needs.
+              Amsterdam. Seven years of shipping — and the team the brief needs.
             </p>
           </div>
         </div>
       </section>
-
-      {/* Who you work with */}
-      <div className="border-t border-border">
-        <WhoYouWorkWith />
-      </div>
 
       {/* CTA */}
       <section className="border-t border-border">
@@ -680,7 +594,6 @@ export function AboutPage() {
           </Reveal>
         </div>
       </section>
-
     </div>
   );
 }

@@ -4,10 +4,10 @@ import { WorkPage } from "@/views/WorkPage";
 export const metadata: Metadata = {
   title: "Work",
   description:
-    "Five builds. Real clients. Real problems solved. Selected case studies from kbell + postman, a digital product studio in Amsterdam.",
+    "A few things we've built. Selected case studies from Kbell & Postman, a digital product studio in Amsterdam.",
   openGraph: {
-    title: "Work — kbell + postman",
-    description: "Five builds. Real clients. Real problems solved.",
+    title: "Work — KB+PM",
+    description: "A few things we've built.",
   },
 };
 

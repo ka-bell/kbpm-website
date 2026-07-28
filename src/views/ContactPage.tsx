@@ -26,21 +26,6 @@ const INTEREST_TO_TYPE: Record<string, string> = {
   "eu-migrate": "EU Migration Plan — move without breaking",
 };
 
-const nextSteps = [
-  {
-    label: "01 / Read",
-    text: "We read the context and look for the fastest useful next step.",
-  },
-  {
-    label: "02 / Reply",
-    text: "You get a direct reply from the people who would shape and ship the work.",
-  },
-  {
-    label: "03 / Map",
-    text: "If there is a fit, we map scope, timeline, budget, and the first decision to make.",
-  },
-];
-
 function FieldLabel({ htmlFor, children }: { htmlFor: string; children: ReactNode }) {
   return (
     <label htmlFor={htmlFor} className="font-mono-label uppercase tracking-wider text-muted-foreground">
@@ -102,51 +87,13 @@ export function ContactPage({ interest }: { interest?: string }) {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-[1440px] grid-cols-1 gap-8 px-6 py-16 md:grid-cols-12 md:px-8 md:py-24">
-        <aside className="md:col-span-4">
-          <div className="sticky top-28 space-y-8">
-            <div>
-              <p className="eyebrow">Good fit</p>
-              <h2
-                className="font-display mt-4 max-w-md text-foreground"
-                style={{
-                  fontSize: "clamp(2rem, 3vw, 3.25rem)",
-                  lineHeight: 1,
-                  letterSpacing: "-0.035em",
-                  fontWeight: 500,
-                }}
-              >
-                Useful details beat perfect briefs.
-              </h2>
-              <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground">
-                It is completely fine if the idea is still messy. The form is here to help us
-                understand what decision, prototype, or product constraint needs attention first.
-              </p>
-            </div>
-
-            <div className="border border-border">
-              {nextSteps.map((step, index) => (
-                <div
-                  key={step.label}
-                  className={`p-5 ${index < nextSteps.length - 1 ? "border-b border-border" : ""}`}
-                >
-                  <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                    {step.label}
-                  </p>
-                  <p className="mt-3 text-sm leading-relaxed text-foreground">{step.text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </aside>
-
-        <div className="md:col-span-8">
-          <form
-            action="mailto:info@kbpm.nl"
-            method="post"
-            encType="text/plain"
-            className="border border-border bg-background"
-          >
+      <section className="mx-auto max-w-[1440px] px-6 py-16 md:px-8 md:py-24">
+        <form
+          action="mailto:info@kbpm.nl"
+          method="post"
+          encType="text/plain"
+          className="mx-auto max-w-4xl border border-border bg-background"
+        >
             <div className="border-b border-border p-5 md:p-6">
               <p className="eyebrow">Project intake</p>
               <h2 className="mt-3 text-xl font-medium text-foreground">A few details is enough.</h2>
@@ -214,8 +161,7 @@ export function ContactPage({ interest }: { interest?: string }) {
                 </svg>
               </button>
             </div>
-          </form>
-        </div>
+        </form>
       </section>
     </main>
   );

@@ -28,7 +28,7 @@ export function WorkPage() {
             fontWeight: 500,
           }}
         >
-          Five builds. Real clients. <span className="text-accent">Real problems</span> solved.
+          A few things we&apos;ve built.
         </h1>
         <p className="mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl">
           We design and build digital products end to end — from validated idea to working product.
