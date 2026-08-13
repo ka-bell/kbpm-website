@@ -19,9 +19,18 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
 
-  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "DM Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: "Google Sans Flex", "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Google Sans Flex", "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "DM Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-ink: #1e1e1e;
+  --color-brand-blue: #006ff7;
+  --color-brand-cyan: #0eb8f7;
+  --color-brand-lime: #c9ff6e;
+  --color-brand-purple: #c7b0fe;
+  --color-brand-pink: #ff1c77;
+  --color-brand-orange: #ff5b26;
+  --color-brand-yellow: #ffff05;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -140,6 +149,39 @@
     border-radius: 0.5rem !important;
   }
 
+  /* Designed (hi-fi) regions — escape wireframe flatteners */
+  .kbpm-hi-fi h1,
+  .kbpm-hi-fi h2,
+  .kbpm-hi-fi h3,
+  .kbpm-hi-fi .font-display {
+    letter-spacing: -0.02em !important;
+  }
+
+  .kbpm-hi-fi .rounded-2xl {
+    border-radius: 1rem !important;
+  }
+
+  .kbpm-hi-fi .rounded-full {
+    border-radius: 9999px !important;
+  }
+
+  .kbpm-hi-fi [class*="bg-foreground"],
+  .kbpm-hi-fi [class*="bg-accent"] {
+    background-color: unset !important;
+    color: unset !important;
+  }
+
+  body .kbpm-hi-fi [class*="bg-foreground"],
+  body .kbpm-hi-fi [class*="bg-accent"] {
+    background-color: unset !important;
+    color: unset !important;
+  }
+
+  body .kbpm-hi-fi [class*="text-accent"],
+  body .kbpm-hi-fi [class*="text-background"] {
+    color: inherit !important;
+  }
+
   body [class*="shadow"] {
     box-shadow: none !important;
   }
@@ -176,6 +218,107 @@
   button {
     text-decoration-thickness: 1px;
     text-underline-offset: 0.18em;
+  }
+}
+
+@keyframes kbpm-caret {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.kbpm-hero-caret {
+  animation: kbpm-caret 1s steps(1, end) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kbpm-hero-caret {
+    animation: none;
+  }
+}
+
+/* Clients logo scroller — CSS marquee + scrubber (from Qare) */
+.clients-logo-viewport {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.clients-logo-scroller {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 3.5rem;
+  width: max-content;
+  animation: clients-logo-marquee 45s linear infinite;
+}
+
+.clients-logo-scroller.is-paused {
+  animation-play-state: paused;
+}
+
+@media (min-width: 640px) {
+  .clients-logo-scroller {
+    gap: 4.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .clients-logo-scroller {
+    gap: 6rem;
+  }
+}
+
+.clients-logo-scroller > li {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3.5rem;
+  width: 10.5rem;
+}
+
+.clients-logo-scroller img {
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  object-position: center;
+  transform: scale(var(--logo-scale, 1));
+  transform-origin: center;
+}
+
+@media (min-width: 640px) {
+  .clients-logo-scroller > li {
+    height: 4rem;
+    width: 12rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .clients-logo-scroller > li {
+    height: 4.5rem;
+    width: 13.5rem;
+  }
+}
+
+@keyframes clients-logo-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clients-logo-scroller {
+    animation: none;
   }
 }
 

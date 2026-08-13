@@ -1,74 +1,191 @@
-import { Link } from "@/components/Link";
-import { ImagePlaceholder } from "./ImagePlaceholder";
-import { Reveal } from "./Reveal";
+"use client";
 
-export function Hero() {
+import { Link } from "@/components/Link";
+import { useEffect, useState } from "react";
+import { MobileNavDrawer } from "./MobileNavDrawer";
+import { HeroTiles } from "./HeroTiles";
+import { Wordmark } from "./Wordmark";
+
+const PHRASES = [
+  "when the idea outgrows the team.",
+  "Proof, not promises.",
+] as const;
+
+const TYPE_MS = 48;
+const DELETE_MS = 28;
+const HOLD_MS = 2200;
+const GAP_MS = 380;
+
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+    const onChange = () => setReduced(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  return reduced;
+}
+
+function useTypewriter(phrases: readonly string[]) {
+  const reducedMotion = usePrefersReducedMotion();
+  const [text, setText] = useState(phrases[0]);
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [mode, setMode] = useState<"typing" | "holding" | "deleting" | "gap">(
+    "holding",
+  );
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setText(phrases[0]);
+      return;
+    }
+
+    const phrase = phrases[phraseIndex];
+    let timer: number;
+
+    if (mode === "holding") {
+      timer = window.setTimeout(() => setMode("deleting"), HOLD_MS);
+    } else if (mode === "deleting") {
+      if (text.length === 0) {
+        setPhraseIndex((i) => (i + 1) % phrases.length);
+        setMode("gap");
+        return;
+      }
+      timer = window.setTimeout(() => setText(text.slice(0, -1)), DELETE_MS);
+    } else if (mode === "gap") {
+      timer = window.setTimeout(() => setMode("typing"), GAP_MS);
+    } else if (text === phrase) {
+      setMode("holding");
+    } else {
+      timer = window.setTimeout(
+        () => setText(phrase.slice(0, text.length + 1)),
+        TYPE_MS,
+      );
+    }
+
+    return () => window.clearTimeout(timer);
+  }, [mode, text, phraseIndex, phrases, reducedMotion]);
+
+  return text;
+}
+
+function HeroNav() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
-    <section className="relative">
-      <div className="mx-auto max-w-[1440px] px-6 pt-8 pb-8 md:px-8 md:pt-10 md:pb-12">
-        {/* Big headline */}
-        <div className="pt-8 md:pt-12">
-          <Reveal delay={80}>
-            <h1
-              className="font-display text-foreground max-w-[18ch]"
-              style={{
-                fontSize: "clamp(2.25rem, 5.8vw, 5.75rem)",
-                lineHeight: 0.95,
-                letterSpacing: "-0.04em",
-                fontWeight: 500,
-              }}
+    <>
+      <header className="relative z-20 flex w-full items-center justify-between text-white">
+        <Wordmark className="text-[clamp(1.35rem,2.5vw,1.9rem)] font-bold tracking-[-0.03em] text-white [&_span]:!text-white" />
+
+        <div className="hidden items-center gap-4 lg:flex">
+          <nav className="flex items-center">
+            <Link
+              to="/services"
+              className="flex items-center gap-1 py-3 pl-4 pr-3 font-mono text-[12px] uppercase leading-[1.1] tracking-[0.6px] text-white transition-opacity hover:opacity-70"
             >
-              We build digital products when the idea outgrows the team.
-            </h1>
-          </Reveal>
+              Services
+              <img
+                src="/hero/chevron-down.svg"
+                alt=""
+                width={24}
+                height={24}
+                className="size-6"
+              />
+            </Link>
+            <Link
+              to="/work"
+              className="px-6 py-4 font-mono text-[12px] uppercase leading-[1.1] tracking-[0.6px] text-white transition-opacity hover:opacity-70"
+            >
+              Work
+            </Link>
+            <Link
+              to="/about"
+              className="px-6 py-4 font-mono text-[12px] uppercase leading-[1.1] tracking-[0.6px] text-white transition-opacity hover:opacity-70"
+            >
+              About
+            </Link>
+          </nav>
+
+          <Link
+            to="/contact"
+            className="inline-flex items-center justify-center gap-3 rounded-full bg-white py-1 pl-6 pr-1 font-mono text-[12px] uppercase leading-[1.1] tracking-[0.6px] text-[#1e1e1e] transition-opacity hover:opacity-90"
+          >
+            Start a project
+            <span className="flex shrink-0 items-center justify-center rounded-full bg-[#1e1e1e] p-2">
+              <img
+                src="/hero/arrow-outward.svg"
+                alt=""
+                width={20}
+                height={20}
+                className="size-5"
+              />
+            </span>
+          </Link>
         </div>
 
-        {/* Big flagship image card */}
-        <Reveal delay={160}>
-          <div className="mt-10 overflow-hidden rounded-[24px] bg-surface-alt md:mt-14 md:rounded-[32px]">
-            <div className="relative aspect-[16/9] w-full md:aspect-[24/9]">
-              <ImagePlaceholder label="Image" />
-              {/* Corner labels overlay */}
-              <div className="pointer-events-none absolute inset-0 flex flex-col justify-between p-6 md:p-10">
-                <div className="flex items-start justify-between">
-                  <span className="font-mono-label rounded-full bg-background/90 px-3 py-1.5 text-foreground backdrop-blur">
-                    ● Live · fig_01
-                  </span>
-                  <span className="font-mono-label hidden rounded-full bg-background/90 px-3 py-1.5 text-foreground backdrop-blur md:inline-block">
-                    Amsterdam · CET
-                  </span>
-                </div>
-                <div className="flex items-end justify-between">
-                  <span className="font-mono-label rounded-full bg-foreground/90 px-3 py-1.5 text-background backdrop-blur">
-                    Studio index / 2026
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Reveal>
+        <div className="flex items-center gap-2 lg:hidden">
+          <Link
+            to="/contact"
+            className="inline-flex items-center gap-2 rounded-full bg-white py-1 pl-4 pr-1 font-mono text-[11px] uppercase tracking-[0.6px] text-[#1e1e1e]"
+          >
+            Start
+            <span className="flex items-center justify-center rounded-full bg-[#1e1e1e] p-1.5">
+              <img
+                src="/hero/arrow-outward.svg"
+                alt=""
+                width={16}
+                height={16}
+                className="size-4"
+              />
+            </span>
+          </Link>
+          <button
+            type="button"
+            className="flex size-10 items-center justify-center rounded-full border border-white/25"
+            aria-label="Open menu"
+            onClick={() => setMobileOpen(true)}
+          >
+            <svg width="18" height="12" viewBox="0 0 20 14" fill="none" aria-hidden>
+              <path d="M0 1h20M0 7h20M0 13h20" stroke="currentColor" strokeWidth="1.4" />
+            </svg>
+          </button>
+        </div>
+      </header>
 
-        {/* Bottom row: subline + CTA */}
-        <Reveal delay={220}>
-          <div className="mt-10 grid grid-cols-1 items-end gap-8 md:mt-14 md:grid-cols-12 md:gap-10">
-            <div className="md:col-span-7">
-              <p className="text-xl text-foreground md:text-2xl" style={{ letterSpacing: "-0.01em" }}>
-                Proof, not promises.
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-4 md:col-span-5 md:justify-end">
-              <Link
-                to="/contact"
-                className="group inline-flex items-center gap-3 rounded-full bg-accent px-6 py-4 text-sm font-medium text-accent-foreground transition-transform hover:-translate-y-px"
-              >
-                Start a project
-                <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 14 14" fill="none" aria-hidden>
-                  <path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" />
-                </svg>
-              </Link>
-            </div>
-          </div>
-        </Reveal>
+      <MobileNavDrawer open={mobileOpen} onClose={() => setMobileOpen(false)} />
+    </>
+  );
+}
+
+export function Hero() {
+  const line = useTypewriter(PHRASES);
+
+  return (
+    <section className="kbpm-hi-fi w-full bg-white px-4 pt-4 sm:px-6 sm:pt-6 lg:px-8 lg:pt-8">
+      <div className="relative flex w-full min-h-[32rem] flex-col justify-between overflow-hidden rounded-2xl bg-[#1e1e1e] px-5 pb-6 pt-5 sm:min-h-[40rem] sm:px-8 sm:pb-10 sm:pt-6 lg:min-h-[min(90vh,56.25rem)] lg:px-[clamp(2.5rem,5vw,5rem)] lg:pb-20 lg:pt-[7.5rem]">
+        <div className="lg:absolute lg:inset-x-0 lg:top-5 lg:px-[clamp(2.5rem,5vw,5rem)] lg:py-4">
+          <HeroNav />
+        </div>
+
+        <h1 className="font-display relative z-10 max-w-4xl py-12 text-[2.125rem] font-medium leading-[1.2] tracking-[-0.02em] text-white sm:py-16 sm:text-5xl lg:max-w-5xl lg:py-0 lg:text-[4.5rem]">
+          <span className="block">We build digital products</span>
+          <span className="inline">
+            {line}
+            <span
+              className="kbpm-hero-caret ml-[0.12em] inline-block h-[0.85em] w-[2px] translate-y-[0.08em] bg-white align-baseline"
+              aria-hidden
+            />
+          </span>
+          <span className="sr-only"> {PHRASES.join(" ")}</span>
+        </h1>
+
+        <div className="relative z-10">
+          <HeroTiles />
+        </div>
       </div>
     </section>
   );
