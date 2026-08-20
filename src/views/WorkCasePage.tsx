@@ -1,10 +1,10 @@
 "use client";
 
 import { Link } from "@/components/Link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ImagePlaceholder } from "@/components/site/ImagePlaceholder";
 import { Reveal } from "@/components/site/Reveal";
-import { getRelated, type CaseStudy } from "@/components/site/cases-data";
+import type { CaseStudy } from "@/components/site/cases-data";
 
 type NarrativeCard = { title: string; body: string };
 
@@ -17,11 +17,11 @@ function getCaseDetailCards(c: CaseStudy): { problem: NarrativeCard[]; build: Na
           body: "Editorial teams needed video management, metadata, scheduling, and permissions in one publishing flow.",
         },
         {
-          title: "Constraint",
+          title: "Constraints",
           body: "The system had to fit the SPIL ecosystem while still feeling purpose-built for video-first news.",
         },
         {
-          title: "Measure",
+          title: "Measures",
           body: "A launched MVP that supports modern editorial workflows instead of article-first publishing habits.",
         },
       ],
@@ -118,45 +118,15 @@ function getCaseDetailCards(c: CaseStudy): { problem: NarrativeCard[]; build: Na
       build: [
         {
           title: "Route builder",
-          body: "Create curated city routes with location-based moments, challenges, and unlockable experiences.",
+          body: "Give operators a clear way to design routes, challenges, and location-triggered content.",
         },
         {
-          title: "Gameplay system",
-          body: "Use maps, GPS, challenges, and gamification to make exploration feel active.",
+          title: "Visitor app",
+          body: "Deliver the experience on mobile with maps, progress, and place-based storytelling.",
         },
         {
-          title: "Multi-city CMS",
-          body: "Give tourism teams a platform to manage content, destinations, and future implementations.",
-        },
-      ],
-    },
-    academion: {
-      problem: [
-        {
-          title: "Operations",
-          body: "Accreditation work was spread across email threads, documents, shared drives, and manual follow-ups.",
-        },
-        {
-          title: "Constraint",
-          body: "The platform had to respect complex review roles, evidence trails, and institutional accountability.",
-        },
-        {
-          title: "Measure",
-          body: "Less time lost to coordination, with a clear audit trail for every review cycle.",
-        },
-      ],
-      build: [
-        {
-          title: "Workflow model",
-          body: "Model submissions, reviewers, evidence, sign-offs, ownership, and states as one system.",
-        },
-        {
-          title: "Permissions",
-          body: "Design roles and delegated access flexible enough for university review processes.",
-        },
-        {
-          title: "Audit trail",
-          body: "Keep every artefact traceable so leadership, reviewers, and teams can trust the process.",
+          title: "Ops layer",
+          body: "Support multi-city rollout without rebuilding the product for every destination.",
         },
       ],
     },
@@ -178,621 +148,398 @@ function getCaseDetailCards(c: CaseStudy): { problem: NarrativeCard[]; build: Na
   );
 }
 
-export function WorkCasePage({ c }: { c: CaseStudy }) {
-  const [nerdOut, setNerdOut] = useState(false);
+const DEFAULT_CREDITS = [
+  { role: "Product & strategy", name: "Karissa Bell" },
+  { role: "Engineering & architecture", name: "Alex Postman" },
+] as const;
 
-  useEffect(() => {
-    setNerdOut(false);
-    window.scrollTo({ top: 0 });
-  }, [c.slug]);
+function brandMark(client: string) {
+  const base = client.replace(/\s+/g, "").toUpperCase();
+  return base.length > 12 ? base.slice(0, 10) : base;
+}
 
-  useEffect(() => {
-    if (nerdOut) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  }, [nerdOut]);
-
+function CaseMedia({
+  label,
+  className = "",
+}: {
+  label: string;
+  className?: string;
+}) {
   return (
-    <>
-      {nerdOut ? <CaseDeepDive c={c} /> : <SimpleCaseView c={c} />}
-
-      <button
-        type="button"
-        onClick={() => setNerdOut((v) => !v)}
-        className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-full border border-border bg-foreground px-5 py-3.5 text-sm font-medium text-background shadow-[0_12px_40px_-12px_rgba(0,0,0,0.35)] transition-transform hover:-translate-y-0.5 md:bottom-8 md:right-8"
-      >
-        {nerdOut ? "Back to summary" : "Want to nerd out? See the full build."}
-      </button>
-    </>
+    <div
+      className={`relative overflow-hidden rounded-[24px] bg-[#f5f5f5] ${className}`.trim()}
+    >
+      <ImagePlaceholder label={label} className="min-h-[16rem] md:min-h-0" />
+    </div>
   );
 }
 
-/** Simple default case view — fixed structure for every case */
-function SimpleCaseView({ c }: { c: CaseStudy }) {
-  const gallery = c.screens.slice(1, 4);
+function DetailCard({
+  index,
+  title,
+  body,
+  className = "",
+}: {
+  index: number;
+  title: string;
+  body: string;
+  className?: string;
+}) {
+  return (
+    <article
+      className={`flex min-h-[16rem] flex-col justify-between rounded-[24px] border border-[#1e1e1e]/20 p-7 ${className}`.trim()}
+    >
+      <div>
+        <p className="font-mono text-[11px] uppercase leading-[16.5px] tracking-[0.05em] text-[#6b6b6b]">
+          {String(index).padStart(2, "0")}
+        </p>
+        <h3 className="mt-5 font-display text-[24px] font-medium leading-7 text-[#1e1e1e]">
+          {title}
+        </h3>
+      </div>
+      <p className="mt-10 text-[14px] leading-[22.75px] text-[#6b6b6b]">{body}</p>
+    </article>
+  );
+}
+
+function SectionEyebrow({ mark, label }: { mark: string; label: string }) {
+  return (
+    <div className="flex items-center gap-4 font-mono text-[14px] uppercase leading-[1.1] tracking-[0.05em] text-[#1e1e1e]">
+      <span>{mark}</span>
+      <span>{label}</span>
+    </div>
+  );
+}
+
+/**
+ * Portfolio case template — Figma 3626:16402.
+ * Layout/look from Figma; copy from rewrite case data.
+ */
+export function WorkCasePage({ c }: { c: CaseStudy }) {
+  const detailCards = getCaseDetailCards(c);
+  const mark = brandMark(c.client);
+  const stack = c.displayTags.length > 0 ? c.displayTags : c.keyFeatures;
+  const visuals = c.screens;
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [c.slug]);
 
   return (
-    <main>
-      <section className="mx-auto max-w-[1440px] px-6 pt-24 pb-12 md:px-8 md:pt-32 md:pb-16">
-        <Link
-          to="/work"
-          className="font-mono-label inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"
-        >
-          ← All work
-        </Link>
-
-        <div className="mt-10">
-          <div className="flex items-center gap-3">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-            <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-              Case {c.n} / {c.client} — {c.year}
-            </p>
-          </div>
-          <h1
-            className="font-display mt-8 max-w-5xl text-foreground"
+    <div className="kbpm-hi-fi bg-white text-[#1e1e1e]">
+      {/* Hero brand panel — 3626:16403 */}
+      <section className="px-6 pt-6 md:px-8 md:pt-8">
+        <div className="relative mx-auto flex min-h-[min(70vh,36rem)] max-w-[1376px] items-center justify-center overflow-hidden rounded-[24px] bg-[#1e1e1e] md:min-h-[min(80vh,57.5rem)]">
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] opacity-80"
             style={{
-              fontSize: "clamp(2.5rem, 6.5vw, 6rem)",
-              lineHeight: 0.95,
-              letterSpacing: "-0.045em",
-              fontWeight: 500,
+              backgroundImage:
+                "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 40%, rgba(0,0,0,0.75) 100%)",
+            }}
+            aria-hidden
+          />
+          <h1
+            className="relative z-10 px-6 text-center font-display font-semibold uppercase text-[#f5f5f5]"
+            style={{
+              fontSize: "clamp(3.5rem, 18vw, 14rem)",
+              lineHeight: 0.9,
+              letterSpacing: "-0.04em",
             }}
           >
-            {c.title}
+            {mark}
+            <span className="align-super text-[0.35em]">*</span>
           </h1>
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1440px] px-6 md:px-8">
-        <Reveal>
-          <div className="relative aspect-[16/9] overflow-hidden rounded-[24px] bg-surface-alt md:rounded-[36px]">
-            <ImagePlaceholder label="Hero image" />
-          </div>
-        </Reveal>
-      </section>
-
-      <section className="mx-auto max-w-[1440px] px-6 py-16 md:px-8 md:py-24">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-10">
-          <Reveal className="md:col-span-7">
-            <p className="max-w-2xl text-lg leading-relaxed text-foreground md:text-xl">
-              {c.outcome}
+      {/* Project identity + meta — 3626:16446 */}
+      <section className="mx-auto max-w-[1440px] px-6 py-12 md:px-[72px] md:py-14">
+        <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
+          <Reveal className="max-w-[440px]">
+            <div className="flex flex-wrap gap-2.5">
+              <span className="inline-flex items-center rounded-full border border-black/10 px-4 py-2 font-mono text-[14px] font-light tracking-[0.05em] text-[#1e1e1e]">
+                {c.service.split("→")[0]?.trim() || "Service"}
+              </span>
+              <span className="inline-flex items-center rounded-full bg-[#c9ff6e] px-4 py-2 font-mono text-[14px] font-light tracking-[0.05em] text-[#1e1e1e]">
+                {c.industry.split("/")[0]?.trim() || c.industry}
+              </span>
+            </div>
+            <p
+              className="mt-4 font-display font-medium uppercase tracking-[-0.02em] text-[#1e1e1e]"
+              style={{ fontSize: "clamp(2.75rem, 8vw, 6rem)", lineHeight: 1.1 }}
+            >
+              {c.client.replace(/\s+/g, "").toUpperCase()}
+            </p>
+            <p className="mt-4 text-[20px] font-medium leading-[1.1] tracking-[-0.03em] text-[#1e1e1e]">
+              {c.title}
             </p>
           </Reveal>
 
-          <Reveal delay={80} className="md:col-span-5">
-            <dl className="grid grid-cols-2 gap-6 border border-border p-6">
-              <div>
-                <dt className="eyebrow">Client</dt>
-                <dd className="mt-2 text-sm text-foreground">{c.client}</dd>
-              </div>
-              <div>
-                <dt className="eyebrow">Year</dt>
-                <dd className="mt-2 text-sm text-foreground">{c.year}</dd>
-              </div>
-              <div>
-                <dt className="eyebrow">Industry</dt>
-                <dd className="mt-2 text-sm text-foreground">{c.industry}</dd>
-              </div>
-              <div>
-                <dt className="eyebrow">Service</dt>
-                <dd className="mt-2 text-sm text-foreground">{c.service}</dd>
-              </div>
-              {c.productUrl ? (
-                <div className="col-span-2 border-t border-border pt-6">
-                  <dt className="eyebrow">Product URL</dt>
-                  <dd className="mt-2">
-                    <a
-                      href={c.productUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-sm text-foreground underline decoration-accent decoration-2 underline-offset-4"
-                    >
-                      {c.productUrl.replace(/^https?:\/\//, "")}
-                    </a>
-                  </dd>
-                </div>
-              ) : null}
-            </dl>
+          <Reveal
+            delay={80}
+            className="grid w-full max-w-[514px] grid-cols-2 gap-5 pt-2 sm:grid-cols-4 lg:pt-10"
+          >
+            <MetaCol label="Client" value={c.client} />
+            <MetaCol label="Year" value={c.year} />
+            <MetaCol label="Service" value={c.service} />
+            <div>
+              <p className="font-mono text-[14px] font-medium leading-[1.35] tracking-[-0.02em] text-[#1e1e1e]">
+                Stack
+              </p>
+              <ul className="mt-[22px] space-y-[5px] text-[16px] leading-[1.35] tracking-[-0.02em] text-[#1e1e1e]">
+                {stack.slice(0, 4).map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
           </Reveal>
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1440px] px-6 pb-16 md:px-8 md:pb-24">
+      {/* Lede — 3626:16468 */}
+      <section className="mx-auto max-w-[1440px] px-6 pb-10 md:px-[72px] md:pb-14">
         <Reveal>
-          <p className="eyebrow">Key features</p>
-          <ul className="mt-8 grid grid-cols-1 gap-px border border-border bg-border md:grid-cols-3">
-            {c.keyFeatures.map((feature, index) => (
-              <li key={feature} className="bg-background p-6">
-                <p className="font-mono-label text-muted-foreground">
-                  {String(index + 1).padStart(2, "0")}
-                </p>
-                <p className="mt-6 text-base font-medium text-foreground">{feature}</p>
-              </li>
-            ))}
-          </ul>
+          <p className="max-w-[1296px] font-display text-[clamp(1.35rem,2.4vw,1.875rem)] font-medium leading-[1.1] tracking-[-0.02em] text-[#1e1e1e]">
+            {c.context ?? c.outcome}
+          </p>
         </Reveal>
       </section>
 
-      {gallery.length > 0 ? (
-        <section className="mx-auto max-w-[1440px] px-6 pb-16 md:px-8 md:pb-24">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-6">
-            {gallery.map((visual, index) => (
-              <Reveal key={`${visual.caption}-${index}`} delay={index * 60}>
-                <div
-                  className={`relative overflow-hidden rounded-[16px] bg-surface-alt md:rounded-[24px] ${visual.ratio}`}
-                >
-                  <ImagePlaceholder label="Image" />
-                </div>
+      {/* Primary image — 3626:16471 */}
+      <section className="mx-auto max-w-[1440px] px-6 md:px-[72px]">
+        <Reveal>
+          <CaseMedia
+            label={visuals[0]?.caption ?? "Hero image"}
+            className="aspect-[1296/700] w-full"
+          />
+        </Reveal>
+      </section>
+
+      {/* 01 Problem — 3626:16473 */}
+      <section className="mx-auto max-w-[1440px] px-6 py-16 md:px-20 md:py-20">
+        <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
+          <Reveal className="max-w-[518px] shrink-0 lg:sticky lg:top-28">
+            <SectionEyebrow mark="01" label="Problem" />
+            <h2
+              className="mt-8 font-display font-medium tracking-[-0.03em] text-[#1e1e1e]"
+              style={{ fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.1 }}
+            >
+              The problem
+              <br />
+              behind the brief
+            </h2>
+            <p className="mt-8 text-[16px] leading-[1.3] tracking-[-0.02em] text-[#6b6b6b]">
+              {c.problem}
+            </p>
+          </Reveal>
+          <div className="flex w-full max-w-[622px] flex-col gap-5">
+            {detailCards.problem.map((card, i) => (
+              <Reveal key={card.title} delay={i * 60}>
+                <DetailCard index={i + 1} title={card.title} body={card.body} />
               </Reveal>
             ))}
           </div>
-        </section>
-      ) : null}
-
-      <section className="mx-auto max-w-[1440px] px-6 pb-28 md:px-8 md:pb-36">
-        <Reveal>
-          <figure className="max-w-4xl">
-            <blockquote
-              className="font-display text-foreground"
-              style={{
-                fontSize: "clamp(1.75rem, 3.6vw, 3rem)",
-                lineHeight: 1.15,
-                letterSpacing: "-0.035em",
-                fontWeight: 500,
-              }}
-            >
-              <span className="text-accent">"</span>
-              {c.quote.text}
-              <span className="text-accent">"</span>
-            </blockquote>
-            <figcaption className="mt-8 flex items-center gap-4 border-t border-border pt-6">
-              <span className="h-10 w-10 rounded-full bg-foreground/10" aria-hidden />
-              <div>
-                <p className="text-sm text-foreground">{c.quote.name}</p>
-                <p className="text-sm text-muted-foreground">{c.quote.role}</p>
-              </div>
-            </figcaption>
-          </figure>
-        </Reveal>
-      </section>
-    </main>
-  );
-}
-
-/** Existing deep-dive template — preserved as-is */
-function CaseDeepDive({ c }: { c: CaseStudy }) {
-  const related = getRelated(c.slug, 3);
-  const visuals = c.screens;
-  const problemCopy = c.problem;
-  const buildCopy = c.built;
-  const detailCards = getCaseDetailCards(c);
-  const applicationVisuals = visuals.slice(5, 8);
-  const closingVisuals = [
-    {
-      src: c.img,
-      caption: `Results context — ${c.client} product in use`,
-      ratio: "aspect-[4/5]",
-    },
-    {
-      src: c.img,
-      caption: "Launch handoff — product system, operations, and next-step roadmap",
-      ratio: "aspect-[4/5]",
-    },
-  ];
-
-  return (
-    <main>
-      <section className="mx-auto max-w-[1440px] px-6 pt-24 pb-12 md:px-8 md:pt-32 md:pb-16">
-        <Link
-          to="/work"
-          className="font-mono-label inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"
-        >
-          ← All work
-        </Link>
-
-        <div className="mt-10 grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-10">
-          <div className="md:col-span-8">
-            <div className="flex items-center gap-3">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                Case {c.n} / {c.client} — {c.year}
-              </p>
-            </div>
-            <h1
-              className="font-display mt-8 text-foreground"
-              style={{
-                fontSize: "clamp(2.5rem, 6.5vw, 6rem)",
-                lineHeight: 0.95,
-                letterSpacing: "-0.045em",
-                fontWeight: 500,
-              }}
-            >
-              {c.title}
-            </h1>
-            <p className="mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl">{c.outcome}</p>
-          </div>
-          <aside className="md:col-span-4 md:border-l md:border-border md:pl-8">
-            <div className="grid grid-cols-2 gap-6 md:grid-cols-1 md:gap-8">
-              <div>
-                <p className="eyebrow">Client</p>
-                <p className="mt-2 text-base text-foreground">{c.client}</p>
-              </div>
-              <div>
-                <p className="eyebrow">Year</p>
-                <p className="mt-2 text-base text-foreground">{c.year}</p>
-              </div>
-              <div>
-                <p className="eyebrow">Service</p>
-                <p className="mt-2 text-base text-foreground">{c.service}</p>
-              </div>
-              <div>
-                <p className="eyebrow">Stack</p>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {c.displayTags.map((t) => (
-                    <span
-                      key={t}
-                      className="font-mono-label rounded-full border border-border px-3 py-1 text-foreground"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </aside>
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1440px] px-6 md:px-8">
-        <VisualFigure visual={visuals[0]} index={0} priority="hero" />
-      </section>
-
-      <section className="mx-auto max-w-[1440px] px-6 pt-20 pb-16 md:px-8 md:pt-28 md:pb-20">
-        <NarrativeSection
-          eyebrow="01 — The problem"
-          title="The problem behind the brief"
-          paragraph={problemCopy}
-          cards={detailCards.problem}
-        />
-      </section>
-
-      <section className="mx-auto max-w-[1440px] px-6 pb-20 md:px-8 md:pb-28">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
-          <VisualFigure visual={visuals[1]} index={1} />
-          <VisualFigure visual={visuals[2]} index={2} />
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-[1440px] px-6 pb-16 md:px-8 md:pb-20">
-        <NarrativeSection
-          eyebrow="02 — Build approach"
-          title="How we built the right thing, and built it right"
-          paragraph={buildCopy}
-          cards={detailCards.build}
-        />
-      </section>
-
-      <section className="mx-auto max-w-[1440px] px-6 pb-20 md:px-8 md:pb-28">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-8">
-          <VisualFigure visual={visuals[3]} index={3} priority="wide" className="md:col-span-12" />
-          <VisualFigure visual={visuals[4]} index={4} className="md:col-span-12" />
-        </div>
-      </section>
-
-      {applicationVisuals.length > 0 ? (
-        <section className="mx-auto max-w-[1440px] px-6 pb-20 md:px-8 md:pb-28">
+      {/* Media grid — 3626:16501 */}
+      <section className="mx-auto max-w-[1440px] space-y-6 px-6 md:space-y-[24px] md:px-[72px]">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-6">
           <Reveal>
-            <div className="mb-10 grid grid-cols-1 gap-6 md:mb-14 md:grid-cols-12 md:items-end">
-              <div className="md:col-span-7">
-                <p className="eyebrow">03 — Product application</p>
-                <h2
-                  className="font-display mt-5 text-foreground"
-                  style={{
-                    fontSize: "clamp(2rem, 4vw, 3.5rem)",
-                    letterSpacing: "-0.04em",
-                    lineHeight: 0.95,
-                    fontWeight: 500,
-                  }}
-                >
-                  The system in use.
-                </h2>
-              </div>
-              <p className="max-w-md text-sm leading-relaxed text-muted-foreground md:col-span-5 md:justify-self-end">
-                Product surfaces, operational tooling, and reusable interface decisions that made
-                the build usable after launch.
-              </p>
-            </div>
+            <CaseMedia
+              label={visuals[1]?.caption ?? "Image"}
+              className="aspect-[636/700] w-full"
+            />
           </Reveal>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-8">
-            {applicationVisuals.map((s, i) => (
-              <VisualFigure
-                key={`${s.caption}-${i}`}
-                visual={s}
-                index={i + 5}
-                className={i === 2 ? "md:col-span-12" : "md:col-span-6"}
-              />
-            ))}
-          </div>
-        </section>
-      ) : null}
-
-      <section className="w-full bg-black text-white">
-        <div className="mx-auto max-w-[1440px] px-6 py-20 md:px-8 md:py-28">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:items-end">
-            <div className="md:col-span-7">
-              <p className="font-mono-label uppercase tracking-wider text-white/70">
-                04 — Results / What actually happened
-              </p>
-              <h2
-                className="font-display mt-6 text-white"
-                style={{
-                  fontSize: "clamp(2.5rem, 5.5vw, 5.75rem)",
-                  lineHeight: 0.92,
-                  letterSpacing: "-0.045em",
-                  fontWeight: 500,
-                }}
-              >
-                Proof it worked.
-              </h2>
-            </div>
-            <p className="max-w-md text-sm leading-relaxed text-white/70 md:col-span-5 md:justify-self-end">
-              Launch signals from the project: what shipped, what became usable, and what gave the
-              client a clearer product foundation.
-            </p>
-          </div>
-
-          <div className="mt-14 grid grid-cols-1 border border-white/20 md:grid-cols-3">
-            {c.results.map((r, index) => (
-              <div
-                key={r.label}
-                className={`min-h-[280px] p-6 md:p-8 ${
-                  index < c.results.length - 1
-                    ? "border-b border-white/20 md:border-b-0 md:border-r"
-                    : ""
-                }`}
-              >
-                <p className="font-mono-label uppercase tracking-wider text-white/50">
-                  Metric / {String(index + 1).padStart(2, "0")}
-                </p>
-                <p
-                  className="font-display mt-16 text-white md:mt-20"
-                  style={{
-                    fontSize: "clamp(3rem, 7vw, 5.5rem)",
-                    lineHeight: 0.9,
-                    letterSpacing: "-0.045em",
-                    fontWeight: 500,
-                  }}
-                >
-                  {r.value}
-                </p>
-                <div className="mt-8 h-px w-full bg-white/20" />
-                <p className="mt-5 text-base text-white/75">{r.label}</p>
-              </div>
-            ))}
-          </div>
+          <Reveal delay={60}>
+            <CaseMedia
+              label={visuals[2]?.caption ?? "Image"}
+              className="aspect-[636/700] w-full"
+            />
+          </Reveal>
         </div>
-      </section>
-
-      <section className="mx-auto max-w-[1440px] px-6 py-20 md:px-8 md:py-28">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
-          {closingVisuals.map((visual, i) => (
-            <VisualFigure key={visual.caption} visual={visual} index={visuals.length + i} />
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-[1440px] px-6 pb-24 md:px-8 md:pb-32">
         <Reveal>
-          <figure className="max-w-4xl">
-            <p className="eyebrow">05 — Client quote</p>
-            <blockquote
-              className="font-display mt-8 text-foreground"
-              style={{
-                fontSize: "clamp(1.75rem, 3.6vw, 3rem)",
-                lineHeight: 1.15,
-                letterSpacing: "-0.035em",
-                fontWeight: 500,
-              }}
-            >
-              <span className="text-accent">"</span>
-              {c.quote.text}
-              <span className="text-accent">"</span>
-            </blockquote>
-            <figcaption className="mt-8 flex items-center gap-4 border-t border-border pt-6">
-              <span className="h-10 w-10 rounded-full bg-foreground/10" aria-hidden />
-              <div>
-                <p className="text-sm text-foreground">{c.quote.name}</p>
-                <p className="text-sm text-muted-foreground">{c.quote.role}</p>
-              </div>
-            </figcaption>
-          </figure>
+          <CaseMedia
+            label={visuals[3]?.caption ?? "Image"}
+            className="aspect-[1296/700] w-full"
+          />
         </Reveal>
       </section>
 
-      <section className="mx-auto max-w-[1440px] px-6 pb-24 md:px-8 md:pb-32">
-        <Reveal>
-          <div className="rounded-[28px] border border-border bg-surface-alt p-8 md:rounded-[40px] md:p-14">
-            <div className="grid grid-cols-1 items-end gap-10 md:grid-cols-12 md:gap-10">
-              <div className="md:col-span-8">
-                <p className="eyebrow">06 — Related service</p>
-                <h3
-                  className="font-display mt-6 text-foreground"
-                  style={{
-                    fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
-                    letterSpacing: "-0.04em",
-                    lineHeight: 1,
-                    fontWeight: 500,
-                  }}
-                >
-                  {c.serviceCta}
-                </h3>
-              </div>
-              <div className="md:col-span-4 md:justify-self-end">
-                <Link
-                  to="/services/$slug"
-                  params={{ slug: c.serviceSlug }}
-                  className="group inline-flex items-center gap-4 rounded-full bg-foreground px-6 py-4 text-sm font-medium text-background transition-transform hover:-translate-y-px"
-                >
-                  See the service
-                  <svg
-                    className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                    viewBox="0 0 14 14"
-                    fill="none"
-                    aria-hidden
-                  >
-                    <path
-                      d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                    />
-                  </svg>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-      </section>
-
-      <section className="mx-auto max-w-[1440px] px-6 pb-24 md:px-8 md:pb-32">
-        <div className="mb-10 flex items-end justify-between md:mb-14">
-          <div>
-            <p className="eyebrow">07 — More work</p>
-            <h2
-              className="font-display mt-5 text-foreground"
-              style={{
-                fontSize: "clamp(2rem, 4vw, 3.5rem)",
-                letterSpacing: "-0.04em",
-                lineHeight: 0.95,
-                fontWeight: 500,
-              }}
-            >
-              Keep reading.
-            </h2>
-          </div>
-          <Link
-            to="/work"
-            className="group inline-flex items-center gap-2 rounded-full border border-foreground/15 px-5 py-3 text-sm text-foreground hover:border-foreground"
+      {/* 02 Build — 3626:16507 */}
+      <section className="mx-auto max-w-[1440px] px-6 py-16 md:px-20 md:py-20">
+        <Reveal className="max-w-[604px]">
+          <SectionEyebrow mark="02" label="Build" />
+          <h2
+            className="mt-8 font-display font-medium tracking-[-0.03em] text-[#1e1e1e]"
+            style={{ fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.1 }}
           >
-            All cases
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-6">
-          {related.map((r, i) => (
-            <Reveal key={r.slug} delay={i * 80}>
-              <Link to="/work/$slug" params={{ slug: r.slug }} className="group block">
-                <div className="relative aspect-[4/5] overflow-hidden rounded-[20px] bg-foreground md:rounded-[24px]">
-                  <ImagePlaceholder label="Image" />
-                  <span className="font-mono-label absolute left-5 top-5 rounded-full bg-background/90 px-3 py-1.5 text-foreground backdrop-blur">
-                    Case {r.n}
-                  </span>
-                </div>
-                <h3
-                  className="font-display mt-5 text-foreground"
-                  style={{
-                    fontSize: "clamp(1.25rem, 1.6vw, 1.5rem)",
-                    letterSpacing: "-0.03em",
-                    fontWeight: 500,
-                  }}
-                >
-                  <span className="text-muted-foreground">{r.client} —</span> {r.title}
-                </h3>
-              </Link>
+            How we built the right thing, and built it right
+          </h2>
+          <p className="mt-8 text-[16px] leading-[1.3] tracking-[-0.02em] text-[#6b6b6b]">
+            {c.built}
+          </p>
+        </Reveal>
+        <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
+          {detailCards.build.map((card, i) => (
+            <Reveal key={card.title} delay={i * 60}>
+              <DetailCard
+                index={i + 1}
+                title={card.title}
+                body={card.body}
+                className="h-full min-h-[18rem]"
+              />
             </Reveal>
           ))}
         </div>
       </section>
-    </main>
-  );
-}
 
-function NarrativeSection({
-  eyebrow,
-  title,
-  paragraph,
-  cards,
-}: {
-  eyebrow: string;
-  title: string;
-  paragraph: string;
-  cards: { title: string; body: string }[];
-}) {
-  return (
-    <Reveal>
-      <div className="border-t border-border pt-10 md:pt-14">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:items-start md:gap-12">
-          <div className="md:col-span-5">
-            <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-              {eyebrow}
-            </p>
-            <h2
-              className="font-display mt-4 text-foreground"
-              style={{
-                fontSize: "clamp(2rem, 4vw, 3.75rem)",
-                letterSpacing: "-0.04em",
-                lineHeight: 0.98,
-                fontWeight: 500,
-              }}
-            >
-              {title}
-            </h2>
-          </div>
+      {/* Media stack — 3626:16535 */}
+      <section className="mx-auto max-w-[1440px] space-y-6 px-6 md:space-y-[24px] md:px-[72px]">
+        <Reveal>
+          <CaseMedia
+            label={visuals[4]?.caption ?? "Image"}
+            className="aspect-[1296/700] w-full"
+          />
+        </Reveal>
+        <Reveal>
+          <CaseMedia
+            label={visuals[5]?.caption ?? "Image"}
+            className="aspect-[1296/700] w-full"
+          />
+        </Reveal>
+      </section>
 
-          <div className="md:col-span-6 md:col-start-7">
-            <p className="max-w-md text-sm leading-relaxed text-muted-foreground">{paragraph}</p>
-          </div>
-        </div>
-
-        <div className="mt-12 grid grid-cols-1 border border-border md:grid-cols-3">
-          {cards.map((card, index) => (
-            <div
-              key={card.title}
-              className={`min-h-[220px] p-6 md:p-7 ${
-                index < cards.length - 1 ? "border-b border-border md:border-b-0 md:border-r" : ""
-              }`}
-            >
-              <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                {String(index + 1).padStart(2, "0")}
+      {/* 04 Results — 3626:16540 */}
+      <section className="px-6 py-16 md:px-20 md:py-20">
+        <Reveal>
+          <div className="mx-auto flex max-w-[1280px] flex-col gap-16 rounded-none bg-[#1e1e1e] p-8 text-white md:gap-24 md:p-10">
+            <div className="max-w-[604px]">
+              <div className="flex items-center gap-4 font-mono text-[14px] uppercase leading-[1.1] tracking-[0.05em]">
+                <span>04</span>
+                <span>Results / What actually happened</span>
+              </div>
+              <h2
+                className="mt-8 font-display font-medium tracking-[-0.03em]"
+                style={{ fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.1 }}
+              >
+                Proof it worked.
+              </h2>
+              <p className="mt-8 text-[16px] leading-[1.3] tracking-[-0.02em] text-white/80">
+                {c.outcome}
               </p>
-              <h3 className="mt-10 text-lg font-medium text-foreground">{card.title}</h3>
-              <div className="my-5 h-px w-full bg-border" />
-              <p className="text-sm leading-relaxed text-muted-foreground">{card.body}</p>
             </div>
-          ))}
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-6">
+              {(c.results.length > 0
+                ? c.results
+                : [
+                    { value: c.metric, label: c.metricLabel },
+                    { value: c.year, label: "Delivery year" },
+                    { value: c.serviceSlug, label: "Engagement" },
+                  ]
+              )
+                .slice(0, 3)
+                .map((result, i) => (
+                  <div
+                    key={`${result.value}-${i}`}
+                    className="flex min-h-[16rem] flex-col justify-between rounded-[24px] bg-[#f5f5f5] p-10 text-[#1e1e1e] md:min-h-[26rem]"
+                  >
+                    <p
+                      className="font-display font-medium tracking-[-0.03em]"
+                      style={{
+                        fontSize: "clamp(2.75rem, 6vw, 6rem)",
+                        lineHeight: 1.1,
+                      }}
+                    >
+                      {result.value}
+                    </p>
+                    <p className="text-[16px] leading-[1.35] tracking-[-0.02em]">
+                      {result.label}
+                    </p>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* 06 Credits — 3626:16563 */}
+      <section className="mx-auto max-w-[1440px] px-6 py-14 md:px-[72px] md:py-14">
+        <div className="flex flex-col gap-12 lg:flex-row lg:gap-[12rem]">
+          <Reveal className="max-w-[547px] shrink-0">
+            <p className="text-[14px] font-medium leading-[1.28] tracking-[-0.02em] text-[#1e1e1e]">
+              06 CREDITS
+            </p>
+            <h2 className="mt-4 font-display text-[32px] font-extrabold leading-[1.1] tracking-[-0.03em] text-[#1e1e1e]">
+              Who made it happen?
+            </h2>
+          </Reveal>
+          <Reveal delay={60} className="space-y-5 text-[16px] leading-[1.35] tracking-[-0.02em] text-[#1e1e1e]">
+            {DEFAULT_CREDITS.map((credit) => (
+              <div key={credit.role}>
+                <p>{credit.role}</p>
+                <p className="font-medium">{credit.name}</p>
+              </div>
+            ))}
+            <div>
+              <p>Client partner</p>
+              <p className="font-medium">{c.quote.name}</p>
+            </div>
+          </Reveal>
         </div>
-      </div>
-    </Reveal>
+      </section>
+
+      {/* Closing image — 3626:16569 */}
+      <section className="mx-auto max-w-[1440px] px-6 md:px-[72px]">
+        <Reveal>
+          <CaseMedia
+            label={visuals[6]?.caption ?? visuals[visuals.length - 1]?.caption ?? "Image"}
+            className="aspect-[1296/700] w-full"
+          />
+        </Reveal>
+      </section>
+
+      {/* CTA — 3626:16571 */}
+      <section className="mx-auto max-w-[1440px] px-6 py-14 md:px-[72px] md:py-14">
+        <Reveal>
+          <div className="flex flex-col items-start justify-between gap-10 md:flex-row md:items-center">
+            <h2
+              className="max-w-[641px] font-display font-semibold tracking-[-0.03em] text-[#1e1e1e]"
+              style={{ fontSize: "clamp(2rem, 5vw, 4rem)", lineHeight: 1.1 }}
+            >
+              Building something similar? Let’s talk.
+            </h2>
+            <Link
+              to="/contact"
+              className="inline-flex shrink-0 items-center gap-2.5 rounded-full bg-[#c9ff6e] px-6 py-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-90"
+            >
+              Let’s talk
+              <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-[#1e1e1e]">
+                <img
+                  src="/hero/arrow-outward.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                  className="size-4"
+                />
+              </span>
+            </Link>
+          </div>
+        </Reveal>
+      </section>
+    </div>
   );
 }
 
-function VisualFigure({
-  visual,
-  index,
-  priority,
-  className = "",
-}: {
-  visual?: CaseStudy["screens"][number];
-  index: number;
-  priority?: "hero" | "wide";
-  className?: string;
-}) {
-  if (!visual) return null;
-
-  const frameClass =
-    priority === "hero"
-      ? "rounded-[24px] md:rounded-[36px]"
-      : priority === "wide"
-        ? "rounded-[20px] md:rounded-[28px]"
-        : "rounded-[16px] md:rounded-[24px]";
-
+function MetaCol({ label, value }: { label: string; value: string }) {
   return (
-    <Reveal className={className}>
-      <figure>
-        <div className={`relative ${visual.ratio} overflow-hidden bg-surface-alt ${frameClass}`}>
-          <ImagePlaceholder label="Image" />
-        </div>
-        <figcaption className="font-mono-label mt-3 text-muted-foreground">
-          Image {String(index + 1).padStart(2, "0")} — {visual.caption}
-        </figcaption>
-      </figure>
-    </Reveal>
+    <div>
+      <p className="font-mono text-[14px] font-medium leading-[1.35] tracking-[-0.02em] text-[#1e1e1e]">
+        {label}
+      </p>
+      <p className="mt-[22px] text-[16px] leading-[1.35] tracking-[-0.02em] text-[#1e1e1e]">
+        {value}
+      </p>
+    </div>
   );
 }

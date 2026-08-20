@@ -2,25 +2,23 @@
 
 import { Link } from "@/components/Link";
 import { useEffect, useRef, useState } from "react";
-import { ImagePlaceholder } from "@/components/site/ImagePlaceholder";
 import { Reveal } from "@/components/site/Reveal";
+import { SectionEyebrow } from "@/components/site/SectionEyebrow";
 import { WhoYouWorkWith } from "@/components/site/WhoYouWorkWith";
 
-const CAPABILITIES: Array<{ label: string; title: string; items: string[] }> = [
+const CAPABILITIES: Array<{ title: string; items: string[] }> = [
   {
-    label: "01",
     title: "Product & Strategy",
     items: [
       "Product discovery & scoping",
       "Technical due diligence",
       "Prototype-to-production roadmaps",
       "Architecture decisions",
-      "Fixed-scope sprint planning",
       "Founder-facing workshops",
+      "Fixed-scope sprint planning",
     ],
   },
   {
-    label: "02",
     title: "Design",
     items: [
       "Product & UX design",
@@ -32,7 +30,6 @@ const CAPABILITIES: Array<{ label: string; title: string; items: string[] }> = [
     ],
   },
   {
-    label: "03",
     title: "Engineering",
     items: [
       "Full-stack TypeScript (React, Next, TanStack)",
@@ -45,7 +42,6 @@ const CAPABILITIES: Array<{ label: string; title: string; items: string[] }> = [
     ],
   },
   {
-    label: "04",
     title: "Infrastructure & Ops",
     items: [
       "EU-first / sovereign cloud (Hetzner, Scaleway, OVH)",
@@ -58,56 +54,129 @@ const CAPABILITIES: Array<{ label: string; title: string; items: string[] }> = [
   },
 ];
 
-const TOOLS: Array<{ name: string; color: string; use: string; mono: string }> = [
-  { name: "React", color: "#61DAFB", mono: "R", use: "The default view layer." },
-  { name: "TanStack", color: "#FF4154", mono: "TS", use: "Router, Query, Table." },
-  { name: "Next.js", color: "#FFFFFF", mono: "N", use: "When we need App Router." },
-  { name: "TypeScript", color: "#3178C6", mono: "TS", use: "Non-negotiable, everywhere." },
-  { name: "Supabase", color: "#3ECF8E", mono: "S", use: "Auth, Postgres, storage, edge." },
-  { name: "Postgres", color: "#4479A1", mono: "PG", use: "Data lives here. RLS on." },
-  { name: "Cloudflare", color: "#F38020", mono: "CF", use: "Edge, Workers, R2, DNS." },
-  { name: "Stripe", color: "#635BFF", mono: "$", use: "Payments, subscriptions, tax." },
-  { name: "Figma", color: "#F24E1E", mono: "F", use: "Design, prototype, hand-off." },
-  { name: "Expo", color: "#4630EB", mono: "E", use: "iOS + Android from one codebase." },
-  { name: "Hetzner", color: "#D50C2D", mono: "H", use: "EU-first bare metal & cloud." },
-  { name: "OpenAI", color: "#10A37F", mono: "AI", use: "LLMs, embeddings, agents." },
+const TOOLS: Array<{ name: string; src: string }> = [
+  { name: "React", src: "/stack/react.svg" },
+  { name: "TanStack", src: "/stack/tanstack.svg" },
+  { name: "Next.js", src: "/stack/nextjs.svg" },
+  { name: "TypeScript", src: "/stack/typescript.svg" },
+  { name: "Supabase", src: "/stack/supabase.svg" },
+  { name: "Postgres", src: "/stack/postgres.svg" },
+  { name: "Cloudflare", src: "/stack/cloudflare.svg" },
+  { name: "Stripe", src: "/stack/stripe.svg" },
+  { name: "Figma", src: "/stack/figma.svg" },
+  { name: "Expo", src: "/stack/expo.svg" },
+  { name: "Hetzner", src: "/stack/hetzner.svg" },
+  { name: "OpenAI", src: "/stack/openai.svg" },
+  { name: "Tailwind", src: "/stack/tailwind.svg" },
+  { name: "Vercel", src: "/stack/vercel.svg" },
+  { name: "Node.js", src: "/stack/nodejs.svg" },
+  { name: "Docker", src: "/stack/docker.svg" },
+  { name: "GitHub", src: "/stack/github.svg" },
+  { name: "Framer", src: "/stack/framer.svg" },
+  { name: "Linear", src: "/stack/linear.svg" },
+  { name: "Notion", src: "/stack/notion.svg" },
 ];
 
 const TESTIMONIALS: Array<{
   quote: string;
   name: string;
   role: string;
-  marker: string;
+  /** Solid brand tint — applied translucent for glass. */
+  tint: string;
+  ink: string;
+  border: string;
+  column: "left" | "right";
 }> = [
   {
     quote:
       "We came to Kbell & Postman with a vibe-coded prototype and a deadline. Six weeks later we had a production app, EU-hosted, paying customers on it. They act like a co-founder, not a vendor.",
     name: "Marijn de Vries",
     role: "Founder — Halden (fintech, Amsterdam)",
-    marker: "§ Case coming soon",
+    tint: "#c9ff6e",
+    ink: "text-[#1e1e1e]",
+    border: "border-[#1e1e1e]/15",
+    column: "left",
   },
   {
     quote:
       "They turned a fuzzy product brief into something our team could actually test. The work felt senior from the first call: clear scope, calm decisions, and no theatre.",
     name: "Lotte Bakker",
     role: "Strategy Lead — Northern Studio",
-    marker: "§ Prototype sprint",
+    tint: "#ff1c77",
+    ink: "text-white",
+    border: "border-white/25",
+    column: "right",
   },
   {
     quote:
       "The biggest difference was momentum. We stopped debating abstractions and started reviewing a working product every week. That changed the whole client conversation.",
     name: "Samir El Idrissi",
     role: "Managing Partner — Atlas & Co.",
-    marker: "§ Product build",
+    tint: "#c7b0fe",
+    ink: "text-[#1e1e1e]",
+    border: "border-[#1e1e1e]/15",
+    column: "right",
+  },
+  {
+    quote:
+      "They understood that this wasn't a design refresh. It was an operational surgery.",
+    name: "Head of Accreditation",
+    role: "Academion",
+    tint: "#fe6337",
+    ink: "text-white",
+    border: "border-white/25",
+    column: "left",
+  },
+  {
+    quote:
+      "The platform made cultural research easier to explore, explain, and use in strategy work.",
+    name: "Strategy lead",
+    role: "Virtue Worldwide",
+    tint: "#006ff7",
+    ink: "text-white",
+    border: "border-white/25",
+    column: "right",
   },
 ];
+
+function TestimonialCard({
+  card,
+}: {
+  card: (typeof TESTIMONIALS)[number];
+}) {
+  return (
+    <figure
+      className={`flex min-h-[22rem] w-full max-w-[26rem] flex-col justify-between rounded-2xl p-8 shadow-[0_8px_32px_rgba(0,0,0,0.2)] backdrop-blur-xl backdrop-saturate-150 ${card.ink}`}
+      style={{
+        backgroundColor: `color-mix(in srgb, ${card.tint} 62%, transparent)`,
+      }}
+    >
+      <blockquote className="text-[20px] font-medium leading-[1.2] tracking-[-0.01em] md:text-[22px]">
+        “{card.quote}”
+      </blockquote>
+      <figcaption
+        className={`mt-10 flex items-center gap-5 border-t pt-4 ${card.border}`}
+      >
+        <span
+          className={`size-[52px] shrink-0 rounded-full ${
+            card.ink.includes("white") ? "bg-white/80" : "bg-[#1e1e1e]/80"
+          } backdrop-blur-sm`}
+          aria-hidden
+        />
+        <div className="min-w-0">
+          <p className="text-[18px] font-bold leading-7">{card.name}</p>
+          <p className="text-[16px] leading-6 opacity-90">{card.role}</p>
+        </div>
+      </figcaption>
+    </figure>
+  );
+}
 
 export function AboutPage() {
   const capabilitiesSectionRef = useRef<HTMLElement | null>(null);
   const capabilitiesViewportRef = useRef<HTMLDivElement | null>(null);
   const capabilitiesTrackRef = useRef<HTMLDivElement | null>(null);
   const [capabilityProgress, setCapabilityProgress] = useState(0);
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
 
   useEffect(() => {
     let frame = 0;
@@ -143,48 +212,51 @@ export function AboutPage() {
     };
   }, []);
 
-  useEffect(() => {
-    const timer = window.setInterval(() => {
-      setActiveTestimonial((current) => (current + 1) % TESTIMONIALS.length);
-    }, 5500);
-
-    return () => window.clearInterval(timer);
-  }, []);
-
   return (
-    <div className="dark min-h-screen bg-background text-foreground">
-      {/* Hero */}
-      <section className="mx-auto max-w-[1440px] px-6 pt-24 pb-28 md:px-10 md:pt-36 md:pb-36">
-        <Reveal>
-          <div className="flex items-center gap-3">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-            <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-              ABOUT US
-            </p>
-          </div>
-        </Reveal>
+    <div className="kbpm-hi-fi min-h-screen bg-white text-[#1e1e1e]">
+      {/* Hero — Figma 3626:10981; rewrite copy */}
+      <section className="bg-white px-6 pb-16 pt-8 md:px-10 md:pb-20 lg:px-20 lg:pb-[80px] lg:pt-10">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-10 md:gap-12 lg:gap-14">
+          <Reveal>
+            <Link
+              to="/"
+              className="inline-flex w-fit items-center gap-2.5 rounded-full border border-[#6b6b6b] py-3 pl-3 pr-6 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-70"
+            >
+              <img
+                src="/hero/arrow-outward-dark.svg"
+                alt=""
+                width={16}
+                height={16}
+                className="size-4 rotate-180"
+              />
+              Home
+            </Link>
+          </Reveal>
 
-        <div className="mt-10 grid grid-cols-1 gap-16 md:mt-14 md:grid-cols-12 md:gap-10">
-          <div className="md:col-span-8">
-            <Reveal>
-              <h1
-                className="font-display"
-                style={{
-                  fontSize: "clamp(2.75rem, 8.5vw, 8rem)",
-                  lineHeight: 0.92,
-                  letterSpacing: "-0.05em",
-                  fontWeight: 500,
-                }}
-              >
-                Senior-led.
-                <br />
-                <span className="text-accent">No account layer.</span>
-              </h1>
+          <div className="flex flex-col items-stretch justify-between gap-10 lg:flex-row lg:items-end lg:gap-16">
+            <Reveal className="min-w-0 flex-1">
+              <div className="flex max-w-[44rem] flex-col gap-6 md:gap-8">
+                <p className="font-mono text-[14px] uppercase leading-[16.5px] tracking-[0.05em] text-[#1e1e1e]">
+                  About us
+                </p>
+                <h1
+                  className="font-display text-[#1e1e1e]"
+                  style={{
+                    fontSize: "clamp(3rem, 8vw, 6rem)",
+                    lineHeight: 0.95,
+                    letterSpacing: "-0.03em",
+                    fontWeight: 500,
+                  }}
+                >
+                  Senior-led.
+                  <br />
+                  No account layer.
+                </h1>
+              </div>
             </Reveal>
-          </div>
-          <div className="flex items-end md:col-span-4">
-            <Reveal>
-              <p className="max-w-sm text-lg leading-relaxed text-muted-foreground">
+
+            <Reveal delay={80} className="w-full shrink-0 lg:w-[min(100%,22.5rem)]">
+              <p className="text-[17px] leading-[1.2] tracking-[-0.01em] text-[#6b6b6b] md:text-[18px]">
                 Kbell &amp; Postman is a small, senior studio in Amsterdam. We
                 take products from idea to production — strategy, design, and
                 code — for teams whose ideas have outgrown their in-house
@@ -192,232 +264,120 @@ export function AboutPage() {
               </p>
             </Reveal>
           </div>
-        </div>
 
-        <Reveal>
-          <div className="mt-20 grid grid-cols-2 gap-8 border-t border-border pt-10 md:mt-28 md:grid-cols-4 md:gap-10">
-            {[
-              ["30+", "Combined years in digital products"],
-              ["Senior", "Led on every engagement"],
-              ["EU", "Infra, when it matters"],
-              ["Direct", "No account layer, ever"],
-            ].map(([n, l]) => (
-              <div key={l}>
-                <p
-                  className="font-display text-foreground"
-                  style={{
-                    fontSize: "clamp(2rem, 3.5vw, 3rem)",
-                    lineHeight: 1,
-                    letterSpacing: "-0.03em",
-                    fontWeight: 500,
-                  }}
-                >
-                  {n}
-                </p>
-                <p className="mt-3 font-mono-label uppercase tracking-wider text-muted-foreground">
-                  {l}
-                </p>
-              </div>
-            ))}
-          </div>
-        </Reveal>
-      </section>
-
-      {/* Client quote — prominent, early */}
-      <section className="border-t border-border bg-surface-alt/40">
-        <div className="mx-auto max-w-[1440px] px-6 py-28 md:px-10 md:py-40">
-          <Reveal>
-            <div className="overflow-hidden py-4">
-              <div
-                className="flex transition-transform duration-700 ease-out"
-                style={{ transform: `translate3d(${-activeTestimonial * 100}%, 0, 0)` }}
-              >
-                {TESTIMONIALS.map((testimonial) => (
-                  <figure key={testimonial.name} className="w-full shrink-0 pr-2">
-                    <svg
-                      className="h-12 w-12 text-accent md:h-14 md:w-14"
-                      viewBox="0 0 40 40"
-                      fill="none"
-                      aria-hidden
-                    >
-                      <path
-                        d="M8 26c0-6 4-11 10-13v4c-3.5 1.5-6 4.5-6 8h6v10H8V26zm18 0c0-6 4-11 10-13v4c-3.5 1.5-6 4.5-6 8h6v10H26V26z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                    <blockquote
-                      className="font-display mt-12 max-w-5xl text-foreground"
-                      style={{
-                        fontSize: "clamp(2rem, 5vw, 4.25rem)",
-                        lineHeight: 1.05,
-                        letterSpacing: "-0.035em",
-                        fontWeight: 500,
-                      }}
-                    >
-                      "{testimonial.quote}"
-                    </blockquote>
-                    <figcaption className="mt-14 flex flex-col gap-1 border-t border-border pt-8 md:flex-row md:items-center md:justify-between">
-                      <div>
-                        <p className="text-base text-foreground md:text-lg">
-                          {testimonial.name}
-                        </p>
-                        <p className="text-sm text-muted-foreground md:text-base">
-                          {testimonial.role}
-                        </p>
-                      </div>
-                      <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                        {testimonial.marker}
-                      </p>
-                    </figcaption>
-                  </figure>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-8 flex flex-wrap items-center justify-between gap-5">
-              <div className="flex gap-2" aria-label="Testimonial slides">
-                {TESTIMONIALS.map((testimonial, index) => (
-                  <button
-                    key={testimonial.name}
-                    type="button"
-                    onClick={() => setActiveTestimonial(index)}
-                    className={`h-2.5 w-10 border border-border transition-colors ${
-                      activeTestimonial === index ? "bg-foreground" : "bg-background"
-                    }`}
-                    aria-label={`Show testimonial ${index + 1}`}
-                    aria-pressed={activeTestimonial === index}
-                  />
-                ))}
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() =>
-                    setActiveTestimonial((current) =>
-                      current === 0 ? TESTIMONIALS.length - 1 : current - 1,
-                    )
-                  }
-                  className="inline-flex h-10 w-10 items-center justify-center border border-border text-sm"
-                  aria-label="Previous testimonial"
-                >
-                  ←
-                </button>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setActiveTestimonial((current) => (current + 1) % TESTIMONIALS.length)
-                  }
-                  className="inline-flex h-10 w-10 items-center justify-center border border-border text-sm"
-                  aria-label="Next testimonial"
-                >
-                  →
-                </button>
-              </div>
+          <Reveal delay={120}>
+            <div className="grid grid-cols-2 gap-8 border-t border-[#1e1e1e]/20 pt-8 md:grid-cols-4 md:gap-10 md:pt-10">
+              {[
+                ["30+", "Combined years in digital products"],
+                ["Senior", "Led on every engagement"],
+                ["EU", "Infra, when it matters"],
+                ["Direct", "No account layer, ever"],
+              ].map(([n, l]) => (
+                <div key={l} className="flex flex-col gap-3">
+                  <p
+                    className="font-display text-[#1e1e1e]"
+                    style={{
+                      fontSize: "clamp(2rem, 3.5vw, 3rem)",
+                      lineHeight: 1.2,
+                      letterSpacing: "-0.03em",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {n}
+                  </p>
+                  <p className="font-mono text-[11px] uppercase leading-[16.5px] tracking-[0.05em] text-[#6b6b6b]">
+                    {l}
+                  </p>
+                </div>
+              ))}
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* Team / founders */}
-      <div className="border-t border-border">
-        <WhoYouWorkWith />
-      </div>
-
-      {/* One team, three disciplines */}
+      {/* Capabilities — Figma 3635:576; sticky scrub fits one viewport */}
       <section
         ref={capabilitiesSectionRef}
-        className="relative border-t border-border"
-        style={{ height: "360vh" }}
+        className="relative bg-[#f5f5f5]"
+        style={{ height: "320vh" }}
       >
-        <div className="sticky top-0 flex min-h-screen items-center overflow-hidden bg-background">
-          <div className="mx-auto w-full max-w-[1440px] px-6 py-20 md:px-10 md:py-24">
-            <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:items-end">
-              <div className="md:col-span-5">
-                <Reveal>
-                  <div className="flex items-center gap-3">
-                    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                    <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                      § Capabilities
-                    </p>
-                  </div>
+        {/* Stick high; header + cards + progress fill the viewport so nothing clips */}
+        <div className="sticky top-3 flex h-[calc(100dvh-0.75rem)] flex-col overflow-hidden md:top-4">
+          <div className="mx-auto flex h-full w-full max-w-[1440px] flex-col gap-5 px-6 py-3 md:gap-6 md:px-10 md:py-4 lg:gap-8 lg:px-20">
+            <div className="shrink-0">
+              <Reveal>
+                <div className="flex max-w-[36rem] flex-col gap-4 md:gap-5">
+                  <SectionEyebrow label="Collaborate" mark={2} />
                   <h2
-                    className="font-display mt-6"
+                    className="font-display text-[#1e1e1e]"
                     style={{
-                      fontSize: "clamp(2rem, 4.5vw, 4rem)",
-                      lineHeight: 0.98,
-                      letterSpacing: "-0.04em",
+                      fontSize: "clamp(2rem, 4vw, 3.5rem)",
+                      lineHeight: 1.15,
+                      letterSpacing: "-0.02em",
                       fontWeight: 500,
                     }}
                   >
                     What we actually do.
                   </h2>
-                </Reveal>
-              </div>
-              <div className="md:col-span-5 md:col-start-8">
-                <Reveal>
-                  <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">
-                    Four disciplines in one studio. Specialists join when the brief
-                    needs them. Keep scrolling here: the capability cards move
-                    sideways, then the page continues.
+                  <p className="max-w-xl text-[16px] leading-[1.25] tracking-[-0.02em] text-[#838383] md:text-[18px]">
+                    Four disciplines in one studio. Specialists join when the
+                    brief needs them. Keep scrolling here: the capability cards
+                    move sideways, then the page continues.
                   </p>
-                </Reveal>
-              </div>
+                </div>
+              </Reveal>
             </div>
 
             <div
               ref={capabilitiesViewportRef}
-              className="mt-12 overflow-hidden border-y border-border py-8 md:mt-16 md:py-10"
+              className="min-h-0 flex-1 overflow-hidden"
             >
               <div
                 ref={capabilitiesTrackRef}
-                className="flex w-max gap-5 transition-transform duration-75 ease-linear md:gap-8"
+                className="flex h-full w-max gap-6 md:gap-8"
+                style={{ willChange: "transform" }}
               >
                 {CAPABILITIES.map((c) => (
                   <article
                     key={c.title}
-                    className="flex min-h-[390px] w-[78vw] max-w-[520px] shrink-0 flex-col border border-border bg-background p-6 md:min-h-[430px] md:w-[42vw] md:p-8 lg:w-[34vw]"
+                    className="flex h-full w-[min(82vw,30rem)] shrink-0 flex-col rounded-[28px] border border-black/10 bg-[#1e1e1e] p-6 md:w-[30rem] md:p-8 lg:p-10"
                   >
-                    <div className="flex items-start justify-between gap-8 border-b border-border pb-6">
-                      <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                        § {c.label}
-                      </p>
-                      <span className="font-mono-label text-muted-foreground">Capability</span>
+                    <div className="flex h-full min-h-0 flex-col justify-between gap-6 md:gap-8">
+                      <h3
+                        className="shrink-0 font-display text-white"
+                        style={{
+                          fontSize: "clamp(1.5rem, 2.5vw, 2.25rem)",
+                          lineHeight: 1.1,
+                          letterSpacing: "-0.02em",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {c.title}
+                      </h3>
+                      <div className="flex min-h-0 flex-wrap content-start gap-2 overflow-y-auto">
+                        {c.items.map((item) => (
+                          <span
+                            key={item}
+                            className="inline-flex h-8 items-center bg-[#c9ff6e] px-5 text-[14px] leading-[21px] tracking-[-0.02em] text-black"
+                          >
+                            {item}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                    <h3
-                      className="font-display mt-8"
-                      style={{
-                        fontSize: "clamp(1.75rem, 3vw, 2.75rem)",
-                        letterSpacing: "-0.025em",
-                        lineHeight: 1,
-                        fontWeight: 500,
-                      }}
-                    >
-                      {c.title}
-                    </h3>
-                    <ul className="mt-auto space-y-3.5 pt-10">
-                      {c.items.map((item) => (
-                        <li
-                          key={item}
-                          className="flex gap-3 text-[15px] leading-relaxed text-muted-foreground"
-                        >
-                          <span className="mt-[10px] h-px w-3 shrink-0 bg-muted-foreground/60" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
                   </article>
                 ))}
               </div>
             </div>
 
-            <div className="mt-6 grid grid-cols-[1fr_auto] items-center gap-5">
-              <div className="h-px overflow-hidden bg-border">
+            <div className="grid shrink-0 grid-cols-[1fr_auto] items-center gap-5 pb-1">
+              <div className="h-px overflow-hidden bg-[#1e1e1e]/15">
                 <div
-                  className="h-full bg-foreground transition-[width] duration-100"
+                  className="h-full bg-[#1e1e1e] transition-[width] duration-100"
                   style={{ width: `${Math.round(capabilityProgress * 100)}%` }}
                 />
               </div>
-              <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
+              <p className="font-mono text-[12px] uppercase tracking-[0.05em] text-[#6b6b6b]">
                 {String(
                   Math.min(
                     Math.floor(capabilityProgress * CAPABILITIES.length) + 1,
@@ -431,85 +391,78 @@ export function AboutPage() {
         </div>
       </section>
 
-      {/* Tech stack — bottom */}
-      <section className="border-t border-border">
-        <div className="mx-auto max-w-[1440px] px-6 py-24 md:px-10 md:py-32">
-          <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:items-end">
-            <div className="md:col-span-6">
-              <Reveal>
-                <div className="flex items-center gap-3">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                    § Tools we reach for
-                  </p>
-                </div>
-                <h2
-                  className="font-display mt-6"
-                  style={{
-                    fontSize: "clamp(2rem, 4.5vw, 4rem)",
-                    lineHeight: 0.98,
-                    letterSpacing: "-0.04em",
-                    fontWeight: 500,
-                  }}
-                >
-                  The stack, in colour.
-                </h2>
-              </Reveal>
+      {/* Testimonials — Figma 3626:11146; title first, then cards scroll over */}
+      <section className="relative bg-[#1e1e1e]">
+        {/* Full-screen title pins first; cards arrive on further scroll */}
+        <div className="sticky top-0 z-0 flex h-dvh items-center justify-center px-6">
+          <h2
+            className="pointer-events-none max-w-[18ch] text-center font-display text-white md:max-w-none"
+            style={{
+              fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
+              lineHeight: 1.2,
+              letterSpacing: "-0.02em",
+              fontWeight: 500,
+            }}
+          >
+            Don’t take our words for it
+          </h2>
+        </div>
+
+        {/* After the title viewport, cards rise from below and flow over it */}
+        <div className="relative z-10 px-6 pb-[30vh] pt-8 md:px-10 md:pb-[40vh] md:pt-12 lg:px-20">
+          <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-16 md:grid-cols-2 md:gap-x-16 lg:gap-x-24">
+            <div className="flex flex-col items-center gap-[min(50vh,26rem)] md:items-start">
+              {TESTIMONIALS.filter((c) => c.column === "left").map((card) => (
+                <TestimonialCard key={`${card.name}-${card.tint}`} card={card} />
+              ))}
             </div>
-            <div className="md:col-span-6">
-              <Reveal>
-                <p className="max-w-md text-muted-foreground md:ml-auto">
-                  The ones we pick up most often. Opinionated, not religious —
-                  the stack follows the problem, not the other way around.
-                </p>
-              </Reveal>
+            <div className="flex flex-col items-center gap-[min(50vh,26rem)] md:items-end md:pt-[35vh]">
+              {TESTIMONIALS.filter((c) => c.column === "right").map((card) => (
+                <TestimonialCard key={`${card.name}-${card.tint}`} card={card} />
+              ))}
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-3 lg:grid-cols-4">
+      {/* Stack — Figma 3626:11186; product logos + names */}
+      <section className="bg-white px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
+        <div className="mx-auto max-w-[1440px]">
+          <Reveal>
+            <div className="flex flex-col gap-8">
+              <SectionEyebrow label="Toolings" mark={5} />
+              <h2
+                className="font-display text-[#1e1e1e]"
+                style={{
+                  fontSize: "clamp(2.5rem, 5vw, 4rem)",
+                  lineHeight: 1.2,
+                  letterSpacing: "-0.02em",
+                  fontWeight: 500,
+                }}
+              >
+                The stack, in colour.
+              </h2>
+            </div>
+          </Reveal>
+
+          <div className="mt-12 grid grid-cols-2 gap-2 sm:grid-cols-3 md:mt-16 md:grid-cols-4 lg:grid-cols-5 lg:gap-2">
             {TOOLS.map((t) => (
               <div
                 key={t.name}
-                className="group relative flex flex-col justify-between gap-8 bg-background p-6 transition-colors duration-300 hover:bg-[color:var(--tool-tint)] md:p-7"
-                style={
-                  {
-                    ["--tool-tint" as string]: "var(--wire-fill)",
-                  } as React.CSSProperties
-                }
+                className="relative flex min-h-[7.5rem] items-center justify-center border border-[#1e1e1e]/20 px-4 py-6 md:min-h-[7.75rem]"
               >
-                <div className="flex items-start justify-between gap-3">
-                  <div
-                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-[13px] font-semibold tracking-tight"
-                    style={{
-                      backgroundColor: "var(--wire-fill)",
-                      color: "var(--color-foreground)",
-                      border: "1px solid var(--color-border)",
-                    }}
-                    aria-hidden
-                  >
-                    {t.mono}
-                  </div>
-                  <span
-                    className="mt-1 h-2 w-2 rounded-full opacity-70 transition-opacity group-hover:opacity-100"
-                    style={{ backgroundColor: "var(--color-foreground)" }}
-                    aria-hidden
+                <div className="flex items-center gap-2.5">
+                  <img
+                    src={t.src}
+                    alt=""
+                    width={28}
+                    height={28}
+                    className="size-7 shrink-0 object-contain"
+                    decoding="async"
                   />
-                </div>
-                <div>
-                  <p
-                    className="font-display text-foreground"
-                    style={{
-                      fontSize: "clamp(1.125rem, 1.6vw, 1.375rem)",
-                      letterSpacing: "-0.02em",
-                      lineHeight: 1.1,
-                      fontWeight: 500,
-                    }}
-                  >
+                  <span className="text-[15px] font-medium tracking-[-0.02em] text-[#1e1e1e] md:text-[16px]">
                     {t.name}
-                  </p>
-                  <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">
-                    {t.use}
-                  </p>
+                  </span>
                 </div>
               </div>
             ))}
@@ -517,75 +470,47 @@ export function AboutPage() {
         </div>
       </section>
 
-      {/* Closing — Amsterdam */}
-      <section className="border-t border-border">
-        <div className="relative h-[90vh] w-full overflow-hidden">
-          <ImagePlaceholder label="Image" className="absolute inset-0" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-background/30" />
-          <div className="absolute inset-x-0 bottom-0 mx-auto max-w-[1440px] px-6 pb-12 md:px-10 md:pb-16">
-            <p className="font-mono-label uppercase tracking-wider text-foreground/80">
-              § The studio · Amsterdam
-            </p>
-            <p
-              className="font-display mt-4 max-w-2xl text-foreground"
-              style={{
-                fontSize: "clamp(1.5rem, 2.75vw, 2.25rem)",
-                lineHeight: 1.1,
-                letterSpacing: "-0.03em",
-                fontWeight: 500,
-              }}
-            >
-              Amsterdam. Seven years of shipping — and the team the brief needs.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* Founders — Figma 3626:11276 */}
+      <WhoYouWorkWith />
 
-      {/* CTA */}
-      <section className="border-t border-border">
-        <div className="mx-auto max-w-[1440px] px-6 py-24 md:px-10 md:py-32">
+      {/* Closing CTA — rewrite */}
+      <section className="border-t border-[#e8e8e8] bg-[#f5f5f5] px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
+        <div className="mx-auto max-w-[1440px]">
           <Reveal>
-            <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:items-end">
-              <div className="md:col-span-8">
-                <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                  § Next
-                </p>
+            <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-3xl">
+                <SectionEyebrow label="Next" mark={7} />
                 <h2
-                  className="font-display mt-6"
+                  className="mt-8 font-display text-[#1e1e1e]"
                   style={{
-                    fontSize: "clamp(2.25rem, 6vw, 5.5rem)",
-                    lineHeight: 0.98,
-                    letterSpacing: "-0.04em",
+                    fontSize: "clamp(2.25rem, 5vw, 4rem)",
+                    lineHeight: 1.1,
+                    letterSpacing: "-0.03em",
                     fontWeight: 500,
                   }}
                 >
-                  Not sure which capability you need?{" "}
-                  <span className="text-accent">Tell us the problem.</span>
+                  Not sure which capability you need? Tell us the problem.
                 </h2>
               </div>
-              <div className="flex flex-col gap-4 md:col-span-4">
+              <div className="flex flex-col gap-4">
                 <Link
                   to="/contact"
-                  className="group inline-flex items-center justify-between gap-4 rounded-full bg-accent px-6 py-4 text-sm font-medium text-accent-foreground transition-transform hover:-translate-y-px"
+                  className="inline-flex w-fit items-center gap-2.5 rounded-full bg-[#1e1e1e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
                 >
                   Start a project
-                  <svg
-                    className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                    viewBox="0 0 14 14"
-                    fill="none"
-                    aria-hidden
-                  >
-                    <path
-                      d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                      strokeLinecap="square"
+                  <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-white">
+                    <img
+                      src="/hero/arrow-outward-dark.svg"
+                      alt=""
+                      width={16}
+                      height={16}
+                      className="size-4"
                     />
-                  </svg>
+                  </span>
                 </Link>
                 <Link
                   to="/services"
-                  className="text-sm text-muted-foreground underline decoration-accent decoration-2 underline-offset-4 hover:text-foreground"
+                  className="font-mono text-[13px] uppercase tracking-[0.05em] text-[#6b6b6b] underline decoration-[#c9ff6e] decoration-2 underline-offset-4 transition-colors hover:text-[#1e1e1e]"
                 >
                   Or explore all services →
                 </Link>

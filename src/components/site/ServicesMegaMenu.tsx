@@ -66,7 +66,7 @@ export function ServicesMegaMenu({
           aria-hidden
         />
         <div
-          className={`kbpm-hi-fi mx-auto w-full max-w-[1152px] overflow-hidden rounded-2xl border-t-2 border-[#006ff7] bg-white shadow-[0_24px_60px_-20px_rgba(0,0,0,0.18)] transition-all duration-200 ${
+          className={`kbpm-hi-fi mx-auto w-full max-w-[1152px] overflow-hidden rounded-2xl bg-white shadow-[0_24px_60px_-20px_rgba(0,0,0,0.18)] transition-all duration-200 ${
             open
               ? "translate-y-0 opacity-100"
               : "pointer-events-none -translate-y-1 opacity-0"
@@ -113,20 +113,6 @@ export function ServicesMegaMenu({
                   </div>
                 </Link>
               ))}
-              <Link
-                to="/services"
-                onClick={onCloseNow}
-                className="mt-2 inline-flex w-fit items-center gap-2 font-mono text-[12px] uppercase tracking-[0.06em] text-[#006ff7] transition-opacity hover:opacity-70"
-              >
-                All services
-                <img
-                  src="/hero/arrow-outward-blue.svg"
-                  alt=""
-                  width={16}
-                  height={16}
-                  className="size-4"
-                />
-              </Link>
             </div>
 
             <div className="flex flex-col gap-6 bg-[#f5f5f5] px-6 py-8 sm:px-10 lg:col-span-5 lg:px-12 xl:pr-16">

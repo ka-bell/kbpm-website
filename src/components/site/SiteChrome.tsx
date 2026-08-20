@@ -10,11 +10,10 @@ const SERVICE_GROUP_RE = /^\/services\/(validate|build|evolve|support)\/?$/;
 export function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const aboutDark = pathname.startsWith("/about");
   const serviceGroupDark = SERVICE_GROUP_RE.test(pathname);
-  const startsOverDark = isHome || aboutDark || serviceGroupDark;
+  const startsOverDark = isHome || serviceGroupDark;
 
-  /** White ink over dark surfaces (home hero / about / service groups); black elsewhere. */
+  /** White ink over dark surfaces (home hero / service groups); black elsewhere. */
   const [overDark, setOverDark] = useState(startsOverDark);
   /** Hide on scroll-down; ease back in on scroll-up. */
   const [navHidden, setNavHidden] = useState(false);
@@ -29,7 +28,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       if (isHome || serviceGroupDark) {
         setOverDark(y < window.innerHeight * 0.55);
       } else {
-        setOverDark(aboutDark);
+        setOverDark(false);
       }
 
       const delta = y - lastY;
@@ -58,9 +57,12 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, [isHome, aboutDark, serviceGroupDark, pathname]);
+  }, [isHome, serviceGroupDark, pathname]);
 
   const variant = overDark ? "white" : "black";
+
+  const lightFooter =
+    pathname.startsWith("/about") || pathname.startsWith("/work");
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
@@ -85,7 +87,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       </div>
 
       <main className="flex-1">{children}</main>
-      <SiteFooter />
+      <SiteFooter variant={lightFooter ? "light" : "dark"} />
     </div>
   );
 }

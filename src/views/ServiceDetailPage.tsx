@@ -1,21 +1,19 @@
 "use client";
 
 import { Link } from "@/components/Link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Reveal } from "@/components/site/Reveal";
 import { SectionEyebrow } from "@/components/site/SectionEyebrow";
-import { getCase } from "@/components/site/cases-data";
+import {
+  MoreWork,
+  workCardsFromSlugs,
+} from "@/components/site/MoreWork";
 import type { ServiceGroup } from "@/components/site/service-offerings";
 import { getServicePanelCopy } from "@/components/site/service-lists";
 import { getServiceDetailByPlainName } from "@/components/site/service-details";
 
-const CASE_IMAGES: Record<string, string> = {
-  "mix-interiors": "/work/card-mix.jpg",
-  "virtue-worldwide": "/work/card-virtue.jpg",
-  hopplay: "/work/card-hopplay.jpg",
-  spilnews: "/work/spilnews-featured.jpg",
-  academion: "/services/support-graphic.png",
-};
+/** Viewport-heights of scroll track per offer (sticky scrub). */
+const OFFER_SCROLL_VH = 0.72;
 
 function pad(n: number) {
   return String(n).padStart(2, "0");
@@ -29,15 +27,71 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
   const [activeCapability, setActiveCapability] = useState(
     service.capabilities[0],
   );
+  const offerTrackRef = useRef<HTMLDivElement>(null);
+  const ignoreScrollSync = useRef(false);
 
   useEffect(() => {
     setActiveCapability(service.capabilities[0]);
   }, [service.slug, service.capabilities]);
 
-  const relatedCases = service.cases
-    .map((slug) => getCase(slug))
-    .filter((c): c is NonNullable<typeof c> => Boolean(c))
-    .slice(0, 2);
+  const syncOfferFromScroll = useCallback(() => {
+    if (ignoreScrollSync.current) return;
+    const track = offerTrackRef.current;
+    const caps = service.capabilities;
+    if (!track || caps.length < 2) return;
+
+    const rect = track.getBoundingClientRect();
+    const scrollable = track.offsetHeight - window.innerHeight;
+    if (scrollable <= 0) return;
+
+    // 0 when track top hits viewport top; 1 when track bottom hits viewport bottom
+    const raw = -rect.top / scrollable;
+    const progress = Math.min(1, Math.max(0, raw));
+    const index = Math.min(
+      caps.length - 1,
+      Math.floor(progress * caps.length),
+    );
+    const next = caps[index];
+    setActiveCapability((current) => (current === next ? current : next));
+  }, [service.capabilities]);
+
+  useEffect(() => {
+    syncOfferFromScroll();
+    window.addEventListener("scroll", syncOfferFromScroll, { passive: true });
+    window.addEventListener("resize", syncOfferFromScroll);
+    return () => {
+      window.removeEventListener("scroll", syncOfferFromScroll);
+      window.removeEventListener("resize", syncOfferFromScroll);
+    };
+  }, [syncOfferFromScroll, service.slug]);
+
+  const selectCapability = (cap: string) => {
+    const caps = service.capabilities;
+    const track = offerTrackRef.current;
+    const index = caps.indexOf(cap);
+    if (index < 0) return;
+
+    setActiveCapability(cap);
+
+    if (!track || caps.length < 2) return;
+
+    const scrollable = track.offsetHeight - window.innerHeight;
+    if (scrollable <= 0) return;
+
+    // Center of each segment so scroll lands clearly on that pill
+    const progress = (index + 0.5) / caps.length;
+    const trackTop = track.getBoundingClientRect().top + window.scrollY;
+    const target = trackTop + progress * scrollable;
+
+    ignoreScrollSync.current = true;
+    window.scrollTo({ top: target, behavior: "smooth" });
+    window.setTimeout(() => {
+      ignoreScrollSync.current = false;
+      syncOfferFromScroll();
+    }, 700);
+  };
+
+  const featuredCards = workCardsFromSlugs(service.cases);
 
   const activeIndex = Math.max(
     0,
@@ -46,6 +100,10 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
   const activeOffer = getServiceDetailByPlainName(activeCapability);
   const offerImage = `/services/${service.slug}-graphic.png`;
   const total = service.capabilities.length;
+  const offerTrackStyle =
+    total > 1
+      ? { height: `${Math.max(total, 2) * OFFER_SCROLL_VH * 100}vh` }
+      : undefined;
 
   return (
     <>
@@ -143,9 +201,9 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
         </div>
       </section>
 
-      {/* What we offer — Figma 3626:5169 */}
-      <section className="kbpm-hi-fi bg-[#f5f5f5] px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-12 lg:gap-16">
+      {/* What we offer — Figma 3626:5169 (scroll-scrubbed pills) */}
+      <section className="kbpm-hi-fi bg-[#f5f5f5] px-6 pt-16 md:px-10 md:pt-20 lg:px-20 lg:pt-[80px]">
+        <div className="mx-auto max-w-[1440px]">
           <Reveal>
             <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
               <div className="flex max-w-[45rem] flex-col gap-8">
@@ -168,10 +226,15 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
             </div>
           </Reveal>
 
-          <div className="flex flex-col gap-10">
-            <Reveal delay={40}>
+          <div
+            ref={offerTrackRef}
+            className="relative mt-12 lg:mt-16"
+            style={offerTrackStyle}
+          >
+            {/* Stick high; pills + card fill the viewport so nothing clips */}
+            <div className="sticky top-3 flex h-[calc(100dvh-0.75rem)] flex-col gap-5 md:top-4 md:gap-6 lg:gap-8">
               <div
-                className="flex flex-wrap gap-2"
+                className="flex shrink-0 flex-wrap gap-2"
                 role="tablist"
                 aria-label={`${service.name} services`}
               >
@@ -183,7 +246,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                       type="button"
                       role="tab"
                       aria-selected={active}
-                      onClick={() => setActiveCapability(cap)}
+                      onClick={() => selectCapability(cap)}
                       className={`inline-flex items-center gap-2.5 rounded-full px-6 py-3 font-mono uppercase leading-[1.35] transition-colors ${
                         active
                           ? "bg-[#1e1e1e] text-white"
@@ -200,19 +263,17 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                   );
                 })}
               </div>
-            </Reveal>
 
-            <Reveal delay={80}>
-              <div className="flex min-h-[28rem] flex-col overflow-hidden rounded-[27px] lg:min-h-[37.5rem] lg:flex-row">
-                <div className="flex flex-1 flex-col justify-between gap-10 bg-white p-8 md:p-12 lg:p-14">
-                  <div className="flex flex-col gap-8">
+              <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[27px] lg:flex-row">
+                <div className="flex min-h-0 flex-1 flex-col justify-between gap-6 overflow-y-auto bg-white p-6 sm:gap-8 sm:p-8 md:p-10 lg:p-12">
+                  <div className="flex flex-col gap-5 sm:gap-6 lg:gap-8">
                     <p className="font-mono text-[14px] uppercase tracking-[0.05em] text-[#1e1e1e]">
                       Selected / {pad(activeIndex + 1)} of {pad(total)}
                     </p>
                     <h3
                       className="font-display text-[#1e1e1e]"
                       style={{
-                        fontSize: "clamp(1.75rem, 3.5vw, 3rem)",
+                        fontSize: "clamp(1.5rem, 3vw, 2.75rem)",
                         lineHeight: 1.15,
                         letterSpacing: "-0.02em",
                         fontWeight: 500,
@@ -220,7 +281,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                     >
                       {activeCapability}
                     </h3>
-                    <p className="max-w-md text-[16px] leading-[1.3] tracking-[-0.01em] text-[#6b6b6b]">
+                    <p className="max-w-md text-[15px] leading-[1.3] tracking-[-0.01em] text-[#6b6b6b] sm:text-[16px]">
                       {getServicePanelCopy(activeCapability, service.name)}
                     </p>
                   </div>
@@ -229,7 +290,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                     <Link
                       to="/services/offer/$slug"
                       params={{ slug: activeOffer.slug }}
-                      className="inline-flex w-fit items-center gap-2.5 rounded-full bg-[#1e1e1e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
+                      className="inline-flex w-fit shrink-0 items-center gap-2.5 rounded-full bg-[#1e1e1e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
                     >
                       View {activeOffer.name}
                       <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-white">
@@ -245,7 +306,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                   ) : (
                     <Link
                       to="/contact"
-                      className="inline-flex w-fit items-center gap-2.5 rounded-full bg-[#1e1e1e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
+                      className="inline-flex w-fit shrink-0 items-center gap-2.5 rounded-full bg-[#1e1e1e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
                     >
                       Start a project
                       <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-white">
@@ -261,7 +322,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                   )}
                 </div>
 
-                <div className="relative min-h-[16rem] flex-1 lg:min-h-0">
+                <div className="relative min-h-0 flex-[0.9] lg:flex-1">
                   <img
                     key={activeCapability}
                     src={offerImage}
@@ -273,114 +334,23 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                   />
                 </div>
               </div>
-            </Reveal>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Featured engagement — Figma 3626:5219 */}
-      {relatedCases.length > 0 ? (
-        <section className="kbpm-hi-fi bg-white px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
-          <div className="mx-auto flex max-w-[1440px] flex-col gap-8 md:gap-10">
-            <Reveal>
-              <SectionEyebrow label="Featured engagement" mark={3} />
-            </Reveal>
-
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-[21px]">
-              {relatedCases.map((caseStudy, i) => {
-                if (!caseStudy) return null;
-                const industry =
-                  caseStudy.industry.split("/")[0]?.trim() ??
-                  caseStudy.industry;
-                const image =
-                  CASE_IMAGES[caseStudy.slug] ?? offerImage;
-                const kindTone = i % 2 === 0 ? "lime" : "blue";
-                const kindClass =
-                  kindTone === "blue"
-                    ? "bg-[#006ff7] text-white"
-                    : "bg-[#c9ff6e] text-[#1e1e1e]";
-
-                return (
-                  <Reveal key={caseStudy.slug} delay={i * 70}>
-                    <Link
-                      to="/work/$slug"
-                      params={{ slug: caseStudy.slug }}
-                      className="group flex h-full flex-col gap-5"
-                    >
-                      <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] sm:h-[540px] sm:aspect-auto">
-                        <img
-                          src={image}
-                          alt=""
-                          width={800}
-                          height={1000}
-                          decoding="async"
-                          className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                        />
-                        <div className="absolute left-5 top-5 flex flex-wrap gap-2">
-                          <span className="bg-white/20 px-2.5 py-1 font-mono text-[10px] uppercase text-white backdrop-blur-[25px]">
-                            {caseStudy.displayTags[0] ?? caseStudy.tags[0]}
-                          </span>
-                          <span className="bg-white/20 px-2.5 py-1 font-mono text-[10px] uppercase text-white backdrop-blur-[25px]">
-                            {industry}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="flex flex-1 flex-col gap-6">
-                        <div className="flex flex-col gap-3.5">
-                          <div className="flex items-center gap-3.5">
-                            <span
-                              className={`inline-flex w-fit items-center px-2 py-2 font-mono text-[10px] uppercase leading-[1.1] ${kindClass}`}
-                            >
-                              Case study
-                            </span>
-                            <span className="text-[14px] tracking-[-0.05em] text-[#6b6b6b]">
-                              {caseStudy.metric} · {caseStudy.metricLabel}
-                            </span>
-                          </div>
-                          <h3
-                            className="font-display text-[#1e1e1e]"
-                            style={{
-                              fontSize: "clamp(1.25rem, 2vw, 1.5rem)",
-                              lineHeight: 1.1,
-                              letterSpacing: "-0.03em",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {caseStudy.client}
-                          </h3>
-                        </div>
-
-                        <p className="text-[16px] leading-[1.3] tracking-[-0.02em] text-[#6b6b6b]">
-                          {caseStudy.outcome}
-                        </p>
-
-                        <div className="mt-auto flex flex-col gap-3.5">
-                          <div className="h-px w-full bg-[#d9d9d9]" />
-                          <div className="flex items-center justify-between gap-4">
-                            <span className="text-[12px] tracking-[-0.01em] text-[#6b6b6b]">
-                              {caseStudy.year}
-                            </span>
-                            <span className="inline-flex items-center gap-1 font-mono text-[12px] uppercase tracking-[0.6px] text-[#6b6b6b] transition-opacity group-hover:opacity-70">
-                              Read more
-                              <img
-                                src="/hero/arrow-outward-dark.svg"
-                                alt=""
-                                width={20}
-                                height={20}
-                                className="size-5 opacity-60"
-                              />
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </Reveal>
-                );
-              })}
-            </div>
-          </div>
-        </section>
+      {/* Featured engagement — same MoreWork as homepage; 2-up = Figma 3626:5219 */}
+      {featuredCards.length > 0 ? (
+        <MoreWork
+          eyebrow="Featured engagement"
+          eyebrowMark={3}
+          title={null}
+          showAllLink={false}
+          cards={featuredCards}
+          bg="bg-white"
+          metaMode="metric"
+          ctaLabel="Read more"
+        />
       ) : null}
 
       {/* Related sales pages — build / support only */}

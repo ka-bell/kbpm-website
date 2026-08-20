@@ -233,6 +233,17 @@
   overflow: visible;
 }
 
+.footer-cradle--mixed {
+  overflow: hidden;
+  contain: paint;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.footer-cradle--cradle {
+  pointer-events: none;
+}
+
 .footer-cradle__bob {
   pointer-events: none;
 }
