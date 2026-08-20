@@ -88,7 +88,7 @@ export const servicePanelCopy: Record<string, string> = {
   "Product Roadmap":
     "Have direction but no plan? We'll sequence what gets built, and when.",
   "Innovation Sprint":
-    "Tell us about this need and we'll map scope, timing, and the first useful next step.",
+    "Stuck between options? A short sprint to explore the idea space and lock a direction worth building.",
 
   "Prototype Build":
     "Need to prove it works before committing to a full build? We'll build a fully functional prototype, fast.",

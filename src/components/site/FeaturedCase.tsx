@@ -1,91 +1,99 @@
 import { Link } from "@/components/Link";
-import { ImagePlaceholder } from "./ImagePlaceholder";
 import { Reveal } from "./Reveal";
+import { SectionEyebrow } from "./SectionEyebrow";
+import { getCase } from "./cases-data";
 
+/**
+ * Full-bleed featured portfolio item — Figma 3626:4468.
+ * Wireframe copy stays leading; tags from case data.
+ */
 export function FeaturedCase() {
+  const c = getCase("spilnews");
+  const serviceTag = c?.serviceSlug ? c.serviceSlug : "build";
+  const industryTag = c?.industry?.split("/")[0]?.trim() ?? "Media";
+  const overlayTitle =
+    "A video-native news platform Gen Z actually owns.";
+
   return (
-    <section className="mx-auto max-w-[1440px] px-6 pt-20 pb-20 md:px-8 md:pt-24 md:pb-28">
-      <Reveal>
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-6 md:mb-12">
-          <div>
-            <p className="eyebrow">§ 02 / Featured case — 2025</p>
-            <h2
-              className="font-display mt-5 text-foreground"
-              style={{
-                fontSize: "clamp(2.5rem, 5vw, 5rem)",
-                lineHeight: 0.95,
-                letterSpacing: "-0.04em",
-                fontWeight: 500,
-              }}
-            >
-              SpilNews.
-            </h2>
-          </div>
-          <Link
-            to="/work"
-            className="group inline-flex items-center gap-2 rounded-full border border-foreground/15 px-5 py-3 text-sm text-foreground transition-colors hover:border-foreground"
-          >
-            See the full case
-            <svg className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 14 14" fill="none" aria-hidden>
-              <path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" />
-            </svg>
-          </Link>
-        </div>
-      </Reveal>
-
-      {/* Big image card */}
-      <Reveal delay={100}>
-        <div className="relative overflow-hidden rounded-[28px] bg-surface-alt md:rounded-[40px]">
-          <div className="relative aspect-[16/10] w-full">
-            <ImagePlaceholder label="Image" />
-            <div className="pointer-events-none absolute inset-0 flex flex-col justify-between p-6 md:p-10">
-              <div className="flex items-start justify-between">
-                <span className="font-mono-label rounded-full bg-background/90 px-3 py-1.5 text-foreground backdrop-blur">
-                  Case 02 / SpilNews
-                </span>
-                <span className="font-mono-label hidden rounded-full bg-background/90 px-3 py-1.5 text-foreground backdrop-blur md:inline-block">
-                  Product build · 2025
-                </span>
-              </div>
-              <div>
-                <h3
-                  className="font-display max-w-3xl text-background"
-                  style={{
-                    fontSize: "clamp(1.75rem, 4vw, 3.75rem)",
-                    lineHeight: 1,
-                    letterSpacing: "-0.035em",
-                    fontWeight: 500,
-                  }}
-                >
-                  A video-native news platform Gen Z actually owns.
-                </h3>
-              </div>
+    <section className="kbpm-hi-fi bg-white px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-10 md:gap-12">
+        <Reveal>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div className="flex flex-col gap-5">
+              <SectionEyebrow
+                label={`Featured case — ${c?.year ?? "2025"}`}
+                mark={6}
+              />
+              <h2
+                className="font-display text-[#1e1e1e]"
+                style={{
+                  fontSize: "clamp(2.5rem, 5vw, 4rem)",
+                  lineHeight: 1.07,
+                  letterSpacing: "-0.02em",
+                  fontWeight: 500,
+                }}
+              >
+                {c?.client ?? "SpilNews"}.
+              </h2>
             </div>
-          </div>
-        </div>
-      </Reveal>
 
-      {/* Case meta strip */}
-      <Reveal delay={160}>
-        <div className="mt-8 grid grid-cols-2 gap-6 border-t border-border pt-8 md:mt-10 md:grid-cols-4 md:gap-10">
-          <div>
-            <p className="eyebrow">Client</p>
-            <p className="mt-2 text-base text-foreground">SpilNews</p>
+            <Link
+              to="/work/$slug"
+              params={{ slug: c?.slug ?? "spilnews" }}
+              className="inline-flex h-[55px] items-center justify-center rounded-full border border-[#d9d9d9] px-6 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-70"
+            >
+              See the full case
+            </Link>
           </div>
-          <div>
-            <p className="eyebrow">Load time</p>
-            <p className="mt-2 text-base text-foreground">&lt; 1.5s on 3G</p>
-          </div>
-          <div>
-            <p className="eyebrow">Audience</p>
-            <p className="mt-2 text-base text-foreground">15–25 yrs</p>
-          </div>
-          <div>
-            <p className="eyebrow">Stack</p>
-            <p className="mt-2 text-base text-foreground">Next.js · Headless CMS · EU infra</p>
-          </div>
-        </div>
-      </Reveal>
+        </Reveal>
+
+        <Reveal delay={80}>
+          <Link
+            to="/work/$slug"
+            params={{ slug: c?.slug ?? "spilnews" }}
+            className="group relative flex min-h-[28rem] w-full flex-col justify-end overflow-hidden rounded-2xl p-8 sm:min-h-[36rem] sm:p-12 lg:min-h-[48rem] lg:p-16"
+          >
+            <img
+              src="/work/spilnews-featured.jpg"
+              alt={
+                c
+                  ? `${c.client} — ${c.title}`
+                  : "SpilNews product on laptop"
+              }
+              width={2400}
+              height={1800}
+              decoding="async"
+              className="absolute inset-0 size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+            />
+            <div
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-black/50 to-transparent mix-blend-multiply"
+              aria-hidden
+            />
+
+            <div className="relative z-[1] flex max-w-4xl flex-col gap-4">
+              <div className="flex flex-wrap gap-2.5">
+                <span className="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 font-mono text-[14px] uppercase tracking-[0.7px] text-white backdrop-blur-[2px]">
+                  {serviceTag}
+                </span>
+                <span className="inline-flex items-center rounded-full bg-[#c9ff6e] px-4 py-2 font-mono text-[14px] uppercase tracking-[0.7px] text-[#1e1e1e]">
+                  {industryTag}
+                </span>
+              </div>
+              <p
+                className="font-display max-w-[22ch] text-white sm:max-w-none"
+                style={{
+                  fontSize: "clamp(1.75rem, 3.5vw, 3rem)",
+                  lineHeight: 1.1,
+                  letterSpacing: "-0.03em",
+                  fontWeight: 600,
+                }}
+              >
+                {overlayTitle}
+              </p>
+            </div>
+          </Link>
+        </Reveal>
+      </div>
     </section>
   );
 }

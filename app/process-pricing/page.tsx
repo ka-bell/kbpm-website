@@ -4,10 +4,10 @@ import { ProcessPricingPage } from "@/views/ProcessPricingPage";
 export const metadata: Metadata = {
   title: "Process & Pricing",
   description:
-    "How we work and what it costs. Three packages — Draft™, Make™, Keep™ — with transparent ranges and no scope creep.",
+    "How we work and what it costs. Validate, Build, and Evolve — with transparent ranges and no scope creep.",
   openGraph: {
     title: "Process & Pricing — kbell + postman",
-    description: "Three packages, one flat fee each, transparent process.",
+    description: "Validate, Build, Evolve — transparent process and ranges.",
     url: "/process-pricing",
     type: "website",
   },

@@ -228,6 +228,19 @@
   .kbpm-reveal { opacity: 1; transform: none; transition: none; }
 }
 
+/* Footer Newton's cradle — absolute behind copy; height from inset */
+.footer-cradle {
+  overflow: visible;
+}
+
+.footer-cradle__bob {
+  pointer-events: none;
+}
+
+.footer-cradle__bob img {
+  display: block;
+}
+
 .wire-image {
   position: relative;
   overflow: hidden;

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Reveal } from "./Reveal";
+import { SectionEyebrow } from "./SectionEyebrow";
 
 const LOGOS = [
   { name: "Virtue", src: "/clients/virtue.png", scale: 1 },
@@ -11,15 +12,6 @@ const LOGOS = [
 ] as const;
 
 const MARQUEE_SECONDS = 45;
-
-function PlusMark() {
-  return (
-    <span className="relative inline-block size-8 shrink-0" aria-hidden>
-      <span className="absolute left-[11px] top-0 h-8 w-2.5 bg-[#006ff7]" />
-      <span className="absolute left-0 top-[11px] h-2.5 w-8 bg-[#006ff7]" />
-    </span>
-  );
-}
 
 export function TrustedBy() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -120,12 +112,7 @@ export function TrustedBy() {
       <div className="mx-auto flex max-w-[1440px] flex-col gap-10 px-6 md:gap-12 md:px-10 lg:px-20">
         <Reveal>
           <div className="flex flex-col gap-8">
-            <div className="flex items-center gap-4">
-              <PlusMark />
-              <p className="font-mono text-[14px] uppercase leading-[1.1] tracking-[0.7px] text-[#1e1e1e]">
-                Our clients
-              </p>
-            </div>
+            <SectionEyebrow label="Our clients" mark={1} />
 
             <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
               <h2
@@ -160,8 +147,10 @@ export function TrustedBy() {
           <div
             ref={fillRef}
             className="absolute left-0 top-1/2 h-px w-[8%] -translate-y-1/2 bg-[#1e1e1e]"
-          />
-          <div className="absolute right-0 top-1/2 size-3 -translate-y-1/2 rounded-full bg-[#1e1e1e]" />
+          >
+            {/* Thumb rides the moving fill end — not the track end */}
+            <div className="absolute right-0 top-1/2 size-3 -translate-y-1/2 translate-x-1/2 rounded-full bg-[#1e1e1e]" />
+          </div>
         </div>
 
         <div className="clients-logo-viewport">

@@ -88,7 +88,7 @@ export function ProcessPricingPage() {
                 Core paths
               </p>
               <p className="hidden text-sm text-muted-foreground md:block">
-                Prove → build → grow
+                Validate → Build → Evolve
               </p>
             </div>
             <div className="grid grid-cols-1 overflow-hidden border border-border md:grid-cols-3">

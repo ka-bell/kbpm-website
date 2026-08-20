@@ -1,38 +1,94 @@
-const metrics = [
-  { value: "7", label: "Years as a company" },
-  { value: "500K+", label: "Daily users on our biggest platform" },
-  { value: "31", label: "Platforms we still maintain today" },
-];
+"use client";
 
+import { Reveal } from "./Reveal";
+
+const CARD_STYLES = [
+  {
+    card: "bg-[#c7b0fe]",
+    ink: "text-white",
+    rule: "border-white/20",
+  },
+  {
+    card: "bg-[#1e1e1e]",
+    ink: "text-white",
+    rule: "border-white/20",
+  },
+  {
+    card: "bg-[#006ff7]",
+    ink: "text-white",
+    rule: "border-white/20",
+  },
+  {
+    card: "bg-[#c9ff6e]",
+    ink: "text-[#1e1e1e]",
+    rule: "border-[#1e1e1e]/15",
+  },
+] as const;
+
+/** Studio metrics — Figma 3626:4316 */
+const metrics = [
+  {
+    value: "7",
+    label: "Years as a company",
+  },
+  {
+    value: "31",
+    label: "Platforms we still maintain today",
+  },
+  {
+    value: "500K+",
+    label: "Daily users on our biggest platform",
+  },
+] as const;
+
+/**
+ * Proof metrics ticker — Figma 3626:4316.
+ */
 export function ProofStrip() {
+  const sequence = [...metrics, ...metrics];
+
   return (
-    <section className="border-y border-border">
-      <div className="grid grid-cols-1 md:grid-cols-3">
-        {metrics.map((m, i) => (
-          <div
-            key={m.value}
-            className={`px-6 py-10 md:px-10 md:py-14 ${
-              i < metrics.length - 1 ? "border-b border-border md:border-b-0 md:border-r" : ""
-            }`}
-          >
-            <p className="eyebrow">Metric / 0{i + 1}</p>
-            <p
-              className="font-display mt-6 text-foreground"
-              style={{
-                fontSize: "clamp(3.5rem, 7vw, 6rem)",
-                lineHeight: 0.9,
-                letterSpacing: "-0.05em",
-                fontWeight: 500,
-              }}
-            >
-              {m.value}
-            </p>
-            <div className="mt-6 border-t border-border pt-4">
-              <p className="text-sm text-foreground">{m.label}</p>
-            </div>
-          </div>
-        ))}
-      </div>
+    <section className="kbpm-hi-fi bg-white pb-12 md:pb-16 lg:pb-20">
+      <Reveal>
+        <div className="metrics-ticker-viewport" aria-label="Studio metrics">
+          <ul className="metrics-ticker-track">
+            {sequence.map((m, i) => {
+              const style = CARD_STYLES[i % CARD_STYLES.length];
+              const duplicate = i >= metrics.length;
+              return (
+                <li
+                  key={`${m.value}-${m.label}-${i}`}
+                  aria-hidden={duplicate}
+                  className="metrics-ticker-item"
+                >
+                  <article
+                    className={`flex h-full min-h-[16rem] flex-col justify-between rounded-2xl p-7 sm:min-h-[18rem] sm:p-8 lg:min-h-[21rem] ${style.card}`}
+                  >
+                    <p
+                      className={`font-display ${style.ink}`}
+                      style={{
+                        fontSize: "clamp(3rem, 7vw, 6rem)",
+                        lineHeight: 0.9,
+                        letterSpacing: "-0.04em",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {m.value}
+                    </p>
+                    <div className={`border-t pt-4 ${style.rule}`}>
+                      <p
+                        className={`text-[14px] leading-5 tracking-[-0.01em] ${style.ink}`}
+                      >
+                        {m.label}
+                      </p>
+                    </div>
+                  </article>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </Reveal>
     </section>
   );
 }

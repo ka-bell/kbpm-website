@@ -1,10 +1,7 @@
 "use client";
 
-import { Link } from "@/components/Link";
 import { useEffect, useState } from "react";
-import { MobileNavDrawer } from "./MobileNavDrawer";
 import { HeroTiles } from "./HeroTiles";
-import { Wordmark } from "./Wordmark";
 
 const PHRASES = [
   "when the idea outgrows the team.",
@@ -73,104 +70,13 @@ function useTypewriter(phrases: readonly string[]) {
   return text;
 }
 
-function HeroNav() {
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  return (
-    <>
-      <header className="relative z-20 flex w-full items-center justify-between text-white">
-        <Wordmark className="text-[clamp(1.35rem,2.5vw,1.9rem)] font-bold tracking-[-0.03em] text-white [&_span]:!text-white" />
-
-        <div className="hidden items-center gap-4 lg:flex">
-          <nav className="flex items-center">
-            <Link
-              to="/services"
-              className="flex items-center gap-1 py-3 pl-4 pr-3 font-mono text-[12px] uppercase leading-[1.1] tracking-[0.6px] text-white transition-opacity hover:opacity-70"
-            >
-              Services
-              <img
-                src="/hero/chevron-down.svg"
-                alt=""
-                width={24}
-                height={24}
-                className="size-6"
-              />
-            </Link>
-            <Link
-              to="/work"
-              className="px-6 py-4 font-mono text-[12px] uppercase leading-[1.1] tracking-[0.6px] text-white transition-opacity hover:opacity-70"
-            >
-              Work
-            </Link>
-            <Link
-              to="/about"
-              className="px-6 py-4 font-mono text-[12px] uppercase leading-[1.1] tracking-[0.6px] text-white transition-opacity hover:opacity-70"
-            >
-              About
-            </Link>
-          </nav>
-
-          <Link
-            to="/contact"
-            className="inline-flex items-center justify-center gap-3 rounded-full bg-white py-1 pl-6 pr-1 font-mono text-[12px] uppercase leading-[1.1] tracking-[0.6px] text-[#1e1e1e] transition-opacity hover:opacity-90"
-          >
-            Start a project
-            <span className="flex shrink-0 items-center justify-center rounded-full bg-[#1e1e1e] p-2">
-              <img
-                src="/hero/arrow-outward.svg"
-                alt=""
-                width={20}
-                height={20}
-                className="size-5"
-              />
-            </span>
-          </Link>
-        </div>
-
-        <div className="flex items-center gap-2 lg:hidden">
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-2 rounded-full bg-white py-1 pl-4 pr-1 font-mono text-[11px] uppercase tracking-[0.6px] text-[#1e1e1e]"
-          >
-            Start
-            <span className="flex items-center justify-center rounded-full bg-[#1e1e1e] p-1.5">
-              <img
-                src="/hero/arrow-outward.svg"
-                alt=""
-                width={16}
-                height={16}
-                className="size-4"
-              />
-            </span>
-          </Link>
-          <button
-            type="button"
-            className="flex size-10 items-center justify-center rounded-full border border-white/25"
-            aria-label="Open menu"
-            onClick={() => setMobileOpen(true)}
-          >
-            <svg width="18" height="12" viewBox="0 0 20 14" fill="none" aria-hidden>
-              <path d="M0 1h20M0 7h20M0 13h20" stroke="currentColor" strokeWidth="1.4" />
-            </svg>
-          </button>
-        </div>
-      </header>
-
-      <MobileNavDrawer open={mobileOpen} onClose={() => setMobileOpen(false)} />
-    </>
-  );
-}
-
 export function Hero() {
   const line = useTypewriter(PHRASES);
 
   return (
-    <section className="kbpm-hi-fi w-full bg-white px-4 pt-4 sm:px-6 sm:pt-6 lg:px-8 lg:pt-8">
-      <div className="relative flex w-full min-h-[32rem] flex-col justify-between overflow-hidden rounded-2xl bg-[#1e1e1e] px-5 pb-6 pt-5 sm:min-h-[40rem] sm:px-8 sm:pb-10 sm:pt-6 lg:min-h-[min(90vh,56.25rem)] lg:px-[clamp(2.5rem,5vw,5rem)] lg:pb-20 lg:pt-[7.5rem]">
-        <div className="lg:absolute lg:inset-x-0 lg:top-5 lg:px-[clamp(2.5rem,5vw,5rem)] lg:py-4">
-          <HeroNav />
-        </div>
-
+    <section className="kbpm-hi-fi w-full bg-white px-4 pt-0 sm:px-6 lg:px-8">
+      {/* Pull hero up under the sticky header so the bar floats over the dark card */}
+      <div className="relative -mt-[4.5rem] flex w-full min-h-[32rem] flex-col justify-between overflow-hidden rounded-2xl bg-[#1e1e1e] px-5 pb-6 pt-[5.5rem] sm:-mt-[5.5rem] sm:min-h-[40rem] sm:px-8 sm:pb-10 sm:pt-[6.5rem] lg:-mt-[6.5rem] lg:min-h-[min(90vh,56.25rem)] lg:px-[clamp(2.5rem,5vw,5rem)] lg:pb-20 lg:pt-[8.5rem]">
         <h1 className="font-display relative z-10 max-w-4xl py-12 text-[2.125rem] font-medium leading-[1.2] tracking-[-0.02em] text-white sm:py-16 sm:text-5xl lg:max-w-5xl lg:py-0 lg:text-[4.5rem]">
           <span className="block">We build digital products</span>
           <span className="inline">
@@ -180,12 +86,9 @@ export function Hero() {
               aria-hidden
             />
           </span>
-          <span className="sr-only"> {PHRASES.join(" ")}</span>
         </h1>
 
-        <div className="relative z-10">
-          <HeroTiles />
-        </div>
+        <HeroTiles />
       </div>
     </section>
   );

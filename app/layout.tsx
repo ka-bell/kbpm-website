@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SiteChrome } from "@/components/site/SiteChrome";
+import { SmoothScroll } from "@/components/site/SmoothScroll";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -41,7 +42,9 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <SiteChrome>{children}</SiteChrome>
+        <SmoothScroll>
+          <SiteChrome>{children}</SiteChrome>
+        </SmoothScroll>
       </body>
     </html>
   );

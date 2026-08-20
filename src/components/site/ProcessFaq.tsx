@@ -13,8 +13,8 @@ const DEFAULT_FAQS: FaqItem[] = [
     a: "Yes. Most of our communication is async anyway, and we have experience working with teams across Europe and the Middle East.",
   },
   {
-    q: "Can we start with just a Draft™ and decide later?",
-    a: "Absolutely. That's what it's designed for. A lot of our Make™ projects start as a Draft™.",
+    q: "Can we start with just Validate and decide later?",
+    a: "Absolutely. That's what it's designed for. A lot of our Build projects start with Validate.",
   },
   {
     q: "Do you work with agencies as a white-label partner?",

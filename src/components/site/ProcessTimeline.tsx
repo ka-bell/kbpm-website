@@ -18,12 +18,12 @@ const DEFAULT_STEPS: ProcessStep[] = [
     copy: "We write a clear brief together. This is where most projects succeed or fail, so we take it seriously.",
   },
   {
-    name: "Draft™",
+    name: "Validate",
     duration: "If needed",
-    copy: "If the idea needs validating first, we run a Draft sprint before committing to a full build.",
+    copy: "If the idea needs clarifying first, we validate before committing to a full build.",
   },
   {
-    name: "Make™",
+    name: "Build",
     duration: "4–6 weeks",
     copy: "We design and build. Weekly check-ins. You see progress every week, not just at the end.",
   },
@@ -33,9 +33,9 @@ const DEFAULT_STEPS: ProcessStep[] = [
     copy: "We ship. We're there for the first 30 days to fix anything that comes up.",
   },
   {
-    name: "Keep™",
+    name: "Evolve / Support",
     duration: "If continuing",
-    copy: "We stay on as your technical partner. Monthly, ongoing, on your terms.",
+    copy: "We stay on as your technical partner — improving the product or keeping it running, on your terms.",
   },
 ];
 

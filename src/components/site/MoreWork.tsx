@@ -1,206 +1,147 @@
-"use client";
-
 import { Link } from "@/components/Link";
-import { useRef } from "react";
-import { ImagePlaceholder } from "./ImagePlaceholder";
+import { Reveal } from "./Reveal";
+import { SectionEyebrow } from "./SectionEyebrow";
+import { getCase } from "./cases-data";
 
-const cases = [
+const CARDS = [
   {
     slug: "mix-interiors",
-    n: "03",
-    client: "Mix Interiors",
-    tag: "Product Discovery",
-    year: "2026",
-    result: "Interior imagery connected to manufacturer product data.",
-    metric: "Interactive",
-    metricLabel: "Product discovery",
+    image: "/work/card-mix.jpg",
+    kind: "case study" as const,
+    kindTone: "lime" as const,
   },
   {
     slug: "virtue-worldwide",
-    n: "04",
-    client: "Virtue Worldwide",
-    tag: "Network Intelligence",
-    year: "2025",
-    result: "Interactive knowledge graphs for cultural strategy work.",
-    metric: "Global",
-    metricLabel: "Strategy support",
+    image: "/work/card-virtue.jpg",
+    kind: "case study" as const,
+    kindTone: "blue" as const,
   },
   {
     slug: "hopplay",
-    n: "05",
-    client: "HopPlay",
-    tag: "Travel Platform",
-    year: "2026",
-    result: "Location-based adventures launched for multiple destinations.",
-    metric: "2",
-    metricLabel: "Live destinations",
+    image: "/work/card-hopplay.jpg",
+    kind: "case study" as const,
+    kindTone: "lime" as const,
   },
-  {
-    slug: "academion",
-    n: "06",
-    client: "Academion",
-    tag: "Higher Education",
-    year: "2024",
-    result: "+85% team hours saved on accreditation workflows.",
-    metric: "+85%",
-    metricLabel: "Team hours saved",
-  },
-];
+] as const;
 
+/**
+ * 3-column portfolio grid — Figma 3626:4494.
+ * Rewrite section title + case data.
+ */
 export function MoreWork() {
-  const scrollerRef = useRef<HTMLDivElement>(null);
-
-  const scrollBy = (direction: -1 | 1) => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    const amount = el.clientWidth * 0.34;
-    el.scrollBy({ left: direction * amount, behavior: "smooth" });
-  };
-
   return (
-    <section className="border-y border-border bg-background">
-      <div className="mx-auto max-w-[1440px] px-6 py-16 md:px-8 md:py-20">
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="eyebrow">§ 04 / Highlighted</p>
-            <h2
-              className="font-display mt-5 text-foreground"
-              style={{
-                fontSize: "clamp(2.5rem, 5vw, 5rem)",
-                lineHeight: 0.95,
-                letterSpacing: "-0.04em",
-                fontWeight: 500,
-              }}
-            >
-              Recent work.
-            </h2>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => scrollBy(-1)}
-                className="inline-flex h-11 w-11 items-center justify-center border border-border text-foreground transition-colors hover:bg-surface-alt"
-                aria-label="Previous projects"
+    <section className="kbpm-hi-fi bg-[#f5f5f5] px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-12 lg:gap-[72px]">
+        <Reveal>
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+            <div className="flex max-w-[720px] flex-col gap-8">
+              <SectionEyebrow label="Selected work" mark={5} />
+              <h2
+                className="font-display text-[#1e1e1e]"
+                style={{
+                  fontSize: "clamp(2.5rem, 5vw, 4rem)",
+                  lineHeight: 1.1,
+                  letterSpacing: "-0.03em",
+                  fontWeight: 500,
+                }}
               >
-                <svg className="h-4 w-4" viewBox="0 0 14 14" fill="none" aria-hidden>
-                  <path
-                    d="M11 7H3m0 0 3.5-3.5M3 7l3.5 3.5"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                  />
-                </svg>
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollBy(1)}
-                className="inline-flex h-11 w-11 items-center justify-center border border-border text-foreground transition-colors hover:bg-surface-alt"
-                aria-label="Next projects"
-              >
-                <svg className="h-4 w-4" viewBox="0 0 14 14" fill="none" aria-hidden>
-                  <path
-                    d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                  />
-                </svg>
-              </button>
+                Recent work.
+              </h2>
             </div>
+
             <Link
               to="/work"
-              className="group inline-flex items-center gap-2 border border-border px-5 py-3 text-sm text-foreground transition-colors hover:bg-surface-alt"
+              className="inline-flex h-[55px] shrink-0 items-center justify-center rounded-full border border-[#d9d9d9] px-6 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-70"
             >
               All case studies
-              <svg
-                className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
-                viewBox="0 0 14 14"
-                fill="none"
-                aria-hidden
-              >
-                <path
-                  d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                />
-              </svg>
             </Link>
           </div>
-        </div>
-      </div>
+        </Reveal>
 
-      <div
-        ref={scrollerRef}
-        className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      >
-        {cases.map((c) => (
-          <Link
-            key={c.slug}
-            to="/work/$slug"
-            params={{ slug: c.slug }}
-            className="group relative min-h-[75svh] w-[85vw] shrink-0 snap-start overflow-hidden border border-border border-l-0 first:border-l sm:w-[45vw] md:min-h-[80svh] md:w-[33.333vw]"
-          >
-            <div className="absolute inset-0">
-              <ImagePlaceholder
-                label={`${c.client} visual`}
-                className="min-h-full transition-transform duration-700 group-hover:scale-[1.02]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/20 to-foreground/30" />
-            </div>
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-[21px]">
+          {CARDS.map((card, i) => {
+            const c = getCase(card.slug);
+            if (!c) return null;
+            const industry = c.industry.split("/")[0]?.trim() ?? c.industry;
+            const kindClass =
+              card.kindTone === "blue"
+                ? "bg-[#006ff7] text-white"
+                : "bg-[#c9ff6e] text-[#1e1e1e]";
 
-            <div className="relative z-10 flex min-h-[75svh] items-end p-5 md:min-h-[80svh] md:p-6 lg:p-8">
-              <div className="w-full border border-background/20 bg-background/90 p-5 backdrop-blur-md md:p-6">
-                <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                  Case {c.n} / {c.tag}
-                </p>
-                <h3
-                  className="font-display mt-4 text-foreground"
-                  style={{
-                    fontSize: "clamp(1.5rem, 2.4vw, 2.25rem)",
-                    lineHeight: 1,
-                    letterSpacing: "-0.035em",
-                    fontWeight: 500,
-                  }}
+            return (
+              <Reveal key={c.slug} delay={i * 70}>
+                <Link
+                  to="/work/$slug"
+                  params={{ slug: c.slug }}
+                  className="group flex h-full flex-col gap-5"
                 >
-                  {c.client}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {c.result}
-                </p>
-
-                <dl className="mt-6 grid grid-cols-1 gap-3 border-t border-border pt-5 sm:grid-cols-2">
-                  <div>
-                    <dt className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                      Year
-                    </dt>
-                    <dd className="mt-1.5 text-sm text-foreground">{c.year}</dd>
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] sm:h-[540px] sm:aspect-auto">
+                    <img
+                      src={card.image}
+                      alt=""
+                      width={800}
+                      height={1000}
+                      decoding="async"
+                      className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                    />
+                    <div className="absolute left-5 top-5 flex flex-wrap gap-2">
+                      <span className="bg-white/20 px-2.5 py-1 font-mono text-[10px] uppercase text-white backdrop-blur-[25px]">
+                        {c.displayTags[0] ?? c.tags[0]}
+                      </span>
+                      <span className="bg-white/20 px-2.5 py-1 font-mono text-[10px] uppercase text-white backdrop-blur-[25px]">
+                        {industry}
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <dt className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                      Signal
-                    </dt>
-                    <dd className="mt-1.5 text-sm text-foreground">
-                      {c.metric} · {c.metricLabel}
-                    </dd>
-                  </div>
-                </dl>
 
-                <div className="mt-6 flex items-center justify-between">
-                  <span className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                    View case
-                  </span>
-                  <svg
-                    className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                    viewBox="0 0 14 14"
-                    fill="none"
-                    aria-hidden
-                  >
-                    <path d="M3 11 11 3M11 3H5M11 3v6" stroke="currentColor" strokeWidth="1.5" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </Link>
-        ))}
+                  <div className="flex flex-1 flex-col gap-7">
+                    <div className="flex flex-col gap-3.5">
+                      <span
+                        className={`inline-flex w-fit items-center px-2 py-2 font-mono text-[10px] uppercase leading-[1.1] ${kindClass}`}
+                      >
+                        {card.kind}
+                      </span>
+                      <h3
+                        className="font-display text-[#1e1e1e]"
+                        style={{
+                          fontSize: "clamp(1.25rem, 2vw, 1.5rem)",
+                          lineHeight: 1.1,
+                          letterSpacing: "-0.03em",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {c.client}
+                      </h3>
+                    </div>
+
+                    <p className="text-[16px] leading-[1.3] tracking-[-0.02em] text-[#6b6b6b]">
+                      {c.outcome}
+                    </p>
+
+                    <div className="mt-auto flex flex-col gap-3.5">
+                      <div className="h-px w-full bg-[#d9d9d9]" />
+                      <div className="flex items-center justify-between gap-4">
+                        <span className="text-[12px] tracking-[-0.01em] text-[#6b6b6b]">
+                          {c.year}
+                        </span>
+                        <span className="inline-flex items-center gap-1 font-mono text-[12px] uppercase tracking-[0.6px] text-[#6b6b6b] transition-opacity group-hover:opacity-70">
+                          View case
+                          <img
+                            src="/hero/arrow-outward-dark.svg"
+                            alt=""
+                            width={20}
+                            height={20}
+                            className="size-5 opacity-60"
+                          />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </Reveal>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

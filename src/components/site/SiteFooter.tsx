@@ -1,106 +1,127 @@
+import type { ReactNode } from "react";
 import { Link } from "@/components/Link";
+import { FooterCradle } from "./FooterCradle";
 import { Wordmark } from "./Wordmark";
 import { services } from "./nav-data";
 
+const studioLinks = [
+  { label: "Work", to: "/work" as const },
+  { label: "About", to: "/about" as const },
+  { label: "Playground", to: "/playground" as const },
+  { label: "Go-to-Market", to: "/go-to-market" as const },
+  { label: "EU-first infra", to: "/european-first-infrastructure" as const },
+  { label: "Contact", to: "/contact" as const },
+] as const;
+
+const elsewhereLinks = [
+  { label: "LinkedIn", href: "#" },
+  { label: "Instagram", href: "#" },
+  { label: "Are.na", href: "#" },
+] as const;
+
+function FooterLink({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <span
+      className={`text-[14px] leading-5 text-white transition-opacity hover:opacity-70 ${className}`.trim()}
+    >
+      {children}
+    </span>
+  );
+}
+
 export function SiteFooter() {
   const year = new Date().getFullYear();
+
   return (
-    <footer className="border-t border-border">
-      <div className="mx-auto max-w-[1440px] px-6 pt-20 pb-10 md:px-8 md:pt-24">
-        <div className="grid grid-cols-2 gap-10 md:grid-cols-12">
-          <div className="col-span-2 md:col-span-5">
-            <Wordmark />
-            <p
-              className="font-display mt-8 max-w-xs text-foreground"
-              style={{ fontSize: "1.5rem", letterSpacing: "-0.03em", fontWeight: 500, lineHeight: 1.1 }}
-            >
-              Digital products end to end — when the idea is bigger than the team.
+    <footer className="kbpm-hi-fi bg-[#1e1e1e] text-white">
+      <div className="relative mx-auto max-w-[1440px] px-6 pt-24 pb-10 md:px-8">
+        {/* Cradle sits behind copy — long strings from top of footer */}
+        <FooterCradle />
+
+        <div className="relative z-10 grid grid-cols-2 gap-10 pb-[clamp(11rem,28vw,18rem)] md:grid-cols-12 md:gap-10">
+          <div className="col-span-2 flex flex-col gap-2 md:col-span-5">
+            <Wordmark
+              ink="white"
+              className="font-display text-[1.9rem] font-bold leading-none tracking-[-0.03em]"
+            />
+            <p className="font-display mt-[1.65rem] max-w-[20rem] text-[1.5rem] font-medium leading-[1.1] tracking-[-0.038em] text-white">
+              Digital products end to end,
+              <br />
+              when the idea is bigger
+              <br />
+              than the team.
             </p>
-            <p className="mt-8 text-sm text-muted-foreground">
-              Jan van Galenstraat 122<br />
-              1056 CA Amsterdam
-            </p>
+            <div className="mt-6 space-y-0 text-[14px] leading-5 text-white">
+              <p>Jan van Galenstraat 122</p>
+              <p>1056 CA Amsterdam</p>
+            </div>
             <a
               href="mailto:info@kbpm.nl"
-              className="mt-2 inline-block text-sm text-foreground underline decoration-accent decoration-2 underline-offset-4"
+              className="mt-0.5 inline-block text-[14px] leading-5 text-white underline decoration-solid underline-offset-2 transition-opacity hover:opacity-70"
             >
               info@kbpm.nl
             </a>
           </div>
 
-          <div className="md:col-span-3">
-            <p className="eyebrow">Services</p>
-            <ul className="mt-4 space-y-2.5">
-              {services.map((s) => (
-                <li key={s.name}>
-                  <Link
-                    to="/services/$slug"
-                    params={{ slug: s.slug }}
-                    className="text-sm text-foreground hover:text-accent"
-                  >
-                    {s.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <div className="col-span-2 flex flex-wrap gap-x-12 gap-y-10 md:col-span-5 md:col-start-8 md:justify-end md:gap-x-[6.2rem]">
+            <div className="min-w-[7rem] flex-1 space-y-4">
+              <p className="font-mono text-[11px] uppercase leading-[1.5] tracking-[0.04em] text-white">
+                Services
+              </p>
+              <ul className="space-y-2.5">
+                {services.map((s) => (
+                  <li key={s.name}>
+                    <Link to="/services/$slug" params={{ slug: s.slug }}>
+                      <FooterLink>{s.name}</FooterLink>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          <div className="md:col-span-2">
-            <p className="eyebrow">Studio</p>
-            <ul className="mt-4 space-y-2.5">
-              <li><Link to="/work" className="text-sm text-foreground hover:text-accent">Work</Link></li>
-              <li><Link to="/about" className="text-sm text-foreground hover:text-accent">About</Link></li>
-              <li><Link to="/playground" className="text-sm text-foreground hover:text-accent">Playground</Link></li>
-              <li>
-                <Link
-                  to="/go-to-market"
-                  className="text-sm text-foreground hover:text-accent"
-                >
-                  Go-to-Market
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/european-first-infrastructure"
-                  className="text-sm text-foreground hover:text-accent"
-                >
-                  EU-first infra
-                </Link>
-              </li>
-              <li><Link to="/contact" className="text-sm text-foreground hover:text-accent">Contact</Link></li>
-            </ul>
-          </div>
+            <div className="min-w-[7rem] flex-1 space-y-4 md:max-w-[12.25rem]">
+              <p className="font-mono text-[11px] uppercase leading-[1.5] tracking-[0.04em] text-white">
+                Studio
+              </p>
+              <ul className="space-y-2.5">
+                {studioLinks.map((item) => (
+                  <li key={item.to}>
+                    <Link to={item.to}>
+                      <FooterLink>{item.label}</FooterLink>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          <div className="md:col-span-2">
-            <p className="eyebrow">Elsewhere</p>
-            <ul className="mt-4 space-y-2.5">
-              <li><a href="#" className="text-sm text-foreground hover:text-accent">LinkedIn ↗</a></li>
-              <li><a href="#" className="text-sm text-foreground hover:text-accent">Instagram ↗</a></li>
-              <li><a href="#" className="text-sm text-foreground hover:text-accent">Are.na ↗</a></li>
-            </ul>
+            <div className="min-w-[7rem] flex-1 space-y-4">
+              <p className="font-mono text-[11px] uppercase leading-[1.5] tracking-[0.04em] text-white">
+                Elsewhere
+              </p>
+              <ul className="space-y-2.5">
+                {elsewhereLinks.map((item) => (
+                  <li key={item.label}>
+                    <a href={item.href}>
+                      <FooterLink>{item.label} ↗</FooterLink>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 
-        {/* Huge wordmark */}
-        <div className="mt-24 border-t border-border pt-14 pb-6">
-          <p
-            className="font-display text-foreground"
-            style={{
-              fontSize: "clamp(4rem, 18vw, 18rem)",
-              lineHeight: 0.85,
-              letterSpacing: "-0.06em",
-              fontWeight: 500,
-            }}
-          >
-            kb<span className="text-accent">+</span>pm
-          </p>
-        </div>
-
-        <div className="flex flex-col items-start justify-between gap-3 border-t border-border pt-6 md:flex-row md:items-center">
-          <p className="font-mono-label text-muted-foreground">
+        <div className="relative z-10 flex flex-col items-start justify-between gap-3 border-t border-white/20 pt-6 md:flex-row md:items-center">
+          <p className="font-mono text-[11px] leading-[1.5] tracking-[0.06em] text-white">
             © {year} kbell + postman B.V. — Digital product studio, Amsterdam
           </p>
-          <p className="font-mono-label text-muted-foreground">
+          <p className="font-mono text-[11px] leading-[1.5] tracking-[0.06em] text-white">
             KvK 00000000 · Built end-to-end in-house
           </p>
         </div>

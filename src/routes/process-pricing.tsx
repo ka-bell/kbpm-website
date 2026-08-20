@@ -14,12 +14,12 @@ export const Route = createFileRoute("/process-pricing")({
       {
         name: "description",
         content:
-          "How we work and what it costs. Three packages — Draft™, Make™, Keep™ — with transparent ranges and no scope creep.",
+          "How we work and what it costs. Validate, Build, and Evolve — with transparent ranges and no scope creep.",
       },
       { property: "og:title", content: "Process & Pricing — kbell + postman" },
       {
         property: "og:description",
-        content: "Three packages, one flat fee each, transparent process.",
+        content: "Validate, Build, Evolve — transparent process and ranges.",
       },
       { property: "og:url", content: "/process-pricing" },
       { property: "og:type", content: "website" },
@@ -109,7 +109,7 @@ function ProcessPricing() {
                 Core paths
               </p>
               <p className="hidden text-sm text-muted-foreground md:block">
-                Prove → build → grow
+                Validate → Build → Evolve
               </p>
             </div>
             <div className="grid grid-cols-1 overflow-hidden border border-border md:grid-cols-3">

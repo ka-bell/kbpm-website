@@ -44,43 +44,56 @@ export function MobileNavDrawer({
       </div>
 
       <nav className="flex-1 overflow-y-auto px-6 py-8">
-        <button
-          type="button"
-          onClick={() => setServicesExpanded((v) => !v)}
-          className="flex w-full items-center justify-between border-b border-border py-5 text-left"
-          aria-expanded={servicesExpanded}
-        >
-          <span className="font-display text-3xl text-foreground">Services</span>
-          <svg
-            className={`h-4 w-4 transition-transform ${servicesExpanded ? "rotate-180" : ""}`}
-            viewBox="0 0 16 16"
-            fill="none"
-            aria-hidden
-          >
-            <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.3" />
-          </svg>
-        </button>
-        {servicesExpanded && (
-          <div className="border-b border-border py-4">
-            {services.map((s, i) => (
-              <Link
-                key={s.name}
-                to="/services/$slug"
-                params={{ slug: s.slug }}
-                onClick={onClose}
-                className="flex items-baseline justify-between py-3"
+        <div className="border-b border-border">
+          <div className="flex w-full items-center justify-between py-5">
+            <Link
+              to="/services"
+              onClick={onClose}
+              className="font-display text-3xl text-foreground"
+            >
+              Services
+            </Link>
+            <button
+              type="button"
+              onClick={() => setServicesExpanded((v) => !v)}
+              className="inline-flex h-10 w-10 items-center justify-center"
+              aria-expanded={servicesExpanded}
+              aria-label={
+                servicesExpanded ? "Collapse services" : "Expand services"
+              }
+            >
+              <svg
+                className={`h-4 w-4 transition-transform ${servicesExpanded ? "rotate-180" : ""}`}
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden
               >
-                <span className="flex items-baseline gap-3">
-                  <span className="eyebrow text-muted-foreground">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="text-base text-foreground">{s.name}</span>
-                </span>
-                <span className="eyebrow text-muted-foreground">{s.tag}</span>
-              </Link>
-            ))}
+                <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.3" />
+              </svg>
+            </button>
           </div>
-        )}
+          {servicesExpanded && (
+            <div className="pb-4">
+              {services.map((s, i) => (
+                <Link
+                  key={s.name}
+                  to="/services/$slug"
+                  params={{ slug: s.slug }}
+                  onClick={onClose}
+                  className="flex items-baseline justify-between py-3"
+                >
+                  <span className="flex items-baseline gap-3">
+                    <span className="eyebrow text-muted-foreground">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-base text-foreground">{s.name}</span>
+                  </span>
+                  <span className="eyebrow text-muted-foreground">{s.tag}</span>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
 
         <Link
           to="/about"

@@ -25,7 +25,7 @@ export const serviceDetails: ServiceDetail[] = [
   {
     slug: "proof-sprint",
     plainName: "Idea Validation",
-    name: "Proof Sprint",
+    name: "Idea Validation",
     phase: "validate",
     phaseLabel: "Validation Offer",
     offerNumber: "01",

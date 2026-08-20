@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/site/Hero";
+import { IntroBand } from "@/components/site/IntroBand";
 import { ProofStrip } from "@/components/site/ProofStrip";
 import { ServicePaths } from "@/components/site/ServicePaths";
 import { FeaturedCase } from "@/components/site/FeaturedCase";
 import { MoreWork } from "@/components/site/MoreWork";
 import { TrustedBy } from "@/components/site/TrustedBy";
 import { WhyKbpm } from "@/components/site/WhyKbpm";
-import { CtaBlock } from "@/components/site/CtaBlock";
 
 export const metadata: Metadata = {
   title: "kbell + postman — Digital product studio, Amsterdam",
@@ -22,13 +22,13 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <IntroBand />
       <ProofStrip />
       <TrustedBy />
       <ServicePaths />
       <FeaturedCase />
       <MoreWork />
       <WhyKbpm />
-      <CtaBlock />
     </>
   );
 }
