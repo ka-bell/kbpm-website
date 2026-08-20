@@ -3,9 +3,7 @@
 import {
   Bodies,
   Body,
-  Common,
   Composite,
-  Composites,
   Constraint,
   Engine,
   Mouse,
@@ -21,23 +19,18 @@ import { useEffect, useRef } from "react";
 
 const TILES = [1, 2, 3, 4, 5, 6, 7] as const;
 const CRADLE_COUNT = TILES.length;
-
-/** brm.io mixed demo uses 10×5 — denser pack for the kb↔pm band. */
-const MIXED_COLS = 14;
-const MIXED_ROWS = 6;
-const MIXED_COUNT = MIXED_COLS * MIXED_ROWS;
+const MIXED_COUNT = 56;
 
 const STRING_STROKE_DARK = "rgba(255,255,255,0.28)";
 const STRING_WIDTH = "1";
 
 type FooterCradleProps = {
-  /** dark = Newton's cradle; light = mixed stack (brm.io #mixed). */
+  /** dark = Newton's cradle (default site); light = mixed falling tiles (About / Work). */
   variant?: "dark" | "light";
 };
 
 /**
- * Footer physics — cradle on dark footers; mixed stack on light (About / Work).
- * Mixed = Matter.js demo https://brm.io/matter-js/demo/#mixed
+ * Footer physics — cradle on dark footers; mixed falling tiles on light (Figma About/Work).
  */
 export function FooterCradle({ variant = "dark" }: FooterCradleProps) {
   if (variant === "light") return <FooterMixedTiles />;
@@ -283,10 +276,6 @@ function FooterNewtonsCradle() {
   );
 }
 
-/**
- * Mixed shapes — faithful to brm.io/matter-js/demo/#mixed (Composites.stack + walls + mouse),
- * with brand tiles. Pit is the centered flex slot between kb / pm.
- */
 function FooterMixedTiles() {
   const rootRef = useRef<HTMLDivElement>(null);
   const tileRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -315,14 +304,6 @@ function FooterMixedTiles() {
     let visible = false;
     let building = false;
 
-    const hideTiles = () => {
-      for (const el of tileRefs.current) {
-        if (!el) continue;
-        el.style.opacity = "0";
-        el.style.transform = "translate3d(-9999px, 0, 0)";
-      }
-    };
-
     const syncDom = () => {
       if (!sim) {
         raf = requestAnimationFrame(syncDom);
@@ -335,42 +316,36 @@ function FooterMixedTiles() {
         if (!body || !el || !size) continue;
         el.style.width = `${size}px`;
         el.style.height = `${size}px`;
-        el.style.opacity = "1";
         el.style.transform = `translate3d(${body.position.x - size / 2}px, ${body.position.y - size / 2}px, 0) rotate(${body.angle}rad)`;
       }
       raf = requestAnimationFrame(syncDom);
     };
 
-    const destroySim = (s: SimRefs) => {
-      Runner.stop(s.runner);
-      Mouse.clearSourceEvents(s.mouseConstraint.mouse);
-      Composite.clear(s.engine.world, false);
-      Engine.clear(s.engine);
-    };
-
     const build = () => {
       if (building) return;
       building = true;
-      hideTiles();
 
       if (sim) {
-        destroySim(sim);
+        Runner.stop(sim.runner);
+        Mouse.clearSourceEvents(sim.mouseConstraint.mouse);
+        Composite.clear(sim.engine.world, false);
+        Engine.clear(sim.engine);
         sim = null;
       }
 
       const width = root.clientWidth;
-      const height = root.clientHeight;
-      if (width < 40 || height < 40) {
+      const height = Math.max(root.clientHeight, 280);
+      if (width < 40) {
         building = false;
         return;
       }
 
-      // Same gravity feel as the demo (Matter default scale)
-      const engine = Engine.create();
-      const wallT = 50;
-      const wallOpts = { isStatic: true };
+      const engine = Engine.create({
+        gravity: { x: 0, y: 1, scale: 0.001 },
+      });
 
-      // Walls like the demo — box edges of this pit
+      const wallOpts = { isStatic: true };
+      const wallT = 64;
       const walls = [
         Bodies.rectangle(width / 2, -wallT / 2, width + wallT * 2, wallT, wallOpts),
         Bodies.rectangle(width / 2, height + wallT / 2, width + wallT * 2, wallT, wallOpts),
@@ -378,47 +353,40 @@ function FooterMixedTiles() {
         Bodies.rectangle(-wallT / 2, height / 2, wallT, height + wallT * 2, wallOpts),
       ];
 
-      // Tile size so MIXED_COLS × MIXED_ROWS fills the pit (Figma packed block)
-      const size = Math.min(
-        52,
-        Math.max(28, Math.min(width / MIXED_COLS, height / MIXED_ROWS) * 0.98),
-      );
-      const stackW = MIXED_COLS * size;
-      const stackH = MIXED_ROWS * size;
-      // Center the stack in the pit (demo starts at 20,20 — we center)
-      const startX = (width - stackW) / 2 + size / 2;
-      const startY = Math.max(4, (height - stackH) / 2 - size);
+      const bodies: MatterBody[] = [];
+      const sizes: number[] = [];
+      const baseSize = Math.min(64, Math.max(36, width * 0.045));
+      const centerX = width / 2;
+      const spawnY = Math.min(80, height * 0.12);
+      const spreadX = Math.min(width * 0.22, 160);
 
-      // Composites.stack — same API as Example.mixed
-      const stack = Composites.stack(
-        startX,
-        startY,
-        MIXED_COLS,
-        MIXED_ROWS,
-        0,
-        0,
-        (x: number, y: number) => {
-          const s = Common.random(size * 0.92, size);
-          const chamfer =
-            Common.random() > 0.3 ? { radius: Math.min(12, s * 0.22) } : undefined;
-          return Bodies.rectangle(x, y, s, s, {
-            chamfer,
-            restitution: 0.25,
-            friction: 0.1,
-            frictionAir: 0.012,
-            density: 0.001,
-            label: `tile-${TILES[Math.floor(Common.random(0, TILES.length))]}`,
-          });
-        },
-      );
+      for (let i = 0; i < MIXED_COUNT; i++) {
+        const size = baseSize * (0.75 + Math.random() * 0.45);
+        const x = centerX + (Math.random() - 0.5) * spreadX * 2;
+        const y = spawnY + Math.random() * 70 + (i % 5) * 8;
+        const chamfer =
+          Math.random() > 0.3
+            ? { radius: Math.min(16, size * 0.24) }
+            : undefined;
 
-      const bodies = Composite.allBodies(stack);
-      const sizes = bodies.map((b) => {
-        const bb = b.bounds;
-        return Math.max(bb.max.x - bb.min.x, bb.max.y - bb.min.y);
-      });
+        const body = Bodies.rectangle(x, y, size, size, {
+          chamfer,
+          restitution: 0.4,
+          friction: 0.08,
+          frictionAir: 0.012,
+          density: 0.001,
+          label: `tile-${TILES[i % TILES.length]}`,
+        });
+        Body.setAngle(body, (Math.random() - 0.5) * 0.6);
+        Body.setVelocity(body, {
+          x: (Math.random() - 0.5) * 1.2,
+          y: Math.random() * 0.8,
+        });
+        bodies.push(body);
+        sizes.push(size);
+      }
 
-      Composite.add(engine.world, [stack, ...walls]);
+      Composite.add(engine.world, [...walls, ...bodies]);
 
       const mouse = Mouse.create(root);
       const mouseConstraint = MouseConstraint.create(engine, {
@@ -474,14 +442,19 @@ function FooterMixedTiles() {
       window.clearTimeout(resizeTimer);
       io.disconnect();
       cancelAnimationFrame(raf);
-      if (sim) destroySim(sim);
+      if (sim) {
+        Runner.stop(sim.runner);
+        Mouse.clearSourceEvents(sim.mouseConstraint.mouse);
+        Composite.clear(sim.engine.world, false);
+        Engine.clear(sim.engine);
+      }
     };
   }, []);
 
   return (
     <div
       ref={rootRef}
-      className="footer-cradle footer-cradle--mixed absolute inset-0 z-0 w-full select-none"
+      className="footer-cradle footer-cradle--mixed absolute inset-x-0 top-0 bottom-[4.75rem] z-0 w-full select-none md:bottom-[5.25rem]"
       aria-hidden
     >
       {Array.from({ length: MIXED_COUNT }, (_, i) => {
@@ -493,12 +466,7 @@ function FooterMixedTiles() {
               tileRefs.current[i] = el;
             }}
             className="footer-cradle__bob absolute left-0 top-0 overflow-hidden rounded-[18%] will-change-transform"
-            style={{
-              width: 40,
-              height: 40,
-              opacity: 0,
-              transform: "translate3d(-9999px, 0, 0)",
-            }}
+            style={{ width: 56, height: 56 }}
           >
             <img
               src={`/hero/tile-${n}.png`}
@@ -556,22 +524,17 @@ function layoutCradleStatic(
 }
 
 function layoutMixedStatic(root: HTMLDivElement, tiles: (HTMLDivElement | null)[]) {
-  const width = root.clientWidth || 400;
-  const height = Math.max(root.clientHeight, 120);
-  const size = Math.min(width / MIXED_COLS, height / MIXED_ROWS) * 0.96;
-  const stackW = MIXED_COLS * size;
-  const stackH = MIXED_ROWS * size;
-  const originX = (width - stackW) / 2;
-  const originY = (height - stackH) / 2;
-
+  const width = root.clientWidth || 800;
+  const height = Math.max(root.clientHeight, 280);
+  const centerX = width / 2;
   for (let i = 0; i < MIXED_COUNT; i++) {
     const el = tiles[i];
     if (!el) continue;
-    const col = i % MIXED_COLS;
-    const row = Math.floor(i / MIXED_COLS);
+    const size = 40 + (i % 5) * 6;
+    const x = centerX + ((i % 7) - 3) * (size * 0.85);
+    const y = height * 0.55 + Math.floor(i / 7) * (size * 0.9);
     el.style.width = `${size}px`;
     el.style.height = `${size}px`;
-    el.style.opacity = "1";
-    el.style.transform = `translate3d(${originX + col * size}px, ${originY + row * size}px, 0)`;
+    el.style.transform = `translate3d(${x - size / 2}px, ${y - size / 2}px, 0) rotate(${(i % 7) * 8}deg)`;
   }
 }

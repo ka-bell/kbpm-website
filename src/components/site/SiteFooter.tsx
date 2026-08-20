@@ -63,7 +63,7 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
   return (
     <footer className={shell}>
       <div className="relative mx-auto max-w-[1440px] px-6 pt-24 pb-10 md:px-8">
-        {!light ? <FooterCradle variant={variant} /> : null}
+        <FooterCradle variant={variant} />
 
         <div
           className={`relative z-10 grid grid-cols-2 gap-10 md:grid-cols-12 md:gap-10 ${contentPe} ${
@@ -152,21 +152,17 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
 
         {light ? (
           <div
-            className={`pointer-events-none relative z-10 flex items-center justify-between gap-4 border-t ${border} pt-10 pb-6 md:gap-8 md:pt-14`}
+            className={`pointer-events-none relative z-10 flex items-start justify-between border-t ${border} pt-10 pb-6 md:pt-14`}
             aria-hidden
           >
             <span
-              className={`relative z-10 shrink-0 font-display font-semibold leading-none tracking-[-0.03em] ${link}`}
+              className={`font-display font-semibold leading-none tracking-[-0.03em] ${link}`}
               style={{ fontSize: "clamp(4.5rem, 19vw, 17rem)" }}
             >
               kb
             </span>
-            {/* Centered pit between letters — fixed band, not full leftover width */}
-            <div className="relative z-0 h-[clamp(5.5rem,13vw,11rem)] w-[min(52%,38rem)] shrink overflow-hidden">
-              <FooterCradle variant="light" />
-            </div>
             <span
-              className={`relative z-10 shrink-0 font-display font-semibold leading-none tracking-[-0.03em] ${link}`}
+              className={`font-display font-semibold leading-none tracking-[-0.03em] ${link}`}
               style={{ fontSize: "clamp(4.5rem, 19vw, 17rem)" }}
             >
               pm
