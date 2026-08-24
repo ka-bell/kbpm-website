@@ -2,6 +2,7 @@
 
 import { Link } from "@/components/Link";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { primaryNav, services } from "./nav-data";
 import { Wordmark } from "./Wordmark";
 
@@ -13,6 +14,11 @@ export function MobileNavDrawer({
   onClose: () => void;
 }) {
   const [servicesExpanded, setServicesExpanded] = useState(true);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (open) {
@@ -25,16 +31,30 @@ export function MobileNavDrawer({
     };
   }, [open]);
 
-  if (!open) return null;
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
 
-  return (
-    <div className="fixed inset-0 z-[60] flex flex-col bg-background md:hidden" role="dialog" aria-modal="true">
-      <div className="flex h-16 items-center justify-between border-b border-border px-6">
+  if (!mounted || !open) return null;
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[100] flex flex-col bg-white text-[#1e1e1e] md:hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Menu"
+    >
+      <div className="flex h-16 shrink-0 items-center justify-between border-b border-[#1e1e1e]/10 px-6">
         <Wordmark />
         <button
           type="button"
           onClick={onClose}
-          className="inline-flex h-10 w-10 items-center justify-center"
+          className="inline-flex h-10 w-10 items-center justify-center text-[#1e1e1e]"
           aria-label="Close menu"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
@@ -43,20 +63,20 @@ export function MobileNavDrawer({
         </button>
       </div>
 
-      <nav className="flex-1 overflow-y-auto px-6 py-8">
-        <div className="border-b border-border">
+      <nav className="flex-1 overflow-y-auto bg-white px-6 py-8">
+        <div className="border-b border-[#1e1e1e]/10">
           <div className="flex w-full items-center justify-between py-5">
             <Link
               to="/services"
               onClick={onClose}
-              className="font-display text-3xl text-foreground"
+              className="font-display text-3xl text-[#1e1e1e]"
             >
               Services
             </Link>
             <button
               type="button"
               onClick={() => setServicesExpanded((v) => !v)}
-              className="inline-flex h-10 w-10 items-center justify-center"
+              className="inline-flex h-10 w-10 items-center justify-center text-[#1e1e1e]"
               aria-expanded={servicesExpanded}
               aria-label={
                 servicesExpanded ? "Collapse services" : "Expand services"
@@ -83,12 +103,14 @@ export function MobileNavDrawer({
                   className="flex items-baseline justify-between py-3"
                 >
                   <span className="flex items-baseline gap-3">
-                    <span className="eyebrow text-muted-foreground">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.05em] text-[#6b6b6b]">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="text-base text-foreground">{s.name}</span>
+                    <span className="text-base text-[#1e1e1e]">{s.name}</span>
                   </span>
-                  <span className="eyebrow text-muted-foreground">{s.tag}</span>
+                  <span className="font-mono text-[11px] uppercase tracking-[0.05em] text-[#6b6b6b]">
+                    {s.tag}
+                  </span>
                 </Link>
               ))}
             </div>
@@ -98,7 +120,7 @@ export function MobileNavDrawer({
         <Link
           to="/about"
           onClick={onClose}
-          className="block border-b border-border py-5 font-display text-3xl text-foreground"
+          className="block border-b border-[#1e1e1e]/10 py-5 font-display text-3xl text-[#1e1e1e]"
         >
           About
         </Link>
@@ -108,28 +130,29 @@ export function MobileNavDrawer({
             key={item.to}
             to={item.to}
             onClick={onClose}
-            className="block border-b border-border py-5 font-display text-3xl text-foreground"
+            className="block border-b border-[#1e1e1e]/10 py-5 font-display text-3xl text-[#1e1e1e]"
           >
             {item.label}
           </Link>
         ))}
       </nav>
 
-      <div className="border-t border-border p-6">
+      <div className="shrink-0 border-t border-[#1e1e1e]/10 bg-white p-6">
         <Link
           to="/contact"
           onClick={onClose}
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-accent px-6 py-4 text-base font-medium text-accent-foreground"
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-[#c9ff6e] px-6 py-4 text-base font-medium text-[#1e1e1e]"
         >
           Start a project
           <svg className="h-4 w-4" viewBox="0 0 14 14" fill="none" aria-hidden>
             <path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.4" />
           </svg>
         </Link>
-        <p className="mt-4 text-center text-xs text-muted-foreground">
+        <p className="mt-4 text-center text-xs text-[#6b6b6b]">
           info@kbpm.nl · Amsterdam
         </p>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

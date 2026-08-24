@@ -62,21 +62,23 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
 
   return (
     <footer className={shell}>
-      <div className="relative mx-auto max-w-[1440px] px-6 pt-24 pb-10 md:px-8">
+      <div className="relative mx-auto max-w-[1440px] px-6 pt-14 pb-8 md:px-8 md:pt-24 md:pb-10">
         <FooterCradle variant={variant} />
 
         <div
-          className={`relative z-10 grid grid-cols-2 gap-10 md:grid-cols-12 md:gap-10 ${contentPe} ${
-            light ? "pb-16 md:pb-20" : "pb-[clamp(11rem,28vw,18rem)]"
+          className={`relative z-10 grid grid-cols-2 gap-8 md:grid-cols-12 md:gap-10 ${contentPe} ${
+            light
+              ? "pb-12 md:pb-20"
+              : "pb-[clamp(7.5rem,20vw,18rem)] md:pb-[clamp(11rem,28vw,18rem)]"
           }`}
         >
           <div className="col-span-2 flex flex-col gap-2 md:col-span-5">
             <Wordmark
               ink={light ? "default" : "white"}
-              className={`font-display text-[1.9rem] font-bold leading-none tracking-[-0.03em] ${interactivePe}`}
+              className={`font-display text-[1.5rem] font-bold leading-none tracking-[-0.03em] md:text-[1.9rem] ${interactivePe}`}
             />
             <p
-              className={`font-display mt-[1.65rem] max-w-[20rem] text-[1.5rem] font-medium leading-[1.1] tracking-[-0.038em] ${link}`}
+              className={`font-display mt-4 max-w-[20rem] text-[1.25rem] font-medium leading-[1.1] tracking-[-0.038em] md:mt-[1.65rem] md:text-[1.5rem] ${link}`}
             >
               Digital products end to end,
               <br />
@@ -84,7 +86,7 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
               <br />
               than the team.
             </p>
-            <div className={`mt-6 space-y-0 text-[14px] leading-5 ${muted}`}>
+            <div className={`mt-4 space-y-0 text-[14px] leading-5 md:mt-6 ${muted}`}>
               <p>Jan van Galenstraat 122</p>
               <p>1056 CA Amsterdam</p>
             </div>
@@ -96,14 +98,14 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
             </a>
           </div>
 
-          <div className="col-span-2 flex flex-wrap gap-x-12 gap-y-10 md:col-span-5 md:col-start-8 md:justify-end md:gap-x-[6.2rem]">
-            <div className="min-w-[7rem] flex-1 space-y-4">
+          <div className="col-span-2 flex flex-wrap gap-x-10 gap-y-6 md:col-span-5 md:col-start-8 md:justify-end md:gap-x-[6.2rem] md:gap-y-10">
+            <div className="min-w-[7rem] flex-1 space-y-3 md:space-y-4">
               <p
                 className={`font-mono text-[11px] uppercase leading-[1.5] tracking-[0.04em] ${muted}`}
               >
                 Services
               </p>
-              <ul className={`space-y-2.5 ${interactivePe}`}>
+              <ul className={`space-y-1.5 md:space-y-2.5 ${interactivePe}`}>
                 {services.map((s) => (
                   <li key={s.name}>
                     <Link to="/services/$slug" params={{ slug: s.slug }}>
@@ -114,13 +116,13 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
               </ul>
             </div>
 
-            <div className="min-w-[7rem] flex-1 space-y-4 md:max-w-[12.25rem]">
+            <div className="min-w-[7rem] flex-1 space-y-3 md:max-w-[12.25rem] md:space-y-4">
               <p
                 className={`font-mono text-[11px] uppercase leading-[1.5] tracking-[0.04em] ${muted}`}
               >
                 Studio
               </p>
-              <ul className={`space-y-2.5 ${interactivePe}`}>
+              <ul className={`space-y-1.5 md:space-y-2.5 ${interactivePe}`}>
                 {studioLinks.map((item) => (
                   <li key={item.to}>
                     <Link to={item.to}>
@@ -131,13 +133,13 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
               </ul>
             </div>
 
-            <div className="min-w-[7rem] flex-1 space-y-4">
+            <div className="min-w-[7rem] flex-1 space-y-3 md:space-y-4">
               <p
                 className={`font-mono text-[11px] uppercase leading-[1.5] tracking-[0.04em] ${muted}`}
               >
                 Elsewhere
               </p>
-              <ul className={`space-y-2.5 ${interactivePe}`}>
+              <ul className={`space-y-1.5 md:space-y-2.5 ${interactivePe}`}>
                 {elsewhereLinks.map((item) => (
                   <li key={item.label}>
                     <a href={item.href}>
@@ -171,7 +173,7 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
         ) : null}
 
         <div
-          className={`relative z-10 flex flex-col items-start justify-between gap-3 border-t ${border} pt-6 md:flex-row md:items-center ${contentPe}`}
+          className={`relative z-10 flex flex-col items-start justify-between gap-2 border-t ${border} pt-4 md:flex-row md:items-center md:gap-3 md:pt-6 ${contentPe}`}
         >
           <p
             className={`font-mono text-[11px] leading-[1.5] tracking-[0.06em] ${muted}`}

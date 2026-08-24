@@ -1,6 +1,7 @@
 "use client";
 
-import { ReactLenis } from "lenis/react";
+import { ReactLenis, useLenis } from "lenis/react";
+import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import "lenis/dist/lenis.css";
 
@@ -16,6 +17,19 @@ function usePrefersReducedMotion() {
   }, []);
 
   return reduced;
+}
+
+/** Reset Lenis + window scroll on route change (native scrollTo alone is ignored). */
+function ScrollToTop() {
+  const pathname = usePathname();
+  const lenis = useLenis();
+
+  useEffect(() => {
+    lenis?.scrollTo(0, { immediate: true });
+    window.scrollTo(0, 0);
+  }, [pathname, lenis]);
+
+  return null;
 }
 
 /**
@@ -38,8 +52,10 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
         wheelMultiplier: 0.95,
         anchors: true,
         autoRaf: true,
+        stopInertiaOnNavigate: true,
       }}
     >
+      <ScrollToTop />
       {children}
     </ReactLenis>
   );

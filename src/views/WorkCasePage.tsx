@@ -154,8 +154,7 @@ const DEFAULT_CREDITS = [
 ] as const;
 
 function brandMark(client: string) {
-  const base = client.replace(/\s+/g, "").toUpperCase();
-  return base.length > 12 ? base.slice(0, 10) : base;
+  return client.replace(/\s+/g, "").toUpperCase();
 }
 
 function CaseMedia({
@@ -187,17 +186,17 @@ function DetailCard({
 }) {
   return (
     <article
-      className={`flex min-h-[16rem] flex-col justify-between rounded-[24px] border border-[#1e1e1e]/20 p-7 ${className}`.trim()}
+      className={`flex min-h-[18.5rem] flex-col justify-between rounded-[24px] border border-[#1e1e1e]/20 p-7 ${className}`.trim()}
     >
       <div>
         <p className="font-mono text-[11px] uppercase leading-[16.5px] tracking-[0.05em] text-[#6b6b6b]">
           {String(index).padStart(2, "0")}
         </p>
-        <h3 className="mt-5 font-display text-[24px] font-medium leading-7 text-[#1e1e1e]">
+        <h3 className="mt-[19px] font-display text-[24px] font-medium leading-7 text-[#1e1e1e]">
           {title}
         </h3>
       </div>
-      <p className="mt-10 text-[14px] leading-[22.75px] text-[#6b6b6b]">{body}</p>
+      <p className="text-[14px] leading-[22.75px] text-[#6b6b6b]">{body}</p>
     </article>
   );
 }
@@ -222,40 +221,44 @@ export function WorkCasePage({ c }: { c: CaseStudy }) {
   const visuals = c.screens;
 
   useEffect(() => {
-    window.scrollTo({ top: 0 });
+    // Lenis owns scroll — SmoothScroll resets on route change; keep as fallback.
+    window.scrollTo(0, 0);
   }, [c.slug]);
 
   return (
     <div className="kbpm-hi-fi bg-white text-[#1e1e1e]">
-      {/* Hero brand panel — 3626:16403 */}
-      <section className="px-6 pt-6 md:px-8 md:pt-8">
-        <div className="relative mx-auto flex min-h-[min(70vh,36rem)] max-w-[1376px] items-center justify-center overflow-hidden rounded-[24px] bg-[#1e1e1e] md:min-h-[min(80vh,57.5rem)]">
+      {/* Hero brand panel — Figma 3626:16403 */}
+      <section className="px-6 pb-8 pt-4 md:px-8 md:pb-8 md:pt-2">
+        <div className="relative mx-auto flex h-[min(57.5rem,85dvh)] min-h-[28rem] w-full max-w-[1376px] items-center justify-center overflow-hidden rounded-[24px] bg-[#1e1e1e]">
+          {/* Bottom vignette — Figma Gradient Overlay Bottom */}
           <div
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] opacity-80"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-[48%] mix-blend-multiply"
             style={{
               backgroundImage:
-                "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 40%, rgba(0,0,0,0.75) 100%)",
+                "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 35%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0.8) 100%)",
             }}
             aria-hidden
           />
           <h1
-            className="relative z-10 px-6 text-center font-display font-semibold uppercase text-[#f5f5f5]"
+            className="relative z-10 max-w-[92%] text-center font-display font-semibold uppercase tracking-[-0.04em] text-[#f5f5f5]"
             style={{
-              fontSize: "clamp(3.5rem, 18vw, 14rem)",
+              fontSize:
+                mark.length > 10
+                  ? "clamp(2.75rem, 12vw, 9rem)"
+                  : "clamp(4rem, 16vw, 12rem)",
               lineHeight: 0.9,
-              letterSpacing: "-0.04em",
             }}
           >
             {mark}
-            <span className="align-super text-[0.35em]">*</span>
+            <span className="align-super text-[0.35em] font-semibold">*</span>
           </h1>
         </div>
       </section>
 
-      {/* Project identity + meta — 3626:16446 */}
-      <section className="mx-auto max-w-[1440px] px-6 py-12 md:px-[72px] md:py-14">
-        <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
-          <Reveal className="max-w-[440px]">
+      {/* Project identity + meta — Figma 3626:16446 */}
+      <section className="mx-auto max-w-[1440px] px-6 py-10 md:px-[72px] md:py-14">
+        <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-10">
+          <Reveal className="flex max-w-[440px] flex-col gap-4">
             <div className="flex flex-wrap gap-2.5">
               <span className="inline-flex items-center rounded-full border border-black/10 px-4 py-2 font-mono text-[14px] font-light tracking-[0.05em] text-[#1e1e1e]">
                 {c.service.split("→")[0]?.trim() || "Service"}
@@ -264,20 +267,20 @@ export function WorkCasePage({ c }: { c: CaseStudy }) {
                 {c.industry.split("/")[0]?.trim() || c.industry}
               </span>
             </div>
-            <p
-              className="mt-4 font-display font-medium uppercase tracking-[-0.02em] text-[#1e1e1e]"
-              style={{ fontSize: "clamp(2.75rem, 8vw, 6rem)", lineHeight: 1.1 }}
+            <h2
+              className="font-display font-medium uppercase tracking-[-0.02em] text-[#1e1e1e]"
+              style={{ fontSize: "clamp(3rem, 7vw, 6rem)", lineHeight: 1.1 }}
             >
-              {c.client.replace(/\s+/g, "").toUpperCase()}
-            </p>
-            <p className="mt-4 text-[20px] font-medium leading-[1.1] tracking-[-0.03em] text-[#1e1e1e]">
+              {mark}
+            </h2>
+            <p className="text-[20px] font-medium leading-[1.1] tracking-[-0.03em] text-[#1e1e1e]">
               {c.title}
             </p>
           </Reveal>
 
           <Reveal
             delay={80}
-            className="grid w-full max-w-[514px] grid-cols-2 gap-5 pt-2 sm:grid-cols-4 lg:pt-10"
+            className="grid w-full max-w-[514px] grid-cols-2 gap-5 sm:grid-cols-4 lg:pt-10"
           >
             <MetaCol label="Client" value={c.client} />
             <MetaCol label="Year" value={c.year} />
@@ -366,31 +369,35 @@ export function WorkCasePage({ c }: { c: CaseStudy }) {
         </Reveal>
       </section>
 
-      {/* 02 Build — 3626:16507 */}
+      {/* 02 Build — Figma 3626:16507 (header + 3-col cards) */}
       <section className="mx-auto max-w-[1440px] px-6 py-16 md:px-20 md:py-20">
-        <Reveal className="max-w-[604px]">
-          <SectionEyebrow mark="02" label="Build" />
-          <h2
-            className="mt-8 font-display font-medium tracking-[-0.03em] text-[#1e1e1e]"
-            style={{ fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.1 }}
-          >
-            How we built the right thing, and built it right
-          </h2>
-          <p className="mt-8 text-[16px] leading-[1.3] tracking-[-0.02em] text-[#6b6b6b]">
-            {c.built}
-          </p>
-        </Reveal>
-        <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
-          {detailCards.build.map((card, i) => (
-            <Reveal key={card.title} delay={i * 60}>
-              <DetailCard
-                index={i + 1}
-                title={card.title}
-                body={card.body}
-                className="h-full min-h-[18rem]"
-              />
-            </Reveal>
-          ))}
+        <div className="flex flex-col gap-12 md:gap-[49px]">
+          <Reveal className="flex max-w-[604px] flex-col gap-8">
+            <SectionEyebrow mark="02" label="Build" />
+            <div className="flex flex-col gap-8">
+              <h2
+                className="font-display font-medium tracking-[-0.03em] text-[#1e1e1e]"
+                style={{ fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.1 }}
+              >
+                How we built the right thing, and built it right
+              </h2>
+              <p className="text-[16px] leading-[1.3] tracking-[-0.02em] text-[#6b6b6b]">
+                {c.built}
+              </p>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+            {detailCards.build.map((card, i) => (
+              <Reveal key={card.title} delay={i * 60}>
+                <DetailCard
+                  index={i + 1}
+                  title={card.title}
+                  body={card.body}
+                  className="h-full md:min-h-[297px]"
+                />
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 

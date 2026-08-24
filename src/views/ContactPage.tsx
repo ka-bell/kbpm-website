@@ -1,168 +1,243 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { useEffect, useRef } from "react";
+import { Link } from "@/components/Link";
+import { useEffect, useState } from "react";
+import { Reveal } from "@/components/site/Reveal";
+import { SectionEyebrow } from "@/components/site/SectionEyebrow";
 
-const projectTypes = [
-  "Launch Scan — vibecode readiness (€250)",
-  "Release Ready — vibecode hardening (€1,500)",
-  "EU Stack Scan — map providers & residency",
-  "EU-First Setup — foundations on EU infra",
-  "EU Migration Plan — move without breaking",
-  "Validate — clarity before we build",
-  "Build — design and develop the product",
-  "Evolve — improve a live product",
-  "Support — keep everything running",
-  "Not sure yet",
-];
-
-// Note: Validate/Build/Evolve/Support here are service groups, not packages.
-
-const INTEREST_TO_TYPE: Record<string, string> = {
-  scan: "Launch Scan — vibecode readiness (€250)",
-  release: "Release Ready — vibecode hardening (€1,500)",
-  "eu-scan": "EU Stack Scan — map providers & residency",
-  "eu-setup": "EU-First Setup — foundations on EU infra",
-  "eu-migrate": "EU Migration Plan — move without breaking",
+const INTEREST_HINT: Record<string, string> = {
+  scan: "Launch Scan / vibecode readiness",
+  release: "Release Ready / vibecode hardening",
+  "eu-scan": "EU Stack Scan",
+  "eu-setup": "EU-First Setup",
+  "eu-migrate": "EU Migration Plan",
 };
 
-function FieldLabel({ htmlFor, children }: { htmlFor: string; children: ReactNode }) {
-  return (
-    <label htmlFor={htmlFor} className="font-mono-label uppercase tracking-wider text-muted-foreground">
-      {children}
-    </label>
-  );
-}
+const CONTACT_CARDS = [
+  {
+    label: "Studio",
+    title: "Amsterdam, NL",
+    body: "Remote-first delivery with in-person working sessions when the project benefits from it.",
+  },
+  {
+    label: "Email",
+    title: "hello@kbpm.nl",
+    href: "mailto:hello@kbpm.nl",
+    body: "Best for briefs, prototype links, procurement questions, and first project context.",
+  },
+  {
+    label: "Working hours",
+    title: "CET / CEST",
+    body: "Useful overlap for European teams, agencies, founders, and product owners.",
+  },
+] as const;
 
-const fieldClass =
-  "mt-3 w-full border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-foreground";
-
+/**
+ * Contact — Figma 3626:9843.
+ * Layout/look from Figma; rewrite copy where Figma used placeholders (Miyagami).
+ */
 export function ContactPage({ interest }: { interest?: string }) {
-  const preselected = INTEREST_TO_TYPE[interest ?? ""] ?? "";
-  const selectRef = useRef<HTMLSelectElement>(null);
+  const hint = INTEREST_HINT[interest ?? ""] ?? "";
+  const [consent, setConsent] = useState(false);
 
   useEffect(() => {
-    if (preselected && selectRef.current) {
-      selectRef.current.value = preselected;
+    if (!hint) return;
+    const el = document.getElementById("message") as HTMLTextAreaElement | null;
+    if (el && !el.value) {
+      el.value = `Interested in: ${hint}\n\n`;
     }
-  }, [preselected]);
+  }, [hint]);
 
   return (
-    <main>
-      <section className="border-b border-border">
-        <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-10 px-6 py-20 md:grid-cols-12 md:px-8 md:py-28">
-          <div className="md:col-span-7">
-            <p className="eyebrow">Contact / Start a project</p>
-            <h1
-              className="font-display mt-5 max-w-5xl text-foreground"
+    <div className="kbpm-hi-fi">
+      {/* Dark hero + form — continuous #1e1e1e; pulls under floating header */}
+      <div className="relative -mt-[4.5rem] bg-[#1e1e1e] text-white sm:-mt-[5.5rem] lg:-mt-[6.5rem]">
+        {/* Hero — Figma 3626:9845 */}
+        <section className="mx-auto max-w-[1440px] px-6 pb-10 pt-[5.5rem] sm:pt-[6.5rem] md:px-20 md:pb-14 lg:px-20 lg:pb-20 lg:pt-[8.5rem]">
+          <div className="flex flex-col gap-14">
+            <Reveal>
+              <Link
+                to="/"
+                className="inline-flex w-fit items-center gap-2.5 rounded-full border border-white px-6 py-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-80"
+              >
+                <img
+                  src="/hero/arrow-outward-light.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                  className="size-4 rotate-180"
+                />
+                Home
+              </Link>
+            </Reveal>
+
+            <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+              <Reveal className="max-w-[44rem]">
+                <div className="flex flex-col gap-8">
+                  <p className="font-mono text-[14px] uppercase leading-[16.5px] tracking-[0.05em] text-white">
+                    Contact
+                  </p>
+                  <h1
+                    className="font-display font-medium text-white"
+                    style={{
+                      fontSize: "clamp(3rem, 8vw, 6rem)",
+                      lineHeight: 1,
+                      letterSpacing: "-0.03em",
+                    }}
+                  >
+                    Let’s build
+                    <br />
+                    together.
+                  </h1>
+                </div>
+              </Reveal>
+              <Reveal delay={80} className="max-w-[22.5rem] lg:pb-1">
+                <p className="text-[18px] leading-[1.2] tracking-[-0.02em] text-white">
+                  kbell + postman is a small, senior studio in Amsterdam. We take
+                  products from idea to production — strategy, design, and code —
+                  for teams whose ideas have outgrown their in-house capacity.
+                </p>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
+        {/* Form — Figma 3626:9856 */}
+        <section className="mx-auto max-w-[1440px] px-6 pb-16 pt-6 md:px-20 md:pb-20 md:pt-10">
+          <Reveal>
+            <form
+              action="mailto:hello@kbpm.nl"
+              method="post"
+              encType="text/plain"
+              className="flex max-w-[955px] flex-col gap-6"
+            >
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <label className="flex flex-col gap-4">
+                  <span className="text-[16px] leading-[1.3] tracking-[-0.02em] text-white">
+                    Full name
+                  </span>
+                  <input
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    className="h-12 w-full border border-white bg-transparent px-3 text-[16px] text-white outline-none placeholder:text-white/40 focus:border-white"
+                  />
+                </label>
+                <label className="flex flex-col gap-4">
+                  <span className="text-[16px] leading-[1.3] tracking-[-0.02em] text-white">
+                    Email address *
+                  </span>
+                  <input
+                    name="email"
+                    type="email"
+                    required
+                    autoComplete="email"
+                    className="h-12 w-full border border-white bg-transparent px-3 text-[16px] text-white outline-none placeholder:text-white/40 focus:border-white"
+                  />
+                </label>
+              </div>
+
+              <label className="flex flex-col gap-4">
+                <span className="text-[16px] leading-[1.3] tracking-[-0.02em] text-white">
+                  Message
+                </span>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={7}
+                  placeholder="Type your message..."
+                  className="min-h-[180px] w-full resize-y border border-white bg-transparent p-3 text-[16px] leading-[1.3] tracking-[-0.02em] text-white outline-none placeholder:text-white/45 focus:border-white"
+                />
+              </label>
+
+              <label className="flex items-start gap-2 pb-4 sm:items-center">
+                <input
+                  type="checkbox"
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
+                  required
+                  className="mt-0.5 size-[18px] shrink-0 appearance-none border border-white bg-transparent checked:bg-white"
+                />
+                <span className="text-[12px] leading-[1.2] tracking-[-0.01em] text-white">
+                  I agree to kbell + postman storing my information for the
+                  purpose of this inquiry.
+                </span>
+              </label>
+
+              <button
+                type="submit"
+                className="inline-flex w-fit items-center justify-center rounded-full bg-[#006ff7] px-6 py-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
+              >
+                Submit
+              </button>
+            </form>
+          </Reveal>
+        </section>
+      </div>
+
+      {/* Studio details — Figma 3626:9870 */}
+      <section
+        data-contact-light
+        className="bg-white px-6 py-16 text-[#1e1e1e] md:px-20 md:py-20"
+      >
+        <div className="mx-auto max-w-[1440px]">
+          <Reveal className="flex max-w-[45rem] flex-col gap-8">
+            <SectionEyebrow label="Capabilities and Services" mark={3} />
+            <h2
+              className="font-display font-medium tracking-[-0.03em] text-[#1e1e1e]"
               style={{
-                fontSize: "clamp(3.25rem, 7vw, 7rem)",
-                lineHeight: 0.92,
-                letterSpacing: "-0.05em",
-                fontWeight: 500,
+                fontSize: "clamp(2.5rem, 5vw, 4rem)",
+                lineHeight: 1.1,
               }}
             >
-              Tell us what you are building.
-            </h1>
-          </div>
-          <div className="flex flex-col justify-end md:col-span-5">
-            <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">
-              Whether you need to validate an idea, ship a working product, repair a prototype, or
-              extend an existing platform, give us enough context to understand the shape of the
-              work.
-            </p>
-            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <div className="border border-border p-4">
-                <p className="eyebrow">Direct</p>
-                <a href="mailto:info@kbpm.nl" className="mt-2 block text-sm text-foreground">
-                  info@kbpm.nl
-                </a>
-              </div>
-              <div className="border border-border p-4">
-                <p className="eyebrow">Studio</p>
-                <p className="mt-2 text-sm text-foreground">Amsterdam - CET</p>
-              </div>
-            </div>
+              Small studio,
+              <br />
+              direct access.
+            </h2>
+          </Reveal>
+
+          <div className="mt-14 grid grid-cols-1 gap-5 md:mt-[72px] md:grid-cols-3">
+            {CONTACT_CARDS.map((card, i) => (
+              <Reveal key={card.label} delay={i * 60}>
+                <article className="flex min-h-[18.5rem] flex-col justify-between border border-[#1e1e1e]/20 p-7 md:min-h-[297px]">
+                  <div>
+                    <p className="font-mono text-[11px] uppercase leading-[16.5px] tracking-[0.05em] text-[#6b6b6b]">
+                      {card.label}
+                    </p>
+                    {"href" in card && card.href ? (
+                      <a
+                        href={card.href}
+                        className="mt-[19px] block font-display text-[24px] font-medium leading-7 text-[#1e1e1e] transition-opacity hover:opacity-70"
+                      >
+                        {card.title}
+                      </a>
+                    ) : (
+                      <p className="mt-[19px] font-display text-[24px] font-medium leading-7 text-[#1e1e1e]">
+                        {card.title}
+                      </p>
+                    )}
+                  </div>
+                  <p className="text-[14px] leading-[22.75px] text-[#6b6b6b]">
+                    {card.body}
+                  </p>
+                </article>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1440px] px-6 py-16 md:px-8 md:py-24">
-        <form
-          action="mailto:info@kbpm.nl"
-          method="post"
-          encType="text/plain"
-          className="mx-auto max-w-4xl border border-border bg-background"
-        >
-            <div className="border-b border-border p-5 md:p-6">
-              <p className="eyebrow">Project intake</p>
-              <h2 className="mt-3 text-xl font-medium text-foreground">A few details is enough.</h2>
-            </div>
-
-            <div className="grid grid-cols-1 border-b border-border md:grid-cols-2">
-              <div className="border-b border-border p-5 md:border-b-0 md:border-r md:p-6">
-                <FieldLabel htmlFor="name">Your name</FieldLabel>
-                <input id="name" name="name" type="text" placeholder="Name" className={fieldClass} />
-              </div>
-              <div className="p-5 md:p-6">
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <input id="email" name="email" type="email" placeholder="you@company.com" className={fieldClass} />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 border-b border-border md:grid-cols-2">
-              <div className="border-b border-border p-5 md:border-b-0 md:border-r md:p-6">
-                <FieldLabel htmlFor="company">Company or studio</FieldLabel>
-                <input id="company" name="company" type="text" placeholder="Optional" className={fieldClass} />
-              </div>
-              <div className="p-5 md:p-6">
-                <FieldLabel htmlFor="projectType">What do you need?</FieldLabel>
-                <select
-                  id="projectType"
-                  name="project_type"
-                  ref={selectRef}
-                  className={fieldClass}
-                  defaultValue={preselected}
-                >
-                  <option value="" disabled>
-                    Choose a path
-                  </option>
-                  {projectTypes.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="border-b border-border p-5 md:p-6">
-              <FieldLabel htmlFor="message">What should we know?</FieldLabel>
-              <textarea
-                id="message"
-                name="message"
-                rows={5}
-                placeholder="What you're building, where you're stuck, timing or budget if you have it, and any links."
-                className={fieldClass}
-              />
-            </div>
-
-            <div className="flex flex-col gap-4 p-5 md:flex-row md:items-center md:justify-between md:p-6">
-              <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-                Prefer email? Write to info@kbpm.nl.
-              </p>
-              <button
-                type="submit"
-                className="inline-flex items-center justify-center gap-2 border border-foreground bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors hover:bg-background hover:text-foreground"
-              >
-                Send
-                <svg className="h-4 w-4" viewBox="0 0 14 14" fill="none" aria-hidden>
-                  <path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" />
-                </svg>
-              </button>
-            </div>
-        </form>
+      {/* Studio photo — Figma 3626:9901 */}
+      <section className="bg-white">
+        <div className="relative aspect-[1440/820] w-full overflow-hidden bg-[#f5f5f5]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/contact/studio.jpg"
+            alt="kbell + postman studio workspace in Amsterdam"
+            className="absolute inset-0 size-full object-cover"
+          />
+        </div>
       </section>
-    </main>
+    </div>
   );
 }

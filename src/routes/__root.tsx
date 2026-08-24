@@ -126,7 +126,9 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const lightFooter =
-    pathname.startsWith("/about") || pathname.startsWith("/work");
+    pathname.startsWith("/about") ||
+    pathname.startsWith("/work") ||
+    pathname.startsWith("/contact");
 
   return (
     <QueryClientProvider client={queryClient}>

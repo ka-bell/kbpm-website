@@ -8,15 +8,41 @@ import {
   MoreWork,
   workCardsFromSlugs,
 } from "@/components/site/MoreWork";
-import type { ServiceGroup } from "@/components/site/service-offerings";
+import type {
+  ServiceGroup,
+  ServiceSlug,
+} from "@/components/site/service-offerings";
 import { getServicePanelCopy } from "@/components/site/service-lists";
 import { getServiceDetailByPlainName } from "@/components/site/service-details";
 
 /** Viewport-heights of scroll track per offer (sticky scrub). */
 const OFFER_SCROLL_VH = 0.72;
 
+/** Panel art rotates as you scrub offers — starts on this group’s graphic. */
+const OFFER_PANEL_GRAPHICS: ServiceSlug[] = [
+  "validate",
+  "build",
+  "evolve",
+  "support",
+];
+
 function pad(n: number) {
   return String(n).padStart(2, "0");
+}
+
+/** Unique panel image per offer index; phase graphics first, then brand tiles. */
+function offerPanelSrc(slug: ServiceSlug, index: number) {
+  const start = Math.max(0, OFFER_PANEL_GRAPHICS.indexOf(slug));
+  const pool = [
+    ...OFFER_PANEL_GRAPHICS.slice(start).map(
+      (s) => `/services/${s}-graphic.png`,
+    ),
+    ...OFFER_PANEL_GRAPHICS.slice(0, start).map(
+      (s) => `/services/${s}-graphic.png`,
+    ),
+    ...[1, 2, 3, 4, 5, 6, 7].map((n) => `/hero/tile-${n}.png`),
+  ];
+  return pool[index % pool.length];
 }
 
 /**
@@ -98,7 +124,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
     service.capabilities.indexOf(activeCapability),
   );
   const activeOffer = getServiceDetailByPlainName(activeCapability);
-  const offerImage = `/services/${service.slug}-graphic.png`;
+  const offerImage = offerPanelSrc(service.slug, activeIndex);
   const total = service.capabilities.length;
   const offerTrackStyle =
     total > 1
@@ -322,7 +348,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                   )}
                 </div>
 
-                <div className="relative min-h-0 flex-[0.9] lg:flex-1">
+                <div className="relative min-h-0 flex-[0.9] overflow-hidden bg-[#f5f5f5] lg:flex-1">
                   <img
                     key={activeCapability}
                     src={offerImage}

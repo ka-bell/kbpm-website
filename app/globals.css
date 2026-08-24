@@ -376,7 +376,7 @@
   }
 }
 
-/* Services sticky stack — Qare Modules / serious.business pattern */
+/* Services sticky stack — Qare Modules / serious.business pattern (all breakpoints) */
 .services-stack {
   display: flex;
   flex-direction: column;
@@ -386,27 +386,24 @@
 }
 
 .services-stack__card {
+  position: sticky;
+  /* Mobile: tighter peek for smaller title strip */
+  top: calc(0.5rem + (var(--stack-i, 0) * 3.75rem));
+  margin-bottom: 0;
   /* Figma: top corners only so stacked cards tuck cleanly */
   border-radius: 2rem 2rem 0 0;
+  box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.1);
+}
+
+.kbpm-hi-fi .services-stack__card {
+  border-radius: 2rem 2rem 0 0 !important;
+  box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.1) !important;
 }
 
 @media (min-width: 1024px) {
-  .services-stack {
-    gap: 7.5rem;
-  }
-
   .services-stack__card {
-    position: sticky;
-    /* Peek title strip; slightly taller than Qare for 64px KB titles */
+    /* Desktop: taller peek for 64px titles */
     top: calc(0.75rem + (var(--stack-i, 0) * 5.25rem));
-    margin-bottom: 0;
-    border-radius: 2rem 2rem 0 0;
-    box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.1);
-  }
-
-  .kbpm-hi-fi .services-stack__card {
-    border-radius: 2rem 2rem 0 0 !important;
-    box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.1) !important;
   }
 }
 
@@ -447,6 +444,15 @@
   color: var(--color-muted-foreground);
 }
 
+/* Recent work — horizontal scroll strip */
+.kbpm-work-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.kbpm-work-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 /* Marquee */
 @keyframes kbpm-marquee {
   from { transform: translateX(0); }
@@ -459,6 +465,18 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .kbpm-marquee-track { animation: none; }
+}
+
+/* Hero tiles — mobile L→R drift (duplicated track, -50% → 0) */
+@keyframes kbpm-hero-tiles-ltr {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+.kbpm-hero-tiles-track {
+  animation: kbpm-hero-tiles-ltr 32s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .kbpm-hero-tiles-track { animation: none; transform: translateX(0); }
 }
 
 /* Reveal — pairs with site-wide delayed scroll */

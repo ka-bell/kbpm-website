@@ -10,10 +10,11 @@ const SERVICE_GROUP_RE = /^\/services\/(validate|build|evolve|support)\/?$/;
 export function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const isContact = pathname.startsWith("/contact");
   const serviceGroupDark = SERVICE_GROUP_RE.test(pathname);
-  const startsOverDark = isHome || serviceGroupDark;
+  const startsOverDark = isHome || serviceGroupDark || isContact;
 
-  /** White ink over dark surfaces (home hero / service groups); black elsewhere. */
+  /** White ink over dark surfaces (home / service groups / contact); black elsewhere. */
   const [overDark, setOverDark] = useState(startsOverDark);
   /** Hide on scroll-down; ease back in on scroll-up. */
   const [navHidden, setNavHidden] = useState(false);
@@ -25,7 +26,15 @@ export function SiteChrome({ children }: { children: ReactNode }) {
     const sync = () => {
       const y = window.scrollY;
 
-      if (isHome || serviceGroupDark) {
+      if (isContact) {
+        const light = document.querySelector("[data-contact-light]");
+        if (light) {
+          const top = light.getBoundingClientRect().top + window.scrollY;
+          setOverDark(y < top - 48);
+        } else {
+          setOverDark(y < window.innerHeight * 1.1);
+        }
+      } else if (isHome || serviceGroupDark) {
         setOverDark(y < window.innerHeight * 0.55);
       } else {
         setOverDark(false);
@@ -57,12 +66,14 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, [isHome, serviceGroupDark, pathname]);
+  }, [isHome, isContact, serviceGroupDark, pathname]);
 
   const variant = overDark ? "white" : "black";
 
   const lightFooter =
-    pathname.startsWith("/about") || pathname.startsWith("/work");
+    pathname.startsWith("/about") ||
+    pathname.startsWith("/work") ||
+    pathname.startsWith("/contact");
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">

@@ -27,7 +27,7 @@ export default function HomePage() {
       <TrustedBy />
       <ServicePaths />
       <FeaturedCase />
-      <MoreWork />
+      <MoreWork layout="scroll" />
       <WhyKbpm />
     </>
   );
