@@ -11,13 +11,15 @@ const SECTIONS = [
   { id: "credits", label: "Credits" },
 ] as const;
 
+type SectionId = (typeof SECTIONS)[number]["id"];
+
 /**
  * Floating bottom nav for case pages — same chrome language as SiteHeader,
  * jumps between sections within the current case.
  */
 export function CaseStudyNav() {
   const lenis = useLenis();
-  const [active, setActive] = useState<string>(SECTIONS[0].id);
+  const [active, setActive] = useState<SectionId>(SECTIONS[0].id);
 
   useEffect(() => {
     const els = SECTIONS.map((s) => document.getElementById(s.id)).filter(
@@ -27,10 +29,10 @@ export function CaseStudyNav() {
 
     const sync = () => {
       const marker = window.innerHeight * 0.35;
-      let current = SECTIONS[0].id;
+      let current: SectionId = SECTIONS[0].id;
       for (const el of els) {
         if (el.getBoundingClientRect().top <= marker) {
-          current = el.id;
+          current = el.id as SectionId;
         }
       }
       setActive(current);
@@ -45,7 +47,7 @@ export function CaseStudyNav() {
     };
   }, []);
 
-  const goTo = (id: string) => {
+  const goTo = (id: SectionId) => {
     const el = document.getElementById(id);
     if (!el) return;
     if (lenis) {
