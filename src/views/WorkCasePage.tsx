@@ -130,6 +130,66 @@ function getCaseDetailCards(c: CaseStudy): { problem: NarrativeCard[]; build: Na
         },
       ],
     },
+    blink: {
+      problem: [
+        {
+          title: "Lost bookings",
+          body: "Artists were losing work to incomplete DMs, unclear briefs, and calendars that didn’t match how tattoo sessions actually run.",
+        },
+        {
+          title: "Wrong tools",
+          body: "Generic booking software didn’t support artist, style, or flash-based requests — or studio multi-artist scheduling.",
+        },
+        {
+          title: "Measure",
+          body: "A dedicated flow from client request to confirmed, paid appointment.",
+        },
+      ],
+      build: [
+        {
+          title: "Booking widget",
+          body: "Let studios embed or share a Blink link so clients pick artist, style, or flash and submit a proper request.",
+        },
+        {
+          title: "Studio ops",
+          body: "Dashboard, calendar, messaging, and Stripe so appointments and payments live in one place.",
+        },
+        {
+          title: "Brand & craft",
+          body: "A product and brand system that feels built for tattoo culture — not a clinic booking clone.",
+        },
+      ],
+    },
+    "scooply-ai": {
+      problem: [
+        {
+          title: "Tab overload",
+          body: "Research and scoops get stuck across tabs, notes, and chats — never finishing as something shareable.",
+        },
+        {
+          title: "AI on the side",
+          body: "Most AI tools sit next to the browser instead of inside the moment of discovery.",
+        },
+        {
+          title: "Measure",
+          body: "An AI scooping experience that feels native to browsing and mobile follow-up.",
+        },
+      ],
+      build: [
+        {
+          title: "In-browser AI",
+          body: "Design AI Mode surfaces that keep scooping inside search and reading flow.",
+        },
+        {
+          title: "Mobile companion",
+          body: "Give Scooply a clear mobile presence without turning it into another heavy app.",
+        },
+        {
+          title: "Brand system",
+          body: "Lock identity, type, and colour so Scooply feels sharp and credible as an AI media product.",
+        },
+      ],
+    },
   };
 
   return (
@@ -154,13 +214,15 @@ const DEFAULT_CREDITS = [
 ] as const;
 
 function brandMark(client: string) {
-  return client.replace(/\s+/g, "").toUpperCase();
+  return client.toUpperCase();
 }
 
 function CaseMedia({
+  src,
   label,
   className = "",
 }: {
+  src?: string;
   label: string;
   className?: string;
 }) {
@@ -168,7 +230,18 @@ function CaseMedia({
     <div
       className={`relative overflow-hidden rounded-[24px] bg-[#f5f5f5] ${className}`.trim()}
     >
-      <ImagePlaceholder label={label} className="min-h-[16rem] md:min-h-0" />
+      {src ? (
+        <img
+          src={src}
+          alt={label}
+          width={1296}
+          height={700}
+          decoding="async"
+          className="absolute inset-0 size-full object-cover"
+        />
+      ) : (
+        <ImagePlaceholder label={label} className="min-h-[16rem] md:min-h-0" />
+      )}
     </div>
   );
 }
@@ -219,44 +292,80 @@ export function WorkCasePage({ c }: { c: CaseStudy }) {
   const mark = brandMark(c.client);
   const stack = c.displayTags.length > 0 ? c.displayTags : c.keyFeatures;
   const visuals = c.screens;
+  const afterProblem = c.mediaLayout?.afterProblem ?? "full-pair";
+  const afterBuild = c.mediaLayout?.afterBuild ?? "two-full";
+
+  // Screen index after primary (0)
+  let mediaIdx = 1;
+  const take = () => visuals[mediaIdx++];
 
   useEffect(() => {
     // Lenis owns scroll — SmoothScroll resets on route change; keep as fallback.
     window.scrollTo(0, 0);
   }, [c.slug]);
 
+  const problemFull =
+    afterProblem === "full-pair" ? take() : undefined;
+  const problemA = take();
+  const problemB = take();
+  const buildFullOrFirst = take();
+  const buildSecond = take();
+  const buildThird = afterBuild === "full-pair" ? take() : undefined;
+  const closing = take() ?? visuals[visuals.length - 1];
+
   return (
     <div className="kbpm-hi-fi bg-white text-[#1e1e1e]">
-      {/* Hero brand panel — Figma 3626:16403 */}
+      {/* Hero brand panel — Figma 3626:16403 / Blink 3657:578 */}
       <section className="px-6 pb-8 pt-4 md:px-8 md:pb-8 md:pt-2">
         <div className="relative mx-auto flex h-[min(57.5rem,85dvh)] min-h-[28rem] w-full max-w-[1376px] items-center justify-center overflow-hidden rounded-[24px] bg-[#1e1e1e]">
-          {/* Bottom vignette — Figma Gradient Overlay Bottom */}
-          <div
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-[48%] mix-blend-multiply"
-            style={{
-              backgroundImage:
-                "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 35%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0.8) 100%)",
-            }}
-            aria-hidden
-          />
-          <h1
-            className="relative z-10 max-w-[92%] text-center font-display font-semibold uppercase tracking-[-0.04em] text-[#f5f5f5]"
-            style={{
-              fontSize:
-                mark.length > 10
-                  ? "clamp(2.75rem, 12vw, 9rem)"
-                  : "clamp(4rem, 16vw, 12rem)",
-              lineHeight: 0.9,
-            }}
-          >
-            {mark}
-            <span className="align-super text-[0.35em] font-semibold">*</span>
-          </h1>
+          {c.heroImage ? (
+            <img
+              src={c.heroImage}
+              alt=""
+              width={1376}
+              height={920}
+              decoding="async"
+              className="absolute inset-0 size-full object-cover"
+            />
+          ) : (
+            <>
+              {/* Bottom vignette — Figma Gradient Overlay Bottom */}
+              <div
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-[48%] mix-blend-multiply"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 35%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0.8) 100%)",
+                }}
+                aria-hidden
+              />
+              <h1
+                className="relative z-10 max-w-[92%] text-center font-display font-semibold uppercase tracking-[-0.04em] text-[#f5f5f5]"
+                style={{
+                  fontSize:
+                    mark.length > 10
+                      ? "clamp(2.75rem, 12vw, 9rem)"
+                      : "clamp(4rem, 16vw, 12rem)",
+                  lineHeight: 0.9,
+                }}
+              >
+                {mark}
+                <span className="align-super text-[0.35em] font-semibold">*</span>
+              </h1>
+            </>
+          )}
+          {c.heroImage ? (
+            <h1 className="sr-only">
+              {c.client}
+            </h1>
+          ) : null}
         </div>
       </section>
 
       {/* Project identity + meta — Figma 3626:16446 */}
-      <section className="mx-auto max-w-[1440px] px-6 py-10 md:px-[72px] md:py-14">
+      <section
+        id="overview"
+        className="mx-auto max-w-[1440px] scroll-mt-24 px-6 py-10 md:px-[72px] md:py-14"
+      >
         <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-10">
           <Reveal className="flex max-w-[440px] flex-col gap-4">
             <div className="flex flex-wrap gap-2.5">
@@ -312,6 +421,7 @@ export function WorkCasePage({ c }: { c: CaseStudy }) {
       <section className="mx-auto max-w-[1440px] px-6 md:px-[72px]">
         <Reveal>
           <CaseMedia
+            src={visuals[0]?.src}
             label={visuals[0]?.caption ?? "Hero image"}
             className="aspect-[1296/700] w-full"
           />
@@ -319,7 +429,10 @@ export function WorkCasePage({ c }: { c: CaseStudy }) {
       </section>
 
       {/* 01 Problem — 3626:16473 */}
-      <section className="mx-auto max-w-[1440px] px-6 py-16 md:px-20 md:py-20">
+      <section
+        id="problem"
+        className="mx-auto max-w-[1440px] scroll-mt-24 px-6 py-16 md:px-20 md:py-20"
+      >
         <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
           <Reveal className="max-w-[518px] shrink-0 lg:sticky lg:top-28">
             <SectionEyebrow mark="01" label="Problem" />
@@ -345,32 +458,46 @@ export function WorkCasePage({ c }: { c: CaseStudy }) {
         </div>
       </section>
 
-      {/* Media grid — 3626:16501 */}
+      {/* Media grid — after problem */}
       <section className="mx-auto max-w-[1440px] space-y-6 px-6 md:space-y-[24px] md:px-[72px]">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-6">
+        {problemFull ? (
           <Reveal>
             <CaseMedia
-              label={visuals[1]?.caption ?? "Image"}
-              className="aspect-[636/700] w-full"
+              src={problemFull.src}
+              label={problemFull.caption ?? "Image"}
+              className="aspect-[1296/700] w-full"
             />
           </Reveal>
-          <Reveal delay={60}>
-            <CaseMedia
-              label={visuals[2]?.caption ?? "Image"}
-              className="aspect-[636/700] w-full"
-            />
-          </Reveal>
-        </div>
-        <Reveal>
-          <CaseMedia
-            label={visuals[3]?.caption ?? "Image"}
-            className="aspect-[1296/700] w-full"
-          />
-        </Reveal>
+        ) : null}
+        {problemA || problemB ? (
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-6">
+            {problemA ? (
+              <Reveal>
+                <CaseMedia
+                  src={problemA.src}
+                  label={problemA.caption ?? "Image"}
+                  className="aspect-[636/700] w-full"
+                />
+              </Reveal>
+            ) : null}
+            {problemB ? (
+              <Reveal delay={60}>
+                <CaseMedia
+                  src={problemB.src}
+                  label={problemB.caption ?? "Image"}
+                  className="aspect-[636/700] w-full"
+                />
+              </Reveal>
+            ) : null}
+          </div>
+        ) : null}
       </section>
 
       {/* 02 Build — Figma 3626:16507 (header + 3-col cards) */}
-      <section className="mx-auto max-w-[1440px] px-6 py-16 md:px-20 md:py-20">
+      <section
+        id="build"
+        className="mx-auto max-w-[1440px] scroll-mt-24 px-6 py-16 md:px-20 md:py-20"
+      >
         <div className="flex flex-col gap-12 md:gap-[49px]">
           <Reveal className="flex max-w-[604px] flex-col gap-8">
             <SectionEyebrow mark="02" label="Build" />
@@ -401,24 +528,47 @@ export function WorkCasePage({ c }: { c: CaseStudy }) {
         </div>
       </section>
 
-      {/* Media stack — 3626:16535 */}
+      {/* Media stack — after build */}
       <section className="mx-auto max-w-[1440px] space-y-6 px-6 md:space-y-[24px] md:px-[72px]">
-        <Reveal>
-          <CaseMedia
-            label={visuals[4]?.caption ?? "Image"}
-            className="aspect-[1296/700] w-full"
-          />
-        </Reveal>
-        <Reveal>
-          <CaseMedia
-            label={visuals[5]?.caption ?? "Image"}
-            className="aspect-[1296/700] w-full"
-          />
-        </Reveal>
+        {buildFullOrFirst ? (
+          <Reveal>
+            <CaseMedia
+              src={buildFullOrFirst.src}
+              label={buildFullOrFirst.caption ?? "Image"}
+              className="aspect-[1296/700] w-full"
+            />
+          </Reveal>
+        ) : null}
+        {afterBuild === "full-pair" && buildSecond && buildThird ? (
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-6">
+            <Reveal>
+              <CaseMedia
+                src={buildSecond.src}
+                label={buildSecond.caption ?? "Image"}
+                className="aspect-[636/700] w-full"
+              />
+            </Reveal>
+            <Reveal delay={60}>
+              <CaseMedia
+                src={buildThird.src}
+                label={buildThird.caption ?? "Image"}
+                className="aspect-[636/700] w-full"
+              />
+            </Reveal>
+          </div>
+        ) : buildSecond ? (
+          <Reveal>
+            <CaseMedia
+              src={buildSecond.src}
+              label={buildSecond.caption ?? "Image"}
+              className="aspect-[1296/700] w-full"
+            />
+          </Reveal>
+        ) : null}
       </section>
 
       {/* 04 Results — 3626:16540 */}
-      <section className="px-6 py-16 md:px-20 md:py-20">
+      <section id="results" className="scroll-mt-24 px-6 py-16 md:px-20 md:py-20">
         <Reveal>
           <div className="mx-auto flex max-w-[1280px] flex-col gap-16 rounded-none bg-[#1e1e1e] p-8 text-white md:gap-24 md:p-10">
             <div className="max-w-[604px]">
@@ -471,7 +621,10 @@ export function WorkCasePage({ c }: { c: CaseStudy }) {
       </section>
 
       {/* 06 Credits — 3626:16563 */}
-      <section className="mx-auto max-w-[1440px] px-6 py-14 md:px-[72px] md:py-14">
+      <section
+        id="credits"
+        className="mx-auto max-w-[1440px] scroll-mt-24 px-6 py-14 md:px-[72px] md:py-14"
+      >
         <div className="flex flex-col gap-12 lg:flex-row lg:gap-[12rem]">
           <Reveal className="max-w-[547px] shrink-0">
             <p className="text-[14px] font-medium leading-[1.28] tracking-[-0.02em] text-[#1e1e1e]">
@@ -500,7 +653,8 @@ export function WorkCasePage({ c }: { c: CaseStudy }) {
       <section className="mx-auto max-w-[1440px] px-6 md:px-[72px]">
         <Reveal>
           <CaseMedia
-            label={visuals[6]?.caption ?? visuals[visuals.length - 1]?.caption ?? "Image"}
+            src={closing?.src}
+            label={closing?.caption ?? "Image"}
             className="aspect-[1296/700] w-full"
           />
         </Reveal>

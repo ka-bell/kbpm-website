@@ -2,15 +2,19 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
+import { CaseStudyNav } from "@/components/site/CaseStudyNav";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 
 const SERVICE_GROUP_RE = /^\/services\/(validate|build|evolve|support)\/?$/;
+const CASE_PATH_RE = /^\/work\/([^/]+)\/?$/;
 
 export function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const isContact = pathname.startsWith("/contact");
+  const caseMatch = pathname.match(CASE_PATH_RE);
+  const caseSlug = caseMatch?.[1] ?? null;
   const serviceGroupDark = SERVICE_GROUP_RE.test(pathname);
   const startsOverDark = isHome || serviceGroupDark || isContact;
 
@@ -97,8 +101,11 @@ export function SiteChrome({ children }: { children: ReactNode }) {
         </div>
       </div>
 
-      <main className="flex-1">{children}</main>
+      <main className={`flex-1 ${caseSlug ? "pb-16 sm:pb-20" : ""}`}>
+        {children}
+      </main>
       <SiteFooter variant={lightFooter ? "light" : "dark"} />
+      {caseSlug ? <CaseStudyNav key={caseSlug} /> : null}
     </div>
   );
 }

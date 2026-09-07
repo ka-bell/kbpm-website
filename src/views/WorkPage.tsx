@@ -9,15 +9,19 @@ import {
   MoreWork,
   workCardsFromSlugs,
 } from "@/components/site/MoreWork";
-import { cases, filters, type Filter } from "@/components/site/cases-data";
+import { filters, getPortfolioCases, type Filter } from "@/components/site/cases-data";
 
 /**
- * Work overview — homepage Recent work language (Figma 3626:4494), full case list.
+ * Work overview — homepage Recent work language (Figma 3626:4494), finished cases only.
  */
 export function WorkPage() {
   const [active, setActive] = useState<Filter>("All");
+  const portfolio = getPortfolioCases();
+  const availableFilters = filters.filter(
+    (f) => f === "All" || portfolio.some((c) => c.tags.includes(f)),
+  );
 
-  const visible = cases.filter(
+  const visible = portfolio.filter(
     (c) => active === "All" || c.tags.includes(active),
   );
 
@@ -65,7 +69,7 @@ export function WorkPage() {
               </div>
 
               <div className="flex flex-wrap items-center gap-2 lg:justify-end">
-                {filters.map((f) => {
+                {availableFilters.map((f) => {
                   const isActive = f === active;
                   return (
                     <button

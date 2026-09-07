@@ -1,7 +1,7 @@
 import { Link } from "@/components/Link";
 import { Reveal } from "./Reveal";
 import { SectionEyebrow, type BrandMark } from "./SectionEyebrow";
-import { getCase } from "./cases-data";
+import { getCase, portfolioSlugs } from "./cases-data";
 
 export type WorkCardConfig = {
   slug: string;
@@ -10,44 +10,23 @@ export type WorkCardConfig = {
   kindTone?: "lime" | "blue";
 };
 
-const DEFAULT_CARDS: WorkCardConfig[] = [
-  {
-    slug: "mix-interiors",
-    image: "/work/card-mix.jpg",
-    kind: "case study",
-    kindTone: "lime",
-  },
-  {
-    slug: "virtue-worldwide",
-    image: "/work/card-virtue.jpg",
-    kind: "case study",
-    kindTone: "blue",
-  },
-  {
-    slug: "hopplay",
-    image: "/work/card-hopplay.jpg",
-    kind: "case study",
-    kindTone: "lime",
-  },
-  {
-    slug: "spilnews",
-    image: "/work/spilnews-featured.jpg",
-    kind: "case study",
-    kindTone: "blue",
-  },
-  {
-    slug: "academion",
-    image: "/assets/case-academion.jpg",
-    kind: "case study",
-    kindTone: "lime",
-  },
-];
+const DEFAULT_CARDS: WorkCardConfig[] = portfolioSlugs.map((slug, i) => ({
+  slug,
+  image: "",
+  kind: "case study",
+  kindTone: i % 2 === 0 ? "lime" : "blue",
+}));
 
 export const CASE_IMAGES: Record<string, string> = {
   "mix-interiors": "/work/card-mix.jpg",
   "virtue-worldwide": "/work/card-virtue.jpg",
   hopplay: "/work/card-hopplay.jpg",
-  spilnews: "/work/spilnews-featured.jpg",
+  blink: "/work/blink/brand.jpg",
+  "scooply-ai": "/work/scooply/primary.jpg",
+  spilnews: "/work/spilnews/primary.jpg",
+  staatsloterij: "/work/staatsloterij/primary.jpg",
+  frame: "/work/frame/primary.jpg",
+  pepperminds: "/work/pepperminds/primary.jpg",
   academion: "/assets/case-academion.jpg",
 };
 

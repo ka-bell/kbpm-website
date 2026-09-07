@@ -74,9 +74,9 @@ export function ServicePaths() {
         </Reveal>
       </div>
 
-      {/* Full-bleed sticky stack — same pattern as Qare Modules */}
-      <div className="mt-12 w-full px-4 sm:mt-16 sm:px-6 lg:mt-[4.5rem] lg:px-8">
-        <div className="services-stack">
+      {/* Sticky stack — same horizontal inset as the section header */}
+      <div className="mx-auto mt-12 w-full max-w-[1440px] px-6 sm:mt-16 md:px-10 lg:mt-[4.5rem] lg:px-20">
+        <div className="services-stack pb-6 md:pb-8">
           {serviceOfferings.map((group, index) => {
             const style = CARD_STYLE[group.slug];
             const tags = serviceListsByPhase[group.slug].widget;
