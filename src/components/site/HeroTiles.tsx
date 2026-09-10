@@ -10,6 +10,15 @@ const TILES = [
   { src: "/hero/tile-7.png", alt: "Brand mark" },
 ] as const;
 
+/** Mobile Figma 3674:2575 — 2 + 3 tile cluster (K, B / +, P, M) */
+const MOBILE_TILES = [
+  TILES[1],
+  TILES[2],
+  TILES[3],
+  TILES[4],
+  TILES[5],
+] as const;
+
 function Tile({
   src,
   alt,
@@ -38,22 +47,30 @@ function Tile({
 
 /**
  * Figma hero strip — brand tiles.
- * Mobile: continuous L→R marquee. sm+: static grid.
+ * Mobile: 2-row cluster (Figma 3674:2575). sm+: full static grid.
  */
 export function HeroTiles() {
-  const loop = [...TILES, ...TILES];
-
   return (
     <>
-      {/* Mobile — tiles drift left → right across the hero */}
-      <div className="relative -mx-5 overflow-hidden sm:hidden" aria-hidden>
-        <div className="kbpm-hero-tiles-track flex w-max gap-[5px] will-change-transform">
-          {loop.map((tile, i) => (
+      {/* Mobile — 2 then 3 tiles, left-aligned like Figma */}
+      <div className="flex flex-col gap-2.5 sm:hidden" aria-hidden>
+        <div className="flex gap-2.5">
+          {MOBILE_TILES.slice(0, 2).map((tile) => (
             <Tile
-              key={`${tile.src}-${i}`}
+              key={tile.src}
               src={tile.src}
               alt=""
-              className="size-[5.25rem] shrink-0"
+              className="size-[5.6rem] shrink-0"
+            />
+          ))}
+        </div>
+        <div className="flex gap-2.5">
+          {MOBILE_TILES.slice(2).map((tile) => (
+            <Tile
+              key={tile.src}
+              src={tile.src}
+              alt=""
+              className="size-[5.6rem] shrink-0"
             />
           ))}
         </div>

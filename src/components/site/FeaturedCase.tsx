@@ -4,22 +4,26 @@ import { SectionEyebrow } from "./SectionEyebrow";
 import { getCase } from "./cases-data";
 
 /**
- * Full-bleed featured portfolio item — Figma 3626:4468.
- * Wireframe copy stays leading; tags from case data.
+ * Featured portfolio item — desktop Figma 3626:4468; mobile 3674:2798.
  */
 export function FeaturedCase() {
   const c = getCase("spilnews");
   const serviceTag = c?.serviceSlug ? c.serviceSlug : "build";
   const industryTag = c?.industry?.split("/")[0]?.trim() ?? "Media";
-  const overlayTitle =
-    "A video-native news platform Gen Z actually owns.";
+  const overlayTitle = (
+    <>
+      A video-native news platform
+      <br className="md:hidden" />{" "}
+      Gen Z actually owns.
+    </>
+  );
 
   return (
-    <section className="kbpm-hi-fi bg-white px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-10 md:gap-12">
+    <section className="kbpm-hi-fi bg-white px-5 pb-5 pt-10 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-6 md:gap-12">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-6">
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-4 md:gap-5">
               <SectionEyebrow
                 label={`Featured case — ${c?.year ?? "2025"}`}
                 mark={6}
@@ -28,7 +32,7 @@ export function FeaturedCase() {
                 className="font-display text-[#1e1e1e]"
                 style={{
                   fontSize: "clamp(2.5rem, 5vw, 4rem)",
-                  lineHeight: 1.07,
+                  lineHeight: 1.2,
                   letterSpacing: "-0.02em",
                   fontWeight: 500,
                 }}
@@ -40,7 +44,7 @@ export function FeaturedCase() {
             <Link
               to="/work/$slug"
               params={{ slug: c?.slug ?? "spilnews" }}
-              className="inline-flex h-[55px] items-center justify-center rounded-full border border-[#d9d9d9] px-6 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-70"
+              className="hidden h-[55px] items-center justify-center rounded-full border border-[#d9d9d9] px-6 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-70 md:inline-flex"
             >
               See the full case
             </Link>
@@ -51,7 +55,7 @@ export function FeaturedCase() {
           <Link
             to="/work/$slug"
             params={{ slug: c?.slug ?? "spilnews" }}
-            className="group relative flex min-h-[28rem] w-full flex-col justify-end overflow-hidden rounded-2xl p-8 sm:min-h-[36rem] sm:p-12 lg:min-h-[48rem] lg:p-16"
+            className="group relative flex h-[534px] w-full flex-col justify-end overflow-hidden rounded-2xl p-6 md:h-auto md:min-h-[36rem] md:rounded-2xl md:p-12 lg:min-h-[48rem] lg:p-16"
           >
             <img
               src="/work/spilnews-featured.jpg"
@@ -66,26 +70,26 @@ export function FeaturedCase() {
               className="absolute inset-0 size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
             />
             <div
-              className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-black/50 to-transparent mix-blend-multiply"
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-black/80 to-transparent mix-blend-multiply md:h-[70%] md:from-black/50"
               aria-hidden
             />
 
             <div className="relative z-[1] flex max-w-4xl flex-col gap-4">
               <div className="flex flex-wrap gap-2.5">
-                <span className="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 font-mono text-[14px] uppercase tracking-[0.7px] text-white backdrop-blur-[2px]">
+                <span className="inline-flex items-center rounded-full bg-white px-4 py-2 font-mono text-[10px] uppercase tracking-[0.5px] text-[#1e1e1e] md:border md:border-white/20 md:bg-white/10 md:text-[14px] md:tracking-[0.7px] md:text-white md:backdrop-blur-[2px]">
                   {serviceTag}
                 </span>
-                <span className="inline-flex items-center rounded-full bg-[#c9ff6e] px-4 py-2 font-mono text-[14px] uppercase tracking-[0.7px] text-[#1e1e1e]">
+                <span className="inline-flex items-center rounded-full bg-[#c9ff6e] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.5px] text-[#1e1e1e] md:text-[14px] md:tracking-[0.7px]">
                   {industryTag}
                 </span>
               </div>
               <p
-                className="font-display max-w-[22ch] text-white sm:max-w-none"
+                className="font-display text-white"
                 style={{
-                  fontSize: "clamp(1.75rem, 3.5vw, 3rem)",
-                  lineHeight: 1.1,
-                  letterSpacing: "-0.03em",
-                  fontWeight: 600,
+                  fontSize: "clamp(2rem, 3.5vw, 3rem)",
+                  lineHeight: 1.2,
+                  letterSpacing: "-0.02em",
+                  fontWeight: 500,
                 }}
               >
                 {overlayTitle}

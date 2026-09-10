@@ -38,7 +38,6 @@ export function SiteHeader({
   const chevron = isWhite
     ? "/hero/chevron-down-light.svg"
     : "/hero/chevron-down-dark.svg";
-  const borderMobile = isWhite ? "border-white/25" : "border-[#1e1e1e]/20";
   const navLink = `font-mono text-[12px] uppercase leading-[1.1] tracking-[-0.03em] ${ink} transition-opacity hover:opacity-70`;
 
   const scheduleClose = () => {
@@ -145,33 +144,24 @@ export function SiteHeader({
           </Link>
         </div>
 
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex items-center gap-1 lg:hidden">
           <Link
             to="/contact"
-            className="inline-flex items-center gap-1.5 rounded-full bg-[#c9ff6e] py-1 pl-3 pr-1 font-mono text-[10px] uppercase tracking-[-0.03em] text-[#1e1e1e]"
+            className="inline-flex h-10 items-center justify-center rounded-full bg-[#c9ff6e] px-4 font-mono text-[12px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-90"
           >
-            Start a project
-            <span className="flex size-6 items-center justify-center rounded-full bg-[#1e1e1e]">
-              <img
-                src="/hero/arrow-outward.svg"
-                alt=""
-                width={12}
-                height={12}
-                className="size-3"
-              />
-            </span>
+            Let’s talk
           </Link>
           <button
             type="button"
-            className={`flex size-8 items-center justify-center rounded-full border ${borderMobile} ${ink}`}
+            className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#1e1e1e] text-white transition-opacity hover:opacity-90"
             aria-label="Open menu"
             onClick={() => setMobileOpen(true)}
           >
-            <svg width="16" height="10" viewBox="0 0 20 14" fill="none" aria-hidden>
+            <svg width="19" height="12" viewBox="0 0 20 14" fill="none" aria-hidden>
               <path
                 d="M0 1h20M0 7h20M0 13h20"
                 stroke="currentColor"
-                strokeWidth="1.4"
+                strokeWidth="1.6"
               />
             </svg>
           </button>

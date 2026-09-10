@@ -390,13 +390,23 @@
   /* Mobile: tighter peek for smaller title strip */
   top: calc(0.5rem + (var(--stack-i, 0) * 3.75rem));
   margin-bottom: 0;
-  border-radius: 2rem;
+  border-radius: 1rem;
   box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.1);
 }
 
 .kbpm-hi-fi .services-stack__card {
-  border-radius: 2rem !important;
+  border-radius: 1rem !important;
   box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.1) !important;
+}
+
+@media (min-width: 768px) {
+  .services-stack__card {
+    border-radius: 2rem;
+  }
+
+  .kbpm-hi-fi .services-stack__card {
+    border-radius: 2rem !important;
+  }
 }
 
 @media (min-width: 1024px) {

@@ -35,7 +35,7 @@ function Index() {
       <TrustedBy />
       <ServicePaths />
       <FeaturedCase />
-      <MoreWork layout="scroll" />
+      <MoreWork layout="scroll" bg="bg-white" />
       <WhyKbpm />
       <CtaBlock />
     </>
