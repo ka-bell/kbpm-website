@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { HeroTiles } from "./HeroTiles";
 
 const PHRASES = [
-  "when the idea outgrows the team.",
-  "Proof, not promises.",
+  "Not decide what matters for us.",
+  "Not make us all sound the same.",
+  "Not take the human out of what we do.",
+  "Not flatten our creativity.",
 ] as const;
 
 const TYPE_MS = 48;
@@ -88,7 +90,7 @@ export function Hero() {
 
         {/* sm+ — typewriter headline */}
         <h1 className="font-display relative z-10 hidden max-w-4xl py-10 text-[2.125rem] font-medium leading-[1.2] tracking-[-0.02em] text-white sm:block sm:py-14 sm:text-5xl lg:max-w-5xl lg:py-4 lg:text-[4.5rem]">
-          <span className="block">We build digital products</span>
+          <span className="block">Technology should work for people.</span>
           <span className="inline">
             {line}
             <span
