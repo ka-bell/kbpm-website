@@ -129,7 +129,7 @@ export function WorkPage() {
                 to="/contact"
                 className="inline-flex shrink-0 items-center gap-2.5 rounded-full bg-[#c9ff6e] px-6 py-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-90"
               >
-                Start a project
+                Tell us your challenge
                 <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-[#1e1e1e]">
                   <img
                     src="/hero/arrow-outward.svg"

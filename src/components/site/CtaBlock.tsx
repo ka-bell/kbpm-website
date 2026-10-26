@@ -18,7 +18,7 @@ export function CtaBlock({
       <span className="text-accent">Tell us</span> what you're building.
     </>
   ),
-  ctaLabel = "Start a project",
+  ctaLabel = "Tell us your challenge",
   to = "/contact",
   search,
   aside,

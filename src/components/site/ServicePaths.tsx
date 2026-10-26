@@ -75,9 +75,9 @@ export function ServicePaths() {
                   fontWeight: 500,
                 }}
               >
-                Validate. Build.
+                Human creativity drives success.
                 <br />
-                Evolve. Support.
+                Our framework delivers it.
               </h2>
               <p className="text-[16px] leading-[1.3] tracking-[-0.01em] text-[#666]">
                 Our service tiers guide you from early strategy through design and
@@ -100,11 +100,11 @@ export function ServicePaths() {
                   fontWeight: 500,
                 }}
               >
-                Validate. Build. Evolve. Support.
+                Human creativity drives success. Our framework delivers it.
               </h2>
               <p className="text-[18px] leading-[1.2] tracking-[-0.02em] text-[#6b6b6b] md:text-[20px]">
-                Work with us from start to finish — or bring us in for exactly what
-                you need.
+                Partner with us from start to finish or bring us in where you need
+                us most.
               </p>
             </div>
           </div>

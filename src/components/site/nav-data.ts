@@ -34,7 +34,7 @@ export const servicesFeature = {
   title: "Not sure where you are?",
   blurb:
     "Tell us where the product sits — idea, first build, live, or support — and we'll meet you there.",
-  ctaLabel: "Start a project",
+  ctaLabel: "Tell us your challenge",
   ctaHref: "/contact" as const,
 };
 

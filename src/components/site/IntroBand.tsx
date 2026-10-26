@@ -19,8 +19,8 @@ export function IntroBand() {
               fontWeight: 400,
             }}
           >
-            From validated idea to working product. End to end — when the idea
-            outgrows the team.
+            Alex and Karissa are your <strong className="font-bold">human trusties</strong> in turning your digital
+            plans into a product people actually use.
           </p>
 
           <div className="flex flex-wrap items-center gap-4">
@@ -28,7 +28,7 @@ export function IntroBand() {
               to="/contact"
               className="inline-flex items-center gap-2.5 rounded-full bg-[#006ff7] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
             >
-              Start a project
+              Tell us your challenge
               <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-[#1e1e1e]">
                 <img
                   src="/hero/arrow-outward.svg"

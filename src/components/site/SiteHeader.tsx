@@ -131,7 +131,7 @@ export function SiteHeader({
             to="/contact"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-[#c9ff6e] py-2 pl-4 pr-2 font-mono text-[12px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-90"
           >
-            Start a project
+            Tell us your challenge
             <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-[#1e1e1e]">
               <img
                 src="/hero/arrow-outward.svg"

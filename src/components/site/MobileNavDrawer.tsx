@@ -143,7 +143,7 @@ export function MobileNavDrawer({
           onClick={onClose}
           className="flex w-full items-center justify-center gap-2 rounded-full bg-[#c9ff6e] px-6 py-4 text-base font-medium text-[#1e1e1e]"
         >
-          Start a project
+          Tell us your challenge
           <svg className="h-4 w-4" viewBox="0 0 14 14" fill="none" aria-hidden>
             <path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.4" />
           </svg>

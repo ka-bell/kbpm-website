@@ -89,9 +89,9 @@ export function Hero() {
         </h1>
 
         {/* sm+ — typewriter headline */}
-        <h1 className="font-display relative z-10 hidden max-w-4xl py-10 text-[2.125rem] font-medium leading-[1.2] tracking-[-0.02em] text-white sm:block sm:py-14 sm:text-5xl lg:max-w-5xl lg:py-4 lg:text-[4.5rem]">
-          <span className="block">Technology should work for people.</span>
-          <span className="inline">
+        <h1 className="font-display relative z-10 hidden w-full py-10 text-[2.125rem] font-medium leading-[1.15] tracking-[-0.02em] text-white sm:block sm:py-14 sm:text-[clamp(1.75rem,4.8vw,3rem)] lg:py-4 lg:text-[clamp(2.5rem,5vw,4.25rem)]">
+          <span className="block whitespace-nowrap">Technology should work for people.</span>
+          <span className="block whitespace-nowrap">
             {line}
             <span
               className="kbpm-hero-caret ml-[0.12em] inline-block h-[0.85em] w-[2px] translate-y-[0.08em] bg-white align-baseline"

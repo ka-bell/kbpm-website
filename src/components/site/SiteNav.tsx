@@ -245,7 +245,7 @@ export function SiteNav() {
               to="/contact"
               className="hidden items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-accent-foreground transition-transform hover:-translate-y-px md:inline-flex"
             >
-              Start a project
+              Tell us your challenge
               <svg className="h-3.5 w-3.5" viewBox="0 0 14 14" fill="none" aria-hidden>
                 <path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="square" />
               </svg>

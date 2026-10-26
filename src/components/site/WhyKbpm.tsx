@@ -4,20 +4,20 @@ import { SectionEyebrow } from "./SectionEyebrow";
 /** Rewrite WhyKbpm copy; Figma 3626:4063 layout + color cards. */
 const CARDS = [
   {
-    title: "No hiring. No management.",
-    body: "You get a full technical team on day one — product, design, engineering. No recruiters, no ramp-up, no dead weight.",
+    title: "Bring what you have.\nLet’s work on what’s next.",
+    body: "An early idea, a detailed brief or a prototype you’ve already built. Whatever your starting point, we’ll take it further together.",
     card: "bg-[#006ff7] text-white",
     bodyClass: "text-white/80",
   },
   {
-    title: "Ship bigger ideas.",
-    body: "A senior-led studio that can take on work that outgrows a standard delivery team — with specialists when the brief needs them.",
+    title: "You always know who's building it.",
+    body: "Karissa and Alex have sat on every side of the table: client, agency and builder. Working with us means no black box, direct and clear communication, no process theatre.",
     card: "bg-[#1e1e1e] text-white",
     bodyClass: "text-white/80",
   },
   {
-    title: "One partner, end to end.",
-    body: "Product thinking, UX, and build in one studio. Fewer handoffs, faster decisions, a straighter line to something shipped.",
+    title: "Someone who answers for it.",
+    body: "AI can make it. You get a team that takes responsibility for it. Before, during and long after launch.",
     card: "bg-[#c9ff6e] text-[#1e1e1e]",
     bodyClass: "text-[#1e1e1e]/80",
   },
@@ -32,7 +32,7 @@ export function WhyKbpm() {
       <div className="mx-auto flex max-w-[1440px] flex-col gap-10 md:gap-12 lg:gap-[56px]">
         <Reveal>
           <div className="flex max-w-[45rem] flex-col gap-8">
-            <SectionEyebrow label="Highlights" mark={4} />
+            <SectionEyebrow label="Experience and personality" mark={4} />
             <h2
               className="font-display text-[#1e1e1e]"
               style={{
@@ -42,7 +42,7 @@ export function WhyKbpm() {
                 fontWeight: 500,
               }}
             >
-              What you get with a senior studio.
+              Direct & bold. Warm, but never soft on the truth.
             </h2>
           </div>
         </Reveal>
@@ -76,7 +76,11 @@ export function WhyKbpm() {
                       fontWeight: 500,
                     }}
                   >
-                    {card.title}
+                    {card.title.split("\n").map((line) => (
+                      <span key={line} className="block">
+                        {line}
+                      </span>
+                    ))}
                   </h3>
                   <p
                     className={`mt-8 max-w-md text-[14px] leading-5 tracking-[-0.01em] md:mt-10 ${card.bodyClass}`}

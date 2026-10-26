@@ -258,7 +258,7 @@ export function ProcessPricingPage() {
                   to="/contact"
                   className="group inline-flex items-center justify-between gap-4 rounded-full bg-accent px-6 py-4 text-sm font-medium text-accent-foreground transition-transform hover:-translate-y-px"
                 >
-                  Start a project
+                  Tell us your challenge
                   <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 14 14" fill="none" aria-hidden>
                     <path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" />
                   </svg>

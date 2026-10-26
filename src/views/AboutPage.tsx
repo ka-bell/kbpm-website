@@ -497,7 +497,7 @@ export function AboutPage() {
                   to="/contact"
                   className="inline-flex w-fit items-center gap-2.5 rounded-full bg-[#1e1e1e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
                 >
-                  Start a project
+                  Tell us your challenge
                   <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-white">
                     <img
                       src="/hero/arrow-outward-dark.svg"

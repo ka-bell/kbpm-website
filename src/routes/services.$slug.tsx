@@ -112,7 +112,7 @@ function ServiceDetail() {
                   to="/contact"
                   className="group mt-8 inline-flex w-full items-center justify-between gap-3 bg-foreground px-5 py-3 text-sm font-medium text-background transition-opacity hover:opacity-80"
                 >
-                  Start a project
+                  Tell us your challenge
                   <ArrowRight
                     className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
                     strokeWidth={1.7}
@@ -193,7 +193,7 @@ function ServiceDetail() {
                         to="/contact"
                         className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-foreground underline decoration-accent decoration-2 underline-offset-4"
                       >
-                        Start a project
+                        Tell us your challenge
                         <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.7} aria-hidden />
                       </Link>
                     )}

@@ -154,11 +154,11 @@ export function TrustedBy() {
                     fontWeight: 500,
                   }}
                 >
-                  Trusted by teams building serious digital products.
+                  Teams that needed their idea to work, and still do.
                 </h2>
                 <p className="max-w-[27rem] text-[18px] leading-[1.2] tracking-[-0.02em] text-[#838383] md:text-[20px] lg:pt-1">
-                  A sample of the founders, agencies and companies we&apos;ve
-                  helped move from idea to working product.
+                  A few of the founders, agencies and companies who trusted us
+                  with their brief and the responsibility to deliver.
                 </p>
               </div>
             </div>
