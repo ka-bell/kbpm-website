@@ -19,7 +19,7 @@ export function IntroBand() {
               fontWeight: 400,
             }}
           >
-            Alex and Karissa are your <strong className="font-bold">human trusties</strong> in turning your digital
+            Alex and Karissa are your <strong className="font-bold">human trusties</strong> in turning digital
             plans into a product people actually use.
           </p>
 
