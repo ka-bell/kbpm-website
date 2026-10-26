@@ -1,0 +1,445 @@
+{
+  "Meta": {
+    "titleDefault": "kbell + postman — Digital product studio, Amsterdam",
+    "titleTemplate": "%s — kbell + postman",
+    "description": "kbell + postman is an Amsterdam digital product studio. We build digital products end to end — when the idea outgrows the team.",
+    "ogTitle": "kbell + postman — Digital product studio, Amsterdam",
+    "ogDescription": "Validate, build, evolve and support digital products — for agencies, founders, and product teams.",
+    "homeTitle": "kbell + postman — Digital product studio, Amsterdam",
+    "homeDescription": "Digital product studio in Amsterdam. Validate, build, evolve and support complex digital products — end to end."
+  },
+  "Nav": {
+    "services": "Services",
+    "work": "Work",
+    "about": "About",
+    "contact": "Contact",
+    "startProject": "Tell us your challenge",
+    "letsTalk": "Let’s talk",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "language": "Language",
+    "localeEn": "EN",
+    "localeNl": "NL"
+  },
+  "Footer": {
+    "tagline": "Digital products end to end, when the idea is bigger than the team.",
+    "services": "Services",
+    "studio": "Studio",
+    "elsewhere": "Elsewhere",
+    "work": "Work",
+    "about": "About",
+    "playground": "Playground",
+    "goToMarket": "Go-to-Market",
+    "euFirst": "EU-first infra",
+    "contact": "Contact",
+    "copyright": "© {year} kbell + postman B.V. — Digital product studio, Amsterdam",
+    "legal": "KvK 00000000 · Built end-to-end in-house"
+  },
+  "Hero": {
+    "mobileLine1": "Design partner",
+    "mobileLine2": "for ambitious design",
+    "desktopLine1": "Technology should work for people.",
+    "phrase1": "Not decide what matters for us.",
+    "phrase2": "Not make us all sound the same.",
+    "phrase3": "Not take the human out of what we do.",
+    "phrase4": "Not flatten our creativity."
+  },
+  "IntroBand": {
+    "bodyBefore": "Alex and Karissa are your",
+    "trusties": "digital trusties",
+    "bodyAfter": " in turning digital plans into a product people actually use.",
+    "startProject": "Tell us your challenge",
+    "seeWork": "See the work"
+  },
+  "ProofStrip": {
+    "ariaLabel": "Studio metrics",
+    "yearsValue": "7",
+    "yearsLabel": "Years as a company",
+    "platformsValue": "31",
+    "platformsLabel": "Platforms we still maintain today",
+    "usersValue": "500K+",
+    "usersLabel": "Daily users on our biggest platform"
+  },
+  "TrustedBy": {
+    "eyebrow": "Our clients",
+    "headline": "They brought the idea. We took the responsibility.",
+    "caption": "A few of the founders, agencies and companies who trusted us to make it work, and to keep it working.",
+    "clientsAria": "Clients",
+    "carouselAria": "Logo carousel position"
+  },
+  "ServicePaths": {
+    "eyebrow": "Collaborate",
+    "headline": "Human creativity drives success. Our framework delivers it.",
+    "headlineLine1": "Human creativity drives success.",
+    "headlineLine2": "Our framework delivers it.",
+    "body": "Partner with us from start to finish or bring us in where you need us most."
+  },
+  "WhyKbpm": {
+    "eyebrow": "Experience and personality",
+    "headline": "Direct & bold. Warm, but never soft on the truth."
+  },
+  "LanguageSwitcher": {
+    "label": "Switch language",
+    "en": "EN",
+    "nl": "NL"
+  },
+  "Common": {
+    "home": "Home",
+    "startProject": "Tell us your challenge",
+    "letsTalk": "Let’s talk",
+    "seeWork": "See the work",
+    "allServices": "All services",
+    "exploreServices": "Or explore all services →",
+    "viewCase": "View case",
+    "readMore": "Read more",
+    "contact": "Contact"
+  },
+  "NotFound": {
+    "eyebrow": "404",
+    "headline": "Page not found.",
+    "body": "The page you're looking for doesn't exist or hasn't been built yet.",
+    "backHome": "Back to homepage"
+  },
+  "MetaPages": {
+    "about": {
+      "path": "/about",
+      "title": "About",
+      "description": "Kbell & Postman is a senior studio in Amsterdam — strategy, design and code, without an account layer.",
+      "ogTitle": "About — KB+PM",
+      "ogDescription": "Senior-led. No account layer."
+    },
+    "contact": {
+      "path": "/contact",
+      "title": "Contact",
+      "description": "Tell KBPM what you are building. Start a product sprint, productionize a prototype, or talk through product development support.",
+      "ogTitle": "Contact - kbell + postman",
+      "ogDescription": "Tell us what you are building and where the product is stuck."
+    },
+    "services": {
+      "path": "/services",
+      "title": "All services",
+      "description": "All kbell + postman services across Validate, Build, Evolve, and Support.",
+      "ogTitle": "All services — kbell + postman",
+      "ogDescription": "Work with us from start to finish — or bring us in for exactly what you need."
+    },
+    "work": {
+      "path": "/work",
+      "title": "Work",
+      "description": "A few things we've built. Selected case studies from Kbell & Postman, a digital product studio in Amsterdam.",
+      "ogTitle": "Work — KB+PM",
+      "ogDescription": "A few things we've built."
+    },
+    "playground": {
+      "path": "/playground",
+      "title": "Playground",
+      "description": "Thoughts that keep us up at night — architecture, infrastructure, AI, and the odd rabbit hole.",
+      "ogTitle": "Playground — kbell + postman",
+      "ogDescription": "Thoughts that keep us up at night."
+    },
+    "goToMarket": {
+      "path": "/go-to-market",
+      "title": "Go-to-Market",
+      "description": "Make your vibecoded app actually ready to launch — start with a €250 scan, or go full Release Ready.",
+      "ogTitle": "Go-to-Market — kbell + postman",
+      "ogDescription": "Your vibecoded app looks ready. We make it actually ready to launch."
+    },
+    "europeanFirst": {
+      "path": "/european-first-infrastructure",
+      "title": "European-first infrastructure",
+      "description": "Map, design and run products on European-first infrastructure — start with an EU Stack Scan.",
+      "ogTitle": "European-first infrastructure — kbell + postman",
+      "ogDescription": "Build fast, keep your data safe. A practical EU-first product stack."
+    },
+    "processPricing": {
+      "path": "/process-pricing",
+      "title": "Process & Pricing",
+      "description": "How we work and what it costs. Validate, Build, and Evolve — with transparent ranges and no scope creep.",
+      "ogTitle": "Process & Pricing — kbell + postman",
+      "ogDescription": "Validate, Build, Evolve — transparent process and ranges."
+    },
+    "team": {
+      "path": "/team",
+      "title": "Team",
+      "description": "The people behind kbell + postman. A senior-led studio in Amsterdam — specialists when the brief needs them.",
+      "ogTitle": "Team — kbell + postman",
+      "ogDescription": "Senior-led studio. Specialists when needed."
+    }
+  },
+  "About": {
+    "eyebrow": "About us",
+    "headlineLine1": "Senior-led.",
+    "headlineLine2": "No account layer.",
+    "intro": "Kbell & Postman is a small, senior studio in Amsterdam. We take products from idea to production — strategy, design, and code — for teams whose ideas have outgrown their in-house capacity.",
+    "stats": {
+      "years": {
+        "value": "30+",
+        "label": "Combined years in digital products"
+      },
+      "senior": {
+        "value": "Senior",
+        "label": "Led on every engagement"
+      },
+      "eu": {
+        "value": "EU",
+        "label": "Infra, when it matters"
+      },
+      "direct": {
+        "value": "Direct",
+        "label": "No account layer, ever"
+      }
+    },
+    "capabilitiesEyebrow": "Collaborate",
+    "capabilitiesHeadline": "What we actually do.",
+    "capabilitiesBody": "Four disciplines in one studio. Specialists join when the brief needs them. Keep scrolling here: the capability cards move sideways, then the page continues.",
+    "capabilities": {
+      "product": {
+        "title": "Product & Strategy",
+        "items": [
+          "Product discovery & scoping",
+          "Technical due diligence",
+          "Prototype-to-production roadmaps",
+          "Architecture decisions",
+          "Founder-facing workshops",
+          "Fixed-scope sprint planning"
+        ]
+      },
+      "design": {
+        "title": "Design",
+        "items": [
+          "Product & UX design",
+          "Design systems",
+          "Rapid prototyping (Figma → code)",
+          "Interaction & motion",
+          "Landing pages & marketing sites",
+          "Accessibility (WCAG 2.1 AA)"
+        ]
+      },
+      "engineering": {
+        "title": "Engineering",
+        "items": [
+          "Full-stack TypeScript (React, Next, TanStack)",
+          "Edge runtimes (Cloudflare, Vercel)",
+          "Supabase, Postgres, RLS",
+          "AI features — LLMs, RAG, agents",
+          "Payments — Stripe, Paddle",
+          "Mobile — React Native, Expo",
+          "Hardening vibe-coded apps for production"
+        ]
+      },
+      "infra": {
+        "title": "Infrastructure & Ops",
+        "items": [
+          "EU-first / sovereign cloud (Hetzner, Scaleway, OVH)",
+          "CI/CD, observability, on-call",
+          "GDPR & data residency",
+          "Auth — SSO, OAuth, magic link",
+          "Migrations off US-hosted stacks",
+          "Long-term maintenance retainers"
+        ]
+      }
+    },
+    "testimonialsHeadline": "Don’t take our words for it",
+    "testimonials": {
+      "t1": {
+        "quote": "We came to Kbell & Postman with a vibe-coded prototype and a deadline. Six weeks later we had a production app, EU-hosted, paying customers on it. They act like a co-founder, not a vendor.",
+        "name": "Marijn de Vries",
+        "role": "Founder — Halden (fintech, Amsterdam)"
+      },
+      "t2": {
+        "quote": "They turned a fuzzy product brief into something our team could actually test. The work felt senior from the first call: clear scope, calm decisions, and no theatre.",
+        "name": "Lotte Bakker",
+        "role": "Strategy Lead — Northern Studio"
+      },
+      "t3": {
+        "quote": "The biggest difference was momentum. We stopped debating abstractions and started reviewing a working product every week. That changed the whole client conversation.",
+        "name": "Samir El Idrissi",
+        "role": "Managing Partner — Atlas & Co."
+      },
+      "t4": {
+        "quote": "They understood that this wasn't a design refresh. It was an operational surgery.",
+        "name": "Head of Accreditation",
+        "role": "Academion"
+      },
+      "t5": {
+        "quote": "The platform made cultural research easier to explore, explain, and use in strategy work.",
+        "name": "Strategy lead",
+        "role": "Virtue Worldwide"
+      }
+    },
+    "toolsEyebrow": "Toolings",
+    "toolsHeadline": "The stack, in colour.",
+    "ctaEyebrow": "Next",
+    "ctaHeadline": "Not sure which capability you need? Tell us the problem."
+  },
+  "WhoYouWorkWith": {
+    "eyebrow": "Who you work with",
+    "headlineLine1": "Senior-led.",
+    "headlineLine2": "No account layer.",
+    "body": "You always work directly with Karissa and Alex — the two of us run KB+PM, and have for seven years. When a project needs more hands, we scale up with trusted specialists who already know how we work — without ever adding an account layer between you and the work.",
+    "karissa": {
+      "role": "Product, strategy, client lead",
+      "note": "15+ years as a UI/UX designer, across fashion, branding, advertising, recruitment, marketing and research. Shapes the brief, pressure-tests the product direction, and keeps the work close to the business goal.",
+      "imageAlt": "Karissa — product, strategy, and client lead"
+    },
+    "alex": {
+      "role": "Engineering, architecture, delivery",
+      "note": "20+ years as a development lead, across advertising and real estate. Turns the direction into a working product, with the technical decisions needed to keep it useful after launch.",
+      "imageAlt": "Alex — engineering, architecture, and delivery"
+    }
+  },
+  "Contact": {
+    "eyebrow": "Contact",
+    "headlineLine1": "Let’s build",
+    "headlineLine2": "together.",
+    "intro": "kbell + postman is a small, senior studio in Amsterdam. We take products from idea to production — strategy, design, and code — for teams whose ideas have outgrown their in-house capacity.",
+    "fullName": "Full name",
+    "email": "Email address *",
+    "message": "Message",
+    "messagePlaceholder": "Type your message...",
+    "consent": "I agree to kbell + postman storing my information for the purpose of this inquiry.",
+    "submit": "Submit",
+    "submitting": "Opening mail…",
+    "interestedIn": "Interested in: {hint}",
+    "errors": {
+      "emailRequired": "Please enter a valid email address.",
+      "consentRequired": "Please confirm you agree before sending.",
+      "generic": "Something went wrong. Email us at hello@kbpm.nl."
+    },
+    "success": "Thanks — your mail client should open with the message ready to send.",
+    "interests": {
+      "scan": "Launch Scan / vibecode readiness",
+      "release": "Release Ready / vibecode hardening",
+      "eu-scan": "EU Stack Scan",
+      "eu-setup": "EU-First Setup",
+      "eu-migrate": "EU Migration Plan"
+    },
+    "detailsEyebrow": "Capabilities and Services",
+    "detailsHeadlineLine1": "Small studio,",
+    "detailsHeadlineLine2": "direct access.",
+    "studioPhotoAlt": "kbell + postman studio workspace in Amsterdam",
+    "cards": {
+      "studio": {
+        "label": "Studio",
+        "title": "Amsterdam, NL",
+        "body": "Remote-first delivery with in-person working sessions when the project benefits from it."
+      },
+      "email": {
+        "label": "Email",
+        "title": "hello@kbpm.nl",
+        "body": "Best for briefs, prototype links, procurement questions, and first project context."
+      },
+      "hours": {
+        "label": "Working hours",
+        "title": "CET / CEST",
+        "body": "Useful overlap for European teams, agencies, founders, and product owners."
+      }
+    }
+  },
+  "Services": {
+    "indexEyebrow": "Services",
+    "indexHeadline": "Choose where the product needs help.",
+    "explore": "Explore {name}",
+    "ctaHeadline": "Not sure which model fits your project?",
+    "detailBreadcrumb": "Services / {name}",
+    "whenFits": "When this fits",
+    "leaveWith": "What you leave with",
+    "whatWeOffer": "What we offer.",
+    "featuredEngagement": "Featured engagement",
+    "groups": {
+      "validate": {
+        "eyebrow": "Clarity & evidence",
+        "body": "For teams who need confidence before design or development starts. We help define the right problem, test the idea, and map what is worth building.",
+        "listIntro": "Useful when the brief is still forming.",
+        "when": "You need clarity before investing in design or development.",
+        "goal": "Direction before you commit to building.",
+        "panelIntro": "Audits, workshops and feasibility work — so you know what to build before you spend on it.",
+        "outcome": "A clear direction and a plan you can act on."
+      },
+      "build": {
+        "eyebrow": "Product design & build",
+        "body": "For teams who know what to make and need a senior team to design and develop it. From prototype to platform — we ship focused increments toward product-market fit.",
+        "listIntro": "Useful when the product needs to become real.",
+        "when": "You know what to make and need a senior team to design and develop it.",
+        "goal": "Design and develop the product.",
+        "panelIntro": "From prototype to platform — we design and develop the product end to end.",
+        "outcome": "A working digital product ready for real users."
+      },
+      "evolve": {
+        "eyebrow": "Improve & scale",
+        "body": "For live products that need sharper features, better performance, smarter AI, clearer data, or a more useful experience for real users.",
+        "listIntro": "Useful when the product is live but not finished.",
+        "when": "Your product is live and you want to keep improving it.",
+        "goal": "Improve a product that's already in use.",
+        "panelIntro": "Features, AI, performance and analytics — for products that are already live.",
+        "outcome": "A product that keeps getting better."
+      },
+      "support": {
+        "eyebrow": "Operate & protect",
+        "body": "For products that need continuity after launch: maintenance, hosting, documentation, security, and senior technical judgement when it matters.",
+        "listIntro": "Useful when the product needs to stay healthy.",
+        "when": "You need a trusted technical partner to keep everything running.",
+        "goal": "Keep the product stable, secure and supported.",
+        "panelIntro": "Maintenance, hosting, emergencies and fractional CTO — so nothing gets neglected after launch.",
+        "outcome": "A stable, secure product you don't have to babysit."
+      }
+    }
+  },
+  "Work": {
+    "eyebrow": "Work",
+    "headline": "A few things we’ve built.",
+    "empty": "No projects in this filter.",
+    "ctaEyebrow": "Next",
+    "ctaHeadline": "See something you like? Let’s talk about yours.",
+    "filters": {
+      "All": "All",
+      "Agency Build": "Agency Build",
+      "Product": "Product",
+      "AI": "AI",
+      "Platform": "Platform",
+      "Technical Sprint": "Technical Sprint"
+    }
+  },
+  "MobileNav": {
+    "menu": "Menu",
+    "closeMenu": "Close menu",
+    "collapseServices": "Collapse services",
+    "expandServices": "Expand services",
+    "footerNote": "info@kbpm.nl · Amsterdam"
+  },
+  "ServiceOffer": {
+    "allServices": "All services",
+    "group": "Group",
+    "viewAllPhase": "View all {phase} services →",
+    "whatYouGet": "What you get",
+    "concreteOutputs": "Concrete outputs.",
+    "howItWorks": "How it works",
+    "theProcess": "The process.",
+    "related": "Related",
+    "euInfra": "European-first infrastructure",
+    "nextStep": "Next step"
+  },
+  "Playground": {
+    "eyebrow": "§ Playground",
+    "headline": "Playground.",
+    "intro": "Thoughts that keep us up at night.",
+    "readPost": "Read post",
+    "allNotes": "← All playground notes",
+    "back": "Playground"
+  },
+  "GoToMarket": {
+    "eyebrow": "§ Go-to-Market",
+    "headline": "Your vibecoded app looks ready. We make it actually ready to launch.",
+    "intro": "Start with a €250 scan if you want clarity. Go Release Ready if you want us to fix the launch-blocking issues."
+  },
+  "EuropeanFirst": {
+    "eyebrow": "§ European-first infrastructure",
+    "headline": "Build fast, keep your data safe.",
+    "intro": "Start with a Stack Scan if you want clarity. Set up or migrate when the map is clear — without making infra unnecessarily complex."
+  },
+  "ProcessPricing": {
+    "eyebrow": "§ Pricing",
+    "headline": "We keep pricing crystal clear, just like our process.",
+    "intro": "Validate, Build, Evolve — transparent ranges, no scope creep.",
+    "selectService": "Select a service"
+  }
+}

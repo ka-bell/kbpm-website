@@ -1,5 +1,8 @@
+"use client";
+
 import { Link } from "@/components/Link";
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Reveal } from "@/components/site/Reveal";
 import { ProcessTimeline } from "@/components/site/ProcessTimeline";
 import { ProcessFaq } from "@/components/site/ProcessFaq";
@@ -148,13 +151,15 @@ const faqs = [
 ];
 
 export function EuropeanFirstPage() {
+  const t = useTranslations("EuropeanFirst");
+
   return (
     <>
       <section className="border-b border-border bg-background">
         <div className="mx-auto max-w-[1440px] px-6 py-16 md:px-8 md:py-24">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-8">
             <Reveal className="md:col-span-7">
-              <p className="eyebrow">§ European-first infrastructure</p>
+              <p className="eyebrow">{t("eyebrow")}</p>
               <h1
                 className="font-display mt-5 max-w-4xl text-foreground"
                 style={{
@@ -164,12 +169,10 @@ export function EuropeanFirstPage() {
                   fontWeight: 500,
                 }}
               >
-                Build fast, keep your data safe.
+                {t("headline")}
               </h1>
               <p className="mt-8 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                Start with a Stack Scan if you want clarity. Set up or migrate
-                when the map is clear — without making infra unnecessarily
-                complex.
+                {t("intro")}
               </p>
               <div className="mt-10 flex flex-wrap gap-3">
                 <Link

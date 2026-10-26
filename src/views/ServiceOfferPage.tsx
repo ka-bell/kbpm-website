@@ -1,9 +1,17 @@
+"use client";
+
 import { Link } from "@/components/Link";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { Reveal } from "@/components/site/Reveal";
 import type { ServiceDetail } from "@/components/site/service-details";
+import { localizeServiceOffer } from "@/i18n/localize";
 
-export function ServiceOfferPage({ offer }: { offer: ServiceDetail }) {
+export function ServiceOfferPage({ offer: raw }: { offer: ServiceDetail }) {
+  const locale = useLocale();
+  const offer = localizeServiceOffer(raw, locale);
+  const t = useTranslations("ServiceOffer");
+  const tc = useTranslations("Common");
 
   return (
     <>
@@ -18,7 +26,7 @@ export function ServiceOfferPage({ offer }: { offer: ServiceDetail }) {
               strokeWidth={1.7}
               aria-hidden
             />
-            All services
+            {t("allServices")}
           </Link>
 
           <div className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-8">
@@ -47,7 +55,7 @@ export function ServiceOfferPage({ offer }: { offer: ServiceDetail }) {
             <Reveal delay={80} className="md:col-span-4">
               <div className="border border-border bg-surface-alt p-6">
                 <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                  Group
+                  {t("group")}
                 </p>
                 <p className="mt-3 text-lg font-medium text-foreground capitalize">
                   {offer.phase}
@@ -57,14 +65,13 @@ export function ServiceOfferPage({ offer }: { offer: ServiceDetail }) {
                   params={{ slug: offer.phase }}
                   className="mt-2 inline-block text-sm text-muted-foreground hover:text-foreground"
                 >
-                  View all {offer.phase} services →
+                  {t("viewAllPhase", { phase: offer.phase })}
                 </Link>
                 <Link
                   to="/contact"
                   className="group mt-8 inline-flex w-full items-center justify-between gap-3 bg-foreground px-5 py-3 text-sm font-medium text-background transition-opacity hover:opacity-80"
                 >
-                  Tell us your challenge
-                  <ArrowRight
+                  {tc("startProject")}                  <ArrowRight
                     className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
                     strokeWidth={1.7}
                     aria-hidden
@@ -80,7 +87,7 @@ export function ServiceOfferPage({ offer }: { offer: ServiceDetail }) {
         <div className="mx-auto max-w-[1440px] px-6 py-16 md:px-8 md:py-24">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-8">
             <Reveal className="md:col-span-5">
-              <p className="eyebrow">What you get</p>
+              <p className="eyebrow">{t("whatYouGet")}</p>
               <h2
                 className="font-display mt-5 max-w-xl text-foreground"
                 style={{
@@ -89,7 +96,7 @@ export function ServiceOfferPage({ offer }: { offer: ServiceDetail }) {
                   fontWeight: 500,
                 }}
               >
-                Concrete outputs.
+                {t("concreteOutputs")}
               </h2>
             </Reveal>
             <div className="md:col-span-7">
@@ -97,9 +104,15 @@ export function ServiceOfferPage({ offer }: { offer: ServiceDetail }) {
                 {offer.whatYouGet.map((item) => (
                   <div key={item} className="flex gap-4 bg-background p-5">
                     <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center border border-foreground/30 text-foreground">
-                      <Check className="h-3.5 w-3.5" strokeWidth={1.8} aria-hidden />
+                      <Check
+                        className="h-3.5 w-3.5"
+                        strokeWidth={1.8}
+                        aria-hidden
+                      />
                     </span>
-                    <p className="text-sm leading-relaxed text-foreground">{item}</p>
+                    <p className="text-sm leading-relaxed text-foreground">
+                      {item}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -112,7 +125,7 @@ export function ServiceOfferPage({ offer }: { offer: ServiceDetail }) {
         <div className="mx-auto max-w-[1440px] px-6 py-16 md:px-8 md:py-24">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-8">
             <Reveal className="md:col-span-5">
-              <p className="eyebrow">How it works</p>
+              <p className="eyebrow">{t("howItWorks")}</p>
               <h2
                 className="font-display mt-5 max-w-xl text-foreground"
                 style={{
@@ -121,7 +134,7 @@ export function ServiceOfferPage({ offer }: { offer: ServiceDetail }) {
                   fontWeight: 500,
                 }}
               >
-                The process.
+                {t("theProcess")}
               </h2>
             </Reveal>
             <div className="md:col-span-7">
@@ -130,13 +143,17 @@ export function ServiceOfferPage({ offer }: { offer: ServiceDetail }) {
                   <Reveal key={step} delay={index * 50}>
                     <article
                       className={`p-6 ${
-                        index < offer.howItWorks.length - 1 ? "border-b border-border" : ""
+                        index < offer.howItWorks.length - 1
+                          ? "border-b border-border"
+                          : ""
                       }`}
                     >
                       <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
                         0{index + 1}
                       </p>
-                      <p className="mt-4 text-base leading-relaxed text-foreground">{step}</p>
+                      <p className="mt-4 text-base leading-relaxed text-foreground">
+                        {step}
+                      </p>
                     </article>
                   </Reveal>
                 ))}
@@ -155,14 +172,14 @@ export function ServiceOfferPage({ offer }: { offer: ServiceDetail }) {
             >
               <div>
                 <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                  Related
+                  {t("related")}
                 </p>
                 <p className="mt-2 text-lg font-medium text-foreground">
-                  European-first infrastructure
+                  {t("euInfra")}
                 </p>
               </div>
               <span className="inline-flex items-center gap-2 text-sm font-medium text-foreground">
-                Read more
+                {tc("readMore")}
                 <ArrowRight
                   className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
                   strokeWidth={1.7}
@@ -180,7 +197,7 @@ export function ServiceOfferPage({ offer }: { offer: ServiceDetail }) {
             <div className="flex flex-col gap-6 border border-border bg-foreground p-8 text-background md:flex-row md:items-center md:justify-between md:p-10">
               <div>
                 <p className="font-mono-label uppercase tracking-wider text-background/70">
-                  Next step
+                  {t("nextStep")}
                 </p>
                 <h2
                   className="font-display mt-4 text-background"
@@ -190,15 +207,13 @@ export function ServiceOfferPage({ offer }: { offer: ServiceDetail }) {
                     fontWeight: 500,
                   }}
                 >
-                  Tell us your challenge
-                </h2>
+                  {tc("startProject")}                </h2>
               </div>
               <Link
                 to="/contact"
                 className="group inline-flex shrink-0 items-center gap-3 bg-background px-6 py-4 text-sm font-medium text-foreground"
               >
-                Tell us your challenge
-                <ArrowRight
+                {tc("startProject")}                <ArrowRight
                   className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
                   strokeWidth={1.7}
                   aria-hidden

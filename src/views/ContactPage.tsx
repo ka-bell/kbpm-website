@@ -1,58 +1,93 @@
 "use client";
 
 import { Link } from "@/components/Link";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Reveal } from "@/components/site/Reveal";
 import { SectionEyebrow } from "@/components/site/SectionEyebrow";
 
-const INTEREST_HINT: Record<string, string> = {
-  scan: "Launch Scan / vibecode readiness",
-  release: "Release Ready / vibecode hardening",
-  "eu-scan": "EU Stack Scan",
-  "eu-setup": "EU-First Setup",
-  "eu-migrate": "EU Migration Plan",
-};
-
-const CONTACT_CARDS = [
-  {
-    label: "Studio",
-    title: "Amsterdam, NL",
-    body: "Remote-first delivery with in-person working sessions when the project benefits from it.",
-  },
-  {
-    label: "Email",
-    title: "hello@kbpm.nl",
-    href: "mailto:hello@kbpm.nl",
-    body: "Best for briefs, prototype links, procurement questions, and first project context.",
-  },
-  {
-    label: "Working hours",
-    title: "CET / CEST",
-    body: "Useful overlap for European teams, agencies, founders, and product owners.",
-  },
+const INTEREST_KEYS = [
+  "scan",
+  "release",
+  "eu-scan",
+  "eu-setup",
+  "eu-migrate",
 ] as const;
+
+type InterestKey = (typeof INTEREST_KEYS)[number];
+
+function isInterestKey(value: string | undefined): value is InterestKey {
+  return INTEREST_KEYS.includes(value as InterestKey);
+}
 
 /**
  * Contact — Figma 3626:9843.
- * Layout/look from Figma; rewrite copy where Figma used placeholders (Miyagami).
  */
 export function ContactPage({ interest }: { interest?: string }) {
-  const hint = INTEREST_HINT[interest ?? ""] ?? "";
+  const t = useTranslations("Contact");
+  const tc = useTranslations("Common");
+  const hint = isInterestKey(interest) ? t(`interests.${interest}`) : "";
   const [consent, setConsent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorKey, setErrorKey] = useState<
+    "emailRequired" | "consentRequired" | "generic" | null
+  >(null);
+
+  const cards = useMemo(
+    () =>
+      (
+        [
+          { key: "studio" as const, href: undefined },
+          { key: "email" as const, href: "mailto:hello@kbpm.nl" },
+          { key: "hours" as const, href: undefined },
+        ] as const
+      ).map((card) => ({
+        ...card,
+        label: t(`cards.${card.key}.label`),
+        title: t(`cards.${card.key}.title`),
+        body: t(`cards.${card.key}.body`),
+      })),
+    [t],
+  );
 
   useEffect(() => {
     if (!hint) return;
     const el = document.getElementById("message") as HTMLTextAreaElement | null;
     if (el && !el.value) {
-      el.value = `Interested in: ${hint}\n\n`;
+      el.value = `${t("interestedIn", { hint })}\n\n`;
     }
-  }, [hint]);
+  }, [hint, t]);
+
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    const form = event.currentTarget;
+    const email = (
+      form.elements.namedItem("email") as HTMLInputElement | null
+    )?.value.trim();
+
+    setStatus("idle");
+    setErrorKey(null);
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      event.preventDefault();
+      setStatus("error");
+      setErrorKey("emailRequired");
+      return;
+    }
+
+    if (!consent) {
+      event.preventDefault();
+      setStatus("error");
+      setErrorKey("consentRequired");
+      return;
+    }
+
+    // mailto: opens the client; treat that as a successful handoff.
+    setStatus("success");
+  }
 
   return (
     <div className="kbpm-hi-fi">
-      {/* Dark hero + form — continuous #1e1e1e; pulls under floating header */}
       <div className="relative -mt-[4.5rem] bg-[#1e1e1e] text-white sm:-mt-[5.5rem] lg:-mt-[6.5rem]">
-        {/* Hero — Figma 3626:9845 */}
         <section className="mx-auto max-w-[1440px] px-6 pb-10 pt-[5.5rem] sm:pt-[6.5rem] md:px-20 md:pb-14 lg:px-20 lg:pb-20 lg:pt-[8.5rem]">
           <div className="flex flex-col gap-14">
             <Reveal>
@@ -67,7 +102,7 @@ export function ContactPage({ interest }: { interest?: string }) {
                   height={16}
                   className="size-4 rotate-180"
                 />
-                Home
+                {tc("home")}
               </Link>
             </Reveal>
 
@@ -75,7 +110,7 @@ export function ContactPage({ interest }: { interest?: string }) {
               <Reveal className="max-w-[44rem]">
                 <div className="flex flex-col gap-8">
                   <p className="font-mono text-[14px] uppercase leading-[16.5px] tracking-[0.05em] text-white">
-                    Contact
+                    {t("eyebrow")}
                   </p>
                   <h1
                     className="font-display font-medium text-white"
@@ -85,36 +120,35 @@ export function ContactPage({ interest }: { interest?: string }) {
                       letterSpacing: "-0.03em",
                     }}
                   >
-                    Let’s build
+                    {t("headlineLine1")}
                     <br />
-                    together.
+                    {t("headlineLine2")}
                   </h1>
                 </div>
               </Reveal>
               <Reveal delay={80} className="max-w-[22.5rem] lg:pb-1">
                 <p className="text-[18px] leading-[1.2] tracking-[-0.02em] text-white">
-                  kbell + postman is a small, senior studio in Amsterdam. We take
-                  products from idea to production — strategy, design, and code —
-                  for teams whose ideas have outgrown their in-house capacity.
+                  {t("intro")}
                 </p>
               </Reveal>
             </div>
           </div>
         </section>
 
-        {/* Form — Figma 3626:9856 */}
         <section className="mx-auto max-w-[1440px] px-6 pb-16 pt-6 md:px-20 md:pb-20 md:pt-10">
           <Reveal>
             <form
               action="mailto:hello@kbpm.nl"
               method="post"
               encType="text/plain"
+              onSubmit={onSubmit}
+              noValidate
               className="flex max-w-[955px] flex-col gap-6"
             >
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <label className="flex flex-col gap-4">
                   <span className="text-[16px] leading-[1.3] tracking-[-0.02em] text-white">
-                    Full name
+                    {t("fullName")}
                   </span>
                   <input
                     name="name"
@@ -125,13 +159,14 @@ export function ContactPage({ interest }: { interest?: string }) {
                 </label>
                 <label className="flex flex-col gap-4">
                   <span className="text-[16px] leading-[1.3] tracking-[-0.02em] text-white">
-                    Email address *
+                    {t("email")}
                   </span>
                   <input
                     name="email"
                     type="email"
                     required
                     autoComplete="email"
+                    aria-invalid={errorKey === "emailRequired"}
                     className="h-12 w-full border border-white bg-transparent px-3 text-[16px] text-white outline-none placeholder:text-white/40 focus:border-white"
                   />
                 </label>
@@ -139,13 +174,13 @@ export function ContactPage({ interest }: { interest?: string }) {
 
               <label className="flex flex-col gap-4">
                 <span className="text-[16px] leading-[1.3] tracking-[-0.02em] text-white">
-                  Message
+                  {t("message")}
                 </span>
                 <textarea
                   id="message"
                   name="message"
                   rows={7}
-                  placeholder="Type your message..."
+                  placeholder={t("messagePlaceholder")}
                   className="min-h-[180px] w-full resize-y border border-white bg-transparent p-3 text-[16px] leading-[1.3] tracking-[-0.02em] text-white outline-none placeholder:text-white/45 focus:border-white"
                 />
               </label>
@@ -156,33 +191,50 @@ export function ContactPage({ interest }: { interest?: string }) {
                   checked={consent}
                   onChange={(e) => setConsent(e.target.checked)}
                   required
+                  aria-invalid={errorKey === "consentRequired"}
                   className="mt-0.5 size-[18px] shrink-0 appearance-none border border-white bg-transparent checked:bg-white"
                 />
                 <span className="text-[12px] leading-[1.2] tracking-[-0.01em] text-white">
-                  I agree to kbell + postman storing my information for the
-                  purpose of this inquiry.
+                  {t("consent")}
                 </span>
               </label>
+
+              {status === "error" && errorKey ? (
+                <p
+                  role="alert"
+                  className="text-[14px] leading-[1.3] text-[#ffb4b4]"
+                >
+                  {t(`errors.${errorKey}`)}
+                </p>
+              ) : null}
+
+              {status === "success" ? (
+                <p
+                  role="status"
+                  className="text-[14px] leading-[1.3] text-[#c9ff6e]"
+                >
+                  {t("success")}
+                </p>
+              ) : null}
 
               <button
                 type="submit"
                 className="inline-flex w-fit items-center justify-center rounded-full bg-[#006ff7] px-6 py-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
               >
-                Submit
+                {status === "success" ? t("submitting") : t("submit")}
               </button>
             </form>
           </Reveal>
         </section>
       </div>
 
-      {/* Studio details — Figma 3626:9870 */}
       <section
         data-contact-light
         className="bg-white px-6 py-16 text-[#1e1e1e] md:px-20 md:py-20"
       >
         <div className="mx-auto max-w-[1440px]">
           <Reveal className="flex max-w-[45rem] flex-col gap-8">
-            <SectionEyebrow label="Capabilities and Services" mark={3} />
+            <SectionEyebrow label={t("detailsEyebrow")} mark={3} />
             <h2
               className="font-display font-medium tracking-[-0.03em] text-[#1e1e1e]"
               style={{
@@ -190,21 +242,21 @@ export function ContactPage({ interest }: { interest?: string }) {
                 lineHeight: 1.1,
               }}
             >
-              Small studio,
+              {t("detailsHeadlineLine1")}
               <br />
-              direct access.
+              {t("detailsHeadlineLine2")}
             </h2>
           </Reveal>
 
           <div className="mt-14 grid grid-cols-1 gap-5 md:mt-[72px] md:grid-cols-3">
-            {CONTACT_CARDS.map((card, i) => (
+            {cards.map((card, i) => (
               <Reveal key={card.label} delay={i * 60}>
                 <article className="flex min-h-[18.5rem] flex-col justify-between border border-[#1e1e1e]/20 p-7 md:min-h-[297px]">
                   <div>
                     <p className="font-mono text-[11px] uppercase leading-[16.5px] tracking-[0.05em] text-[#6b6b6b]">
                       {card.label}
                     </p>
-                    {"href" in card && card.href ? (
+                    {card.href ? (
                       <a
                         href={card.href}
                         className="mt-[19px] block font-display text-[24px] font-medium leading-7 text-[#1e1e1e] transition-opacity hover:opacity-70"
@@ -227,13 +279,12 @@ export function ContactPage({ interest }: { interest?: string }) {
         </div>
       </section>
 
-      {/* Studio photo — Figma 3626:9901 */}
       <section className="bg-white">
         <div className="relative aspect-[1440/820] w-full overflow-hidden bg-[#f5f5f5]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/contact/studio.jpg"
-            alt="kbell + postman studio workspace in Amsterdam"
+            alt={t("studioPhotoAlt")}
             className="absolute inset-0 size-full object-cover"
           />
         </div>

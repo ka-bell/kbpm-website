@@ -1,32 +1,34 @@
+"use client";
+
 import { Link } from "@/components/Link";
+import { useTranslations } from "next-intl";
 import { Reveal } from "./Reveal";
 import { SectionEyebrow } from "./SectionEyebrow";
 
-const founders = [
+const FOUNDER_META = [
   {
+    key: "karissa" as const,
     name: "Karissa",
-    role: "Product, strategy, client lead",
-    note: "15+ years as a UI/UX designer, across fashion, branding, advertising, recruitment, marketing and research. Shapes the brief, pressure-tests the product direction, and keeps the work close to the business goal.",
     image: "/about/karissa.png",
-    imageAlt: "Karissa — product, strategy, and client lead",
   },
   {
+    key: "alex" as const,
     name: "Alex",
-    role: "Engineering, architecture, delivery",
-    note: "20+ years as a development lead, across advertising and real estate. Turns the direction into a working product, with the technical decisions needed to keep it useful after launch.",
     image: "/about/alex.png",
-    imageAlt: "Alex — engineering, architecture, and delivery",
   },
 ] as const;
 
 /** Founders — Figma 3626:11276; rewrite copy. */
 export function WhoYouWorkWith() {
+  const t = useTranslations("WhoYouWorkWith");
+  const tc = useTranslations("Common");
+
   return (
     <section className="kbpm-hi-fi bg-white px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
       <div className="mx-auto max-w-[1440px]">
         <Reveal>
           <div className="flex max-w-[45rem] flex-col gap-8">
-            <SectionEyebrow label="Who you work with" mark={3} />
+            <SectionEyebrow label={t("eyebrow")} mark={3} />
             <h2
               className="font-display text-[#1e1e1e]"
               style={{
@@ -36,27 +38,24 @@ export function WhoYouWorkWith() {
                 fontWeight: 500,
               }}
             >
-              Senior-led.
+              {t("headlineLine1")}
               <br />
-              No account layer.
+              {t("headlineLine2")}
             </h2>
             <p className="max-w-[36rem] text-[17px] leading-[1.2] tracking-[-0.02em] text-[#6b6b6b] md:text-[18px]">
-              You always work directly with Karissa and Alex — the two of us run
-              KB+PM, and have for seven years. When a project needs more hands, we
-              scale up with trusted specialists who already know how we work —
-              without ever adding an account layer between you and the work.
+              {t("body")}
             </p>
           </div>
         </Reveal>
 
         <div className="mt-12 grid grid-cols-1 gap-10 md:mt-16 md:grid-cols-2 md:gap-10 lg:gap-10">
-          {founders.map((person, i) => (
+          {FOUNDER_META.map((person, i) => (
             <Reveal key={person.name} delay={i * 80}>
               <article className="flex flex-col gap-8 md:gap-10">
                 <div className="relative aspect-[620/750] overflow-hidden rounded-[28px] bg-[#f5f5f5]">
                   <img
                     src={person.image}
-                    alt={person.imageAlt}
+                    alt={t(`${person.key}.imageAlt`)}
                     width={620}
                     height={750}
                     decoding="async"
@@ -79,14 +78,14 @@ export function WhoYouWorkWith() {
                         {person.name}
                       </h3>
                       <p className="mt-3 text-[15px] leading-[1.3] tracking-[-0.01em] text-[#6b6b6b] md:text-[16px]">
-                        {person.role}
+                        {t(`${person.key}.role`)}
                       </p>
                     </div>
                     <Link
                       to="/contact"
                       className="inline-flex shrink-0 items-center gap-2.5 rounded-full bg-[#c9ff6e] py-3 pl-6 pr-3 font-mono text-[12px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-90"
                     >
-                      Contact
+                      {tc("contact")}
                       <span className="flex size-[22px] shrink-0 items-center justify-center rounded-full bg-[#1e1e1e]">
                         <img
                           src="/hero/arrow-outward-light.svg"
@@ -99,7 +98,7 @@ export function WhoYouWorkWith() {
                     </Link>
                   </div>
                   <p className="text-[15px] leading-[1.3] tracking-[-0.01em] text-[#6b6b6b] md:text-[16px]">
-                    {person.note}
+                    {t(`${person.key}.note`)}
                   </p>
                 </div>
               </article>

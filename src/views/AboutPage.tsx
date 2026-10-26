@@ -1,56 +1,48 @@
 "use client";
 
 import { Link } from "@/components/Link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Reveal } from "@/components/site/Reveal";
 import { SectionEyebrow } from "@/components/site/SectionEyebrow";
 import { WhoYouWorkWith } from "@/components/site/WhoYouWorkWith";
 
-const CAPABILITIES: Array<{ title: string; items: string[] }> = [
+const CAPABILITY_KEYS = ["product", "design", "engineering", "infra"] as const;
+const TESTIMONIAL_META = [
   {
-    title: "Product & Strategy",
-    items: [
-      "Product discovery & scoping",
-      "Technical due diligence",
-      "Prototype-to-production roadmaps",
-      "Architecture decisions",
-      "Founder-facing workshops",
-      "Fixed-scope sprint planning",
-    ],
+    key: "t1" as const,
+    tint: "#c9ff6e",
+    ink: "text-[#1e1e1e]",
+    border: "border-[#1e1e1e]/15",
+    column: "left" as const,
   },
   {
-    title: "Design",
-    items: [
-      "Product & UX design",
-      "Design systems",
-      "Rapid prototyping (Figma → code)",
-      "Interaction & motion",
-      "Landing pages & marketing sites",
-      "Accessibility (WCAG 2.1 AA)",
-    ],
+    key: "t2" as const,
+    tint: "#ff1c77",
+    ink: "text-white",
+    border: "border-white/25",
+    column: "right" as const,
   },
   {
-    title: "Engineering",
-    items: [
-      "Full-stack TypeScript (React, Next, TanStack)",
-      "Edge runtimes (Cloudflare, Vercel)",
-      "Supabase, Postgres, RLS",
-      "AI features — LLMs, RAG, agents",
-      "Payments — Stripe, Paddle",
-      "Mobile — React Native, Expo",
-      "Hardening vibe-coded apps for production",
-    ],
+    key: "t3" as const,
+    tint: "#c7b0fe",
+    ink: "text-[#1e1e1e]",
+    border: "border-[#1e1e1e]/15",
+    column: "right" as const,
   },
   {
-    title: "Infrastructure & Ops",
-    items: [
-      "EU-first / sovereign cloud (Hetzner, Scaleway, OVH)",
-      "CI/CD, observability, on-call",
-      "GDPR & data residency",
-      "Auth — SSO, OAuth, magic link",
-      "Migrations off US-hosted stacks",
-      "Long-term maintenance retainers",
-    ],
+    key: "t4" as const,
+    tint: "#fe6337",
+    ink: "text-white",
+    border: "border-white/25",
+    column: "left" as const,
+  },
+  {
+    key: "t5" as const,
+    tint: "#006ff7",
+    ink: "text-white",
+    border: "border-white/25",
+    column: "right" as const,
   },
 ];
 
@@ -77,73 +69,17 @@ const TOOLS: Array<{ name: string; src: string }> = [
   { name: "Notion", src: "/stack/notion.svg" },
 ];
 
-const TESTIMONIALS: Array<{
+type TestimonialCardData = {
   quote: string;
   name: string;
   role: string;
-  /** Solid brand tint — applied translucent for glass. */
   tint: string;
   ink: string;
   border: string;
   column: "left" | "right";
-}> = [
-  {
-    quote:
-      "We came to Kbell & Postman with a vibe-coded prototype and a deadline. Six weeks later we had a production app, EU-hosted, paying customers on it. They act like a co-founder, not a vendor.",
-    name: "Marijn de Vries",
-    role: "Founder — Halden (fintech, Amsterdam)",
-    tint: "#c9ff6e",
-    ink: "text-[#1e1e1e]",
-    border: "border-[#1e1e1e]/15",
-    column: "left",
-  },
-  {
-    quote:
-      "They turned a fuzzy product brief into something our team could actually test. The work felt senior from the first call: clear scope, calm decisions, and no theatre.",
-    name: "Lotte Bakker",
-    role: "Strategy Lead — Northern Studio",
-    tint: "#ff1c77",
-    ink: "text-white",
-    border: "border-white/25",
-    column: "right",
-  },
-  {
-    quote:
-      "The biggest difference was momentum. We stopped debating abstractions and started reviewing a working product every week. That changed the whole client conversation.",
-    name: "Samir El Idrissi",
-    role: "Managing Partner — Atlas & Co.",
-    tint: "#c7b0fe",
-    ink: "text-[#1e1e1e]",
-    border: "border-[#1e1e1e]/15",
-    column: "right",
-  },
-  {
-    quote:
-      "They understood that this wasn't a design refresh. It was an operational surgery.",
-    name: "Head of Accreditation",
-    role: "Academion",
-    tint: "#fe6337",
-    ink: "text-white",
-    border: "border-white/25",
-    column: "left",
-  },
-  {
-    quote:
-      "The platform made cultural research easier to explore, explain, and use in strategy work.",
-    name: "Strategy lead",
-    role: "Virtue Worldwide",
-    tint: "#006ff7",
-    ink: "text-white",
-    border: "border-white/25",
-    column: "right",
-  },
-];
+};
 
-function TestimonialCard({
-  card,
-}: {
-  card: (typeof TESTIMONIALS)[number];
-}) {
+function TestimonialCard({ card }: { card: TestimonialCardData }) {
   return (
     <figure
       className={`flex min-h-[22rem] w-full max-w-[26rem] flex-col justify-between rounded-2xl p-8 shadow-[0_8px_32px_rgba(0,0,0,0.2)] backdrop-blur-xl backdrop-saturate-150 ${card.ink}`}
@@ -173,6 +109,35 @@ function TestimonialCard({
 }
 
 export function AboutPage() {
+  const t = useTranslations("About");
+  const tc = useTranslations("Common");
+  const capabilities = useMemo(
+    () =>
+      CAPABILITY_KEYS.map((key) => ({
+        title: t(`capabilities.${key}.title`),
+        items: t.raw(`capabilities.${key}.items`) as string[],
+      })),
+    [t],
+  );
+  const testimonials = useMemo(
+    () =>
+      TESTIMONIAL_META.map((meta) => ({
+        ...meta,
+        quote: t(`testimonials.${meta.key}.quote`),
+        name: t(`testimonials.${meta.key}.name`),
+        role: t(`testimonials.${meta.key}.role`),
+      })),
+    [t],
+  );
+  const stats = useMemo(
+    () =>
+      (["years", "senior", "eu", "direct"] as const).map((key) => [
+        t(`stats.${key}.value`),
+        t(`stats.${key}.label`),
+      ]),
+    [t],
+  );
+
   const capabilitiesSectionRef = useRef<HTMLElement | null>(null);
   const capabilitiesViewportRef = useRef<HTMLDivElement | null>(null);
   const capabilitiesTrackRef = useRef<HTMLDivElement | null>(null);
@@ -229,7 +194,7 @@ export function AboutPage() {
                 height={16}
                 className="size-4 rotate-180"
               />
-              Home
+              {tc("home")}
             </Link>
           </Reveal>
 
@@ -237,7 +202,7 @@ export function AboutPage() {
             <Reveal className="min-w-0 flex-1">
               <div className="flex max-w-[44rem] flex-col gap-6 md:gap-8">
                 <p className="font-mono text-[14px] uppercase leading-[16.5px] tracking-[0.05em] text-[#1e1e1e]">
-                  About us
+                  {t("eyebrow")}
                 </p>
                 <h1
                   className="font-display text-[#1e1e1e]"
@@ -248,31 +213,23 @@ export function AboutPage() {
                     fontWeight: 500,
                   }}
                 >
-                  Senior-led.
+                  {t("headlineLine1")}
                   <br />
-                  No account layer.
+                  {t("headlineLine2")}
                 </h1>
               </div>
             </Reveal>
 
             <Reveal delay={80} className="w-full shrink-0 lg:w-[min(100%,22.5rem)]">
               <p className="text-[17px] leading-[1.2] tracking-[-0.01em] text-[#6b6b6b] md:text-[18px]">
-                Kbell &amp; Postman is a small, senior studio in Amsterdam. We
-                take products from idea to production — strategy, design, and
-                code — for teams whose ideas have outgrown their in-house
-                capacity.
+                {t("intro")}
               </p>
             </Reveal>
           </div>
 
           <Reveal delay={120}>
             <div className="grid grid-cols-2 gap-8 border-t border-[#1e1e1e]/20 pt-8 md:grid-cols-4 md:gap-10 md:pt-10">
-              {[
-                ["30+", "Combined years in digital products"],
-                ["Senior", "Led on every engagement"],
-                ["EU", "Infra, when it matters"],
-                ["Direct", "No account layer, ever"],
-              ].map(([n, l]) => (
+              {stats.map(([n, l]) => (
                 <div key={l} className="flex flex-col gap-3">
                   <p
                     className="font-display text-[#1e1e1e]"
@@ -307,7 +264,7 @@ export function AboutPage() {
             <div className="shrink-0">
               <Reveal>
                 <div className="flex max-w-[36rem] flex-col gap-4 md:gap-5">
-                  <SectionEyebrow label="Collaborate" mark={2} />
+                  <SectionEyebrow label={t("capabilitiesEyebrow")} mark={2} />
                   <h2
                     className="font-display text-[#1e1e1e]"
                     style={{
@@ -317,12 +274,10 @@ export function AboutPage() {
                       fontWeight: 500,
                     }}
                   >
-                    What we actually do.
+                    {t("capabilitiesHeadline")}
                   </h2>
                   <p className="max-w-xl text-[16px] leading-[1.25] tracking-[-0.02em] text-[#838383] md:text-[18px]">
-                    Four disciplines in one studio. Specialists join when the
-                    brief needs them. Keep scrolling here: the capability cards
-                    move sideways, then the page continues.
+                    {t("capabilitiesBody")}
                   </p>
                 </div>
               </Reveal>
@@ -337,7 +292,7 @@ export function AboutPage() {
                 className="flex h-full w-max gap-6 md:gap-8"
                 style={{ willChange: "transform" }}
               >
-                {CAPABILITIES.map((c) => (
+                {capabilities.map((c) => (
                   <article
                     key={c.title}
                     className="flex h-full w-[min(82vw,30rem)] shrink-0 flex-col rounded-[28px] border border-black/10 bg-[#1e1e1e] p-6 md:w-[30rem] md:p-8 lg:p-10"
@@ -380,11 +335,11 @@ export function AboutPage() {
               <p className="font-mono text-[12px] uppercase tracking-[0.05em] text-[#6b6b6b]">
                 {String(
                   Math.min(
-                    Math.floor(capabilityProgress * CAPABILITIES.length) + 1,
-                    CAPABILITIES.length,
+                    Math.floor(capabilityProgress * capabilities.length) + 1,
+                    capabilities.length,
                   ),
                 ).padStart(2, "0")}{" "}
-                / {String(CAPABILITIES.length).padStart(2, "0")}
+                / {String(capabilities.length).padStart(2, "0")}
               </p>
             </div>
           </div>
@@ -404,7 +359,7 @@ export function AboutPage() {
               fontWeight: 500,
             }}
           >
-            Don’t take our words for it
+            {t("testimonialsHeadline")}
           </h2>
         </div>
 
@@ -412,14 +367,24 @@ export function AboutPage() {
         <div className="relative z-10 px-6 pb-[30vh] pt-8 md:px-10 md:pb-[40vh] md:pt-12 lg:px-20">
           <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-16 md:grid-cols-2 md:gap-x-16 lg:gap-x-24">
             <div className="flex flex-col items-center gap-[min(50vh,26rem)] md:items-start">
-              {TESTIMONIALS.filter((c) => c.column === "left").map((card) => (
-                <TestimonialCard key={`${card.name}-${card.tint}`} card={card} />
-              ))}
+              {testimonials
+                .filter((c) => c.column === "left")
+                .map((card) => (
+                  <TestimonialCard
+                    key={`${card.name}-${card.tint}`}
+                    card={card}
+                  />
+                ))}
             </div>
             <div className="flex flex-col items-center gap-[min(50vh,26rem)] md:items-end md:pt-[35vh]">
-              {TESTIMONIALS.filter((c) => c.column === "right").map((card) => (
-                <TestimonialCard key={`${card.name}-${card.tint}`} card={card} />
-              ))}
+              {testimonials
+                .filter((c) => c.column === "right")
+                .map((card) => (
+                  <TestimonialCard
+                    key={`${card.name}-${card.tint}`}
+                    card={card}
+                  />
+                ))}
             </div>
           </div>
         </div>
@@ -430,7 +395,7 @@ export function AboutPage() {
         <div className="mx-auto max-w-[1440px]">
           <Reveal>
             <div className="flex flex-col gap-8">
-              <SectionEyebrow label="Toolings" mark={5} />
+              <SectionEyebrow label={t("toolsEyebrow")} mark={5} />
               <h2
                 className="font-display text-[#1e1e1e]"
                 style={{
@@ -440,7 +405,7 @@ export function AboutPage() {
                   fontWeight: 500,
                 }}
               >
-                The stack, in colour.
+                {t("toolsHeadline")}
               </h2>
             </div>
           </Reveal>
@@ -479,7 +444,7 @@ export function AboutPage() {
           <Reveal>
             <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-3xl">
-                <SectionEyebrow label="Next" mark={7} />
+                <SectionEyebrow label={t("ctaEyebrow")} mark={7} />
                 <h2
                   className="mt-8 font-display text-[#1e1e1e]"
                   style={{
@@ -489,7 +454,7 @@ export function AboutPage() {
                     fontWeight: 500,
                   }}
                 >
-                  Not sure which capability you need? Tell us the problem.
+                  {t("ctaHeadline")}
                 </h2>
               </div>
               <div className="flex flex-col gap-4">
@@ -497,8 +462,7 @@ export function AboutPage() {
                   to="/contact"
                   className="inline-flex w-fit items-center gap-2.5 rounded-full bg-[#1e1e1e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
                 >
-                  Tell us your challenge
-                  <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-white">
+                  {tc("startProject")}                  <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-white">
                     <img
                       src="/hero/arrow-outward-dark.svg"
                       alt=""
@@ -512,7 +476,7 @@ export function AboutPage() {
                   to="/services"
                   className="font-mono text-[13px] uppercase tracking-[0.05em] text-[#6b6b6b] underline decoration-[#c9ff6e] decoration-2 underline-offset-4 transition-colors hover:text-[#1e1e1e]"
                 >
-                  Or explore all services →
+                  {tc("exploreServices")}
                 </Link>
               </div>
             </div>

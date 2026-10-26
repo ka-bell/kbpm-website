@@ -1,5 +1,8 @@
+"use client";
+
 import { Link } from "@/components/Link";
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Reveal } from "@/components/site/Reveal";
 import { ProcessTimeline } from "@/components/site/ProcessTimeline";
 import { ProcessFaq } from "@/components/site/ProcessFaq";
@@ -120,13 +123,15 @@ const faqs = [
 ];
 
 export function GoToMarketPage() {
+  const t = useTranslations("GoToMarket");
+
   return (
     <>
       <section className="border-b border-border bg-background">
         <div className="mx-auto max-w-[1440px] px-6 py-16 md:px-8 md:py-24">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-8">
             <Reveal className="md:col-span-7">
-              <p className="eyebrow">§ Go-to-Market</p>
+              <p className="eyebrow">{t("eyebrow")}</p>
               <h1
                 className="font-display mt-5 max-w-4xl text-foreground"
                 style={{
@@ -136,12 +141,10 @@ export function GoToMarketPage() {
                   fontWeight: 500,
                 }}
               >
-                Your vibecoded app looks ready. We make it actually ready to
-                launch.
+                {t("headline")}
               </h1>
               <p className="mt-8 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                Start with a €250 scan if you want clarity. Go Release Ready if
-                you want us to fix the launch-blocking issues.
+                {t("intro")}
               </p>
               <div className="mt-10 flex flex-wrap gap-3">
                 <Link

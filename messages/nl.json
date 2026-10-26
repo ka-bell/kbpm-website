@@ -1,0 +1,445 @@
+{
+  "Meta": {
+    "titleDefault": "kbell + postman — Digitaal productstudio, Amsterdam",
+    "titleTemplate": "%s — kbell + postman",
+    "description": "kbell + postman is een digitaal productstudio in Amsterdam. We bouwen digitale producten end-to-end — wanneer het idee groter is dan het team.",
+    "ogTitle": "kbell + postman — Digitaal productstudio, Amsterdam",
+    "ogDescription": "Validate, Build, Evolve en Support voor digitale producten — voor agencies, founders en productteams.",
+    "homeTitle": "kbell + postman — Digitaal productstudio, Amsterdam",
+    "homeDescription": "Digitaal productstudio in Amsterdam. Validate, build, evolve en support van complexe digitale producten — end-to-end."
+  },
+  "Nav": {
+    "services": "Services",
+    "work": "Work",
+    "about": "About",
+    "contact": "Contact",
+    "startProject": "Vertel ons je challenge",
+    "letsTalk": "Laten we praten",
+    "openMenu": "Menu openen",
+    "closeMenu": "Menu sluiten",
+    "language": "Taal",
+    "localeEn": "EN",
+    "localeNl": "NL"
+  },
+  "Footer": {
+    "tagline": "Digitale producten end-to-end, wanneer het idee groter is dan het team.",
+    "services": "Services",
+    "studio": "Studio",
+    "elsewhere": "Elders",
+    "work": "Work",
+    "about": "About",
+    "playground": "Playground",
+    "goToMarket": "Go-to-Market",
+    "euFirst": "EU-first infra",
+    "contact": "Contact",
+    "copyright": "© {year} kbell + postman B.V. — Digitaal productstudio, Amsterdam",
+    "legal": "KvK 00000000 · End-to-end in-house gebouwd"
+  },
+  "Hero": {
+    "mobileLine1": "Design partner",
+    "mobileLine2": "for ambitious design",
+    "desktopLine1": "Technology should work for people.",
+    "phrase1": "Not decide what matters for us.",
+    "phrase2": "Not make us all sound the same.",
+    "phrase3": "Not take the human out of what we do.",
+    "phrase4": "Not flatten our creativity."
+  },
+  "IntroBand": {
+    "bodyBefore": "Alex en Karissa zijn jullie",
+    "trusties": "digital trusties",
+    "bodyAfter": " die digitale plannen omzetten in een product dat mensen echt gebruiken.",
+    "startProject": "Vertel ons je challenge",
+    "seeWork": "Bekijk het werk"
+  },
+  "ProofStrip": {
+    "ariaLabel": "Studio metrics",
+    "yearsValue": "7",
+    "yearsLabel": "Jaar als bedrijf",
+    "platformsValue": "31",
+    "platformsLabel": "Platforms die we vandaag nog onderhouden",
+    "usersValue": "500K+",
+    "usersLabel": "Dagelijkse gebruikers op ons grootste platform"
+  },
+  "TrustedBy": {
+    "eyebrow": "Onze klanten",
+    "headline": "Zij brachten het idee. Wij namen de verantwoordelijkheid.",
+    "caption": "Een paar van de founders, agencies en bedrijven die ons vertrouwden om het te laten werken — en werkend te houden.",
+    "clientsAria": "Klanten",
+    "carouselAria": "Logo-carrousel positie"
+  },
+  "ServicePaths": {
+    "eyebrow": "Collaborate",
+    "headline": "Menselijke creativiteit drijft succes. Ons framework levert het.",
+    "headlineLine1": "Menselijke creativiteit drijft succes.",
+    "headlineLine2": "Ons framework levert het.",
+    "body": "Werk met ons van begin tot eind, of schakel ons in waar je ons het meest nodig hebt."
+  },
+  "WhyKbpm": {
+    "eyebrow": "Experience and personality",
+    "headline": "Direct & bold. Warm, maar nooit soft on the truth."
+  },
+  "LanguageSwitcher": {
+    "label": "Taal wisselen",
+    "en": "EN",
+    "nl": "NL"
+  },
+  "Common": {
+    "home": "Home",
+    "startProject": "Vertel ons je challenge",
+    "letsTalk": "Laten we praten",
+    "seeWork": "Bekijk het werk",
+    "allServices": "Alle services",
+    "exploreServices": "Of bekijk alle services →",
+    "viewCase": "Bekijk case",
+    "readMore": "Lees meer",
+    "contact": "Contact"
+  },
+  "NotFound": {
+    "eyebrow": "404",
+    "headline": "Pagina niet gevonden.",
+    "body": "De pagina die je zoekt bestaat niet of is nog niet gebouwd.",
+    "backHome": "Terug naar homepage"
+  },
+  "MetaPages": {
+    "about": {
+      "path": "/about",
+      "title": "About",
+      "description": "Kbell & Postman is een senior studio in Amsterdam — strategy, design en code, zonder account layer.",
+      "ogTitle": "About — KB+PM",
+      "ogDescription": "Senior-led. Geen account layer."
+    },
+    "contact": {
+      "path": "/contact",
+      "title": "Contact",
+      "description": "Vertel KBPM wat je bouwt. Start een product sprint, productioniseer een prototype, of praat over product support.",
+      "ogTitle": "Contact - kbell + postman",
+      "ogDescription": "Vertel ons wat je bouwt en waar het product vastzit."
+    },
+    "services": {
+      "path": "/services",
+      "title": "Alle services",
+      "description": "Alle kbell + postman services binnen Validate, Build, Evolve en Support.",
+      "ogTitle": "Alle services — kbell + postman",
+      "ogDescription": "Werk met ons van begin tot eind — of schakel ons in voor precies wat je nodig hebt."
+    },
+    "work": {
+      "path": "/work",
+      "title": "Work",
+      "description": "Een paar dingen die we hebben gebouwd. Geselecteerde cases van Kbell & Postman, digitaal productstudio in Amsterdam.",
+      "ogTitle": "Work — KB+PM",
+      "ogDescription": "Een paar dingen die we hebben gebouwd."
+    },
+    "playground": {
+      "path": "/playground",
+      "title": "Playground",
+      "description": "Gedachten die ons wakker houden — architectuur, infrastructuur, AI, en de odd rabbit hole.",
+      "ogTitle": "Playground — kbell + postman",
+      "ogDescription": "Gedachten die ons wakker houden."
+    },
+    "goToMarket": {
+      "path": "/go-to-market",
+      "title": "Go-to-Market",
+      "description": "Maak je vibecoded app écht launch-ready — start met een €250 scan, of ga full Release Ready.",
+      "ogTitle": "Go-to-Market — kbell + postman",
+      "ogDescription": "Je vibecoded app lijkt klaar. Wij maken hem écht klaar om te lanceren."
+    },
+    "europeanFirst": {
+      "path": "/european-first-infrastructure",
+      "title": "European-first infrastructure",
+      "description": "Map, design en run producten op European-first infrastructure — start met een EU Stack Scan.",
+      "ogTitle": "European-first infrastructure — kbell + postman",
+      "ogDescription": "Bouw snel, houd je data veilig. Een praktische EU-first product stack."
+    },
+    "processPricing": {
+      "path": "/process-pricing",
+      "title": "Process & Pricing",
+      "description": "Hoe we werken en wat het kost. Validate, Build en Evolve — met transparante ranges en geen scope creep.",
+      "ogTitle": "Process & Pricing — kbell + postman",
+      "ogDescription": "Validate, Build, Evolve — transparant process en ranges."
+    },
+    "team": {
+      "path": "/team",
+      "title": "Team",
+      "description": "De mensen achter kbell + postman. Een senior-led studio in Amsterdam — specialisten wanneer de brief dat vraagt.",
+      "ogTitle": "Team — kbell + postman",
+      "ogDescription": "Senior-led studio. Specialisten wanneer nodig."
+    }
+  },
+  "About": {
+    "eyebrow": "Over ons",
+    "headlineLine1": "Senior-led.",
+    "headlineLine2": "Geen account layer.",
+    "intro": "Kbell & Postman is een klein, senior studio in Amsterdam. We brengen producten van idee naar productie — strategy, design en code — voor teams waarvan het idee hun in-house capaciteit is ontgroeid.",
+    "stats": {
+      "years": {
+        "value": "30+",
+        "label": "Gezamenlijke jaren in digitale producten"
+      },
+      "senior": {
+        "value": "Senior",
+        "label": "Leidend op elk engagement"
+      },
+      "eu": {
+        "value": "EU",
+        "label": "Infra, wanneer het ertoe doet"
+      },
+      "direct": {
+        "value": "Direct",
+        "label": "Nooit een account layer"
+      }
+    },
+    "capabilitiesEyebrow": "Collaborate",
+    "capabilitiesHeadline": "Wat we écht doen.",
+    "capabilitiesBody": "Vier disciplines in één studio. Specialisten haken aan wanneer de brief dat vraagt. Scroll hier door: de capability-kaarten bewegen zijwaarts, daarna gaat de pagina verder.",
+    "capabilities": {
+      "product": {
+        "title": "Product & Strategy",
+        "items": [
+          "Product discovery & scoping",
+          "Technical due diligence",
+          "Prototype-to-production roadmaps",
+          "Architecture decisions",
+          "Founder-facing workshops",
+          "Fixed-scope sprint planning"
+        ]
+      },
+      "design": {
+        "title": "Design",
+        "items": [
+          "Product- & UX-design",
+          "Design systems",
+          "Rapid prototyping (Figma → code)",
+          "Interaction & motion",
+          "Landing pages & marketing sites",
+          "Accessibility (WCAG 2.1 AA)"
+        ]
+      },
+      "engineering": {
+        "title": "Engineering",
+        "items": [
+          "Full-stack TypeScript (React, Next, TanStack)",
+          "Edge runtimes (Cloudflare, Vercel)",
+          "Supabase, Postgres, RLS",
+          "AI-features — LLMs, RAG, agents",
+          "Payments — Stripe, Paddle",
+          "Mobile — React Native, Expo",
+          "Vibe-coded apps harden voor productie"
+        ]
+      },
+      "infra": {
+        "title": "Infrastructure & Ops",
+        "items": [
+          "EU-first / sovereign cloud (Hetzner, Scaleway, OVH)",
+          "CI/CD, observability, on-call",
+          "GDPR & data residency",
+          "Auth — SSO, OAuth, magic link",
+          "Migraties vanaf US-hosted stacks",
+          "Long-term maintenance retainers"
+        ]
+      }
+    },
+    "testimonialsHeadline": "Neem het niet alleen van ons aan",
+    "testimonials": {
+      "t1": {
+        "quote": "We kwamen bij Kbell & Postman met een vibe-coded prototype en een deadline. Zes weken later hadden we een productie-app, EU-hosted, met betalende klanten. Ze gedragen zich als co-founder, niet als vendor.",
+        "name": "Marijn de Vries",
+        "role": "Founder — Halden (fintech, Amsterdam)"
+      },
+      "t2": {
+        "quote": "Ze maakten van een vage productbrief iets dat ons team echt kon testen. Het werk voelde vanaf het eerste gesprek senior: heldere scope, kalme beslissingen, geen theater.",
+        "name": "Lotte Bakker",
+        "role": "Strategy Lead — Northern Studio"
+      },
+      "t3": {
+        "quote": "Het grootste verschil was momentum. We stopten met debatteren over abstracties en beoordeelden elke week een werkend product. Dat veranderde het hele klantgesprek.",
+        "name": "Samir El Idrissi",
+        "role": "Managing Partner — Atlas & Co."
+      },
+      "t4": {
+        "quote": "Ze begrepen dat dit geen design refresh was. Het was een operationele operatie.",
+        "name": "Head of Accreditation",
+        "role": "Academion"
+      },
+      "t5": {
+        "quote": "Het platform maakte cultureel onderzoek makkelijker om te verkennen, uit te leggen en te gebruiken in strategy-werk.",
+        "name": "Strategy lead",
+        "role": "Virtue Worldwide"
+      }
+    },
+    "toolsEyebrow": "Toolings",
+    "toolsHeadline": "De stack, in kleur.",
+    "ctaEyebrow": "Next",
+    "ctaHeadline": "Niet zeker welke capability je nodig hebt? Vertel ons het probleem."
+  },
+  "WhoYouWorkWith": {
+    "eyebrow": "Met wie je werkt",
+    "headlineLine1": "Senior-led.",
+    "headlineLine2": "Geen account layer.",
+    "body": "Je werkt altijd rechtstreeks met Karissa en Alex — wij tweeën runnen KB+PM, al zeven jaar. Als een project meer handen nodig heeft, schalen we op met specialisten die onze werkwijze al kennen — zonder ooit een account layer tussen jou en het werk te zetten.",
+    "karissa": {
+      "role": "Product, strategy, client lead",
+      "note": "15+ jaar als UI/UX-designer, in fashion, branding, advertising, recruitment, marketing en research. Vormt de brief, toetst de productrichting en houdt het werk dicht bij het businessdoel.",
+      "imageAlt": "Karissa — product, strategy en client lead"
+    },
+    "alex": {
+      "role": "Engineering, architecture, delivery",
+      "note": "20+ jaar als development lead, in advertising en real estate. Zet de richting om in een werkend product, met de technische keuzes die het na launch bruikbaar houden.",
+      "imageAlt": "Alex — engineering, architecture en delivery"
+    }
+  },
+  "Contact": {
+    "eyebrow": "Contact",
+    "headlineLine1": "Laten we",
+    "headlineLine2": "samen bouwen.",
+    "intro": "kbell + postman is een klein, senior studio in Amsterdam. We brengen producten van idee naar productie — strategy, design en code — voor teams waarvan het idee hun in-house capaciteit is ontgroeid.",
+    "fullName": "Volledige naam",
+    "email": "E-mailadres *",
+    "message": "Bericht",
+    "messagePlaceholder": "Typ je bericht...",
+    "consent": "Ik ga ermee akkoord dat kbell + postman mijn gegevens bewaart voor deze aanvraag.",
+    "submit": "Verstuur",
+    "submitting": "Mail openen…",
+    "interestedIn": "Geïnteresseerd in: {hint}",
+    "errors": {
+      "emailRequired": "Vul een geldig e-mailadres in.",
+      "consentRequired": "Bevestig je akkoord voordat je verstuurt.",
+      "generic": "Er ging iets mis. Mail ons op hello@kbpm.nl."
+    },
+    "success": "Bedankt — je mailprogramma zou moeten openen met het bericht klaar om te versturen.",
+    "interests": {
+      "scan": "Launch Scan / vibecode readiness",
+      "release": "Release Ready / vibecode hardening",
+      "eu-scan": "EU Stack Scan",
+      "eu-setup": "EU-First Setup",
+      "eu-migrate": "EU Migration Plan"
+    },
+    "detailsEyebrow": "Capabilities and Services",
+    "detailsHeadlineLine1": "Klein studio,",
+    "detailsHeadlineLine2": "direct contact.",
+    "studioPhotoAlt": "kbell + postman studio workspace in Amsterdam",
+    "cards": {
+      "studio": {
+        "label": "Studio",
+        "title": "Amsterdam, NL",
+        "body": "Remote-first delivery, met sessions op locatie wanneer het project daar baat bij heeft."
+      },
+      "email": {
+        "label": "Email",
+        "title": "hello@kbpm.nl",
+        "body": "Het beste voor briefs, prototype-links, procurement-vragen en eerste projectcontext."
+      },
+      "hours": {
+        "label": "Werktijden",
+        "title": "CET / CEST",
+        "body": "Handige overlap voor Europese teams, agencies, founders en product owners."
+      }
+    }
+  },
+  "Services": {
+    "indexEyebrow": "Services",
+    "indexHeadline": "Kies waar het product hulp nodig heeft.",
+    "explore": "Ontdek {name}",
+    "ctaHeadline": "Niet zeker welk model bij jouw project past?",
+    "detailBreadcrumb": "Services / {name}",
+    "whenFits": "Wanneer dit past",
+    "leaveWith": "Wat je meeneemt",
+    "whatWeOffer": "Wat we bieden.",
+    "featuredEngagement": "Uitgelichte case",
+    "groups": {
+      "validate": {
+        "eyebrow": "Clarity & evidence",
+        "body": "Voor teams die zekerheid nodig hebben vóór design of development. We helpen het juiste probleem te definiëren, het idee te testen en te bepalen wat het waard is om te bouwen.",
+        "listIntro": "Nuttig wanneer de brief nog vorm krijgt.",
+        "when": "Je hebt duidelijkheid nodig vóór je investeert in design of development.",
+        "goal": "Richting voordat je committeert aan bouwen.",
+        "panelIntro": "Audits, workshops en feasibility — zodat je weet wat je moet bouwen voordat je erin investeert.",
+        "outcome": "Een heldere richting en een plan waar je mee verder kunt."
+      },
+      "build": {
+        "eyebrow": "Product design & build",
+        "body": "Voor teams die weten wat ze willen maken en een senior team nodig hebben om het te designen en ontwikkelen. Van prototype tot platform — we shippen gerichte increments richting product-market fit.",
+        "listIntro": "Nuttig wanneer het product echt moet worden.",
+        "when": "Je weet wat je wilt maken en hebt een senior team nodig om het te designen en ontwikkelen.",
+        "goal": "Design en development van het product.",
+        "panelIntro": "Van prototype tot platform — we designen en ontwikkelen het product end-to-end.",
+        "outcome": "Een werkend digitaal product klaar voor echte gebruikers."
+      },
+      "evolve": {
+        "eyebrow": "Improve & scale",
+        "body": "Voor live producten die scherpere features, betere performance, slimmere AI, duidelijkere data of een nuttiger ervaring voor echte gebruikers nodig hebben.",
+        "listIntro": "Nuttig wanneer het product live is maar nog niet af.",
+        "when": "Je product is live en je wilt het blijven verbeteren.",
+        "goal": "Verbeter een product dat al in gebruik is.",
+        "panelIntro": "Features, AI, performance en analytics — voor producten die al live zijn.",
+        "outcome": "Een product dat blijft verbeteren."
+      },
+      "support": {
+        "eyebrow": "Operate & protect",
+        "body": "Voor producten die continuïteit na launch nodig hebben: maintenance, hosting, documentatie, security en senior technisch oordeel wanneer het ertoe doet.",
+        "listIntro": "Nuttig wanneer het product gezond moet blijven.",
+        "when": "Je hebt een betrouwbare technische partner nodig om alles draaiende te houden.",
+        "goal": "Houd het product stabiel, veilig en ondersteund.",
+        "panelIntro": "Maintenance, hosting, emergencies en fractional CTO — zodat er na launch niets blijft liggen.",
+        "outcome": "Een stabiel, veilig product waar je niet permanent bovenop hoeft te zitten."
+      }
+    }
+  },
+  "Work": {
+    "eyebrow": "Work",
+    "headline": "Een paar dingen die we hebben gebouwd.",
+    "empty": "Geen projecten in dit filter.",
+    "ctaEyebrow": "Next",
+    "ctaHeadline": "Zie je iets wat je aanspreekt? Laten we over jouw project praten.",
+    "filters": {
+      "All": "Alles",
+      "Agency Build": "Agency Build",
+      "Product": "Product",
+      "AI": "AI",
+      "Platform": "Platform",
+      "Technical Sprint": "Technical Sprint"
+    }
+  },
+  "MobileNav": {
+    "menu": "Menu",
+    "closeMenu": "Menu sluiten",
+    "collapseServices": "Services inklappen",
+    "expandServices": "Services uitklappen",
+    "footerNote": "info@kbpm.nl · Amsterdam"
+  },
+  "ServiceOffer": {
+    "allServices": "Alle services",
+    "group": "Group",
+    "viewAllPhase": "Bekijk alle {phase}-services →",
+    "whatYouGet": "Wat je krijgt",
+    "concreteOutputs": "Concrete outputs.",
+    "howItWorks": "Hoe het werkt",
+    "theProcess": "Het proces.",
+    "related": "Gerelateerd",
+    "euInfra": "European-first infrastructure",
+    "nextStep": "Volgende stap"
+  },
+  "Playground": {
+    "eyebrow": "§ Playground",
+    "headline": "Playground.",
+    "intro": "Gedachten die ons wakker houden.",
+    "readPost": "Lees post",
+    "allNotes": "← Alle playground-notes",
+    "back": "Playground"
+  },
+  "GoToMarket": {
+    "eyebrow": "§ Go-to-Market",
+    "headline": "Je vibecoded app lijkt klaar. Wij maken hem écht klaar om te lanceren.",
+    "intro": "Start met een €250 scan als je duidelijkheid wilt. Ga Release Ready als je wilt dat we de launch-blockers fiksen."
+  },
+  "EuropeanFirst": {
+    "eyebrow": "§ European-first infrastructure",
+    "headline": "Bouw snel, houd je data veilig.",
+    "intro": "Start met een Stack Scan als je duidelijkheid wilt. Setup of migratie als de kaart helder is — zonder infra onnodig complex te maken."
+  },
+  "ProcessPricing": {
+    "eyebrow": "§ Pricing",
+    "headline": "We houden pricing glashelder — net als ons process.",
+    "intro": "Validate, Build, Evolve — transparante ranges, geen scope creep.",
+    "selectService": "Kies een service"
+  }
+}

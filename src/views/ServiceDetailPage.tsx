@@ -2,6 +2,7 @@
 
 import { Link } from "@/components/Link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Reveal } from "@/components/site/Reveal";
 import { SectionEyebrow } from "@/components/site/SectionEyebrow";
 import {
@@ -50,6 +51,9 @@ function offerPanelSrc(slug: ServiceSlug, index: number) {
  * Copy from rewrite (serviceOfferings / lists / cases-data).
  */
 export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
+  const t = useTranslations("Services");
+  const tg = useTranslations(`Services.groups.${service.slug}`);
+  const tc = useTranslations("Common");
   const [activeCapability, setActiveCapability] = useState(
     service.capabilities[0],
   );
@@ -148,7 +152,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                 height={16}
                 className="size-4 rotate-180"
               />
-              All services
+              {tc("allServices")}
             </Link>
           </Reveal>
 
@@ -157,7 +161,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
               <div className="flex max-w-[44rem] flex-col gap-6 md:gap-8">
                 <div className="flex flex-col gap-6">
                   <p className="font-mono text-[14px] uppercase leading-[16.5px] tracking-[0.05em] text-white">
-                    Services / {service.name}
+                    {t("detailBreadcrumb", { name: service.name })}
                   </p>
                   <h1
                     className="font-display text-white"
@@ -179,7 +183,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                     fontWeight: 400,
                   }}
                 >
-                  {service.goal}
+                  {tg("goal")}
                 </p>
               </div>
             </Reveal>
@@ -188,10 +192,10 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
               <div className="flex h-full flex-col gap-8 rounded-[28px] bg-[#c9ff6e] p-8">
                 <div className="flex flex-col gap-4">
                   <p className="font-mono text-[12px] uppercase leading-[1.1] tracking-[-0.03em] text-[#1e1e1e]/75">
-                    When this fits
+                    {t("whenFits")}
                   </p>
                   <p className="text-[16px] font-medium leading-[1.2] tracking-[-0.01em] text-[#1e1e1e]">
-                    {service.when}
+                    {tg("when")}
                   </p>
                 </div>
 
@@ -199,10 +203,10 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
 
                 <div className="flex flex-col gap-4">
                   <p className="font-mono text-[12px] uppercase leading-[1.1] tracking-[-0.03em] text-[#1e1e1e]/75">
-                    What you leave with
+                    {t("leaveWith")}
                   </p>
                   <p className="text-[16px] font-medium leading-[1.2] tracking-[-0.01em] text-[#1e1e1e]">
-                    {service.outcome}
+                    {tg("outcome")}
                   </p>
                 </div>
 
@@ -210,8 +214,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                   to="/contact"
                   className="mt-auto inline-flex w-full items-center justify-between gap-3 rounded-full bg-[#1e1e1e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
                 >
-                  Tell us your challenge
-                  <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-white">
+                  {tc("startProject")}                  <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-white">
                     <img
                       src="/hero/arrow-outward-dark.svg"
                       alt=""
@@ -233,7 +236,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
           <Reveal>
             <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
               <div className="flex max-w-[45rem] flex-col gap-8">
-                <SectionEyebrow label="Services" mark={2} />
+                <SectionEyebrow label={t("indexEyebrow")} mark={2} />
                 <h2
                   className="font-display text-[#1e1e1e]"
                   style={{
@@ -243,11 +246,11 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                     fontWeight: 500,
                   }}
                 >
-                  What we offer.
+                  {t("whatWeOffer")}
                 </h2>
               </div>
               <p className="max-w-md text-[18px] leading-[1.2] tracking-[-0.02em] text-[#6b6b6b] md:text-[20px] lg:max-w-[26rem]">
-                {service.panelIntro}
+                {tg("panelIntro")}
               </p>
             </div>
           </Reveal>
@@ -334,8 +337,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                       to="/contact"
                       className="inline-flex w-fit shrink-0 items-center gap-2.5 rounded-full bg-[#1e1e1e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
                     >
-                      Tell us your challenge
-                      <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-white">
+                      {tc("startProject")}                      <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-white">
                         <img
                           src="/hero/arrow-outward-dark.svg"
                           alt=""
@@ -368,14 +370,14 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
       {/* Featured engagement — same MoreWork as homepage; 2-up = Figma 3626:5219 */}
       {featuredCards.length > 0 ? (
         <MoreWork
-          eyebrow="Featured engagement"
+          eyebrow={t("featuredEngagement")}
           eyebrowMark={3}
           title={null}
           showAllLink={false}
           cards={featuredCards}
           bg="bg-white"
           metaMode="metric"
-          ctaLabel="Read more"
+          ctaLabel={tc("readMore")}
         />
       ) : null}
 

@@ -2,6 +2,8 @@
 
 import { Link } from "@/components/Link";
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { MobileNavDrawer } from "./MobileNavDrawer";
 import { ServicesMegaMenu } from "./ServicesMegaMenu";
 import { Wordmark } from "./Wordmark";
@@ -28,6 +30,7 @@ export function SiteHeader({
   visible = true,
   className = "",
 }: SiteHeaderProps) {
+  const t = useTranslations("Nav");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
@@ -119,20 +122,20 @@ export function SiteHeader({
             chevronSrc={chevron}
           />
           <Link to="/work" className={`px-4 py-2.5 ${navLink}`}>
-            Work
+            {t("work")}
           </Link>
           <Link to="/about" className={`px-4 py-2.5 ${navLink}`}>
-            About
+            {t("about")}
           </Link>
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="hidden items-center gap-4 lg:flex">
+          <LanguageSwitcher ink={isWhite ? "light" : "dark"} />
           <Link
             to="/contact"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-[#c9ff6e] py-2 pl-4 pr-2 font-mono text-[12px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-90"
           >
-            Tell us your challenge
-            <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-[#1e1e1e]">
+            {t("startProject")}            <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-[#1e1e1e]">
               <img
                 src="/hero/arrow-outward.svg"
                 alt=""
@@ -145,16 +148,17 @@ export function SiteHeader({
         </div>
 
         <div className="flex items-center gap-1 lg:hidden">
+          <LanguageSwitcher ink={isWhite ? "light" : "dark"} className="mr-1" />
           <Link
             to="/contact"
             className="inline-flex h-10 items-center justify-center rounded-full bg-[#c9ff6e] px-4 font-mono text-[12px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-90"
           >
-            Let’s talk
+            {t("letsTalk")}
           </Link>
           <button
             type="button"
             className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#1e1e1e] text-white transition-opacity hover:opacity-90"
-            aria-label="Open menu"
+            aria-label={t("openMenu")}
             onClick={() => setMobileOpen(true)}
           >
             <svg width="19" height="12" viewBox="0 0 20 14" fill="none" aria-hidden>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Reveal } from "./Reveal";
 import { SectionEyebrow } from "./SectionEyebrow";
 
@@ -17,6 +18,7 @@ const MOBILE_GRID_COUNT = 10;
 const MARQUEE_SECONDS = 45;
 
 export function TrustedBy() {
+  const t = useTranslations("TrustedBy");
   const trackRef = useRef<HTMLDivElement>(null);
   const fillRef = useRef<HTMLDivElement>(null);
   const stripRef = useRef<HTMLUListElement>(null);
@@ -121,7 +123,7 @@ export function TrustedBy() {
           <div className="flex flex-col gap-4 md:gap-8">
             {/* Mobile eyebrow/copy — Figma 3674:2683 */}
             <div className="flex flex-col gap-4 max-md:flex md:hidden">
-              <SectionEyebrow label="Collaborate" mark={1} />
+              <SectionEyebrow label={t("eyebrow")} mark={1} />
               <h2
                 className="font-display text-[#1e1e1e]"
                 style={{
@@ -131,19 +133,16 @@ export function TrustedBy() {
                   fontWeight: 500,
                 }}
               >
-                Trusted by
-                <br />
-                ambitious teams
+                {t("headline")}
               </h2>
               <p className="text-[16px] leading-[1.3] tracking-[-0.01em] text-[#666]">
-                We don&apos;t just deliver projects; we build long-term
-                partnerships that evolve with your business needs.
+                {t("caption")}
               </p>
             </div>
 
             {/* Desktop eyebrow/copy */}
             <div className="hidden flex-col gap-8 md:flex">
-              <SectionEyebrow label="Our clients" mark={1} />
+              <SectionEyebrow label={t("eyebrow")} mark={1} />
               <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
                 <h2
                   className="font-display max-w-[32rem] text-[#1e1e1e]"
@@ -154,12 +153,10 @@ export function TrustedBy() {
                     fontWeight: 500,
                   }}
                 >
-                  Teams that needed their idea to work, and still do.
+                  {t("headline")}
                 </h2>
                 <p className="max-w-[27rem] text-[18px] leading-[1.2] tracking-[-0.02em] text-[#838383] md:text-[20px] lg:pt-1">
-                  A few of the founders, agencies and companies who trusted us
-                  with their brief and the responsibility to deliver.
-                </p>
+                  {t("caption")}                </p>
               </div>
             </div>
           </div>
@@ -168,7 +165,7 @@ export function TrustedBy() {
         {/* Mobile — static 2×5 bordered grid (Figma) */}
         <ul
           className="grid grid-cols-2 gap-2 max-md:grid md:hidden"
-          aria-label="Clients"
+          aria-label={t("clientsAria")}
         >
           {mobileGrid.map((logo, i) => (
             <li
@@ -195,7 +192,7 @@ export function TrustedBy() {
             role="slider"
             aria-valuemin={0}
             aria-valuemax={100}
-            aria-label="Logo carousel position"
+            aria-label={t("carouselAria")}
             tabIndex={0}
             className="relative h-3 w-full cursor-pointer touch-none outline-none"
           >

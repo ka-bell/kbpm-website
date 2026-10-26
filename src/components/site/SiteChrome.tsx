@@ -5,12 +5,14 @@ import { useEffect, useState, type ReactNode } from "react";
 import { CaseStudyNav } from "@/components/site/CaseStudyNav";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { stripLocalePrefix } from "@/i18n/path";
 
 const SERVICE_GROUP_RE = /^\/services\/(validate|build|evolve|support)\/?$/;
 const CASE_PATH_RE = /^\/work\/([^/]+)\/?$/;
 
 export function SiteChrome({ children }: { children: ReactNode }) {
-  const pathname = usePathname();
+  const rawPathname = usePathname();
+  const pathname = stripLocalePrefix(rawPathname);
   const isHome = pathname === "/";
   const isContact = pathname.startsWith("/contact");
   const caseMatch = pathname.match(CASE_PATH_RE);

@@ -1,4 +1,9 @@
+"use client";
+
 import { Link } from "@/components/Link";
+import { useLocale } from "next-intl";
+import { useMemo } from "react";
+import { localizeCaseMeta } from "@/i18n/localize";
 import { Reveal } from "./Reveal";
 import { SectionEyebrow, type BrandMark } from "./SectionEyebrow";
 import { getCase, portfolioSlugs } from "./cases-data";
@@ -38,11 +43,12 @@ export const CASE_IMAGES: Record<string, string> = {
 
 type ResolvedCard = NonNullable<ReturnType<typeof resolveCards>[number]>;
 
-function resolveCards(cards: readonly WorkCardConfig[]) {
+function resolveCards(cards: readonly WorkCardConfig[], locale: string) {
   return cards
     .map((card, i) => {
-      const c = getCase(card.slug);
-      if (!c) return null;
+      const raw = getCase(card.slug);
+      if (!raw) return null;
+      const c = localizeCaseMeta(raw, locale);
       return {
         ...card,
         case: c,
@@ -227,7 +233,8 @@ export function MoreWork({
   ctaLabel = "View case",
   layout = "grid",
 }: MoreWorkProps) {
-  const resolved = resolveCards(cards);
+  const locale = useLocale();
+  const resolved = useMemo(() => resolveCards(cards, locale), [cards, locale]);
 
   if (resolved.length === 0) return null;
 

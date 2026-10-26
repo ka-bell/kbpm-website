@@ -75,8 +75,8 @@ export function getPlaygroundPosts() {
   );
 }
 
-export function formatPlaygroundDate(date: string) {
-  return new Intl.DateTimeFormat("en-GB", {
+export function formatPlaygroundDate(date: string, locale = "en") {
+  return new Intl.DateTimeFormat(locale === "nl" ? "nl-NL" : "en-GB", {
     day: "numeric",
     month: "short",
     year: "numeric",

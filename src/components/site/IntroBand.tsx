@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { Link } from "@/components/Link";
 import { Reveal } from "./Reveal";
 
@@ -6,6 +9,8 @@ import { Reveal } from "./Reveal";
  * Rewrite positioning (not agency-only).
  */
 export function IntroBand() {
+  const t = useTranslations("IntroBand");
+
   return (
     <section className="kbpm-hi-fi bg-white px-6 py-12 md:px-10 md:py-16 lg:px-20 lg:py-[80px]">
       <Reveal>
@@ -19,8 +24,9 @@ export function IntroBand() {
               fontWeight: 400,
             }}
           >
-            Alex and Karissa are your <strong className="font-bold">human trusties</strong> in turning digital
-            plans into a product people actually use.
+            {t("bodyBefore")}{" "}
+            <strong className="font-bold">{t("trusties")}</strong>
+            {t("bodyAfter")}
           </p>
 
           <div className="flex flex-wrap items-center gap-4">
@@ -28,7 +34,7 @@ export function IntroBand() {
               to="/contact"
               className="inline-flex items-center gap-2.5 rounded-full bg-[#006ff7] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
             >
-              Tell us your challenge
+              {t("startProject")}
               <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-[#1e1e1e]">
                 <img
                   src="/hero/arrow-outward.svg"
@@ -43,7 +49,7 @@ export function IntroBand() {
               to="/work"
               className="inline-flex h-[55px] items-center justify-center rounded-full border border-[#d9d9d9] px-6 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-70"
             >
-              See the work
+              {t("seeWork")}
             </Link>
           </div>
         </div>

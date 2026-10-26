@@ -3,6 +3,7 @@
 import { Link } from "@/components/Link";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { useTranslations } from "next-intl";
 import { primaryNav, services } from "./nav-data";
 import { Wordmark } from "./Wordmark";
 
@@ -13,6 +14,9 @@ export function MobileNavDrawer({
   open: boolean;
   onClose: () => void;
 }) {
+  const t = useTranslations("MobileNav");
+  const tn = useTranslations("Nav");
+  const tc = useTranslations("Common");
   const [servicesExpanded, setServicesExpanded] = useState(true);
   const [mounted, setMounted] = useState(false);
 
@@ -47,7 +51,7 @@ export function MobileNavDrawer({
       className="fixed inset-0 z-[100] flex flex-col bg-white text-[#1e1e1e] md:hidden"
       role="dialog"
       aria-modal="true"
-      aria-label="Menu"
+      aria-label={t("menu")}
     >
       <div className="flex h-16 shrink-0 items-center justify-between border-b border-[#1e1e1e]/10 px-6">
         <Wordmark />
@@ -55,7 +59,7 @@ export function MobileNavDrawer({
           type="button"
           onClick={onClose}
           className="inline-flex h-10 w-10 items-center justify-center text-[#1e1e1e]"
-          aria-label="Close menu"
+          aria-label={t("closeMenu")}
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
             <path d="M2 2l12 12M14 2 2 14" stroke="currentColor" strokeWidth="1.2" />
@@ -71,7 +75,7 @@ export function MobileNavDrawer({
               onClick={onClose}
               className="font-display text-3xl text-[#1e1e1e]"
             >
-              Services
+              {tn("services")}
             </Link>
             <button
               type="button"
@@ -79,7 +83,7 @@ export function MobileNavDrawer({
               className="inline-flex h-10 w-10 items-center justify-center text-[#1e1e1e]"
               aria-expanded={servicesExpanded}
               aria-label={
-                servicesExpanded ? "Collapse services" : "Expand services"
+                servicesExpanded ? t("collapseServices") : t("expandServices")
               }
             >
               <svg
@@ -122,7 +126,7 @@ export function MobileNavDrawer({
           onClick={onClose}
           className="block border-b border-[#1e1e1e]/10 py-5 font-display text-3xl text-[#1e1e1e]"
         >
-          About
+          {tn("about")}
         </Link>
 
         {primaryNav.map((item) => (
@@ -132,7 +136,7 @@ export function MobileNavDrawer({
             onClick={onClose}
             className="block border-b border-[#1e1e1e]/10 py-5 font-display text-3xl text-[#1e1e1e]"
           >
-            {item.label}
+            {item.to === "/work" ? tn("work") : item.label}
           </Link>
         ))}
       </nav>
@@ -143,13 +147,12 @@ export function MobileNavDrawer({
           onClick={onClose}
           className="flex w-full items-center justify-center gap-2 rounded-full bg-[#c9ff6e] px-6 py-4 text-base font-medium text-[#1e1e1e]"
         >
-          Tell us your challenge
-          <svg className="h-4 w-4" viewBox="0 0 14 14" fill="none" aria-hidden>
+          {tc("startProject")}          <svg className="h-4 w-4" viewBox="0 0 14 14" fill="none" aria-hidden>
             <path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.4" />
           </svg>
         </Link>
         <p className="mt-4 text-center text-xs text-[#6b6b6b]">
-          info@kbpm.nl · Amsterdam
+          {t("footerNote")}
         </p>
       </div>
     </div>,

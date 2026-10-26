@@ -1,6 +1,7 @@
 "use client";
 
 import type { CSSProperties } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/components/Link";
 import { Reveal } from "./Reveal";
 import { SectionEyebrow } from "./SectionEyebrow";
@@ -58,6 +59,9 @@ const CARD_STYLE: Record<
  * Services section — mobile Figma 3674:2706; sticky stack on md+.
  */
 export function ServicePaths() {
+  const t = useTranslations("ServicePaths");
+  const tg = useTranslations("Services.groups");
+
   return (
     <section className="kbpm-hi-fi bg-[#f5f5f5] pt-10 pb-0 md:pt-20 lg:pt-[80px]">
       <div className="mx-auto max-w-[1440px] px-5 md:px-10 lg:px-20">
@@ -65,7 +69,7 @@ export function ServicePaths() {
           <div className="flex max-w-[720px] flex-col gap-4 md:gap-8">
             {/* Mobile header */}
             <div className="flex flex-col gap-4 md:hidden">
-              <SectionEyebrow label="Collaborate" mark={4} />
+              <SectionEyebrow label={t("eyebrow")} mark={4} />
               <h2
                 className="font-display text-[#1e1e1e]"
                 style={{
@@ -75,22 +79,18 @@ export function ServicePaths() {
                   fontWeight: 500,
                 }}
               >
-                Human creativity drives success.
+                {t("headlineLine1")}
                 <br />
-                Our framework delivers it.
+                {t("headlineLine2")}
               </h2>
               <p className="text-[16px] leading-[1.3] tracking-[-0.01em] text-[#666]">
-                Our service tiers guide you from early strategy through design and
-                development execution, all the way to ongoing growth. Each step is
-                built around proven practices, cross-functional teams, and the
-                flexibility to meet you exactly where you are in your product
-                journey.
+                {t("body")}
               </p>
             </div>
 
             {/* Desktop header */}
             <div className="hidden flex-col gap-8 md:flex">
-              <SectionEyebrow label="Services" mark={4} />
+              <SectionEyebrow label={t("eyebrow")} mark={4} />
               <h2
                 className="font-display text-[#1e1e1e]"
                 style={{
@@ -100,11 +100,10 @@ export function ServicePaths() {
                   fontWeight: 500,
                 }}
               >
-                Human creativity drives success. Our framework delivers it.
+                {t("headline")}
               </h2>
               <p className="text-[18px] leading-[1.2] tracking-[-0.02em] text-[#6b6b6b] md:text-[20px]">
-                Partner with us from start to finish or bring us in where you need
-                us most.
+                {t("body")}
               </p>
             </div>
           </div>
@@ -173,7 +172,7 @@ export function ServicePaths() {
                     <p
                       className={`text-[16px] leading-[1.3] tracking-[-0.01em] ${style.body}`}
                     >
-                      {group.when}
+                      {tg(`${group.slug}.when`)}
                     </p>
                     <ul className="flex flex-wrap content-start gap-2">
                       {tags.map((name) => {
@@ -243,7 +242,7 @@ export function ServicePaths() {
                     <p
                       className={`flex-1 text-[15px] leading-[1.3] tracking-[-0.01em] md:text-base ${style.body}`}
                     >
-                      {group.when}
+                      {tg(`${group.slug}.when`)}
                     </p>
                     <ul className="flex flex-1 flex-wrap content-start gap-2">
                       {tags.map((name) => {

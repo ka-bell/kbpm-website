@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/components/Link";
 
 export type PackageId = "proof" | "prototype" | "product" | "gtm" | "infra";
@@ -131,6 +132,7 @@ export function PricingBlueprint({
   selected: PackageId;
   onSelect: (id: PackageId) => void;
 }) {
+  const t = useTranslations("ProcessPricing");
   const pkg = useMemo(() => PACKAGES.find((p) => p.id === selected)!, [selected]);
 
   return (
@@ -140,7 +142,7 @@ export function PricingBlueprint({
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-6">
           <div className="md:col-span-7">
             <p className="font-mono-label uppercase tracking-wider text-accent-foreground/70">
-              § Pricing
+              {t("eyebrow")}
             </p>
             <h1
               className="font-display mt-5"
@@ -151,12 +153,12 @@ export function PricingBlueprint({
                 fontWeight: 500,
               }}
             >
-              We keep pricing crystal clear, just like our process.
+              {t("headline")}
             </h1>
 
             <div className="mt-10">
               <p className="font-mono-label uppercase tracking-wider text-accent-foreground/70">
-                Select a service
+                {t("selectService")}
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {PACKAGES.map((p) => {

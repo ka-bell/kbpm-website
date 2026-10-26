@@ -1,14 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { HeroTiles } from "./HeroTiles";
-
-const PHRASES = [
-  "Not decide what matters for us.",
-  "Not make us all sound the same.",
-  "Not take the human out of what we do.",
-  "Not flatten our creativity.",
-] as const;
 
 const TYPE_MS = 48;
 const DELETE_MS = 28;
@@ -76,7 +70,13 @@ function useTypewriter(phrases: readonly string[]) {
  * Hero — mobile matches Figma 3674:2575; sm+ keeps typewriter + tile grid.
  */
 export function Hero() {
-  const line = useTypewriter(PHRASES);
+  const t = useTranslations("Hero");
+  const phrases = useMemo(
+    () =>
+      [t("phrase1"), t("phrase2"), t("phrase3"), t("phrase4")] as const,
+    [t],
+  );
+  const line = useTypewriter(phrases);
 
   return (
     <section className="kbpm-hi-fi w-full bg-white px-5 pt-0 sm:px-6 lg:px-8">
@@ -84,13 +84,13 @@ export function Hero() {
       <div className="relative -mt-[4.5rem] flex w-full min-h-[min(48rem,92dvh)] flex-col justify-between overflow-hidden rounded-2xl bg-[#1e1e1e] p-6 pb-6 pt-[5.5rem] sm:-mt-[5.5rem] sm:min-h-[40rem] sm:px-8 sm:pb-10 sm:pt-[8.25rem] lg:-mt-[6.5rem] lg:min-h-[min(90vh,56.25rem)] lg:px-[clamp(2.5rem,5vw,5rem)] lg:pb-20 lg:pt-[10.5rem]">
         {/* Mobile — Figma static headline */}
         <h1 className="font-display relative z-10 max-w-[18.5rem] text-[3rem] font-medium leading-[1.2] tracking-[-0.02em] text-white sm:hidden">
-          <span className="block">Design partner</span>
-          <span className="block">for ambitious design</span>
+          <span className="block">{t("mobileLine1")}</span>
+          <span className="block">{t("mobileLine2")}</span>
         </h1>
 
         {/* sm+ — typewriter headline */}
         <h1 className="font-display relative z-10 hidden w-full py-10 text-[2.125rem] font-medium leading-[1.15] tracking-[-0.02em] text-white sm:block sm:py-14 sm:text-[clamp(1.75rem,4.8vw,3rem)] lg:py-4 lg:text-[clamp(2.5rem,5vw,4.25rem)]">
-          <span className="block whitespace-nowrap">Technology should work for people.</span>
+          <span className="block whitespace-nowrap">{t("desktopLine1")}</span>
           <span className="block whitespace-nowrap">
             {line}
             <span

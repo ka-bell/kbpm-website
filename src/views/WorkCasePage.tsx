@@ -1,10 +1,12 @@
 "use client";
 
 import { Link } from "@/components/Link";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import { useLocale } from "next-intl";
 import { ImagePlaceholder } from "@/components/site/ImagePlaceholder";
 import { Reveal } from "@/components/site/Reveal";
 import type { CaseStudy } from "@/components/site/cases-data";
+import { localizeCaseMeta } from "@/i18n/localize";
 
 type NarrativeCard = { title: string; body: string };
 
@@ -287,7 +289,9 @@ function SectionEyebrow({ mark, label }: { mark: string; label: string }) {
  * Portfolio case template — Figma 3626:16402.
  * Layout/look from Figma; copy from rewrite case data.
  */
-export function WorkCasePage({ c }: { c: CaseStudy }) {
+export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
+  const locale = useLocale();
+  const c = useMemo(() => localizeCaseMeta(raw, locale), [raw, locale]);
   const detailCards = getCaseDetailCards(c);
   const mark = brandMark(c.client);
   const stack = c.displayTags.length > 0 ? c.displayTags : c.keyFeatures;

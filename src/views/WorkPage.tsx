@@ -2,6 +2,7 @@
 
 import { Link } from "@/components/Link";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Reveal } from "@/components/site/Reveal";
 import { SectionEyebrow } from "@/components/site/SectionEyebrow";
 import {
@@ -15,6 +16,8 @@ import { filters, getPortfolioCases, type Filter } from "@/components/site/cases
  * Work overview — homepage Recent work language (Figma 3626:4494), finished cases only.
  */
 export function WorkPage() {
+  const t = useTranslations("Work");
+  const tc = useTranslations("Common");
   const [active, setActive] = useState<Filter>("All");
   const portfolio = getPortfolioCases();
   const availableFilters = filters.filter(
@@ -46,15 +49,14 @@ export function WorkPage() {
                 height={16}
                 className="size-4 rotate-180"
               />
-              Home
+              {tc("home")}
             </Link>
           </Reveal>
 
-          {/* Header — same composition as Recent work screenshot */}
           <Reveal>
             <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
               <div className="flex max-w-[720px] flex-col gap-8">
-                <SectionEyebrow label="Work" mark={5} />
+                <SectionEyebrow label={t("eyebrow")} mark={5} />
                 <h1
                   className="font-display text-[#1e1e1e]"
                   style={{
@@ -64,7 +66,7 @@ export function WorkPage() {
                     fontWeight: 500,
                   }}
                 >
-                  A few things we’ve built.
+                  {t("headline")}
                 </h1>
               </div>
 
@@ -82,7 +84,7 @@ export function WorkPage() {
                           : "border border-[#d9d9d9] bg-white text-[#1e1e1e] hover:border-[#1e1e1e]/40"
                       }`}
                     >
-                      {f}
+                      {t(`filters.${f}`)}
                     </button>
                   );
                 })}
@@ -92,19 +94,18 @@ export function WorkPage() {
         </div>
       </section>
 
-      {/* Card grid — MoreWork cards, header owned above */}
       {cards.length > 0 ? (
         <MoreWork
           hideHeader
           showAllLink={false}
           cards={cards}
           bg="bg-[#f5f5f5]"
-          ctaLabel="View case"
+          ctaLabel={tc("viewCase")}
         />
       ) : (
         <section className="px-6 py-20 md:px-10 lg:px-20">
           <p className="mx-auto max-w-[1440px] text-[16px] text-[#6b6b6b]">
-            No projects in this filter.
+            {t("empty")}
           </p>
         </section>
       )}
@@ -114,7 +115,7 @@ export function WorkPage() {
           <Reveal>
             <div className="flex flex-col items-start justify-between gap-10 md:flex-row md:items-center">
               <div className="max-w-[40rem]">
-                <SectionEyebrow label="Next" mark={7} />
+                <SectionEyebrow label={t("ctaEyebrow")} mark={7} />
                 <h2
                   className="mt-8 font-display font-medium tracking-[-0.03em] text-[#1e1e1e]"
                   style={{
@@ -122,15 +123,14 @@ export function WorkPage() {
                     lineHeight: 1.1,
                   }}
                 >
-                  See something you like? Let’s talk about yours.
+                  {t("ctaHeadline")}
                 </h2>
               </div>
               <Link
                 to="/contact"
                 className="inline-flex shrink-0 items-center gap-2.5 rounded-full bg-[#c9ff6e] px-6 py-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-90"
               >
-                Tell us your challenge
-                <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-[#1e1e1e]">
+                {tc("startProject")}                <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-[#1e1e1e]">
                   <img
                     src="/hero/arrow-outward.svg"
                     alt=""

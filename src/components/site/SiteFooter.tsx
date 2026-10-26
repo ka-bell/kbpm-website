@@ -1,4 +1,7 @@
+"use client";
+
 import type { ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/components/Link";
 import { FooterCradle } from "./FooterCradle";
 import { Wordmark } from "./Wordmark";
@@ -6,13 +9,13 @@ import { services } from "./nav-data";
 
 export type SiteFooterVariant = "dark" | "light";
 
-const studioLinks = [
-  { label: "Work", to: "/work" as const },
-  { label: "About", to: "/about" as const },
-  { label: "Playground", to: "/playground" as const },
-  { label: "Go-to-Market", to: "/go-to-market" as const },
-  { label: "EU-first infra", to: "/european-first-infrastructure" as const },
-  { label: "Contact", to: "/contact" as const },
+const studioLinkHrefs = [
+  { key: "work" as const, to: "/work" as const },
+  { key: "about" as const, to: "/about" as const },
+  { key: "playground" as const, to: "/playground" as const },
+  { key: "goToMarket" as const, to: "/go-to-market" as const },
+  { key: "euFirst" as const, to: "/european-first-infrastructure" as const },
+  { key: "contact" as const, to: "/contact" as const },
 ] as const;
 
 const elsewhereLinks = [
@@ -43,6 +46,7 @@ type SiteFooterProps = {
 };
 
 export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
+  const t = useTranslations("Footer");
   const year = new Date().getFullYear();
   const light = variant === "light";
 
@@ -80,11 +84,7 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
             <p
               className={`font-display mt-4 max-w-[20rem] text-[1.25rem] font-medium leading-[1.1] tracking-[-0.038em] md:mt-[1.65rem] md:text-[1.5rem] ${link}`}
             >
-              Digital products end to end,
-              <br />
-              when the idea is bigger
-              <br />
-              than the team.
+              {t("tagline")}
             </p>
             <div className={`mt-4 space-y-0 text-[14px] leading-5 md:mt-6 ${muted}`}>
               <p>Jan van Galenstraat 122</p>
@@ -103,7 +103,7 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
               <p
                 className={`font-mono text-[11px] uppercase leading-[1.5] tracking-[0.04em] ${muted}`}
               >
-                Services
+                {t("services")}
               </p>
               <ul className={`space-y-1.5 md:space-y-2.5 ${interactivePe}`}>
                 {services.map((s) => (
@@ -120,13 +120,13 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
               <p
                 className={`font-mono text-[11px] uppercase leading-[1.5] tracking-[0.04em] ${muted}`}
               >
-                Studio
+                {t("studio")}
               </p>
               <ul className={`space-y-1.5 md:space-y-2.5 ${interactivePe}`}>
-                {studioLinks.map((item) => (
+                {studioLinkHrefs.map((item) => (
                   <li key={item.to}>
                     <Link to={item.to}>
-                      <FooterLink className={link}>{item.label}</FooterLink>
+                      <FooterLink className={link}>{t(item.key)}</FooterLink>
                     </Link>
                   </li>
                 ))}
@@ -137,7 +137,7 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
               <p
                 className={`font-mono text-[11px] uppercase leading-[1.5] tracking-[0.04em] ${muted}`}
               >
-                Elsewhere
+                {t("elsewhere")}
               </p>
               <ul className={`space-y-1.5 md:space-y-2.5 ${interactivePe}`}>
                 {elsewhereLinks.map((item) => (
@@ -178,12 +178,12 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
           <p
             className={`font-mono text-[11px] leading-[1.5] tracking-[0.06em] ${muted}`}
           >
-            © {year} kbell + postman B.V. — Digital product studio, Amsterdam
+            {t("copyright", { year })}
           </p>
           <p
             className={`font-mono text-[11px] leading-[1.5] tracking-[0.06em] ${muted}`}
           >
-            KvK 00000000 · Built end-to-end in-house
+            {t("legal")}
           </p>
         </div>
       </div>

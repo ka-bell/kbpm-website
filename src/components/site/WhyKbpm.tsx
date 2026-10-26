@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { Reveal } from "./Reveal";
 import { SectionEyebrow } from "./SectionEyebrow";
 
@@ -27,13 +30,14 @@ const CARDS = [
  * Visual + text highlights — Figma 3626:4063.
  */
 export function WhyKbpm() {
+  const t = useTranslations("WhyKbpm");
+
   return (
     <section className="kbpm-hi-fi bg-white px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
       <div className="mx-auto flex max-w-[1440px] flex-col gap-10 md:gap-12 lg:gap-[56px]">
         <Reveal>
           <div className="flex max-w-[45rem] flex-col gap-8">
-            <SectionEyebrow label="Experience and personality" mark={4} />
-            <h2
+            <SectionEyebrow label={t("eyebrow")} mark={4} />            <h2
               className="font-display text-[#1e1e1e]"
               style={{
                 fontSize: "clamp(2.5rem, 5vw, 4rem)",
@@ -42,8 +46,7 @@ export function WhyKbpm() {
                 fontWeight: 500,
               }}
             >
-              Direct & bold. Warm, but never soft on the truth.
-            </h2>
+              {t("headline")}            </h2>
           </div>
         </Reveal>
 

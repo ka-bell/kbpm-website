@@ -1,12 +1,27 @@
+"use client";
+
 import { Link } from "@/components/Link";
 import { ArrowLeft } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useMemo } from "react";
 import { Reveal } from "@/components/site/Reveal";
 import {
   formatPlaygroundDate,
   type PlaygroundPost as PlaygroundPostType,
 } from "@/components/site/playground-data";
+import { localizePlaygroundPost } from "@/i18n/localize";
 
-export function PlaygroundPostPage({ post }: { post: PlaygroundPostType }) {
+export function PlaygroundPostPage({
+  post: raw,
+}: {
+  post: PlaygroundPostType;
+}) {
+  const locale = useLocale();
+  const t = useTranslations("Playground");
+  const post = useMemo(
+    () => localizePlaygroundPost(raw, locale),
+    [raw, locale],
+  );
 
   return (
     <article>
@@ -21,7 +36,7 @@ export function PlaygroundPostPage({ post }: { post: PlaygroundPostType }) {
               strokeWidth={1.7}
               aria-hidden
             />
-            Playground
+            {t("back")}
           </Link>
 
           <Reveal>
@@ -29,7 +44,7 @@ export function PlaygroundPostPage({ post }: { post: PlaygroundPostType }) {
               <div className="md:col-span-6 lg:col-span-7">
                 <div className="flex flex-wrap items-center gap-3">
                   <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                    {formatPlaygroundDate(post.date)}
+                    {formatPlaygroundDate(post.date, locale)}
                   </p>
                   <span className="text-muted-foreground">/</span>
                   <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
@@ -92,7 +107,7 @@ export function PlaygroundPostPage({ post }: { post: PlaygroundPostType }) {
               to="/playground"
               className="text-sm font-medium text-foreground hover:text-accent"
             >
-              ← All playground notes
+              {t("allNotes")}
             </Link>
           </div>
         </div>

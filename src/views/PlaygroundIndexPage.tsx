@@ -1,13 +1,21 @@
+"use client";
+
 import { Link } from "@/components/Link";
 import { ArrowRight } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { Reveal } from "@/components/site/Reveal";
 import {
   formatPlaygroundDate,
   getPlaygroundPosts,
 } from "@/components/site/playground-data";
+import { localizePlaygroundPost } from "@/i18n/localize";
 
 export function PlaygroundIndexPage() {
-  const posts = getPlaygroundPosts();
+  const locale = useLocale();
+  const t = useTranslations("Playground");
+  const posts = getPlaygroundPosts().map((post) =>
+    localizePlaygroundPost(post, locale),
+  );
 
   return (
     <>
@@ -15,7 +23,7 @@ export function PlaygroundIndexPage() {
         <div className="mx-auto max-w-[1440px] px-6 py-16 md:px-8 md:py-24">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:items-end md:gap-8">
             <Reveal className="md:col-span-8">
-              <p className="eyebrow">§ Playground</p>
+              <p className="eyebrow">{t("eyebrow")}</p>
               <h1
                 className="font-display mt-5 max-w-4xl text-foreground"
                 style={{
@@ -24,12 +32,12 @@ export function PlaygroundIndexPage() {
                   fontWeight: 500,
                 }}
               >
-                Playground.
+                {t("headline")}
               </h1>
             </Reveal>
             <Reveal delay={80} className="md:col-span-4">
               <p className="max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">
-                Thoughts that keep us up at night.
+                {t("intro")}
               </p>
             </Reveal>
           </div>
@@ -57,7 +65,7 @@ export function PlaygroundIndexPage() {
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-3">
                         <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
-                          {formatPlaygroundDate(post.date)}
+                          {formatPlaygroundDate(post.date, locale)}
                         </p>
                         <span className="text-muted-foreground">/</span>
                         <p className="font-mono-label uppercase tracking-wider text-muted-foreground">
