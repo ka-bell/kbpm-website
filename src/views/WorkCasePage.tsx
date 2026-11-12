@@ -1,7 +1,7 @@
 "use client";
 
 import { Link } from "@/components/Link";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useLocale } from "next-intl";
 import { ImagePlaceholder } from "@/components/site/ImagePlaceholder";
 import { Reveal } from "@/components/site/Reveal";
@@ -219,20 +219,77 @@ function brandMark(client: string) {
   return client.toUpperCase();
 }
 
+function isVideoSrc(src?: string, kind?: "image" | "video") {
+  if (kind === "video") return true;
+  if (kind === "image" || !src) return false;
+  return /\.(mp4|webm|mov|m4v)(\?|$)/i.test(src);
+}
+
 function CaseMedia({
   src,
   label,
+  kind,
   className = "",
 }: {
   src?: string;
   label: string;
+  kind?: "image" | "video";
   className?: string;
 }) {
+  const video = isVideoSrc(src, kind);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  // Reveal starts at opacity 0 — browsers often skip autoplay until visible.
+  useEffect(() => {
+    if (!video) return;
+    const el = videoRef.current;
+    if (!el) return;
+    el.muted = true;
+    el.defaultMuted = true;
+    el.playsInline = true;
+    const tryPlay = () => {
+      el.muted = true;
+      const p = el.play();
+      if (p) void p.catch(() => {});
+    };
+    tryPlay();
+    el.addEventListener("loadeddata", tryPlay);
+    el.addEventListener("canplay", tryPlay);
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) tryPlay();
+      },
+      { threshold: 0.05, rootMargin: "80px" },
+    );
+    io.observe(el);
+    const timers = [100, 400, 1000, 2000].map((ms) =>
+      window.setTimeout(tryPlay, ms),
+    );
+    return () => {
+      io.disconnect();
+      el.removeEventListener("loadeddata", tryPlay);
+      el.removeEventListener("canplay", tryPlay);
+      timers.forEach(clearTimeout);
+    };
+  }, [video, src]);
+
   return (
     <div
       className={`relative overflow-hidden rounded-[24px] bg-[#f5f5f5] ${className}`.trim()}
     >
-      {src ? (
+      {src && video ? (
+        <video
+          ref={videoRef}
+          src={src}
+          aria-label={label}
+          className="absolute inset-0 size-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        />
+      ) : src ? (
         <img
           src={src}
           alt={label}
@@ -309,12 +366,21 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
   }, [c.slug]);
 
   const problemFull =
-    afterProblem === "full-pair" ? take() : undefined;
-  const problemA = take();
-  const problemB = take();
-  const buildFullOrFirst = take();
+    afterProblem === "full-pair" || afterProblem === "full"
+      ? take()
+      : undefined;
+  const problemA = afterProblem === "full" ? undefined : take();
+  const problemB = afterProblem === "full" ? undefined : take();
+  const buildFullOrFirst =
+    afterBuild === "pair" || afterBuild === "pair-full" ? undefined : take();
   const buildSecond = take();
-  const buildThird = afterBuild === "full-pair" ? take() : undefined;
+  const buildThird =
+    afterBuild === "full-pair" ||
+    afterBuild === "pair" ||
+    afterBuild === "pair-full"
+      ? take()
+      : undefined;
+  const buildAfterPairFull = afterBuild === "pair-full" ? take() : undefined;
   const closing = take() ?? visuals[visuals.length - 1];
 
   return (
@@ -323,14 +389,27 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
       <section className="px-6 pb-8 pt-4 md:px-8 md:pb-8 md:pt-2">
         <div className="relative mx-auto flex h-[min(57.5rem,85dvh)] min-h-[28rem] w-full max-w-[1376px] items-center justify-center overflow-hidden rounded-[24px] bg-[#1e1e1e]">
           {c.heroImage ? (
-            <img
-              src={c.heroImage}
-              alt=""
-              width={1376}
-              height={920}
-              decoding="async"
-              className="absolute inset-0 size-full object-cover"
-            />
+            isVideoSrc(c.heroImage) ? (
+              <video
+                src={c.heroImage}
+                aria-hidden
+                className="absolute inset-0 size-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              />
+            ) : (
+              <img
+                src={c.heroImage}
+                alt=""
+                width={1376}
+                height={920}
+                decoding="async"
+                className="absolute inset-0 size-full object-cover"
+              />
+            )
           ) : (
             <>
               {/* Bottom vignette — Figma Gradient Overlay Bottom */}
@@ -427,6 +506,7 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
           <CaseMedia
             src={visuals[0]?.src}
             label={visuals[0]?.caption ?? "Hero image"}
+            kind={visuals[0]?.kind}
             className="aspect-[1296/700] w-full"
           />
         </Reveal>
@@ -469,6 +549,7 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
             <CaseMedia
               src={problemFull.src}
               label={problemFull.caption ?? "Image"}
+              kind={problemFull.kind}
               className="aspect-[1296/700] w-full"
             />
           </Reveal>
@@ -480,6 +561,7 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
                 <CaseMedia
                   src={problemA.src}
                   label={problemA.caption ?? "Image"}
+                  kind={problemA.kind}
                   className="aspect-[636/700] w-full"
                 />
               </Reveal>
@@ -489,6 +571,7 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
                 <CaseMedia
                   src={problemB.src}
                   label={problemB.caption ?? "Image"}
+                  kind={problemB.kind}
                   className="aspect-[636/700] w-full"
                 />
               </Reveal>
@@ -539,16 +622,22 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
             <CaseMedia
               src={buildFullOrFirst.src}
               label={buildFullOrFirst.caption ?? "Image"}
+              kind={buildFullOrFirst.kind}
               className="aspect-[1296/700] w-full"
             />
           </Reveal>
         ) : null}
-        {afterBuild === "full-pair" && buildSecond && buildThird ? (
+        {(afterBuild === "full-pair" ||
+          afterBuild === "pair" ||
+          afterBuild === "pair-full") &&
+        buildSecond &&
+        buildThird ? (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-6">
             <Reveal>
               <CaseMedia
                 src={buildSecond.src}
                 label={buildSecond.caption ?? "Image"}
+                kind={buildSecond.kind}
                 className="aspect-[636/700] w-full"
               />
             </Reveal>
@@ -556,6 +645,7 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
               <CaseMedia
                 src={buildThird.src}
                 label={buildThird.caption ?? "Image"}
+                kind={buildThird.kind}
                 className="aspect-[636/700] w-full"
               />
             </Reveal>
@@ -565,6 +655,17 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
             <CaseMedia
               src={buildSecond.src}
               label={buildSecond.caption ?? "Image"}
+              kind={buildSecond.kind}
+              className="aspect-[1296/700] w-full"
+            />
+          </Reveal>
+        ) : null}
+        {buildAfterPairFull ? (
+          <Reveal>
+            <CaseMedia
+              src={buildAfterPairFull.src}
+              label={buildAfterPairFull.caption ?? "Image"}
+              kind={buildAfterPairFull.kind}
               className="aspect-[1296/700] w-full"
             />
           </Reveal>
@@ -659,6 +760,7 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
           <CaseMedia
             src={closing?.src}
             label={closing?.caption ?? "Image"}
+            kind={closing?.kind}
             className="aspect-[1296/700] w-full"
           />
         </Reveal>

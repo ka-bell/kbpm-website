@@ -35,7 +35,7 @@ export const serviceOfferings: ServiceGroup[] = [
     capabilities: [...serviceListsByPhase.validate.all],
     examples: [...serviceListsByPhase.validate.all],
     outcome: "A clear direction and a plan you can act on.",
-    cases: ["mix-interiors", "virtue-worldwide", "scooply-ai"],
+    cases: ["mix-interiors", "scooply-ai"],
   },
   {
     slug: "build",
@@ -48,7 +48,7 @@ export const serviceOfferings: ServiceGroup[] = [
     capabilities: [...serviceListsByPhase.build.all],
     examples: [...serviceListsByPhase.build.all],
     outcome: "A working digital product ready for real users.",
-    cases: ["spilnews", "mix-interiors", "virtue-worldwide", "blink", "staatsloterij", "frame", "pepperminds"],
+    cases: ["spilnews", "mix-interiors", "blink", "staatsloterij", "frame", "pepperminds"],
   },
   {
     slug: "evolve",
@@ -74,7 +74,7 @@ export const serviceOfferings: ServiceGroup[] = [
     capabilities: [...serviceListsByPhase.support.all],
     examples: [...serviceListsByPhase.support.all],
     outcome: "A stable, secure product you don't have to babysit.",
-    cases: ["academion", "hopplay"],
+    cases: ["hopplay"],
   },
 ];
 

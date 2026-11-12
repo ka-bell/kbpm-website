@@ -31,14 +31,20 @@ export type CaseStudy = {
   problem: string;
   built: string;
   craft: string;
-  screens: { src: string; caption: string; ratio: string }[];
+  screens: {
+    src: string;
+    caption: string;
+    ratio: string;
+    /** Defaults to image; set for mp4/webm/mov. */
+    kind?: "image" | "video";
+  }[];
   /**
-   * afterProblem: full-pair = full then 2-up (default); pair = 2-up only
-   * afterBuild: two-full = two full widths (default); full-pair = full then 2-up
+   * afterProblem: full-pair | pair | full (one full width only)
+   * afterBuild: two-full | full-pair | pair | pair-full (2-up then one full)
    */
   mediaLayout?: {
-    afterProblem?: "full-pair" | "pair";
-    afterBuild?: "two-full" | "full-pair";
+    afterProblem?: "full-pair" | "pair" | "full";
+    afterBuild?: "two-full" | "full-pair" | "pair" | "pair-full";
   };
   results: { value: string; label: string }[];
   quote: { text: string; name: string; role: string };
@@ -55,7 +61,7 @@ export const cases: CaseStudy[] = [
     displayTags: ["Mediahuis", "Video Platform", "CMS"],
     metric: "MVP",
     metricLabel: "Launched into SPIL ecosystem",
-    img: "/work/spilnews/primary.jpg",
+    img: "/work/spilnews/card.mp4",
     heroImage: "/work/spilnews/hero.jpg",
     mediaLayout: { afterProblem: "full-pair", afterBuild: "full-pair" },
     year: "2025",
@@ -76,45 +82,49 @@ export const cases: CaseStudy[] = [
       "We designed and built a dedicated video publishing platform that gives editorial teams a streamlined environment for managing video content, metadata, publishing workflows, scheduling, and user permissions.",
     craft:
       "The work combined product strategy, UX design, UI design, a design system, front-end development, back-end development, and product management. The platform was shaped around practical editorial use: fast publishing, clear dashboard states, reusable CMS structures, and room for future video workflows.",
+    // Media order matches Figma 3657:1825 — hero is separate via heroImage.
     screens: [
       {
-        src: "/work/spilnews/primary.jpg",
-        caption: "Product hero — video-first publishing platform",
+        src: "/work/spilnews/brand-video.mp4",
+        caption: "Brand film — Spil in the field",
         ratio: "aspect-[1296/700]",
+        kind: "video",
       },
       {
-        src: "/work/spilnews/grid-full.jpg",
-        caption: "Mobile viewer — video story with metadata and share",
+        src: "/work/spilnews/frame-1597887420.mp4",
+        caption: "Product — mobile video viewer",
         ratio: "aspect-[1296/700]",
+        kind: "video",
       },
       {
         src: "/work/spilnews/grid-a.jpg",
-        caption: "Brand mark — Spil News identity",
+        caption: "Brand mark — Spil News wordmark",
         ratio: "aspect-[636/700]",
       },
       {
         src: "/work/spilnews/grid-b.jpg",
-        caption: "Design system — Spil News colour palette",
+        caption: "Design system — colour palette",
         ratio: "aspect-[636/700]",
       },
       {
-        src: "/work/spilnews/stack-full.jpg",
-        caption: "Editorial product — desktop publishing environment",
+        src: "/work/spilnews/spil-brand-mark.mp4",
+        caption: "Motion — Spil brand mark",
         ratio: "aspect-[1296/700]",
+        kind: "video",
       },
       {
         src: "/work/spilnews/stack-a.jpg",
-        caption: "CMS dashboard — video library and workflow",
+        caption: "Lifestyle — BLA interface in pocket",
         ratio: "aspect-[636/700]",
       },
       {
         src: "/work/spilnews/stack-b.jpg",
-        caption: "Publishing tools — scheduling and distribution",
+        caption: "Product — swipable news story",
         ratio: "aspect-[636/700]",
       },
       {
         src: "/work/spilnews/closing.jpg",
-        caption: "Closing visual — Spil News in context",
+        caption: "Product — desktop SpilNews article",
         ratio: "aspect-[1296/700]",
       },
     ],
@@ -134,12 +144,15 @@ export const cases: CaseStudy[] = [
     n: "02",
     client: "Mix Interiors",
     title: "Visual product discovery platform.",
-    outcome: "An interactive product discovery platform that helps readers identify and explore products directly from inspirational interior imagery.",
+    outcome:
+      "An interactive product discovery platform that helps readers identify and explore products directly from inspirational interior imagery.",
     tags: ["Product", "AI", "Agency Build"],
     displayTags: ["Interior Design", "AI", "CMS"],
     metric: "2026",
     metricLabel: "Product launch",
-    img: "/assets/case-plus.jpg",
+    img: "/work/mix-interiors/card.jpg",
+    heroImage: "/work/mix-interiors/hero.jpg",
+    mediaLayout: { afterProblem: "full-pair", afterBuild: "two-full" },
     year: "2026",
     industry: "Interior Design / Media",
     keyFeatures: [
@@ -158,10 +171,43 @@ export const cases: CaseStudy[] = [
       "We designed and built an interactive product discovery platform that connects editorial inspiration with a continuously updated database of products aggregated from leading interior manufacturers. Users can explore images, discover featured products, and continue directly to the manufacturer's website for more information.",
     craft:
       "The platform combines interactive image hotspots, product recognition and matching, similar-product recommendations, API integrations, automated data synchronisation, and direct manufacturer linking. The result is a structured product database that keeps editorial content connected to real commercial product data.",
+    // Media order matches Figma 3752:402 — hero collage is separate via heroImage.
     screens: [
-      { src: "/assets/case-plus.jpg", caption: "Visual discovery — products identified from interior imagery", ratio: "aspect-[16/10]" },
-      { src: "/assets/case-plus.jpg", caption: "Image hotspots — editorial photography becomes interactive", ratio: "aspect-[4/5]" },
-      { src: "/assets/case-plus.jpg", caption: "Product matching — recognition, recommendations, and direct links", ratio: "aspect-[4/5]" },
+      {
+        src: "/work/mix-interiors/primary.jpg",
+        caption: "Product — visual discovery on laptop",
+        ratio: "aspect-[1296/700]",
+      },
+      {
+        src: "/work/mix-interiors/grid-full.jpg",
+        caption: "Editorial — Mix article on tablet",
+        ratio: "aspect-[1296/700]",
+      },
+      {
+        src: "/work/mix-interiors/grid-a.jpg",
+        caption: "Brand — MIX mark",
+        ratio: "aspect-[636/700]",
+      },
+      {
+        src: "/work/mix-interiors/grid-b.jpg",
+        caption: "Identity — MIX in material context",
+        ratio: "aspect-[636/700]",
+      },
+      {
+        src: "/work/mix-interiors/stack-a.jpg",
+        caption: "Matching — possible products from the image",
+        ratio: "aspect-[1296/700]",
+      },
+      {
+        src: "/work/mix-interiors/stack-b.jpg",
+        caption: "Atmosphere — interior photography",
+        ratio: "aspect-[1296/700]",
+      },
+      {
+        src: "/work/mix-interiors/closing.jpg",
+        caption: "Closing — editorial case study on tablet",
+        ratio: "aspect-[1296/700]",
+      },
     ],
     results: [
       { value: "Interactive", label: "Product discovery experience" },
@@ -224,12 +270,15 @@ export const cases: CaseStudy[] = [
     n: "04",
     client: "HopPlay",
     title: "Location-based adventure platform.",
-    outcome: "A mobile gameplay platform that turns cities into interactive visitor experiences.",
+    outcome:
+      "A mobile gameplay platform that turns cities into interactive visitor experiences.",
     tags: ["Platform", "Product"],
     displayTags: ["Travel & Tourism", "Mobile Gameplay", "CMS"],
     metric: "2",
     metricLabel: "Live destinations",
-    img: "/work/card-hopplay.jpg",
+    img: "/work/hopplay/hero.jpg",
+    heroImage: "/work/hopplay/hero.jpg",
+    mediaLayout: { afterProblem: "full", afterBuild: "pair" },
     year: "2026",
     industry: "Travel & Tourism",
     keyFeatures: [
@@ -248,10 +297,36 @@ export const cases: CaseStudy[] = [
       "We designed and built HopPlay, a scalable platform that enables cities and tourism organisations to launch their own location-based adventures. Visitors explore destinations by completing interactive challenges, following curated routes, and unlocking new experiences throughout the city.",
     craft:
       "The platform combines interactive maps, GPS-based experiences, route building, challenge systems, gamification, CMS development, and multi-city management. It was built to support live implementations for Giethoorn and Sightseeing Vienna while remaining scalable for future destinations.",
+    // Media order matches Figma 3752:786 — hero is separate via heroImage.
     screens: [
-      { src: "/work/card-hopplay.jpg", caption: "Adventure platform — routes, challenges, and destination content", ratio: "aspect-[16/10]" },
-      { src: "/work/card-hopplay.jpg", caption: "Mobile gameplay — GPS-based visitor experiences", ratio: "aspect-[4/5]" },
-      { src: "/work/card-hopplay.jpg", caption: "CMS dashboard — manage routes, cities, and challenges", ratio: "aspect-[4/5]" },
+      {
+        src: "/work/hopplay/primary.jpg",
+        caption: "Product — HopPlay city adventure",
+        ratio: "aspect-[1296/700]",
+      },
+      {
+        src: "/work/hopplay/grid-full.mp4",
+        caption: "Experience — routes and challenges in the city",
+        ratio: "aspect-[1296/700]",
+        kind: "video",
+      },
+      {
+        src: "/work/hopplay/stack-a.mp4",
+        caption: "Brand — HopPlay orbit identity",
+        ratio: "aspect-[636/700]",
+        kind: "video",
+      },
+      {
+        src: "/work/hopplay/stack-b.mp4",
+        caption: "Product — adventure flow",
+        ratio: "aspect-[636/700]",
+        kind: "video",
+      },
+      {
+        src: "/work/hopplay/closing.jpg",
+        caption: "Closing — HopPlay destination moment",
+        ratio: "aspect-[1296/700]",
+      },
     ],
     results: [
       { value: "Live", label: "City experiences launched" },
@@ -321,8 +396,8 @@ export const cases: CaseStudy[] = [
     metric: "End-to-end",
     metricLabel: "Booking → calendar → pay",
     img: "/work/blink/brand.jpg",
-    heroImage: "/work/blink/hero.jpg",
-    mediaLayout: { afterProblem: "full-pair", afterBuild: "two-full" },
+    heroImage: "/work/blink/hero.mp4",
+    mediaLayout: { afterProblem: "full-pair", afterBuild: "full-pair" },
     year: "2025",
     industry: "Creative services",
     keyFeatures: [
@@ -342,6 +417,8 @@ export const cases: CaseStudy[] = [
       "We designed and built Blink end to end: a public booking widget clients can embed or share, an onboarding flow for artists, messaging and reminders, and a studio dashboard for bookings, calendar, and payments.",
     craft:
       "Product design, brand, UX/UI, and a full platform build — booking methods by artist, style, or flash; calendar sync; Stripe; and a studio ops layer for day-to-day appointments.",
+    // Media order matches Figma 3657:574 — hero is separate via heroImage (video).
+    // After build: full + pair of unused product frames (tablet calendar swapped out).
     screens: [
       {
         src: "/work/blink/primary.jpg",
@@ -349,9 +426,10 @@ export const cases: CaseStudy[] = [
         ratio: "aspect-[1296/700]",
       },
       {
-        src: "/work/blink/onboarding.jpg",
+        src: "/work/blink/onboarding.mp4",
         caption: "Artist onboarding — calendar, Stripe, share link",
         ratio: "aspect-[1296/700]",
+        kind: "video",
       },
       {
         src: "/work/blink/messaging.jpg",
@@ -369,9 +447,14 @@ export const cases: CaseStudy[] = [
         ratio: "aspect-[1296/700]",
       },
       {
-        src: "/work/blink/tablet.jpg",
-        caption: "Studio calendar — multi-artist scheduling",
-        ratio: "aspect-[1296/700]",
+        src: "/work/blink/stack-a.jpg",
+        caption: "Booking — pick a time slot",
+        ratio: "aspect-[636/700]",
+      },
+      {
+        src: "/work/blink/stack-b.jpg",
+        caption: "Payments — deposit confirmed",
+        ratio: "aspect-[636/700]",
       },
       {
         src: "/work/blink/closing.jpg",
@@ -401,9 +484,9 @@ export const cases: CaseStudy[] = [
     displayTags: ["Lottery", "Product Design", "Brand"],
     metric: "National",
     metricLabel: "Platform redesign",
-    img: "/work/staatsloterij/primary.jpg",
+    img: "/work/staatsloterij/hero.jpg",
     heroImage: "/work/staatsloterij/hero.jpg",
-    mediaLayout: { afterProblem: "full-pair", afterBuild: "full-pair" },
+    mediaLayout: { afterProblem: "full-pair", afterBuild: "pair" },
     year: "2023",
     industry: "Entertainment / Gaming",
     keyFeatures: [
@@ -422,16 +505,19 @@ export const cases: CaseStudy[] = [
       "We redesigned and rebuilt the core digital platform end to end — ticket purchase, account, notifications, results — with a clear information architecture and a brand system built for digital-first use.",
     craft:
       "Product design, brand application, UX/UI, design system, and front-end development. The work centred on making complex lottery logic feel simple: pick your numbers, confirm your entry, check results, and manage your account in as few steps as possible.",
+    // Media order matches Figma 3660:4303 — hero is separate via heroImage.
     screens: [
       {
-        src: "/work/staatsloterij/primary.jpg",
-        caption: "Platform hero — Staatsloterij digital experience",
+        src: "/work/staatsloterij/primary.mp4",
+        caption: "Pad van 300 — interactive lottery world",
         ratio: "aspect-[1296/700]",
+        kind: "video",
       },
       {
-        src: "/work/staatsloterij/grid-full.jpg",
-        caption: "Ticket flow — select, confirm, and play",
+        src: "/work/staatsloterij/grid-full.mp4",
+        caption: "Product UI — trekkingen and winkansen",
         ratio: "aspect-[1296/700]",
+        kind: "video",
       },
       {
         src: "/work/staatsloterij/grid-a.jpg",
@@ -444,9 +530,10 @@ export const cases: CaseStudy[] = [
         ratio: "aspect-[636/700]",
       },
       {
-        src: "/work/staatsloterij/stack-a.jpg",
-        caption: "Account overview — entries and notifications",
+        src: "/work/staatsloterij/fish.mp4",
+        caption: "Mascot — Staatsloterij fish",
         ratio: "aspect-[636/700]",
+        kind: "video",
       },
       {
         src: "/work/staatsloterij/stack-b.jpg",
@@ -481,8 +568,8 @@ export const cases: CaseStudy[] = [
     displayTags: ["AI", "Product Design", "Brand"],
     metric: "AI Mode",
     metricLabel: "In-browser scooping",
-    img: "/work/scooply/primary.jpg",
-    heroImage: "/work/scooply/hero.jpg",
+    img: "/work/scooply/hero.jpg",
+    heroImage: "/work/scooply/hero.mp4",
     mediaLayout: { afterProblem: "pair", afterBuild: "two-full" },
     year: "2025",
     industry: "AI / Media",
@@ -503,11 +590,13 @@ export const cases: CaseStudy[] = [
       "We shaped Scooply end to end: product direction, brand and type system, in-browser AI surfaces, and mobile moments that make scooping feel instant rather than like another tool to learn.",
     craft:
       "Brand, UX/UI, and a design system tuned for AI media — purple identity, Inter-based type, and interfaces that keep the scoop in flow with browsing.",
+    // Media order matches Figma 3658:3065 — hero is separate via heroImage (video).
     screens: [
       {
-        src: "/work/scooply/primary.jpg",
+        src: "/work/scooply/primary.mp4",
         caption: "Browser AI Mode — scooping from search",
         ratio: "aspect-[1296/700]",
+        kind: "video",
       },
       {
         src: "/work/scooply/grid-a.jpg",
@@ -557,9 +646,9 @@ export const cases: CaseStudy[] = [
     displayTags: ["Product Design", "Brand", "UX/UI"],
     metric: "Product",
     metricLabel: "Creative platform",
-    img: "/work/frame/primary.jpg",
+    img: "/work/frame/card.jpg",
     heroImage: "/work/frame/hero.jpg",
-    mediaLayout: { afterProblem: "full-pair", afterBuild: "two-full" },
+    mediaLayout: { afterProblem: "full-pair", afterBuild: "pair-full" },
     year: "2023",
     industry: "Creative tools",
     keyFeatures: ["Product Design", "Brand Design", "UX/UI"],
@@ -574,35 +663,46 @@ export const cases: CaseStudy[] = [
       "We shaped Frame as a product experience: mobile-first surfaces, a clear brand system, and flows that make presenting work feel intentional rather than improvised.",
     craft:
       "Product design, brand, and UX/UI — focused on calm interfaces that keep the work itself centre stage.",
+    // Media order matches Figma 3661:5541 — hero is separate via heroImage.
     screens: [
       {
         src: "/work/frame/primary.jpg",
-        caption: "Product — Frame mobile experience",
+        caption: "Product — Frame overview",
         ratio: "aspect-[1296/700]",
       },
       {
-        src: "/work/frame/hero.jpg",
-        caption: "Brand panel — Frame",
+        src: "/work/frame/grid-full.jpg",
+        caption: "Awards — Front-end Award page",
         ratio: "aspect-[1296/700]",
       },
       {
-        src: "/work/frame/primary.jpg",
-        caption: "Mobile — Frame in hand",
+        src: "/work/frame/grid-a.jpg",
+        caption: "Submission — project entry flow",
         ratio: "aspect-[636/700]",
       },
       {
-        src: "/work/frame/hero.jpg",
-        caption: "Experience — Frame product moments",
+        src: "/work/frame/grid-b.jpg",
+        caption: "Editorial — article page",
         ratio: "aspect-[636/700]",
       },
       {
-        src: "/work/frame/primary.jpg",
-        caption: "Product detail — Frame",
+        src: "/work/frame/stack-a.jpg",
+        caption: "Jury — voting and chat",
+        ratio: "aspect-[636/700]",
+      },
+      {
+        src: "/work/frame/stack-b.jpg",
+        caption: "Memberships — plans and access",
+        ratio: "aspect-[636/700]",
+      },
+      {
+        src: "/work/frame/stack-full.jpg",
+        caption: "Shop & backend — commerce and settings",
         ratio: "aspect-[1296/700]",
       },
       {
-        src: "/work/frame/hero.jpg",
-        caption: "Closing — Frame",
+        src: "/work/frame/closing.jpg",
+        caption: "Closing — Frame on device",
         ratio: "aspect-[1296/700]",
       },
     ],
@@ -628,7 +728,7 @@ export const cases: CaseStudy[] = [
     displayTags: ["Product Design", "Brand", "UX/UI"],
     metric: "Brand + UI",
     metricLabel: "Product system",
-    img: "/work/pepperminds/primary.jpg",
+    img: "/work/pepperminds/card.jpg",
     heroImage: "/work/pepperminds/hero.jpg",
     mediaLayout: { afterProblem: "full-pair", afterBuild: "full-pair" },
     year: "2023",
@@ -645,45 +745,47 @@ export const cases: CaseStudy[] = [
       "We designed a product and brand system that holds UI, photography, and messaging in the same visual language — ready for mobile and desktop use.",
     craft:
       "Brand, product design, and UX/UI assembled into layered screens that feel lively without losing clarity.",
+    // Media order matches Figma 3661:6759 — hero is separate via heroImage.
     screens: [
       {
         src: "/work/pepperminds/primary.jpg",
-        caption: "Product collage — Pepperminds UI",
+        caption: "Campaign — Pepperminds in the field",
         ratio: "aspect-[1296/700]",
       },
       {
         src: "/work/pepperminds/grid-full.jpg",
-        caption: "Product — Pepperminds in context",
+        caption: "Brand system — colours, type, components",
         ratio: "aspect-[1296/700]",
       },
       {
         src: "/work/pepperminds/grid-a.jpg",
-        caption: "Mobile — Pepperminds screens",
+        caption: "UI kit — forms and buttons",
         ratio: "aspect-[636/700]",
       },
       {
-        src: "/work/pepperminds/grid-b.jpg",
-        caption: "Brand moments — Pepperminds",
+        src: "/work/pepperminds/nederlandse-spoorwegen-logo.mp4",
+        caption: "Motion — NS logo animation",
         ratio: "aspect-[636/700]",
+        kind: "video",
       },
       {
         src: "/work/pepperminds/stack-full.jpg",
-        caption: "Product system — Pepperminds",
+        caption: "Product — onboarding and win states",
         ratio: "aspect-[1296/700]",
       },
       {
         src: "/work/pepperminds/stack-a.jpg",
-        caption: "Interface — Pepperminds detail",
+        caption: "Brand mark — chili icon",
         ratio: "aspect-[636/700]",
       },
       {
         src: "/work/pepperminds/stack-b.jpg",
-        caption: "UI collage — Pepperminds",
+        caption: "Product — activity and profile",
         ratio: "aspect-[636/700]",
       },
       {
         src: "/work/pepperminds/closing.jpg",
-        caption: "Closing visual — Pepperminds",
+        caption: "Product — battles and challenges",
         ratio: "aspect-[1296/700]",
       },
     ],
@@ -709,14 +811,16 @@ export const filters: Filter[] = [
   "Technical Sprint",
 ];
 
-/** Cases from the Figma Cases round — work overview / recent work. */
+/** Work overview / recent work — all published cases, Figma order first. */
 export const portfolioSlugs = [
   "blink",
   "spilnews",
+  "mix-interiors",
   "scooply-ai",
   "staatsloterij",
   "frame",
   "pepperminds",
+  "hopplay",
 ] as const;
 
 export function getPortfolioCases() {

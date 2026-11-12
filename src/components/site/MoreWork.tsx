@@ -2,11 +2,69 @@
 
 import { Link } from "@/components/Link";
 import { useLocale } from "next-intl";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { localizeCaseMeta } from "@/i18n/localize";
 import { Reveal } from "./Reveal";
 import { SectionEyebrow, type BrandMark } from "./SectionEyebrow";
 import { getCase, portfolioSlugs } from "./cases-data";
+
+function isCardVideo(src: string) {
+  return /\.(mp4|webm|mov)(\?|$)/i.test(src);
+}
+
+function CardVideo({ src }: { src: string }) {
+  const ref = useRef<HTMLVideoElement | null>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.muted = true;
+    el.defaultMuted = true;
+    el.playsInline = true;
+
+    const tryPlay = () => {
+      el.muted = true;
+      const p = el.play();
+      if (p) void p.catch(() => {});
+    };
+
+    tryPlay();
+    el.addEventListener("loadeddata", tryPlay);
+    el.addEventListener("canplay", tryPlay);
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) tryPlay();
+      },
+      { threshold: 0.05, rootMargin: "80px" },
+    );
+    io.observe(el);
+
+    // Reveal fades in after mount — retry briefly so autoplay sticks.
+    const timers = [100, 400, 1000, 2000].map((ms) =>
+      window.setTimeout(tryPlay, ms),
+    );
+
+    return () => {
+      io.disconnect();
+      el.removeEventListener("loadeddata", tryPlay);
+      el.removeEventListener("canplay", tryPlay);
+      timers.forEach(clearTimeout);
+    };
+  }, [src]);
+  return (
+    <video
+      ref={ref}
+      src={src}
+      aria-hidden
+      className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="auto"
+    />
+  );
+}
 
 export type WorkCardConfig = {
   slug: string;
@@ -28,17 +86,16 @@ const HOMEPAGE_MOBILE_LIMIT = 3;
 const MOBILE_SCROLL_DESCRIPTION =
   "KBPM brings together strategy, design, and engineering in a single, AI-enhanced methodology. Track progress through each phase, identify key product priorities, and understand what truly matters — all in one workflow.";
 
+/** Overview / section cards — prefer case hero stills (not video). */
 export const CASE_IMAGES: Record<string, string> = {
-  "mix-interiors": "/work/card-mix.jpg",
-  "virtue-worldwide": "/work/card-virtue.jpg",
-  hopplay: "/work/card-hopplay.jpg",
   blink: "/work/blink/brand.jpg",
-  "scooply-ai": "/work/scooply/primary.jpg",
-  spilnews: "/work/spilnews/primary.jpg",
-  staatsloterij: "/work/staatsloterij/primary.jpg",
-  frame: "/work/frame/primary.jpg",
-  pepperminds: "/work/pepperminds/primary.jpg",
-  academion: "/assets/case-academion.jpg",
+  spilnews: "/work/spilnews/card.mp4",
+  "mix-interiors": "/work/mix-interiors/card.jpg",
+  "scooply-ai": "/work/scooply/hero.mp4",
+  staatsloterij: "/work/staatsloterij/hero.jpg",
+  frame: "/work/frame/card.jpg",
+  pepperminds: "/work/pepperminds/card.jpg",
+  hopplay: "/work/hopplay/stack-a.mp4",
 };
 
 type ResolvedCard = NonNullable<ReturnType<typeof resolveCards>[number]>;
@@ -114,19 +171,24 @@ function WorkCard({
     >
       <div
         className={
-          mobileCompact
+          (mobileCompact
             ? "relative aspect-[4/5] overflow-hidden rounded-2xl"
-            : "relative aspect-[4/5] overflow-hidden rounded-[28px] sm:h-[540px] sm:aspect-auto"
+            : "relative aspect-[4/5] overflow-hidden rounded-[28px] sm:h-[540px] sm:aspect-auto") +
+          (c.slug === "spilnews" ? " bg-[#93ff61]" : "")
         }
       >
-        <img
-          src={card.image}
-          alt=""
-          width={800}
-          height={1000}
-          decoding="async"
-          className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-        />
+        {isCardVideo(card.image) ? (
+          <CardVideo src={card.image} />
+        ) : (
+          <img
+            src={card.image}
+            alt=""
+            width={800}
+            height={1000}
+            decoding="async"
+            className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+          />
+        )}
         <div className="absolute left-5 top-5 flex flex-wrap gap-2">
           <span className="bg-white/20 px-2.5 py-1 font-mono text-[10px] uppercase text-white backdrop-blur-[25px]">
             {c.displayTags[0] ?? c.tags[0]}
