@@ -150,7 +150,7 @@ export const cases: CaseStudy[] = [
     displayTags: ["Interior Design", "AI", "CMS"],
     metric: "2026",
     metricLabel: "Product launch",
-    img: "/work/mix-interiors/card.jpg",
+    img: "/work/mix-interiors/hero.jpg",
     heroImage: "/work/mix-interiors/hero.jpg",
     mediaLayout: { afterProblem: "full-pair", afterBuild: "two-full" },
     year: "2026",
@@ -300,9 +300,10 @@ export const cases: CaseStudy[] = [
     // Media order matches Figma 3752:786 — hero is separate via heroImage.
     screens: [
       {
-        src: "/work/hopplay/primary.jpg",
+        src: "/work/hopplay/primary.mp4",
         caption: "Product — HopPlay city adventure",
         ratio: "aspect-[1296/700]",
+        kind: "video",
       },
       {
         src: "/work/hopplay/grid-full.mp4",

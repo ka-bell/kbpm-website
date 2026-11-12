@@ -90,7 +90,7 @@ const MOBILE_SCROLL_DESCRIPTION =
 export const CASE_IMAGES: Record<string, string> = {
   blink: "/work/blink/brand.jpg",
   spilnews: "/work/spilnews/card.mp4",
-  "mix-interiors": "/work/mix-interiors/card.jpg",
+  "mix-interiors": "/work/mix-interiors/hero.jpg",
   "scooply-ai": "/work/scooply/hero.mp4",
   staatsloterij: "/work/staatsloterij/hero.jpg",
   frame: "/work/frame/card.jpg",
