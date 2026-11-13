@@ -94,7 +94,7 @@ export const CASE_IMAGES: Record<string, string> = {
   "scooply-ai": "/work/scooply/hero.mp4",
   staatsloterij: "/work/staatsloterij/hero.jpg",
   frame: "/work/frame/card.jpg",
-  pepperminds: "/work/pepperminds/card.jpg",
+  pepperminds: "/work/pepperminds/card.mp4",
   hopplay: "/work/hopplay/stack-a.mp4",
 };
 
@@ -174,7 +174,11 @@ function WorkCard({
           (mobileCompact
             ? "relative aspect-[4/5] overflow-hidden rounded-2xl"
             : "relative aspect-[4/5] overflow-hidden rounded-[28px] sm:h-[540px] sm:aspect-auto") +
-          (c.slug === "spilnews" ? " bg-[#93ff61]" : "")
+          (c.slug === "spilnews"
+            ? " bg-[#93ff61]"
+            : c.slug === "pepperminds"
+              ? " bg-[#e30613]"
+              : "")
         }
       >
         {isCardVideo(card.image) ? (

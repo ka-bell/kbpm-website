@@ -729,7 +729,7 @@ export const cases: CaseStudy[] = [
     displayTags: ["Product Design", "Brand", "UX/UI"],
     metric: "Brand + UI",
     metricLabel: "Product system",
-    img: "/work/pepperminds/card.jpg",
+    img: "/work/pepperminds/card.mp4",
     heroImage: "/work/pepperminds/hero.jpg",
     mediaLayout: { afterProblem: "full-pair", afterBuild: "full-pair" },
     year: "2023",
