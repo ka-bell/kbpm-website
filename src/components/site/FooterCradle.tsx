@@ -173,8 +173,14 @@ function FooterNewtonsCradle() {
       kickLeft(bodies, constraints, size, length);
 
       const mouse = Mouse.create(root);
-      mouse.element.removeEventListener("mousewheel", mouse.mousewheel);
-      mouse.element.removeEventListener("DOMMouseScroll", mouse.mousewheel);
+      // Matter Mouse types omit mousewheel; cast to drop scroll hijacking.
+      const mouseWheel = (
+        mouse as unknown as { mousewheel?: EventListener }
+      ).mousewheel;
+      if (mouseWheel) {
+        mouse.element.removeEventListener("mousewheel", mouseWheel);
+        mouse.element.removeEventListener("DOMMouseScroll", mouseWheel);
+      }
       const mouseConstraint = MouseConstraint.create(engine, {
         mouse,
         constraint: {
