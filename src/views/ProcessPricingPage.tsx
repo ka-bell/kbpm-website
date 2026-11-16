@@ -229,7 +229,7 @@ export function ProcessPricingPage() {
       {/* CTA */}
       <section className="mx-auto max-w-[1440px] px-6 pb-20 md:px-8 md:pb-28">
         <Reveal>
-          <div className="relative overflow-hidden rounded-[28px] bg-foreground p-8 md:rounded-[40px] md:p-16">
+          <div className="relative overflow-hidden rounded-[24px] bg-foreground p-8 md:rounded-[24px] md:p-16">
             <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-10">
               <div className="md:col-span-8">
                 <div className="flex items-center gap-3">
@@ -258,7 +258,7 @@ export function ProcessPricingPage() {
                   to="/contact"
                   className="group inline-flex items-center justify-between gap-4 rounded-full bg-accent px-6 py-4 text-sm font-medium text-accent-foreground transition-transform hover:-translate-y-px"
                 >
-                  Tell us your challenge
+                  Let’s talk
                   <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 14 14" fill="none" aria-hidden>
                     <path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" />
                   </svg>

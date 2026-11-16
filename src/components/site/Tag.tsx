@@ -1,26 +1,37 @@
 import type { ReactNode } from "react";
 
-type TagVariant = "lime" | "white" | "blue" | "frost";
+type TagVariant = "lime" | "white" | "blue" | "frost" | "ghost";
 
 type TagProps = {
   children: ReactNode;
   /**
-   * Figma tags:
-   * - lime / blue / white = Custom tag pills (3769:4989)
-   * - frost = media overlay typology tags (3769:5000)
+   * Custom tag — Figma 10602:43141
+   * - lime / blue / white = filled pills
+   * - frost = media overlay typology tags
+   * - ghost = text-only
    */
   variant?: TagVariant;
   className?: string;
 };
 
 /**
- * Meta tags — Figma 3674:4891 / 3769:4989 / blog-card overlays.
+ * Meta tags — Figma 10602:43141 / 3769:4989 / blog-card overlays.
  */
 export function Tag({ children, variant = "lime", className = "" }: TagProps) {
   if (variant === "frost") {
     return (
       <span
-        className={`inline-flex items-center justify-center bg-white/20 px-2.5 py-1 font-mono text-[10px] uppercase leading-none text-white backdrop-blur-[25px] ${className}`.trim()}
+        className={`inline-flex items-center justify-center bg-white/20 px-2.5 py-1 font-mono text-[10px] uppercase leading-none tracking-[0.5px] text-white backdrop-blur-[25px] ${className}`.trim()}
+      >
+        {children}
+      </span>
+    );
+  }
+
+  if (variant === "ghost") {
+    return (
+      <span
+        className={`inline-flex items-center justify-center font-mono text-[10px] uppercase leading-none tracking-[0.5px] text-[#1e1e1e] ${className}`.trim()}
       >
         {children}
       </span>
@@ -29,7 +40,7 @@ export function Tag({ children, variant = "lime", className = "" }: TagProps) {
 
   const bg =
     variant === "white"
-      ? "bg-white"
+      ? "border border-[#1e1e1e]/15 bg-white"
       : variant === "blue"
         ? "bg-[#006ff7]"
         : "bg-[#c9ff6e]";

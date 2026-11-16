@@ -4,30 +4,30 @@ import { useTranslations } from "next-intl";
 import { Reveal } from "./Reveal";
 import { SectionEyebrow } from "./SectionEyebrow";
 
-/** Rewrite WhyKbpm copy; Figma 3626:4063 layout + color cards. */
+/** Why cards — Figma 3674:619–628 */
 const CARDS = [
   {
-    title: "Bring what you have.\nLet’s work on what’s next.",
-    body: "An early idea, a detailed brief or a prototype you’ve already built. Whatever your starting point, we’ll take it further together.",
+    title: "No hiring. No\nmanagement.",
+    body: "You get a full technical team on day one — product, design, engineering. No recruiters, no ramp-up, no dead weight.",
     card: "bg-[#006ff7] text-white",
-    bodyClass: "text-white/80",
+    bodyClass: "text-white",
   },
   {
-    title: "You always know who's building it.",
-    body: "Karissa and Alex have sat on every side of the table: client, agency and builder. Working with us means no black box, direct and clear communication, no process theatre.",
+    title: "One partner, end to end.",
+    body: "A senior-led studio that can take on work that outgrows a standard delivery team — with specialists when the brief needs them.",
     card: "bg-[#1e1e1e] text-white",
-    bodyClass: "text-white/80",
+    bodyClass: "text-white",
   },
   {
-    title: "Someone who answers for it.",
-    body: "AI can make it. You get a team that takes responsibility for it. Before, during and long after launch.",
+    title: "Ship bigger ideas.",
+    body: "A senior-led studio that can take on work that outgrows a standard delivery team — with specialists when the brief needs them.",
     card: "bg-[#c9ff6e] text-[#1e1e1e]",
-    bodyClass: "text-[#1e1e1e]/80",
+    bodyClass: "text-[#1e1e1e]",
   },
 ] as const;
 
 /**
- * Visual + text highlights — Figma 3626:4063.
+ * Visual + text highlights — Figma 3674:615.
  */
 export function WhyKbpm() {
   const t = useTranslations("WhyKbpm");
@@ -37,22 +37,25 @@ export function WhyKbpm() {
       <div className="mx-auto flex max-w-[1440px] flex-col gap-10 md:gap-12 lg:gap-[56px]">
         <Reveal>
           <div className="flex max-w-[45rem] flex-col gap-8">
-            <SectionEyebrow label={t("eyebrow")} mark={4} />            <h2
+            <SectionEyebrow label={t("eyebrow")} mark={4} />
+            <h2
               className="font-display text-[#1e1e1e]"
               style={{
-                fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
+                fontSize: "3.5rem",
                 lineHeight: 1.2,
                 letterSpacing: "-0.02em",
                 fontWeight: 500,
               }}
             >
-              {t("headline")}            </h2>
+              {t("headline")}
+            </h2>
           </div>
         </Reveal>
 
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-stretch">
+        {/* Figma 3674:617 — image 856 + cards 412, gap 12 */}
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-3">
           <Reveal className="min-h-[22rem] w-full lg:min-h-0 lg:w-[min(100%,53.5rem)] lg:shrink-0">
-            <div className="relative h-full min-h-[22rem] overflow-hidden rounded-2xl lg:min-h-[46.7rem]">
+            <div className="relative h-full min-h-[22rem] overflow-hidden rounded-[24px] lg:min-h-[46.7rem]">
               <img
                 src="/highlights/studio.png"
                 alt="Studio collaboration — reviewing work together at a desk"
@@ -66,18 +69,17 @@ export function WhyKbpm() {
 
           <div className="flex min-w-0 flex-1 flex-col gap-3">
             {CARDS.map((card, i) => (
-              <Reveal key={card.title} delay={80 + i * 80} className="flex min-h-0 flex-1">
+              <Reveal
+                key={card.title}
+                delay={80 + i * 80}
+                className="flex min-h-0 flex-1"
+              >
                 <article
-                  className={`flex w-full flex-col justify-between rounded-2xl p-6 md:p-8 ${card.card}`}
+                  className={`flex min-h-[241px] w-full flex-col justify-between gap-16 rounded-[24px] p-8 md:gap-0 ${card.card}`}
                 >
+                  {/* Heading/H4 — 32 Medium, leading 1.2, tracking -2% */}
                   <h3
-                    className="font-display"
-                    style={{
-                      fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
-                      lineHeight: 1.1,
-                      letterSpacing: "-0.02em",
-                      fontWeight: 500,
-                    }}
+                    className="font-display text-[32px] font-medium leading-[1.2] tracking-[-0.02em]"
                   >
                     {card.title.split("\n").map((line) => (
                       <span key={line} className="block">
@@ -85,8 +87,9 @@ export function WhyKbpm() {
                       </span>
                     ))}
                   </h3>
+                  {/* Text/Regular — 16, leading 1.3, tracking -1%, opacity 80 */}
                   <p
-                    className={`mt-8 max-w-md text-[14px] leading-5 tracking-[-0.01em] md:mt-10 ${card.bodyClass}`}
+                    className={`max-w-none text-[16px] font-normal leading-[1.3] tracking-[-0.01em] opacity-80 ${card.bodyClass}`}
                   >
                     {card.body}
                   </p>

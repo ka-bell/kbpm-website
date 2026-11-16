@@ -66,7 +66,7 @@ export function ServicesMegaMenu({
           aria-hidden
         />
         <div
-          className={`kbpm-hi-fi mx-auto w-full max-w-[1152px] overflow-hidden rounded-2xl bg-white shadow-[0_24px_60px_-20px_rgba(0,0,0,0.18)] transition-all duration-200 ${
+          className={`kbpm-hi-fi services-mega-menu mx-auto w-full max-w-[1152px] overflow-hidden bg-white shadow-[0_24px_60px_-20px_rgba(0,0,0,0.18)] transition-all duration-200 ${
             open
               ? "translate-y-0 opacity-100"
               : "pointer-events-none -translate-y-1 opacity-0"

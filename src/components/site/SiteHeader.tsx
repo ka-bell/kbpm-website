@@ -90,8 +90,8 @@ export function SiteHeader({
         className={[
           "relative z-20 flex w-full items-center justify-between",
           floating
-            ? "h-[44px] rounded-xl px-4 backdrop-blur-[50px] sm:h-[52px] sm:px-6 lg:h-[60px] lg:px-8 xl:px-10"
-            : "h-[44px] sm:h-[52px] lg:h-[60px]",
+            ? "h-[68px] rounded-[24px] px-4 backdrop-blur-[50px] sm:px-6 lg:h-[60px] lg:px-8 xl:px-10"
+            : "h-[68px] lg:h-[60px]",
           floating && variant === "white"
             ? "bg-white/5"
             : floating && variant === "black"
@@ -147,8 +147,8 @@ export function SiteHeader({
           </Link>
         </div>
 
-        <div className="flex items-center gap-1 lg:hidden">
-          <LanguageSwitcher ink={isWhite ? "light" : "dark"} className="mr-1" />
+        {/* Mobile — Figma 10602:40006: Let’s talk + hamburger (EN/NL lives in drawer) */}
+        <div className="flex items-center gap-2 lg:hidden">
           <Link
             to="/contact"
             className="inline-flex h-10 items-center justify-center rounded-full bg-[#c9ff6e] px-4 font-mono text-[12px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-90"

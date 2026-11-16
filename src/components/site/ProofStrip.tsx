@@ -115,7 +115,7 @@ function StatCard({
   return (
     <article
       ref={ref}
-      className={`metrics-stack__card flex min-h-[16rem] flex-col justify-between rounded-2xl p-7 sm:min-h-[18rem] sm:p-8 lg:min-h-[20rem] lg:p-10 ${style.card}`}
+      className={`metrics-stack__card flex min-h-[16rem] flex-col justify-between rounded-[24px] p-7 sm:min-h-[18rem] sm:p-8 lg:min-h-[20rem] lg:p-10 ${style.card}`}
       style={{ ["--stack-i" as string]: String(index) }}
     >
       <p

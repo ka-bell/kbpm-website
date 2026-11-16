@@ -34,10 +34,8 @@ export function ServicesIndexPage() {
   return (
     <>
       <section className="kbpm-hi-fi relative -mt-[4.5rem] bg-[#1e1e1e] px-5 pb-10 pt-[5.5rem] sm:-mt-[5.5rem] sm:px-6 sm:pb-16 sm:pt-[6.5rem] md:px-10 lg:-mt-[6.5rem] lg:px-20 lg:pb-[80px] lg:pt-[8.5rem]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-8">
-          <p className="font-mono text-[10px] uppercase leading-[1.1] tracking-[0.3px] text-white">
-            {t("indexEyebrow")}
-          </p>
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-4 md:gap-5">
+          <SectionEyebrow label={t("indexEyebrow")} mark={4} ink="light" />
           <h1
             className="font-display max-w-[18ch] text-white md:max-w-none"
             style={{
@@ -106,7 +104,7 @@ export function ServicesIndexPage() {
                       </Link>
                     </div>
 
-                    <div className="relative h-[270px] w-full shrink-0 overflow-hidden rounded-2xl lg:h-[320px] lg:w-[min(100%,28rem)]">
+                    <div className="relative h-[270px] w-full shrink-0 overflow-hidden rounded-[24px] lg:h-[320px] lg:w-[min(100%,28rem)]">
                       <img
                         src={visual.image}
                         alt=""

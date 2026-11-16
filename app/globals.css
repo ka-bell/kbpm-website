@@ -144,9 +144,31 @@
     letter-spacing: 0 !important;
   }
 
-  body [class*="rounded-"],
+  /* Panels / frames — 16px mobile / 24px md+ (pills stay full) */
+  body [class*="rounded-"] {
+    border-radius: 16px !important;
+  }
+
+  @media (min-width: 768px) {
+    body [class*="rounded-"] {
+      border-radius: 24px !important;
+    }
+  }
+
   body .rounded-full {
-    border-radius: 0.5rem !important;
+    border-radius: 9999px !important;
+  }
+
+  .footer-cradle__bob {
+    border-radius: 0 !important;
+  }
+
+  .services-mega-menu {
+    border-radius: 0 !important;
+  }
+
+  .work-filter-select {
+    border-radius: 0 !important;
   }
 
   /* Designed (hi-fi) regions — escape wireframe flatteners */
@@ -157,8 +179,24 @@
     letter-spacing: -0.02em !important;
   }
 
-  .kbpm-hi-fi .rounded-2xl {
-    border-radius: 1rem !important;
+  .kbpm-hi-fi.rounded-\[16px\],
+  .kbpm-hi-fi.rounded-\[24px\],
+  .kbpm-hi-fi .rounded-2xl,
+  .kbpm-hi-fi .rounded-3xl,
+  .kbpm-hi-fi .rounded-\[16px\],
+  .kbpm-hi-fi .rounded-\[24px\] {
+    border-radius: 16px !important;
+  }
+
+  @media (min-width: 768px) {
+    .kbpm-hi-fi.rounded-\[16px\],
+    .kbpm-hi-fi.rounded-\[24px\],
+    .kbpm-hi-fi .rounded-2xl,
+    .kbpm-hi-fi .rounded-3xl,
+    .kbpm-hi-fi .rounded-\[16px\],
+    .kbpm-hi-fi .rounded-\[24px\] {
+      border-radius: 24px !important;
+    }
   }
 
   .kbpm-hi-fi .rounded-full {
@@ -253,6 +291,7 @@
 .metrics-stack__card {
   position: sticky;
   top: calc(0.75rem + (var(--stack-i, 0) * 1.25rem));
+  border-radius: 16px;
   box-shadow: 0 -10px 32px rgba(0, 0, 0, 0.08);
 }
 
@@ -269,7 +308,7 @@
     top: auto;
     flex: 1 1 0;
     min-width: 0;
-    border-radius: 1.5rem;
+    border-radius: 24px;
     box-shadow: none;
   }
 }
@@ -288,7 +327,7 @@
   /* Mobile: tighter peek for smaller title strip */
   top: calc(0.5rem + (var(--stack-i, 0) * 3.75rem));
   margin-bottom: 0;
-  border-radius: 1rem;
+  border-radius: 16px;
   box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.1);
 }
 
@@ -299,17 +338,14 @@
 }
 
 .kbpm-hi-fi .services-stack__card {
-  border-radius: 1rem !important;
+  border-radius: 16px !important;
   box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.1) !important;
 }
 
 @media (min-width: 768px) {
-  .services-stack__card {
-    border-radius: 2rem;
-  }
-
+  .services-stack__card,
   .kbpm-hi-fi .services-stack__card {
-    border-radius: 2rem !important;
+    border-radius: 24px !important;
   }
 }
 

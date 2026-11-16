@@ -146,3 +146,64 @@ export function getServicePanelCopy(name: string, _phaseName?: string) {
     "Tell us about this need and we'll map scope, timing, and the first useful next step."
   );
 }
+
+/** Blue meta pills on the offer panel — Figma 10621:18715 */
+export const servicePanelTags: Record<string, string[]> = {
+  "Website & Product Audit": ["5 working days", "Written report", "Fixed fee"],
+  "Idea Validation": ["2 weeks", "Go / no-go report", "Fixed fee"],
+  "Discovery Workshop": ["Half day", "Written brief", "Fixed fee"],
+  "Technical Feasibility Review": [
+    "1–2 weeks",
+    "Risk assessment",
+    "Fixed fee",
+  ],
+  "Product Roadmap": ["1–2 weeks", "Sequenced plan", "Fixed fee"],
+  "Innovation Sprint": ["1–2 weeks", "Direction locked", "Fixed fee"],
+  "Prototype Build": ["Fast turnaround", "Working prototype", "Fixed scope"],
+  "MVP Development": ["Live MVP", "Scalable base", "Sprint delivery"],
+  "Platform Development": ["End to end", "Senior-led", "Phased build"],
+  "Customer Portal Development": ["Custom portal", "Integrations", "Launch ready"],
+  "Campaign & Marketing Website": ["Fast launch", "Campaign-ready", "Fixed scope"],
+  "Agency Partner / White-Label Development": [
+    "White-label",
+    "Agency partner",
+    "Flexible",
+  ],
+  "API Development & Integration": ["APIs", "Integrations", "Documented"],
+  "E-commerce Development": ["Conversion-led", "Store build", "Launch ready"],
+  "Mobile App Development": ["iOS / Android", "Product design", "Launch ready"],
+  "Headless CMS Development": ["Headless", "Scalable", "Editor-friendly"],
+  "Feature Development": ["Non-disruptive", "Feature sprint", "QA included"],
+  "AI Integration": ["Fit check", "Build if useful", "Honest advice"],
+  "Performance Optimisation": ["Audit + fix", "Measurable gains", "Root cause"],
+  "Analytics Setup": ["Tracking", "Dashboard", "Actionable"],
+  "Legacy System Modernisation": ["No downtime", "Modern stack", "Phased"],
+  "Conversion Rate Optimisation (CRO)": [
+    "Friction audit",
+    "A/B ready",
+    "Conversion lift",
+  ],
+  "Scalability Review": ["Honest review", "Growth plan", "Risk map"],
+  "Maintenance Retainer": ["Monthly", "Monitoring", "Named contact"],
+  "Hosting & Infrastructure Management": [
+    "Managed hosting",
+    "Uptime",
+    "Proactive",
+  ],
+  "Emergency Support": ["Direct line", "Defined XLA", "Product-aware"],
+  "Fractional CTO": ["Senior leadership", "Part-time", "Strategic"],
+  "Security Monitoring & Penetration Testing": [
+    "Continuous",
+    "Pen test",
+    "Remediation",
+  ],
+  "Technical Documentation & Knowledge Transfer": [
+    "Docs",
+    "Handover",
+    "Team-ready",
+  ],
+};
+
+export function getServicePanelTags(name: string) {
+  return servicePanelTags[name] ?? ["Senior-led", "Clear scope", "Fixed fee"];
+}

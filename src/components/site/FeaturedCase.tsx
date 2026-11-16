@@ -56,7 +56,7 @@ export function FeaturedCase() {
           <Link
             to="/work/$slug"
             params={{ slug: c?.slug ?? "spilnews" }}
-            className="group relative flex h-[534px] w-full flex-col justify-end overflow-hidden rounded-2xl p-6 md:h-auto md:min-h-[120dvh] md:rounded-2xl md:p-12 lg:min-h-[130dvh] lg:p-16"
+            className="group relative flex h-[534px] w-full flex-col justify-end overflow-hidden rounded-[16px] p-6 md:h-auto md:min-h-[120dvh] md:rounded-[24px] md:p-12 lg:min-h-[130dvh] lg:p-16"
           >
             <img
               src="/work/spilnews-featured.jpg"

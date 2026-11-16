@@ -4,6 +4,7 @@ import { Link } from "@/components/Link";
 import { ArrowRight } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Reveal } from "@/components/site/Reveal";
+import { SectionEyebrow } from "@/components/site/SectionEyebrow";
 import {
   formatPlaygroundDate,
   getPlaygroundPosts,
@@ -23,17 +24,19 @@ export function PlaygroundIndexPage() {
         <div className="mx-auto max-w-[1440px] px-6 py-16 md:px-8 md:py-24">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:items-end md:gap-8">
             <Reveal className="md:col-span-8">
-              <p className="eyebrow">{t("eyebrow")}</p>
-              <h1
-                className="font-display mt-5 max-w-4xl text-foreground"
-                style={{
-                  fontSize: "clamp(3rem, 7vw, 7rem)",
-                  lineHeight: 0.9,
-                  fontWeight: 500,
-                }}
-              >
-                {t("headline")}
-              </h1>
+              <div className="flex max-w-4xl flex-col gap-4 md:gap-5">
+                <SectionEyebrow label={t("eyebrow")} mark={4} />
+                <h1
+                  className="font-display text-foreground"
+                  style={{
+                    fontSize: "clamp(3rem, 7vw, 7rem)",
+                    lineHeight: 0.9,
+                    fontWeight: 500,
+                  }}
+                >
+                  {t("headline")}
+                </h1>
+              </div>
             </Reveal>
             <Reveal delay={80} className="md:col-span-4">
               <p className="max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">

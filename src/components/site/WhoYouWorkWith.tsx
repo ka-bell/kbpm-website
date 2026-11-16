@@ -52,7 +52,7 @@ export function WhoYouWorkWith() {
           {FOUNDER_META.map((person, i) => (
             <Reveal key={person.name} delay={i * 80}>
               <article className="flex flex-col gap-8 md:gap-10">
-                <div className="relative aspect-[620/750] overflow-hidden rounded-[28px] bg-[#f5f5f5]">
+                <div className="relative aspect-[620/750] overflow-hidden rounded-[24px] bg-[#f5f5f5]">
                   <img
                     src={person.image}
                     alt={t(`${person.key}.imageAlt`)}

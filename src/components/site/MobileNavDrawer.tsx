@@ -4,6 +4,7 @@ import { Link } from "@/components/Link";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { primaryNav, services } from "./nav-data";
 import { Wordmark } from "./Wordmark";
 
@@ -142,12 +143,19 @@ export function MobileNavDrawer({
       </nav>
 
       <div className="shrink-0 border-t border-[#1e1e1e]/10 bg-white p-6">
+        <div className="mb-5 flex items-center justify-between gap-4">
+          <p className="font-mono text-[11px] uppercase tracking-[0.04em] text-[#6b6b6b]">
+            {tn("language")}
+          </p>
+          <LanguageSwitcher ink="dark" />
+        </div>
         <Link
           to="/contact"
           onClick={onClose}
           className="flex w-full items-center justify-center gap-2 rounded-full bg-[#c9ff6e] px-6 py-4 text-base font-medium text-[#1e1e1e]"
         >
-          {tc("startProject")}          <svg className="h-4 w-4" viewBox="0 0 14 14" fill="none" aria-hidden>
+          {tc("startProject")}
+          <svg className="h-4 w-4" viewBox="0 0 14 14" fill="none" aria-hidden>
             <path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.4" />
           </svg>
         </Link>

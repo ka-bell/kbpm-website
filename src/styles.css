@@ -134,9 +134,31 @@
     letter-spacing: 0 !important;
   }
 
-  body [class*="rounded-"],
+  /* Panels / frames — 16px mobile / 24px md+ (pills stay full) */
+  body [class*="rounded-"] {
+    border-radius: 16px !important;
+  }
+
+  @media (min-width: 768px) {
+    body [class*="rounded-"] {
+      border-radius: 24px !important;
+    }
+  }
+
   body .rounded-full {
-    border-radius: 0.5rem !important;
+    border-radius: 9999px !important;
+  }
+
+  .footer-cradle__bob {
+    border-radius: 0 !important;
+  }
+
+  .services-mega-menu {
+    border-radius: 0 !important;
+  }
+
+  .work-filter-select {
+    border-radius: 0 !important;
   }
 
   body [class*="shadow"] {

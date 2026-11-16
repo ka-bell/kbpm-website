@@ -8,6 +8,7 @@ import { FeaturedCase } from "@/components/site/FeaturedCase";
 import { MoreWork } from "@/components/site/MoreWork";
 import { TrustedBy } from "@/components/site/TrustedBy";
 import { WhyKbpm } from "@/components/site/WhyKbpm";
+import { FinalCta } from "@/components/site/FinalCta";
 import { routing } from "@/i18n/routing";
 
 type Props = {
@@ -53,6 +54,7 @@ export default async function HomePage({ params }: Props) {
       <FeaturedCase />
       <MoreWork layout="scroll" />
       <WhyKbpm />
+      <FinalCta />
     </>
   );
 }

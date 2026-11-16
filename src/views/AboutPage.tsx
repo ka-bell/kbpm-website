@@ -82,7 +82,7 @@ type TestimonialCardData = {
 function TestimonialCard({ card }: { card: TestimonialCardData }) {
   return (
     <figure
-      className={`flex min-h-[22rem] w-full max-w-[26rem] flex-col justify-between rounded-2xl p-8 shadow-[0_8px_32px_rgba(0,0,0,0.2)] backdrop-blur-xl backdrop-saturate-150 ${card.ink}`}
+      className={`flex min-h-[22rem] w-full max-w-[26rem] flex-col justify-between rounded-[24px] p-8 shadow-[0_8px_32px_rgba(0,0,0,0.2)] backdrop-blur-xl backdrop-saturate-150 ${card.ink}`}
       style={{
         backgroundColor: `color-mix(in srgb, ${card.tint} 62%, transparent)`,
       }}
@@ -200,10 +200,8 @@ export function AboutPage() {
 
           <div className="flex flex-col items-stretch justify-between gap-10 lg:flex-row lg:items-end lg:gap-16">
             <Reveal className="min-w-0 flex-1">
-              <div className="flex max-w-[44rem] flex-col gap-6 md:gap-8">
-                <p className="font-mono text-[14px] uppercase leading-[16.5px] tracking-[0.05em] text-[#1e1e1e]">
-                  {t("eyebrow")}
-                </p>
+              <div className="flex max-w-[44rem] flex-col gap-4 md:gap-5">
+                <SectionEyebrow label={t("eyebrow")} mark={1} />
                 <h1
                   className="font-display text-[#1e1e1e]"
                   style={{
@@ -295,7 +293,7 @@ export function AboutPage() {
                 {capabilities.map((c) => (
                   <article
                     key={c.title}
-                    className="flex h-full w-[min(82vw,30rem)] shrink-0 flex-col rounded-[28px] border border-black/10 bg-[#1e1e1e] p-6 md:w-[30rem] md:p-8 lg:p-10"
+                    className="flex h-full w-[min(82vw,30rem)] shrink-0 flex-col rounded-[24px] border border-black/10 bg-[#1e1e1e] p-6 md:w-[30rem] md:p-8 lg:p-10"
                   >
                     <div className="flex h-full min-h-0 flex-col justify-between gap-6 md:gap-8">
                       <h3

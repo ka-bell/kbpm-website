@@ -17,11 +17,11 @@ export function SiteChrome({ children }: { children: ReactNode }) {
   const isContact = pathname.startsWith("/contact");
   const caseMatch = pathname.match(CASE_PATH_RE);
   const caseSlug = caseMatch?.[1] ?? null;
-  const serviceGroupDark = SERVICE_GROUP_RE.test(pathname);
-  /** Home hero sits below the header on white — black ink at top. */
-  const startsOverDark = serviceGroupDark || isContact;
+  const serviceGroupPage = SERVICE_GROUP_RE.test(pathname);
+  /** Home / service heroes sit on white — black ink at top. Contact starts dark. */
+  const startsOverDark = isContact;
 
-  /** White ink over dark surfaces (service groups / contact); black elsewhere. */
+  /** White ink over dark surfaces; black elsewhere. */
   const [overDark, setOverDark] = useState(startsOverDark);
   /** Hide on scroll-down; ease back in on scroll-up. */
   const [navHidden, setNavHidden] = useState(false);
@@ -46,8 +46,14 @@ export function SiteChrome({ children }: { children: ReactNode }) {
         } else {
           setOverDark(y < window.innerHeight * 1.1);
         }
-      } else if (serviceGroupDark) {
-        setOverDark(y < window.innerHeight * 0.55);
+      } else if (serviceGroupPage) {
+        const dark = document.querySelector("[data-service-offer-dark]");
+        if (dark) {
+          const top = dark.getBoundingClientRect().top + window.scrollY;
+          setOverDark(y > top - 48);
+        } else {
+          setOverDark(false);
+        }
       } else {
         setOverDark(false);
       }
@@ -78,16 +84,11 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, [isHome, isContact, serviceGroupDark, pathname]);
+  }, [isHome, isContact, serviceGroupPage, pathname]);
 
   const variant = overDark ? "white" : "black";
   // Home: frosted after scroll; elsewhere: pill when over dark surfaces.
   const floating = isHome ? scrolled : overDark;
-
-  const lightFooter =
-    pathname.startsWith("/about") ||
-    pathname.startsWith("/work") ||
-    pathname.startsWith("/contact");
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
@@ -111,10 +112,10 @@ export function SiteChrome({ children }: { children: ReactNode }) {
         </div>
       </div>
 
-      <main className={`flex-1 ${caseSlug ? "pb-16 sm:pb-20" : ""}`}>
+      <main className={`flex-1 ${caseSlug ? "pb-24 sm:pb-28" : ""}`}>
         {children}
       </main>
-      <SiteFooter variant={lightFooter ? "light" : "dark"} />
+      <SiteFooter variant="dark" />
       {caseSlug ? <CaseStudyNav key={caseSlug} /> : null}
     </div>
   );

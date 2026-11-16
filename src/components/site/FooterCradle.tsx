@@ -233,7 +233,7 @@ function FooterNewtonsCradle() {
   return (
     <div
       ref={rootRef}
-      className="footer-cradle footer-cradle--cradle pointer-events-none absolute inset-x-0 top-0 bottom-[4.75rem] z-0 w-full select-none md:bottom-[5.25rem]"
+      className="footer-cradle footer-cradle--cradle pointer-events-none absolute inset-0 z-0 w-full select-none"
       aria-hidden
     >
       <svg
@@ -364,13 +364,7 @@ function FooterMixedTiles() {
         const size = baseSize * (0.75 + Math.random() * 0.45);
         const x = centerX + (Math.random() - 0.5) * spreadX * 2;
         const y = spawnY + Math.random() * 70 + (i % 5) * 8;
-        const chamfer =
-          Math.random() > 0.3
-            ? { radius: Math.min(16, size * 0.24) }
-            : undefined;
-
         const body = Bodies.rectangle(x, y, size, size, {
-          chamfer,
           restitution: 0.4,
           friction: 0.08,
           frictionAir: 0.012,
@@ -454,7 +448,7 @@ function FooterMixedTiles() {
   return (
     <div
       ref={rootRef}
-      className="footer-cradle footer-cradle--mixed absolute inset-x-0 top-0 bottom-[4.75rem] z-0 w-full select-none md:bottom-[5.25rem]"
+      className="footer-cradle footer-cradle--mixed absolute inset-0 z-0 w-full select-none"
       aria-hidden
     >
       {Array.from({ length: MIXED_COUNT }, (_, i) => {
@@ -465,7 +459,7 @@ function FooterMixedTiles() {
             ref={(el) => {
               tileRefs.current[i] = el;
             }}
-            className="footer-cradle__bob absolute left-0 top-0 overflow-hidden rounded-[18%] will-change-transform"
+            className="footer-cradle__bob absolute left-0 top-0 overflow-hidden will-change-transform"
             style={{ width: 56, height: 56 }}
           >
             <img

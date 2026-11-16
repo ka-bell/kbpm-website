@@ -170,8 +170,8 @@ function WorkCard({
       <div
         className={
           (mobileCompact
-            ? "relative aspect-[4/5] overflow-hidden rounded-2xl"
-            : "relative aspect-[4/5] overflow-hidden rounded-[24px] sm:h-[540px] sm:aspect-auto") +
+            ? "relative aspect-[4/5] overflow-hidden rounded-[16px] md:rounded-[24px]"
+            : "relative aspect-[4/5] overflow-hidden rounded-[16px] sm:h-[540px] sm:aspect-auto md:rounded-[24px]") +
           (c.slug === "spilnews"
             ? " bg-[#93ff61]"
             : c.slug === "pepperminds"

@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { useLocale } from "next-intl";
 import { ImagePlaceholder } from "@/components/site/ImagePlaceholder";
 import { Reveal } from "@/components/site/Reveal";
+import { Tag } from "@/components/site/Tag";
 import type { CaseStudy } from "@/components/site/cases-data";
 import { localizeCaseMeta } from "@/i18n/localize";
 
@@ -385,9 +386,9 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
 
   return (
     <div className="kbpm-hi-fi bg-white text-[#1e1e1e]">
-      {/* Hero brand panel — Figma 3626:16403 / Blink 3657:578 */}
-      <section className="px-6 pb-8 pt-4 md:px-8 md:pb-8 md:pt-2">
-        <div className="relative mx-auto flex h-[min(57.5rem,85dvh)] min-h-[28rem] w-full max-w-[1376px] items-center justify-center overflow-hidden rounded-[24px] bg-[#1e1e1e]">
+      {/* Hero — same shell as homepage Hero (Figma 3626:16403 / Blink 3657:578) */}
+      <section className="kbpm-hi-fi w-full bg-white px-5 pt-2 pb-2 sm:px-6 sm:pt-3 sm:pb-0 lg:px-8 lg:pt-4">
+        <div className="relative flex w-full min-h-[calc(100dvh-56px-1rem)] items-center justify-center overflow-hidden rounded-[24px] bg-[#1e1e1e] sm:min-h-[40rem] lg:min-h-[min(90vh,56.25rem)]">
           {c.heroImage ? (
             isVideoSrc(c.heroImage) ? (
               <video
@@ -452,12 +453,12 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
         <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-10">
           <Reveal className="flex max-w-[440px] flex-col gap-4">
             <div className="flex flex-wrap gap-2.5">
-              <span className="inline-flex items-center rounded-full border border-black/10 px-4 py-2 font-mono text-[14px] font-light tracking-[0.05em] text-[#1e1e1e]">
+              <Tag variant="white">
                 {c.service.split("→")[0]?.trim() || "Service"}
-              </span>
-              <span className="inline-flex items-center rounded-full bg-[#c9ff6e] px-4 py-2 font-mono text-[14px] font-light tracking-[0.05em] text-[#1e1e1e]">
+              </Tag>
+              <Tag variant="lime">
                 {c.industry.split("/")[0]?.trim() || c.industry}
-              </span>
+              </Tag>
             </div>
             <h2
               className="font-display font-medium uppercase tracking-[-0.02em] text-[#1e1e1e]"
@@ -465,23 +466,23 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
             >
               {mark}
             </h2>
-            <p className="text-[20px] font-medium leading-[1.1] tracking-[-0.03em] text-[#1e1e1e]">
+            <p className="text-[20px] font-medium leading-[1.1] tracking-[-0.03em] text-[#6b6b6b]">
               {c.title}
             </p>
           </Reveal>
 
           <Reveal
             delay={80}
-            className="grid w-full max-w-[514px] grid-cols-2 gap-5 sm:grid-cols-4 lg:pt-10"
+            className="grid w-full max-w-[514px] grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-4 lg:pt-10"
           >
             <MetaCol label="Client" value={c.client} />
             <MetaCol label="Year" value={c.year} />
             <MetaCol label="Service" value={c.service} />
-            <div>
-              <p className="font-mono text-[14px] font-medium leading-[1.35] tracking-[-0.02em] text-[#1e1e1e]">
+            <div className="flex min-w-0 flex-col gap-[22px]">
+              <p className="font-mono text-[14px] font-medium uppercase leading-[1.35] tracking-[-0.02em] text-[#6b6b6b]">
                 Stack
               </p>
-              <ul className="mt-[22px] space-y-[5px] text-[16px] leading-[1.35] tracking-[-0.02em] text-[#1e1e1e]">
+              <ul className="flex flex-col gap-[5px] text-[16px] leading-[1.35] tracking-[-0.02em] text-[#1e1e1e]">
                 {stack.slice(0, 4).map((item) => (
                   <li key={item}>{item}</li>
                 ))}
@@ -798,13 +799,14 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
   );
 }
 
+/** Meta grid — Figma 10613:51013 (label above value, no overlap) */
 function MetaCol({ label, value }: { label: string; value: string }) {
   return (
-    <div>
-      <p className="font-mono text-[14px] font-medium leading-[1.35] tracking-[-0.02em] text-[#1e1e1e]">
+    <div className="flex min-w-0 flex-col gap-[22px]">
+      <p className="font-mono text-[14px] font-medium uppercase leading-[1.35] tracking-[-0.02em] text-[#6b6b6b]">
         {label}
       </p>
-      <p className="mt-[22px] text-[16px] leading-[1.35] tracking-[-0.02em] text-[#1e1e1e]">
+      <p className="break-words text-[16px] leading-[1.35] tracking-[-0.02em] text-[#1e1e1e]">
         {value}
       </p>
     </div>

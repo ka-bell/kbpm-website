@@ -6,7 +6,7 @@ import { FeaturedCase } from "@/components/site/FeaturedCase";
 import { MoreWork } from "@/components/site/MoreWork";
 import { TrustedBy } from "@/components/site/TrustedBy";
 import { WhyKbpm } from "@/components/site/WhyKbpm";
-import { CtaBlock } from "@/components/site/CtaBlock";
+import { FinalCta } from "@/components/site/FinalCta";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,7 +37,7 @@ function Index() {
       <FeaturedCase />
       <MoreWork layout="scroll" bg="bg-white" />
       <WhyKbpm />
-      <CtaBlock />
+      <FinalCta />
     </>
   );
 }

@@ -108,10 +108,8 @@ export function ContactPage({ interest }: { interest?: string }) {
 
             <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
               <Reveal className="max-w-[44rem]">
-                <div className="flex flex-col gap-8">
-                  <p className="font-mono text-[14px] uppercase leading-[16.5px] tracking-[0.05em] text-white">
-                    {t("eyebrow")}
-                  </p>
+                <div className="flex flex-col gap-4 md:gap-5">
+                  <SectionEyebrow label={t("eyebrow")} mark={3} ink="light" />
                   <h1
                     className="font-display font-medium text-white"
                     style={{

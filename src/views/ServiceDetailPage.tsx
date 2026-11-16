@@ -5,15 +5,18 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Reveal } from "@/components/site/Reveal";
 import { SectionEyebrow } from "@/components/site/SectionEyebrow";
-import {
-  MoreWork,
-  workCardsFromSlugs,
-} from "@/components/site/MoreWork";
+import { FeaturedCase } from "@/components/site/FeaturedCase";
+import { FinalCta } from "@/components/site/FinalCta";
+import { MoreWork } from "@/components/site/MoreWork";
+import { Tag } from "@/components/site/Tag";
 import type {
   ServiceGroup,
   ServiceSlug,
 } from "@/components/site/service-offerings";
-import { getServicePanelCopy } from "@/components/site/service-lists";
+import {
+  getServicePanelCopy,
+  getServicePanelTags,
+} from "@/components/site/service-lists";
 import { getServiceDetailByPlainName } from "@/components/site/service-details";
 
 /** Viewport-heights of scroll track per offer (sticky scrub). */
@@ -47,13 +50,13 @@ function offerPanelSrc(slug: ServiceSlug, index: number) {
 }
 
 /**
- * Service group page — Figma 3626:5145 template.
- * Copy from rewrite (serviceOfferings / lists / cases-data).
+ * Service group page — white hero, offer scrub, homepage cases, final CTA.
  */
 export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
   const t = useTranslations("Services");
   const tg = useTranslations(`Services.groups.${service.slug}`);
   const tc = useTranslations("Common");
+  const tCta = useTranslations("FinalCta");
   const [activeCapability, setActiveCapability] = useState(
     service.capabilities[0],
   );
@@ -74,7 +77,6 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
     const scrollable = track.offsetHeight - window.innerHeight;
     if (scrollable <= 0) return;
 
-    // 0 when track top hits viewport top; 1 when track bottom hits viewport bottom
     const raw = -rect.top / scrollable;
     const progress = Math.min(1, Math.max(0, raw));
     const index = Math.min(
@@ -108,7 +110,6 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
     const scrollable = track.offsetHeight - window.innerHeight;
     if (scrollable <= 0) return;
 
-    // Center of each segment so scroll lands clearly on that pill
     const progress = (index + 0.5) / caps.length;
     const trackTop = track.getBoundingClientRect().top + window.scrollY;
     const target = trackTop + progress * scrollable;
@@ -121,14 +122,13 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
     }, 700);
   };
 
-  const featuredCards = workCardsFromSlugs(service.cases);
-
   const activeIndex = Math.max(
     0,
     service.capabilities.indexOf(activeCapability),
   );
   const activeOffer = getServiceDetailByPlainName(activeCapability);
   const offerImage = offerPanelSrc(service.slug, activeIndex);
+  const panelTags = getServicePanelTags(activeCapability);
   const total = service.capabilities.length;
   const offerTrackStyle =
     total > 1
@@ -137,36 +137,39 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
 
   return (
     <>
-      {/* Dark hero — Figma 3626:5147 (pulls under floating header) */}
-      <section className="kbpm-hi-fi relative -mt-[4.5rem] bg-[#1e1e1e] px-6 pb-16 pt-[5.5rem] sm:-mt-[5.5rem] sm:pb-20 sm:pt-[6.5rem] md:px-10 lg:-mt-[6.5rem] lg:px-20 lg:pb-[80px] lg:pt-[8.5rem]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-10 md:gap-12 lg:gap-14">
+      {/* White hero — Figma 10621:18696 desktop / 10621:18614 mobile */}
+      <section className="kbpm-hi-fi relative -mt-[4.5rem] bg-white px-5 pb-12 pt-[5.5rem] sm:-mt-[5.5rem] sm:px-6 sm:pb-16 sm:pt-[6.5rem] md:px-10 md:pb-20 lg:-mt-[6.5rem] lg:px-20 lg:pb-[80px] lg:pt-[8.5rem]">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-8 sm:gap-10 md:gap-12 lg:gap-14">
           <Reveal>
             <Link
               to="/services"
-              className="inline-flex w-fit items-center gap-2.5 rounded-full bg-[#006ff7] py-3 pl-3 pr-6 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
+              className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-[#d9d9d9] text-[#1e1e1e] transition-opacity hover:opacity-70 sm:h-auto sm:w-fit sm:gap-2.5 sm:px-0 sm:py-3 sm:pl-3 sm:pr-6"
+              aria-label={tc("allServices")}
             >
               <img
-                src="/hero/arrow-outward-light.svg"
+                src="/hero/arrow-outward-dark.svg"
                 alt=""
                 width={16}
                 height={16}
-                className="size-4 rotate-180"
+                className="size-4 -rotate-[135deg]"
               />
-              {tc("allServices")}
+              <span className="hidden font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] sm:inline">
+                {tc("allServices")}
+              </span>
             </Link>
           </Reveal>
 
-          <div className="flex flex-col items-stretch justify-between gap-10 lg:flex-row lg:items-end lg:gap-16">
+          <div className="flex flex-col items-stretch justify-between gap-8 sm:gap-10 lg:flex-row lg:items-end lg:gap-16">
             <Reveal className="min-w-0 flex-1">
-              <div className="flex max-w-[44rem] flex-col gap-6 md:gap-8">
-                <div className="flex flex-col gap-6">
-                  <p className="font-mono text-[14px] uppercase leading-[16.5px] tracking-[0.05em] text-white">
+              <div className="flex max-w-[44rem] flex-col gap-5 sm:gap-6 md:gap-8">
+                <div className="flex flex-col gap-4 sm:gap-6">
+                  <p className="font-mono text-[12px] uppercase leading-[16.5px] tracking-[0.05em] text-[#6b6b6b] sm:text-[14px] sm:text-[#1e1e1e]">
                     {t("detailBreadcrumb", { name: service.name })}
                   </p>
                   <h1
-                    className="font-display text-white"
+                    className="font-display text-[#1e1e1e]"
                     style={{
-                      fontSize: "clamp(3.5rem, 8vw, 6rem)",
+                      fontSize: "clamp(2.5rem, 8vw, 6rem)",
                       lineHeight: 0.95,
                       letterSpacing: "-0.03em",
                       fontWeight: 500,
@@ -176,9 +179,9 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                   </h1>
                 </div>
                 <p
-                  className="max-w-xl text-white"
+                  className="max-w-xl text-[#6b6b6b]"
                   style={{
-                    fontSize: "clamp(1.25rem, 2.2vw, 1.875rem)",
+                    fontSize: "clamp(1.125rem, 2.2vw, 1.875rem)",
                     lineHeight: 1.25,
                     fontWeight: 400,
                   }}
@@ -189,9 +192,9 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
             </Reveal>
 
             <Reveal delay={80} className="w-full shrink-0 lg:w-[406px]">
-              <div className="flex h-full flex-col gap-8 rounded-[28px] bg-[#c9ff6e] p-8">
-                <div className="flex flex-col gap-4">
-                  <p className="font-mono text-[12px] uppercase leading-[1.1] tracking-[-0.03em] text-[#1e1e1e]/75">
+              <div className="flex h-full flex-col gap-6 rounded-[16px] bg-[#f5f5f5] p-5 sm:gap-8 sm:rounded-[24px] sm:p-8 md:p-8">
+                <div className="flex flex-col gap-3 sm:gap-4">
+                  <p className="font-mono text-[12px] uppercase leading-[1.1] tracking-[-0.03em] text-[#6b6b6b]">
                     {t("whenFits")}
                   </p>
                   <p className="text-[16px] font-medium leading-[1.2] tracking-[-0.01em] text-[#1e1e1e]">
@@ -199,10 +202,10 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                   </p>
                 </div>
 
-                <div className="h-px w-full bg-[#1e1e1e]/20" />
+                <div className="h-px w-full bg-[#1e1e1e]/15" />
 
-                <div className="flex flex-col gap-4">
-                  <p className="font-mono text-[12px] uppercase leading-[1.1] tracking-[-0.03em] text-[#1e1e1e]/75">
+                <div className="flex flex-col gap-3 sm:gap-4">
+                  <p className="font-mono text-[12px] uppercase leading-[1.1] tracking-[-0.03em] text-[#6b6b6b]">
                     {t("leaveWith")}
                   </p>
                   <p className="text-[16px] font-medium leading-[1.2] tracking-[-0.01em] text-[#1e1e1e]">
@@ -214,7 +217,8 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                   to="/contact"
                   className="mt-auto inline-flex w-full items-center justify-between gap-3 rounded-full bg-[#1e1e1e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
                 >
-                  {tc("startProject")}                  <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-white">
+                  {tc("startProject")}
+                  <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-white">
                     <img
                       src="/hero/arrow-outward-dark.svg"
                       alt=""
@@ -230,26 +234,33 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
         </div>
       </section>
 
-      {/* What we offer — Figma 3626:5169 (scroll-scrubbed pills) */}
-      <section className="kbpm-hi-fi bg-[#f5f5f5] px-6 pt-16 md:px-10 md:pt-20 lg:px-20 lg:pt-[80px]">
-        <div className="mx-auto max-w-[1440px]">
+      {/* What we offer — pills stay horizontal (scroll on mobile) */}
+      <section
+        data-service-offer-dark
+        className="kbpm-hi-fi bg-[#1e1e1e] px-5 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16 md:px-10 md:pt-20 lg:px-20 lg:pb-[160px] lg:pt-[80px]"
+      >
+        <div className="mx-auto flex max-w-[1280px] flex-col gap-8 lg:gap-12">
           <Reveal>
-            <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-              <div className="flex max-w-[45rem] flex-col gap-8">
-                <SectionEyebrow label={t("indexEyebrow")} mark={2} />
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
+              <div className="flex max-w-[45rem] flex-col gap-6 lg:gap-8">
+                <SectionEyebrow
+                  label={t("indexEyebrow")}
+                  mark={2}
+                  ink="light"
+                />
                 <h2
-                  className="font-display text-[#1e1e1e]"
+                  className="font-display text-white"
                   style={{
-                    fontSize: "clamp(2.5rem, 5vw, 4rem)",
-                    lineHeight: 1.1,
-                    letterSpacing: "-0.03em",
+                    fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
+                    lineHeight: 1.2,
+                    letterSpacing: "-0.02em",
                     fontWeight: 500,
                   }}
                 >
                   {t("whatWeOffer")}
                 </h2>
               </div>
-              <p className="max-w-md text-[18px] leading-[1.2] tracking-[-0.02em] text-[#6b6b6b] md:text-[20px] lg:max-w-[26rem]">
+              <p className="max-w-md text-[16px] leading-[1.3] tracking-[-0.01em] text-white/70 md:text-[18px] lg:max-w-[22rem] lg:pb-1">
                 {tg("panelIntro")}
               </p>
             </div>
@@ -257,13 +268,13 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
 
           <div
             ref={offerTrackRef}
-            className="relative mt-12 lg:mt-16"
+            className="relative"
             style={offerTrackStyle}
           >
-            {/* Stick high; pills + card fill the viewport so nothing clips */}
-            <div className="sticky top-3 flex h-[calc(100dvh-0.75rem)] flex-col gap-5 md:top-4 md:gap-6 lg:gap-8">
+            <div className="sticky top-3 flex h-[calc(100dvh-1.25rem)] flex-col gap-4 md:top-4 md:gap-5 lg:h-[min(735px,calc(100dvh-5rem))] lg:gap-6">
+              {/* Horizontal row — never wrap/stack */}
               <div
-                className="flex shrink-0 flex-wrap gap-2"
+                className="flex w-full shrink-0 flex-nowrap gap-2 overflow-x-auto overscroll-x-contain pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                 role="tablist"
                 aria-label={`${service.name} services`}
               >
@@ -276,10 +287,10 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                       role="tab"
                       aria-selected={active}
                       onClick={() => selectCapability(cap)}
-                      className={`inline-flex items-center gap-2.5 rounded-full px-6 py-3 font-mono uppercase leading-[1.35] transition-colors ${
+                      className={`inline-flex shrink-0 items-center gap-2.5 rounded-full px-5 py-3 font-mono uppercase leading-[1.35] transition-colors sm:px-6 ${
                         active
-                          ? "bg-[#1e1e1e] text-white"
-                          : "border border-[#1e1e1e]/20 text-[#1e1e1e] hover:border-[#1e1e1e]/40"
+                          ? "bg-white text-[#1e1e1e]"
+                          : "border border-white/25 text-white hover:border-white/50"
                       }`}
                     >
                       <span className="text-[12px] tracking-[-0.03em]">
@@ -293,10 +304,22 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                 })}
               </div>
 
-              <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[27px] lg:flex-row">
-                <div className="flex min-h-0 flex-1 flex-col justify-between gap-6 overflow-y-auto bg-white p-6 sm:gap-8 sm:p-8 md:p-10 lg:p-12">
-                  <div className="flex flex-col gap-5 sm:gap-6 lg:gap-8">
-                    <p className="font-mono text-[14px] uppercase tracking-[0.05em] text-[#1e1e1e]">
+              <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[16px] md:rounded-[24px] lg:flex-row">
+                <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-[#2a2a2a] sm:aspect-auto sm:min-h-[14rem] sm:flex-[0.85] lg:order-2 lg:min-h-0 lg:flex-1 lg:aspect-auto">
+                  <img
+                    key={activeCapability}
+                    src={offerImage}
+                    alt=""
+                    width={800}
+                    height={1000}
+                    decoding="async"
+                    className="absolute inset-0 size-full object-cover"
+                  />
+                </div>
+
+                <div className="flex min-h-0 flex-1 flex-col justify-between gap-5 overflow-y-auto bg-white p-5 sm:gap-6 sm:p-8 md:p-10 lg:order-1 lg:p-10">
+                  <div className="flex flex-col gap-4 sm:gap-5 lg:gap-6">
+                    <p className="font-mono text-[12px] uppercase tracking-[0.05em] text-[#6b6b6b] sm:text-[14px]">
                       Selected / {pad(activeIndex + 1)} of {pad(total)}
                     </p>
                     <h3
@@ -313,15 +336,22 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                     <p className="max-w-md text-[15px] leading-[1.3] tracking-[-0.01em] text-[#6b6b6b] sm:text-[16px]">
                       {getServicePanelCopy(activeCapability, service.name)}
                     </p>
+                    <div className="flex flex-wrap gap-2">
+                      {panelTags.map((tag) => (
+                        <Tag key={tag} variant="blue">
+                          {tag}
+                        </Tag>
+                      ))}
+                    </div>
                   </div>
 
                   {activeOffer ? (
                     <Link
                       to="/services/offer/$slug"
                       params={{ slug: activeOffer.slug }}
-                      className="inline-flex w-fit shrink-0 items-center gap-2.5 rounded-full bg-[#1e1e1e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
+                      className="inline-flex w-full shrink-0 items-center justify-between gap-2.5 rounded-full bg-[#1e1e1e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90 lg:w-fit lg:justify-center"
                     >
-                      View {activeOffer.name}
+                      {activeOffer.name}
                       <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-white">
                         <img
                           src="/hero/arrow-outward-dark.svg"
@@ -335,9 +365,10 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                   ) : (
                     <Link
                       to="/contact"
-                      className="inline-flex w-fit shrink-0 items-center gap-2.5 rounded-full bg-[#1e1e1e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
+                      className="inline-flex w-full shrink-0 items-center justify-between gap-2.5 rounded-full bg-[#1e1e1e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90 lg:w-fit lg:justify-center"
                     >
-                      {tc("startProject")}                      <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-white">
+                      {tc("startProject")}
+                      <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-white">
                         <img
                           src="/hero/arrow-outward-dark.svg"
                           alt=""
@@ -349,37 +380,15 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                     </Link>
                   )}
                 </div>
-
-                <div className="relative min-h-0 flex-[0.9] overflow-hidden bg-[#f5f5f5] lg:flex-1">
-                  <img
-                    key={activeCapability}
-                    src={offerImage}
-                    alt=""
-                    width={800}
-                    height={1000}
-                    decoding="async"
-                    className="absolute inset-0 size-full object-cover"
-                  />
-                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured engagement — same MoreWork as homepage; 2-up = Figma 3626:5219 */}
-      {featuredCards.length > 0 ? (
-        <MoreWork
-          eyebrow={t("featuredEngagement")}
-          eyebrowMark={3}
-          title={null}
-          showAllLink={false}
-          cards={featuredCards}
-          bg="bg-white"
-          metaMode="metric"
-          ctaLabel={tc("readMore")}
-        />
-      ) : null}
+      {/* Same cases block as homepage */}
+      <FeaturedCase />
+      <MoreWork layout="scroll" bg="bg-white" />
 
       {/* Related sales pages — build / support only */}
       {service.slug === "support" || service.slug === "build" ? (
@@ -394,7 +403,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                 {service.slug === "build" ? (
                   <Link
                     to="/go-to-market"
-                    className="group flex flex-col justify-between gap-6 rounded-2xl border border-[#e8e8e8] p-6 transition-colors hover:bg-[#f5f5f5] md:p-8"
+                    className="group flex flex-col justify-between gap-6 rounded-[24px] border border-[#e8e8e8] p-6 transition-colors hover:bg-[#f5f5f5] md:p-8"
                   >
                     <div>
                       <p className="font-mono text-[11px] uppercase tracking-[0.06em] text-[#6b6b6b]">
@@ -422,7 +431,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                 ) : null}
                 <Link
                   to="/european-first-infrastructure"
-                  className="group flex flex-col justify-between gap-6 rounded-2xl border border-[#e8e8e8] p-6 transition-colors hover:bg-[#f5f5f5] md:p-8"
+                  className="group flex flex-col justify-between gap-6 rounded-[24px] border border-[#e8e8e8] p-6 transition-colors hover:bg-[#f5f5f5] md:p-8"
                 >
                   <div>
                     <p className="font-mono text-[11px] uppercase tracking-[0.06em] text-[#6b6b6b]">
@@ -452,6 +461,9 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
           </div>
         </section>
       ) : null}
+
+      {/* Closing CTA — Figma 10631:31700 */}
+      <FinalCta headline={tCta("serviceHeadline")} />
     </>
   );
 }

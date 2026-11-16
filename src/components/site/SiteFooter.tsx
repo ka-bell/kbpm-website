@@ -66,14 +66,23 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
 
   return (
     <footer className={shell}>
-      <div className="relative mx-auto max-w-[1440px] px-6 pt-14 pb-8 md:px-8 md:pt-24 md:pb-10">
-        <FooterCradle variant={variant} />
+      <div className="relative mx-auto max-w-[1440px] px-5 pt-0 pb-8 md:px-8 md:pt-24 md:pb-10">
+        {/* Mobile dark: hanging tiles above copy (Figma 10616:1921). Desktop / light: overlay cradle. */}
+        <div
+          className={
+            light
+              ? "absolute inset-x-0 top-0 bottom-[4.75rem] z-0 w-full md:bottom-[5.25rem]"
+              : "relative z-0 h-[280px] w-full overflow-hidden md:absolute md:inset-x-0 md:top-0 md:bottom-[4.75rem] md:h-auto md:overflow-visible"
+          }
+        >
+          <FooterCradle variant={variant} />
+        </div>
 
         <div
           className={`relative z-10 grid grid-cols-2 gap-8 md:grid-cols-12 md:gap-10 ${contentPe} ${
             light
               ? "pb-12 md:pb-20"
-              : "pb-[clamp(7.5rem,20vw,18rem)] md:pb-[clamp(11rem,28vw,18rem)]"
+              : "pb-10 md:pb-[clamp(11rem,28vw,18rem)]"
           }`}
         >
           <div className="col-span-2 flex flex-col gap-2 md:col-span-5">
@@ -87,8 +96,7 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
               {t("tagline")}
             </p>
             <div className={`mt-4 space-y-0 text-[14px] leading-5 md:mt-6 ${muted}`}>
-              <p>Jan van Galenstraat 122</p>
-              <p>1056 CA Amsterdam</p>
+              <p>Jan van Galenstraat 122, 1056 CA Amsterdam</p>
             </div>
             <a
               href="mailto:info@kbpm.nl"
@@ -98,7 +106,7 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
             </a>
           </div>
 
-          <div className="col-span-2 flex flex-wrap gap-x-10 gap-y-6 md:col-span-5 md:col-start-8 md:justify-end md:gap-x-[6.2rem] md:gap-y-10">
+          <div className="col-span-2 flex flex-wrap gap-x-10 gap-y-8 md:col-span-5 md:col-start-8 md:justify-end md:gap-x-[6.2rem] md:gap-y-10">
             <div className="min-w-[7rem] flex-1 space-y-3 md:space-y-4">
               <p
                 className={`font-mono text-[11px] uppercase leading-[1.5] tracking-[0.04em] ${muted}`}
@@ -133,17 +141,19 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
               </ul>
             </div>
 
-            <div className="min-w-[7rem] flex-1 space-y-3 md:space-y-4">
+            <div className="w-full basis-full space-y-3 md:min-w-[7rem] md:flex-1 md:basis-auto md:space-y-4">
               <p
                 className={`font-mono text-[11px] uppercase leading-[1.5] tracking-[0.04em] ${muted}`}
               >
                 {t("elsewhere")}
               </p>
-              <ul className={`space-y-1.5 md:space-y-2.5 ${interactivePe}`}>
+              <ul
+                className={`flex flex-wrap gap-x-6 gap-y-1.5 md:block md:space-y-2.5 ${interactivePe}`}
+              >
                 {elsewhereLinks.map((item) => (
                   <li key={item.label}>
                     <a href={item.href}>
-                      <FooterLink className={link}>{item.label} ↗</FooterLink>
+                      <FooterLink className={link}>{item.label}</FooterLink>
                     </a>
                   </li>
                 ))}
@@ -173,18 +183,25 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
         ) : null}
 
         <div
-          className={`relative z-10 flex flex-col items-start justify-between gap-2 border-t ${border} pt-4 md:flex-row md:items-center md:gap-3 md:pt-6 ${contentPe}`}
+          className={`relative z-10 flex flex-col gap-4 border-t ${border} pt-4 md:gap-5 md:pt-6 ${contentPe}`}
         >
           <p
-            className={`font-mono text-[11px] leading-[1.5] tracking-[0.06em] ${muted}`}
+            className={`font-mono text-[11px] uppercase leading-[1.5] tracking-[0.06em] ${muted}`}
           >
-            {t("copyright", { year })}
+            {t("playHint")}
           </p>
-          <p
-            className={`font-mono text-[11px] leading-[1.5] tracking-[0.06em] ${muted}`}
-          >
-            {t("legal")}
-          </p>
+          <div className="flex flex-col items-start justify-between gap-2 md:flex-row md:items-center md:gap-3">
+            <p
+              className={`font-mono text-[11px] leading-[1.5] tracking-[0.06em] ${muted}`}
+            >
+              {t("copyright", { year })}
+            </p>
+            <p
+              className={`font-mono text-[11px] leading-[1.5] tracking-[0.06em] ${muted}`}
+            >
+              {t("legal")}
+            </p>
+          </div>
         </div>
       </div>
     </footer>
