@@ -1,6 +1,7 @@
 import { Link } from "@/components/Link";
 import { Reveal } from "./Reveal";
 import { SectionEyebrow } from "./SectionEyebrow";
+import { Tag } from "./Tag";
 import { getCase } from "./cases-data";
 
 /**
@@ -31,7 +32,7 @@ export function FeaturedCase() {
               <h2
                 className="font-display text-[#1e1e1e]"
                 style={{
-                  fontSize: "clamp(2.5rem, 5vw, 4rem)",
+                  fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
                   lineHeight: 1.2,
                   letterSpacing: "-0.02em",
                   fontWeight: 500,
@@ -55,7 +56,7 @@ export function FeaturedCase() {
           <Link
             to="/work/$slug"
             params={{ slug: c?.slug ?? "spilnews" }}
-            className="group relative flex h-[534px] w-full flex-col justify-end overflow-hidden rounded-2xl p-6 md:h-auto md:min-h-[36rem] md:rounded-2xl md:p-12 lg:min-h-[48rem] lg:p-16"
+            className="group relative flex h-[534px] w-full flex-col justify-end overflow-hidden rounded-2xl p-6 md:h-auto md:min-h-[120dvh] md:rounded-2xl md:p-12 lg:min-h-[130dvh] lg:p-16"
           >
             <img
               src="/work/spilnews-featured.jpg"
@@ -76,12 +77,8 @@ export function FeaturedCase() {
 
             <div className="relative z-[1] flex max-w-4xl flex-col gap-4">
               <div className="flex flex-wrap gap-2.5">
-                <span className="inline-flex items-center rounded-full bg-white px-4 py-2 font-mono text-[10px] uppercase tracking-[0.5px] text-[#1e1e1e] md:border md:border-white/20 md:bg-white/10 md:text-[14px] md:tracking-[0.7px] md:text-white md:backdrop-blur-[2px]">
-                  {serviceTag}
-                </span>
-                <span className="inline-flex items-center rounded-full bg-[#c9ff6e] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.5px] text-[#1e1e1e] md:text-[14px] md:tracking-[0.7px]">
-                  {industryTag}
-                </span>
+                <Tag variant="white">{serviceTag}</Tag>
+                <Tag variant="lime">{industryTag}</Tag>
               </div>
               <p
                 className="font-display text-white"

@@ -79,9 +79,9 @@ export function Hero() {
   const line = useTypewriter(phrases);
 
   return (
-    <section className="kbpm-hi-fi w-full bg-white px-5 pt-0 sm:px-6 lg:px-8">
-      {/* Pull hero up under the sticky header so the bar floats over the dark card */}
-      <div className="relative -mt-[4.5rem] flex w-full min-h-[min(48rem,92dvh)] flex-col justify-between overflow-hidden rounded-2xl bg-[#1e1e1e] p-6 pb-6 pt-[5.5rem] sm:-mt-[5.5rem] sm:min-h-[40rem] sm:px-8 sm:pb-10 sm:pt-[8.25rem] lg:-mt-[6.5rem] lg:min-h-[min(90vh,56.25rem)] lg:px-[clamp(2.5rem,5vw,5rem)] lg:pb-20 lg:pt-[10.5rem]">
+    <section className="kbpm-hi-fi w-full bg-white px-5 pt-2 pb-2 sm:px-6 sm:pt-3 sm:pb-0 lg:px-8 lg:pt-4">
+      {/* Mobile: one viewport minus header spacer (56px) + top/bottom white pad (8px each) */}
+      <div className="relative flex w-full min-h-[calc(100dvh-56px-1rem)] flex-col justify-between overflow-hidden rounded-2xl bg-[#1e1e1e] p-6 pb-6 pt-10 sm:min-h-[40rem] sm:px-8 sm:pb-10 sm:pt-12 lg:min-h-[min(90vh,56.25rem)] lg:px-[clamp(2.5rem,5vw,5rem)] lg:pb-20 lg:pt-16">
         {/* Mobile — Figma static headline */}
         <h1 className="font-display relative z-10 max-w-[18.5rem] text-[3rem] font-medium leading-[1.2] tracking-[-0.02em] text-white sm:hidden">
           <span className="block">{t("mobileLine1")}</span>

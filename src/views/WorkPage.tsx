@@ -40,7 +40,7 @@ export function WorkPage() {
           <Reveal>
             <Link
               to="/"
-              className="inline-flex w-fit items-center gap-2.5 rounded-full border border-[#6b6b6b] py-3 pl-3 pr-6 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-70"
+              className="inline-flex w-fit items-center gap-2.5 rounded-full border border-[#d9d9d9] py-3 pl-3 pr-6 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-70"
             >
               <img
                 src="/hero/arrow-outward-dark.svg"

@@ -32,7 +32,7 @@ export function WhoYouWorkWith() {
             <h2
               className="font-display text-[#1e1e1e]"
               style={{
-                fontSize: "clamp(2.5rem, 5vw, 4rem)",
+                fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
                 lineHeight: 1.2,
                 letterSpacing: "-0.02em",
                 fontWeight: 500,

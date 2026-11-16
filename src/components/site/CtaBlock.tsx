@@ -37,9 +37,9 @@ export function CtaBlock({
             <h2
               className="font-display mt-8 text-foreground"
               style={{
-                fontSize: "clamp(2.5rem, 7vw, 6.5rem)",
-                lineHeight: 0.95,
-                letterSpacing: "-0.045em",
+                fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
+                lineHeight: 1.2,
+                letterSpacing: "-0.02em",
                 fontWeight: 500,
               }}
             >

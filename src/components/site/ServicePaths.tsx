@@ -63,7 +63,7 @@ export function ServicePaths() {
   const tg = useTranslations("Services.groups");
 
   return (
-    <section className="kbpm-hi-fi bg-[#f5f5f5] pt-10 pb-0 md:pt-20 lg:pt-[80px]">
+    <section className="kbpm-hi-fi bg-[#f5f5f5] pb-16 pt-10 md:pb-20 md:pt-20 lg:pb-[80px] lg:pt-[80px]">
       <div className="mx-auto max-w-[1440px] px-5 md:px-10 lg:px-20">
         <Reveal>
           <div className="flex max-w-[720px] flex-col gap-4 md:gap-8">
@@ -94,7 +94,7 @@ export function ServicePaths() {
               <h2
                 className="font-display text-[#1e1e1e]"
                 style={{
-                  fontSize: "clamp(2.5rem, 5.5vw, 4rem)",
+                  fontSize: "3.5rem",
                   lineHeight: 1.2,
                   letterSpacing: "-0.02em",
                   fontWeight: 500,
@@ -102,7 +102,7 @@ export function ServicePaths() {
               >
                 {t("headline")}
               </h2>
-              <p className="text-[18px] leading-[1.2] tracking-[-0.02em] text-[#6b6b6b] md:text-[20px]">
+              <p className="text-[20px] leading-[1.3] tracking-[-0.01em] text-[#666]">
                 {t("body")}
               </p>
             </div>
@@ -110,7 +110,7 @@ export function ServicePaths() {
         </Reveal>
       </div>
 
-      <div className="mx-auto mt-6 w-full max-w-[1440px] px-5 pb-10 sm:mt-16 md:mt-12 md:px-10 md:pb-8 lg:mt-[4.5rem] lg:px-20">
+      <div className="mx-auto mt-6 w-full max-w-[1440px] px-5 pb-0 sm:mt-16 md:mt-12 md:px-10 lg:mt-[4.5rem] lg:px-20">
         <div className="services-stack">
           {serviceOfferings.map((group, index) => {
             const style = CARD_STYLE[group.slug];
@@ -119,7 +119,7 @@ export function ServicePaths() {
             return (
               <article
                 key={group.slug}
-                className={`services-stack__card flex flex-col p-6 md:gap-8 md:p-9 lg:flex-row lg:items-center lg:gap-12 lg:p-14 ${style.card}`}
+                className={`services-stack__card flex min-h-[541px] flex-col justify-between p-6 md:min-h-[28rem] md:gap-8 md:p-9 lg:min-h-[32rem] lg:flex-row lg:items-center lg:gap-12 lg:p-14 ${style.card}`}
                 style={
                   {
                     zIndex: index + 1,
@@ -127,8 +127,8 @@ export function ServicePaths() {
                   } as CSSProperties
                 }
               >
-                {/* Mobile — Figma 3674:2706: mark + title / arrow, then body + tags */}
-                <div className="flex flex-col gap-[120px] md:hidden">
+                {/* Mobile — Figma 3674:2709: fixed 541px card, copy doesn’t shrink height */}
+                <div className="flex min-h-[493px] flex-1 flex-col justify-between gap-[120px] md:hidden">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex min-w-0 flex-col gap-4">
                       <img
@@ -155,7 +155,7 @@ export function ServicePaths() {
                     <Link
                       to="/services/$slug"
                       params={{ slug: group.slug }}
-                      className="inline-flex size-14 shrink-0 items-center justify-center rounded-full border border-[#dee3e7] bg-white p-4 transition-opacity hover:opacity-80"
+                      className="inline-flex size-14 shrink-0 items-center justify-center rounded-full border border-[#d9d9d9] bg-white p-4 transition-opacity hover:opacity-80"
                       aria-label={`View ${group.name} services`}
                     >
                       <img
@@ -225,7 +225,7 @@ export function ServicePaths() {
                     <Link
                       to="/services/$slug"
                       params={{ slug: group.slug }}
-                      className="inline-flex size-14 shrink-0 items-center justify-center rounded-full border border-[#dee3e7] bg-white p-4 transition-opacity hover:opacity-80"
+                      className="inline-flex size-14 shrink-0 items-center justify-center rounded-full border border-[#d9d9d9] bg-white p-4 transition-opacity hover:opacity-80"
                       aria-label={`View ${group.name} services`}
                     >
                       <img

@@ -18,12 +18,15 @@ export function SiteChrome({ children }: { children: ReactNode }) {
   const caseMatch = pathname.match(CASE_PATH_RE);
   const caseSlug = caseMatch?.[1] ?? null;
   const serviceGroupDark = SERVICE_GROUP_RE.test(pathname);
-  const startsOverDark = isHome || serviceGroupDark || isContact;
+  /** Home hero sits below the header on white — black ink at top. */
+  const startsOverDark = serviceGroupDark || isContact;
 
-  /** White ink over dark surfaces (home / service groups / contact); black elsewhere. */
+  /** White ink over dark surfaces (service groups / contact); black elsewhere. */
   const [overDark, setOverDark] = useState(startsOverDark);
   /** Hide on scroll-down; ease back in on scroll-up. */
   const [navHidden, setNavHidden] = useState(false);
+  /** Frosted bar once scrolled (home: readable when the dark card slides under). */
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     let lastY = window.scrollY;
@@ -31,8 +34,11 @@ export function SiteChrome({ children }: { children: ReactNode }) {
 
     const sync = () => {
       const y = window.scrollY;
+      setScrolled(y > 24);
 
-      if (isContact) {
+      if (isHome) {
+        setOverDark(false);
+      } else if (isContact) {
         const light = document.querySelector("[data-contact-light]");
         if (light) {
           const top = light.getBoundingClientRect().top + window.scrollY;
@@ -40,7 +46,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
         } else {
           setOverDark(y < window.innerHeight * 1.1);
         }
-      } else if (isHome || serviceGroupDark) {
+      } else if (serviceGroupDark) {
         setOverDark(y < window.innerHeight * 0.55);
       } else {
         setOverDark(false);
@@ -75,6 +81,8 @@ export function SiteChrome({ children }: { children: ReactNode }) {
   }, [isHome, isContact, serviceGroupDark, pathname]);
 
   const variant = overDark ? "white" : "black";
+  // Home: frosted after scroll; elsewhere: pill when over dark surfaces.
+  const floating = isHome ? scrolled : overDark;
 
   const lightFooter =
     pathname.startsWith("/about") ||
@@ -99,7 +107,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
         }`}
       >
         <div className="mx-auto w-full max-w-[1152px]">
-          <SiteHeader variant={variant} floating visible={!navHidden} />
+          <SiteHeader variant={variant} floating={floating} visible={!navHidden} />
         </div>
       </div>
 

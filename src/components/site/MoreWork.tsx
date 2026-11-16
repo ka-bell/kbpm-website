@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { localizeCaseMeta } from "@/i18n/localize";
 import { Reveal } from "./Reveal";
 import { SectionEyebrow, type BrandMark } from "./SectionEyebrow";
+import { Tag } from "./Tag";
 import { getCase, portfolioSlugs } from "./cases-data";
 
 function isCardVideo(src: string) {
@@ -80,8 +81,8 @@ const DEFAULT_CARDS: WorkCardConfig[] = portfolioSlugs.map((slug, i) => ({
   kindTone: i % 2 === 0 ? "lime" : "blue",
 }));
 
-/** Homepage mobile Figma 3674:2807 — three stacked cards */
-const HOMEPAGE_MOBILE_LIMIT = 3;
+/** Homepage Recent work — three cards (mobile stack + desktop row) */
+const HOMEPAGE_SCROLL_LIMIT = 3;
 
 const MOBILE_SCROLL_DESCRIPTION =
   "KBPM brings together strategy, design, and engineering in a single, AI-enhanced methodology. Track progress through each phase, identify key product priorities, and understand what truly matters — all in one workflow.";
@@ -156,10 +157,6 @@ function WorkCard({
   const c = card.case;
   const industry = c.industry.split("/")[0]?.trim() ?? c.industry;
   const kindTone = twoUp ? "lime" : card.kindTone;
-  const kindClass =
-    kindTone === "blue"
-      ? "bg-[#006ff7] text-white"
-      : "bg-[#c9ff6e] text-[#1e1e1e]";
   const meta =
     metaMode === "metric" ? `${c.metric} · ${c.metricLabel}` : null;
 
@@ -169,11 +166,12 @@ function WorkCard({
       params={{ slug: c.slug }}
       className={`group flex h-full flex-col gap-5 ${className ?? ""}`}
     >
+      {/* Media — Figma 3769:4997: 413×540, radius 24 */}
       <div
         className={
           (mobileCompact
             ? "relative aspect-[4/5] overflow-hidden rounded-2xl"
-            : "relative aspect-[4/5] overflow-hidden rounded-[28px] sm:h-[540px] sm:aspect-auto") +
+            : "relative aspect-[4/5] overflow-hidden rounded-[24px] sm:h-[540px] sm:aspect-auto") +
           (c.slug === "spilnews"
             ? " bg-[#93ff61]"
             : c.slug === "pepperminds"
@@ -193,28 +191,19 @@ function WorkCard({
             className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
           />
         )}
-        <div className="absolute left-5 top-5 flex flex-wrap gap-2">
-          <span className="bg-white/20 px-2.5 py-1 font-mono text-[10px] uppercase text-white backdrop-blur-[25px]">
-            {c.displayTags[0] ?? c.tags[0]}
-          </span>
-          <span className="bg-white/20 px-2.5 py-1 font-mono text-[10px] uppercase text-white backdrop-blur-[25px]">
-            {industry}
-          </span>
+        {/* Frosted typology tags on media — Figma 3769:4999 */}
+        <div className="absolute left-5 top-5 flex flex-wrap gap-[9px]">
+          <Tag variant="frost">{c.displayTags[0] ?? c.tags[0]}</Tag>
+          <Tag variant="frost">{industry}</Tag>
         </div>
       </div>
 
-      <div
-        className={`flex flex-1 flex-col ${
-          mobileCompact ? "gap-4" : "gap-6 md:gap-7"
-        }`}
-      >
-        <div className={`flex flex-col ${mobileCompact ? "gap-2" : "gap-3.5"}`}>
+      <div className="flex flex-1 flex-col gap-4">
+        <div className="flex flex-col gap-2">
           <div className="flex flex-wrap items-center gap-3.5">
-            <span
-              className={`inline-flex w-fit items-center px-2 py-2 font-mono text-[10px] uppercase leading-[1.1] ${kindClass}`}
-            >
+            <Tag variant={kindTone === "blue" ? "blue" : "lime"}>
               {card.kind}
-            </span>
+            </Tag>
             {meta ? (
               <>
                 <span
@@ -228,15 +217,7 @@ function WorkCard({
             ) : null}
           </div>
           <h3
-            className="font-display text-[#1e1e1e]"
-            style={{
-              fontSize: mobileCompact
-                ? "1.5rem"
-                : "clamp(1.25rem, 2vw, 1.5rem)",
-              lineHeight: mobileCompact ? 1.2 : 1.1,
-              letterSpacing: mobileCompact ? "-0.02em" : "-0.03em",
-              fontWeight: 500,
-            }}
+            className="font-display text-[24px] font-medium leading-[1.2] tracking-[-0.02em] text-[#1e1e1e]"
           >
             {c.client}
           </h3>
@@ -246,27 +227,13 @@ function WorkCard({
           {c.outcome}
         </p>
 
-        <div
-          className={`mt-auto flex flex-col ${
-            mobileCompact ? "gap-3.5" : "gap-3.5"
-          }`}
-        >
+        <div className="mt-auto flex flex-col gap-3.5">
           <div className="h-px w-full bg-[#d9d9d9]" />
           <div className="flex items-center justify-between gap-4">
-            <span
-              className={`tracking-[-0.01em] text-[#6b6b6b] ${
-                mobileCompact ? "text-[14px]" : "text-[12px]"
-              }`}
-            >
+            <span className="text-[14px] leading-[1.3] tracking-[-0.01em] text-[#6b6b6b]">
               {c.year}
             </span>
-            <span
-              className={`inline-flex items-center gap-1 font-mono uppercase text-[#6b6b6b] transition-opacity group-hover:opacity-70 ${
-                mobileCompact
-                  ? "text-[14px] tracking-[0.42px]"
-                  : "text-[12px] tracking-[0.6px]"
-              }`}
-            >
+            <span className="inline-flex items-center gap-1 font-mono text-[14px] uppercase leading-[1.1] tracking-[0.42px] text-[#6b6b6b] transition-opacity group-hover:opacity-70">
               {ctaLabel}
               <img
                 src="/hero/arrow-outward-dark.svg"
@@ -307,9 +274,10 @@ export function MoreWork({
   const twoUp = layout === "grid" && resolved.length === 2;
   const showHeader = !hideHeader;
   const isScroll = layout === "scroll";
-  const mobileCards = isScroll
-    ? resolved.slice(0, HOMEPAGE_MOBILE_LIMIT)
+  const scrollCards = isScroll
+    ? resolved.slice(0, HOMEPAGE_SCROLL_LIMIT)
     : resolved;
+  const mobileCards = scrollCards;
   const mobileCta = isScroll ? "Read more" : ctaLabel;
 
   return (
@@ -370,9 +338,9 @@ export function MoreWork({
                   <h2
                     className="font-display text-[#1e1e1e]"
                     style={{
-                      fontSize: "clamp(2.5rem, 5vw, 4rem)",
-                      lineHeight: 1.1,
-                      letterSpacing: "-0.03em",
+                      fontSize: "3.5rem",
+                      lineHeight: 1.2,
+                      letterSpacing: "-0.02em",
                       fontWeight: 500,
                     }}
                   >
@@ -417,29 +385,20 @@ export function MoreWork({
               <div className="flex justify-center px-5 pt-0 md:hidden">
                 <Link
                   to="/work"
-                  className="inline-flex items-center justify-center rounded-full border border-[#eee] px-6 py-4 font-mono text-[14px] uppercase leading-[1.1] tracking-[0.42px] text-black transition-opacity hover:opacity-70"
+                  className="inline-flex items-center justify-center rounded-full border border-[#d9d9d9] px-6 py-4 font-mono text-[14px] uppercase leading-[1.1] tracking-[0.42px] text-black transition-opacity hover:opacity-70"
                 >
                   All case studies
                 </Link>
               </div>
             ) : null}
 
-            {/* Desktop — horizontal strip */}
+            {/* Desktop — three-up row (Figma 3626:4494) */}
             <div className="relative hidden md:block">
-              <div
-                className="kbpm-work-scroll flex gap-5 overflow-x-auto overscroll-x-contain px-6 pb-2 md:gap-[21px] md:px-10 lg:px-20"
-                style={{
-                  scrollSnapType: "x mandatory",
-                  WebkitOverflowScrolling: "touch",
-                }}
-              >
-                {resolved.map((card) => {
+              <div className="grid grid-cols-3 gap-[21px] px-6 md:px-10 lg:px-20">
+                {scrollCards.map((card) => {
                   if (!card) return null;
                   return (
-                    <div
-                      key={card.case.slug}
-                      className="w-[min(78vw,22.5rem)] shrink-0 snap-start sm:w-[26rem] lg:w-[28rem]"
-                    >
+                    <div key={card.case.slug} className="min-w-0">
                       <WorkCard
                         card={card}
                         twoUp={false}
@@ -449,7 +408,6 @@ export function MoreWork({
                     </div>
                   );
                 })}
-                <div className="w-1 shrink-0 snap-end" aria-hidden />
               </div>
             </div>
           </>

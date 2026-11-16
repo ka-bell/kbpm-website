@@ -1,123 +1,50 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Reveal } from "./Reveal";
 import { SectionEyebrow } from "./SectionEyebrow";
 
 const LOGOS = [
-  { name: "Virtue", src: "/clients/virtue.png", scale: 1 },
-  { name: "Mix Interiors", src: "/clients/mix-interiors.png", scale: 1 },
-  { name: "Mediahuis", src: "/clients/mediahuis.png", scale: 1.05 },
-  { name: "Spilnews", src: "/clients/spilnews.png", scale: 1.1 },
+  { name: "Virtue", src: "/clients/virtue.png" },
+  { name: "Mix Interiors", src: "/clients/mix-interiors.png" },
+  { name: "Mediahuis", src: "/clients/mediahuis.png" },
+  { name: "Spilnews", src: "/clients/spilnews.png" },
 ] as const;
 
-/** Mobile Figma 3674:2683 — 2×5 logo cells */
+/** Mobile Figma 3674:2685 — 2×5 logo cells */
 const MOBILE_GRID_COUNT = 10;
 
-const MARQUEE_SECONDS = 45;
+type Logo = (typeof LOGOS)[number];
+
+/**
+ * Inner logo frame — Figma “frame in frame”: fixed box, PNG fills it.
+ * Desktop inner: 193.7×104 (3674:496). Mobile inner: 114.5×61.5 (3674:2687).
+ */
+function LogoFill({ logo, className }: { logo: Logo; className: string }) {
+  return (
+    <div className={`relative shrink-0 overflow-hidden ${className}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={logo.src}
+        alt={logo.name}
+        width={194}
+        height={104}
+        decoding="async"
+        className="pointer-events-none absolute inset-0 size-full object-contain"
+      />
+    </div>
+  );
+}
 
 export function TrustedBy() {
   const t = useTranslations("TrustedBy");
-  const trackRef = useRef<HTMLDivElement>(null);
-  const fillRef = useRef<HTMLDivElement>(null);
-  const stripRef = useRef<HTMLUListElement>(null);
-  const [paused, setPaused] = useState(false);
-  const resumeTimer = useRef<number | null>(null);
-
-  const pauseBriefly = useCallback(() => {
-    setPaused(true);
-    if (resumeTimer.current) window.clearTimeout(resumeTimer.current);
-    resumeTimer.current = window.setTimeout(() => setPaused(false), 2000);
-  }, []);
-
-  const seekTo = useCallback(
-    (clientX: number) => {
-      const track = trackRef.current;
-      const strip = stripRef.current;
-      const fill = fillRef.current;
-      if (!track || !strip) return;
-
-      const half = strip.scrollWidth / 2;
-      if (half <= 0) return;
-      const rect = track.getBoundingClientRect();
-      const x = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
-      const offset = x * half;
-
-      strip.style.animation = "none";
-      strip.style.transform = `translate3d(${-offset}px, 0, 0)`;
-      if (fill) fill.style.width = `${Math.max(6, x * 100)}%`;
-
-      pauseBriefly();
-
-      window.setTimeout(() => {
-        if (!stripRef.current) return;
-        const delay = -(x * MARQUEE_SECONDS);
-        stripRef.current.style.transform = "";
-        stripRef.current.style.animation = "";
-        stripRef.current.style.animationDelay = `${delay}s`;
-      }, 50);
-    },
-    [pauseBriefly],
-  );
-
-  useEffect(() => {
-    const dragging = { current: false };
-    const onMove = (e: PointerEvent) => {
-      if (!dragging.current) return;
-      seekTo(e.clientX);
-    };
-    const onUp = () => {
-      dragging.current = false;
-    };
-    const track = trackRef.current;
-    const onDown = (e: PointerEvent) => {
-      dragging.current = true;
-      seekTo(e.clientX);
-    };
-    track?.addEventListener("pointerdown", onDown);
-    window.addEventListener("pointermove", onMove);
-    window.addEventListener("pointerup", onUp);
-    return () => {
-      track?.removeEventListener("pointerdown", onDown);
-      window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("pointerup", onUp);
-      if (resumeTimer.current) window.clearTimeout(resumeTimer.current);
-    };
-  }, [seekTo]);
-
-  useEffect(() => {
-    const strip = stripRef.current;
-    const fill = fillRef.current;
-    if (!strip || !fill) return;
-
-    let raf = 0;
-    const tick = () => {
-      if (!paused) {
-        const style = window.getComputedStyle(strip);
-        const matrix = style.transform;
-        let x = 0;
-        if (matrix && matrix !== "none") {
-          const m = matrix.match(/matrix.*\((.+)\)/);
-          if (m) x = Math.abs(parseFloat(m[1].split(",")[4] ?? "0"));
-        }
-        const half = strip.scrollWidth / 2 || 1;
-        fill.style.width = `${Math.max(6, Math.min(100, (x / half) * 100))}%`;
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [paused]);
-
-  const sequence = [...LOGOS, ...LOGOS];
   const mobileGrid = Array.from(
     { length: MOBILE_GRID_COUNT },
     (_, i) => LOGOS[i % LOGOS.length],
   );
 
   return (
-    <section className="kbpm-hi-fi bg-white py-10 md:py-20 lg:py-[80px]">
+    <section className="kbpm-hi-fi bg-white pb-10 pt-4 md:pb-20 md:pt-8 lg:pb-[80px] lg:pt-10">
       <div className="mx-auto flex max-w-[1440px] flex-col gap-6 px-5 md:gap-12 md:px-10 lg:px-20">
         <Reveal>
           <div className="flex flex-col gap-4 md:gap-8">
@@ -147,7 +74,7 @@ export function TrustedBy() {
                 <h2
                   className="font-display max-w-[32rem] text-[#1e1e1e]"
                   style={{
-                    fontSize: "clamp(2rem, 4vw, 3rem)",
+                    fontSize: "3.5rem",
                     lineHeight: 1.2,
                     letterSpacing: "-0.02em",
                     fontWeight: 500,
@@ -155,80 +82,48 @@ export function TrustedBy() {
                 >
                   {t("headline")}
                 </h2>
-                <p className="max-w-[27rem] text-[18px] leading-[1.2] tracking-[-0.02em] text-[#838383] md:text-[20px] lg:pt-1">
-                  {t("caption")}                </p>
+                <p className="max-w-[27rem] text-[20px] leading-[1.3] tracking-[-0.01em] text-[#666] lg:pt-1">
+                  {t("caption")}
+                </p>
               </div>
             </div>
           </div>
         </Reveal>
 
-        {/* Mobile — static 2×5 bordered grid (Figma) */}
+        {/* Mobile — 2×5 bordered grid, inner fill frames (Figma 3674:2685) */}
         <ul
-          className="grid grid-cols-2 gap-2 max-md:grid md:hidden"
+          className="grid grid-cols-2 gap-2 mix-blend-luminosity max-md:grid md:hidden"
           aria-label={t("clientsAria")}
         >
           {mobileGrid.map((logo, i) => (
             <li
               key={`${logo.src}-m-${i}`}
-              className="flex aspect-[167/120] items-center justify-center border border-[#ccc] bg-white px-4"
+              className="flex aspect-[167/120] items-center justify-center overflow-hidden border border-[#1e1e1e]/08 bg-white"
             >
-              <img
-                src={logo.src}
-                alt={logo.name}
-                width={120}
-                height={48}
-                decoding="async"
-                className="max-h-10 w-auto max-w-[75%] object-contain"
-                style={{ transform: `scale(${logo.scale})` }}
-              />
+              <LogoFill logo={logo} className="h-[61.5px] w-[114.5px]" />
             </li>
           ))}
         </ul>
 
-        {/* Desktop — scrubber + marquee */}
-        <div className="hidden flex-col gap-10 md:flex">
-          <div
-            ref={trackRef}
-            role="slider"
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-label={t("carouselAria")}
-            tabIndex={0}
-            className="relative h-3 w-full cursor-pointer touch-none outline-none"
-          >
-            <div className="absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 bg-[rgba(0,20,60,0.1)]" />
-            <div
-              ref={fillRef}
-              className="absolute left-0 top-1/2 h-px w-[8%] -translate-y-1/2 bg-[#1e1e1e]"
+        {/* Desktop — 4 partners, gap 40, divider rules, inner 194×104 (Figma 3674:494) */}
+        <ul
+          className="hidden mix-blend-luminosity md:flex md:items-start md:gap-10"
+          aria-label={t("clientsAria")}
+        >
+          {LOGOS.map((logo, i) => (
+            <li
+              key={logo.src}
+              className={`flex min-w-0 flex-1 flex-col items-center px-5 ${
+                i < LOGOS.length - 1 ? "border-r border-solid border-[#1e1e1e]/10" : ""
+              }`}
             >
-              <div className="absolute right-0 top-1/2 size-3 -translate-y-1/2 translate-x-1/2 rounded-full bg-[#1e1e1e]" />
-            </div>
-          </div>
-
-          <div className="clients-logo-viewport">
-            <ul
-              ref={stripRef}
-              className={`clients-logo-scroller${paused ? " is-paused" : ""}`}
-            >
-              {sequence.map((logo, i) => (
-                <li
-                  key={`${logo.src}-${i}`}
-                  aria-hidden={i >= LOGOS.length}
-                  style={{ ["--logo-scale" as string]: String(logo.scale) }}
-                >
-                  <img
-                    src={logo.src}
-                    alt={i < LOGOS.length ? logo.name : ""}
-                    width={180}
-                    height={56}
-                    decoding="async"
-                    draggable={false}
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+              <LogoFill
+                logo={logo}
+                className="h-[104px] w-full max-w-[193.66px]"
+              />
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

@@ -242,119 +242,35 @@
   }
 }
 
-/* Clients logo scroller — CSS marquee + scrubber (from Qare) */
-.clients-logo-viewport {
-  width: 100%;
-  min-width: 0;
-  overflow: hidden;
-}
-
-.clients-logo-scroller {
+/* Proof metrics — mobile: vertical sticky stack; desktop: horizontal row */
+.metrics-stack {
   display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 3.5rem;
-  width: max-content;
-  animation: clients-logo-marquee 45s linear infinite;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
 }
 
-.clients-logo-scroller.is-paused {
-  animation-play-state: paused;
-}
-
-@media (min-width: 640px) {
-  .clients-logo-scroller {
-    gap: 4.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .clients-logo-scroller {
-    gap: 6rem;
-  }
-}
-
-.clients-logo-scroller > li {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 3.5rem;
-  width: 10.5rem;
-}
-
-.clients-logo-scroller img {
-  display: block;
-  height: 100%;
-  width: 100%;
-  object-fit: contain;
-  object-position: center;
-  transform: scale(var(--logo-scale, 1));
-  transform-origin: center;
-}
-
-@media (min-width: 640px) {
-  .clients-logo-scroller > li {
-    height: 4rem;
-    width: 12rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .clients-logo-scroller > li {
-    height: 4.5rem;
-    width: 13.5rem;
-  }
-}
-
-@keyframes clients-logo-marquee {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .clients-logo-scroller {
-    animation: none;
-  }
-}
-
-/* Metrics proof ticker — continuous never-ending card marquee (JS-driven) */
-.metrics-ticker-viewport {
-  width: 100%;
-  min-width: 0;
-  overflow: hidden;
-}
-
-.metrics-ticker-track {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 1.5rem;
-  width: max-content;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
-}
-
-.metrics-ticker-item {
-  flex: 0 0 auto;
-  width: min(85vw, 22rem);
+.metrics-stack__card {
+  position: sticky;
+  top: calc(0.75rem + (var(--stack-i, 0) * 1.25rem));
+  box-shadow: 0 -10px 32px rgba(0, 0, 0, 0.08);
 }
 
 @media (min-width: 768px) {
-  .metrics-ticker-item {
-    width: 22rem;
+  .metrics-stack {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 1.5rem;
+    padding-bottom: 0;
   }
-}
 
-@media (min-width: 1024px) {
-  .metrics-ticker-item {
-    width: 24rem;
+  .metrics-stack__card {
+    position: relative;
+    top: auto;
+    flex: 1 1 0;
+    min-width: 0;
+    border-radius: 1.5rem;
+    box-shadow: none;
   }
 }
 
@@ -376,6 +292,12 @@
   box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.1);
 }
 
+/* Last card (Support) stays in flow — stack ends when it lands (Figma 3674:503) */
+.services-stack__card:last-child {
+  position: relative;
+  top: auto;
+}
+
 .kbpm-hi-fi .services-stack__card {
   border-radius: 1rem !important;
   box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.1) !important;
@@ -395,6 +317,10 @@
   .services-stack__card {
     /* Desktop: taller peek for 64px titles */
     top: calc(0.75rem + (var(--stack-i, 0) * 5.25rem));
+  }
+
+  .services-stack__card:last-child {
+    top: auto;
   }
 }
 

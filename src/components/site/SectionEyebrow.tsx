@@ -25,7 +25,7 @@ export function SectionEyebrow({
         className="size-8 shrink-0 object-cover"
         aria-hidden
       />
-      <p className="font-mono text-[14px] uppercase leading-[1.1] tracking-[0.7px] text-[#1e1e1e]">
+      <p className="font-mono text-[14px] uppercase leading-[1.1] tracking-[0.42px] text-[#1e1e1e]">
         {label}
       </p>
     </div>

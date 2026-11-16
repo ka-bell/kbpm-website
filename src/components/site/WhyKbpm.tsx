@@ -40,9 +40,9 @@ export function WhyKbpm() {
             <SectionEyebrow label={t("eyebrow")} mark={4} />            <h2
               className="font-display text-[#1e1e1e]"
               style={{
-                fontSize: "clamp(2.5rem, 5vw, 4rem)",
-                lineHeight: 1.1,
-                letterSpacing: "-0.03em",
+                fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
+                lineHeight: 1.2,
+                letterSpacing: "-0.02em",
                 fontWeight: 500,
               }}
             >
