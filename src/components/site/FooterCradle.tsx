@@ -17,9 +17,18 @@ import {
 } from "matter-js";
 import { useEffect, useRef } from "react";
 
-const TILES = [1, 2, 3, 4, 5, 6, 7] as const;
-const CRADLE_COUNT = TILES.length;
+/** Desktop Newton's cradle — full brand set. */
+const DESKTOP_CRADLE_TILES = [1, 2, 3, 4, 5, 6, 7] as const;
+/** Mobile Footer — Figma 3674:2835 / 10606:44708: K, B, mark, P, M (5). */
+const MOBILE_CRADLE_TILES = [2, 3, 7, 5, 6] as const;
+const MAX_CRADLE = DESKTOP_CRADLE_TILES.length;
+/** All brand tiles (mixed falling variant + desktop cradle). */
+const TILES = DESKTOP_CRADLE_TILES;
 const MIXED_COUNT = 56;
+
+function cradleTilesForWidth(width: number): readonly number[] {
+  return width < 768 ? MOBILE_CRADLE_TILES : DESKTOP_CRADLE_TILES;
+}
 
 const STRING_STROKE_DARK = "rgba(255,255,255,0.28)";
 const STRING_WIDTH = "1";
@@ -57,7 +66,8 @@ function FooterNewtonsCradle() {
       runner: MatterRunner;
       bodies: MatterBody[];
       constraints: MatterConstraint[];
-      mouseConstraint: MatterMouseConstraint;
+      /** Desktop only — mobile cradle is view-only (no drag). */
+      mouseConstraint: MatterMouseConstraint | null;
       onResize: () => void;
     };
 
@@ -73,7 +83,7 @@ function FooterNewtonsCradle() {
         return;
       }
       const { bodies, constraints } = cradle;
-      for (let i = 0; i < CRADLE_COUNT; i++) {
+      for (let i = 0; i < bodies.length; i++) {
         const body = bodies[i];
         const bob = bobRefs.current[i];
         const line = lineRefs.current[i];
@@ -116,7 +126,9 @@ function FooterNewtonsCradle() {
 
       if (cradle) {
         Runner.stop(cradle.runner);
-        Mouse.clearSourceEvents(cradle.mouseConstraint.mouse);
+        if (cradle.mouseConstraint) {
+          Mouse.clearSourceEvents(cradle.mouseConstraint.mouse);
+        }
         Composite.clear(cradle.engine.world, false);
         Engine.clear(cradle.engine);
         cradle = null;
@@ -129,7 +141,25 @@ function FooterNewtonsCradle() {
         return;
       }
 
-      const size = Math.min(69.5, Math.max(28, (width * 0.72) / (CRADLE_COUNT * 1.9)));
+      const interactive = width >= 768;
+      const tiles = cradleTilesForWidth(width);
+      const count = tiles.length;
+      // Sync DOM slots: show active tiles, hide the rest (desktop has 7, mobile 5).
+      for (let i = 0; i < MAX_CRADLE; i++) {
+        const bob = bobRefs.current[i];
+        const line = lineRefs.current[i];
+        const active = i < count;
+        if (bob) {
+          bob.style.display = active ? "" : "none";
+          if (active) {
+            const img = bob.querySelector("img");
+            if (img) img.src = `/hero/tile-${tiles[i]}.png`;
+          }
+        }
+        if (line) line.style.display = active ? "" : "none";
+      }
+
+      const size = Math.min(69.5, Math.max(28, (width * 0.72) / (count * 1.9)));
       const separation = size * 1.9;
       const yy = 4;
       // Short hang in short (mobile) containers; full hang when tall (desktop overlay)
@@ -137,7 +167,7 @@ function FooterNewtonsCradle() {
         height < 200
           ? Math.min(size * 1.6, height - size - 8)
           : Math.max(size * 1.35, height - size - 12);
-      const totalSpan = (CRADLE_COUNT - 1) * separation;
+      const totalSpan = (count - 1) * separation;
       const xx = (width - totalSpan) / 2;
 
       const engine = Engine.create({
@@ -148,7 +178,7 @@ function FooterNewtonsCradle() {
       const constraints: MatterConstraint[] = [];
       const composite = Composite.create({ label: "FooterNewtonsCradle" });
 
-      for (let i = 0; i < CRADLE_COUNT; i++) {
+      for (let i = 0; i < count; i++) {
         const cx = xx + i * separation;
         const circle = Bodies.circle(cx, yy + length, size, {
           inertia: Infinity,
@@ -156,7 +186,7 @@ function FooterNewtonsCradle() {
           friction: 0,
           frictionAir: 0.0001,
           slop: size * 0.02,
-          label: `tile-${TILES[i]}`,
+          label: `tile-${tiles[i]}`,
         });
         const constraint = Constraint.create({
           pointA: { x: cx, y: yy },
@@ -172,23 +202,26 @@ function FooterNewtonsCradle() {
       Composite.add(engine.world, composite);
       kickLeft(bodies, constraints, size, length);
 
-      const mouse = Mouse.create(root);
-      // Matter Mouse types omit mousewheel; cast to drop scroll hijacking.
-      const mouseWheel = (
-        mouse as unknown as { mousewheel?: EventListener }
-      ).mousewheel;
-      if (mouseWheel) {
-        mouse.element.removeEventListener("mousewheel", mouseWheel);
-        mouse.element.removeEventListener("DOMMouseScroll", mouseWheel);
+      let mouseConstraint: MatterMouseConstraint | null = null;
+      if (interactive) {
+        const mouse = Mouse.create(root);
+        // Matter Mouse types omit mousewheel; cast to drop scroll hijacking.
+        const mouseWheel = (
+          mouse as unknown as { mousewheel?: EventListener }
+        ).mousewheel;
+        if (mouseWheel) {
+          mouse.element.removeEventListener("mousewheel", mouseWheel);
+          mouse.element.removeEventListener("DOMMouseScroll", mouseWheel);
+        }
+        mouseConstraint = MouseConstraint.create(engine, {
+          mouse,
+          constraint: {
+            stiffness: 0.2,
+            render: { visible: false },
+          },
+        });
+        Composite.add(engine.world, mouseConstraint);
       }
-      const mouseConstraint = MouseConstraint.create(engine, {
-        mouse,
-        constraint: {
-          stiffness: 0.2,
-          render: { visible: false },
-        },
-      });
-      Composite.add(engine.world, mouseConstraint);
 
       const runner = Runner.create();
       if (visible) Runner.run(runner, engine);
@@ -209,7 +242,7 @@ function FooterNewtonsCradle() {
       restartTimer = window.setInterval(() => {
         if (!cradle || !visible) return;
         const left = cradle.bodies[0];
-        const right = cradle.bodies[CRADLE_COUNT - 1];
+        const right = cradle.bodies[cradle.bodies.length - 1];
         if (!left || !right) return;
         const speed =
           Math.hypot(left.velocity.x, left.velocity.y) +
@@ -249,7 +282,9 @@ function FooterNewtonsCradle() {
       cancelAnimationFrame(raf);
       if (cradle) {
         Runner.stop(cradle.runner);
-        Mouse.clearSourceEvents(cradle.mouseConstraint.mouse);
+        if (cradle.mouseConstraint) {
+          Mouse.clearSourceEvents(cradle.mouseConstraint.mouse);
+        }
         Composite.clear(cradle.engine.world, false);
         Engine.clear(cradle.engine);
       }
@@ -259,18 +294,18 @@ function FooterNewtonsCradle() {
   return (
     <div
       ref={rootRef}
-      className="footer-cradle footer-cradle--cradle absolute inset-0 z-0 w-full cursor-grab select-none active:cursor-grabbing"
+      className="footer-cradle footer-cradle--cradle absolute inset-0 z-0 w-full select-none md:cursor-grab md:active:cursor-grabbing"
       aria-hidden
     >
       <svg
         className="pointer-events-none absolute inset-0 size-full overflow-visible"
         aria-hidden
       >
-        {TILES.map((n) => (
+        {Array.from({ length: MAX_CRADLE }, (_, i) => (
           <line
-            key={`line-${n}`}
+            key={`line-${i}`}
             ref={(el) => {
-              lineRefs.current[n - 1] = el;
+              lineRefs.current[i] = el;
             }}
             stroke={STRING_STROKE_DARK}
             strokeWidth={STRING_WIDTH}
@@ -278,9 +313,9 @@ function FooterNewtonsCradle() {
           />
         ))}
       </svg>
-      {TILES.map((n, i) => (
+      {Array.from({ length: MAX_CRADLE }, (_, i) => (
         <div
-          key={n}
+          key={i}
           ref={(el) => {
             bobRefs.current[i] = el;
           }}
@@ -288,7 +323,7 @@ function FooterNewtonsCradle() {
           style={{ width: 96, height: 96 }}
         >
           <img
-            src={`/hero/tile-${n}.png`}
+            src={`/hero/tile-${DESKTOP_CRADLE_TILES[i]}.png`}
             alt=""
             width={139}
             height={139}
@@ -512,17 +547,34 @@ function layoutCradleStatic(
 ) {
   const width = root.clientWidth || 800;
   const height = Math.max(root.clientHeight, 120);
-  const size = Math.min(96, Math.max(40, (width * 0.72) / (CRADLE_COUNT * 1.9)));
+  const tiles = cradleTilesForWidth(width);
+  const count = tiles.length;
+
+  for (let i = 0; i < MAX_CRADLE; i++) {
+    const bob = bobs[i];
+    const line = lines[i];
+    const active = i < count;
+    if (bob) {
+      bob.style.display = active ? "" : "none";
+      if (active) {
+        const img = bob.querySelector("img");
+        if (img) img.src = `/hero/tile-${tiles[i]}.png`;
+      }
+    }
+    if (line) line.style.display = active ? "" : "none";
+  }
+
+  const size = Math.min(96, Math.max(40, (width * 0.72) / (count * 1.9)));
   const separation = size * 1.9;
   const yy = 4;
   const length =
     height < 200
       ? Math.min(size * 1.6, height - size - 8)
       : Math.max(size * 1.35, height - size - 12);
-  const totalSpan = (CRADLE_COUNT - 1) * separation;
+  const totalSpan = (count - 1) * separation;
   const xx = (width - totalSpan) / 2;
 
-  for (let i = 0; i < CRADLE_COUNT; i++) {
+  for (let i = 0; i < count; i++) {
     const cx = xx + i * separation;
     let bx = cx;
     let by = yy + length;

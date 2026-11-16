@@ -236,6 +236,62 @@
   .kbpm-marquee-track { animation: none; }
 }
 
+/* TrustedBy — desktop horizontal logo marquee (Figma 3674:494) */
+@keyframes clients-logo-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+.clients-logo-viewport {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+.clients-logo-scroller {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  mix-blend-mode: luminosity;
+  will-change: transform;
+  animation: clients-logo-marquee 45s linear infinite;
+}
+.clients-logo-scroller__cell {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14rem; /* equal slots + more air between marks */
+  height: 5.5rem;
+  padding: 0 2.5rem;
+  border: none;
+  border-right: 1px solid #dee3e7;
+  background: transparent;
+  box-sizing: border-box;
+}
+/* Identical render box for every mark — aspect stays via contain */
+.clients-logo-scroller__cell img {
+  display: block;
+  width: 8.5rem !important;  /* 136px */
+  height: 3rem !important;   /* 48px */
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: contain;
+  object-position: center;
+  transform: none !important;
+}
+.clients-logo-viewport:hover .clients-logo-scroller {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .clients-logo-scroller {
+    animation: none;
+  }
+}
+
 /* Reveal */
 .kbpm-reveal {
   opacity: 0;
@@ -263,8 +319,16 @@
 }
 
 .footer-cradle--cradle {
-  pointer-events: auto;
-  touch-action: none;
+  /* Mobile: view-only (no drag); desktop: interactive cradle */
+  pointer-events: none;
+  touch-action: auto;
+}
+
+@media (min-width: 768px) {
+  .footer-cradle--cradle {
+    pointer-events: auto;
+    touch-action: none;
+  }
 }
 
 .footer-cradle__bob {

@@ -92,9 +92,12 @@ export function SiteChrome({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
-      {/* In-flow spacer — matches fixed chrome so hero overlap stays stable */}
+      {/*
+        In-flow spacer = fixed chrome height (pt + header row).
+        Mobile: pt-5 (20) + h-[68] = 88. md: pt-4 (16) + 68 = 84. lg: pt-5 + 60 = 80.
+      */}
       <div
-        className="pointer-events-none h-[64px] shrink-0 sm:h-[72px] lg:h-[80px]"
+        className="pointer-events-none h-[88px] shrink-0 md:h-[84px] lg:h-[80px]"
         aria-hidden
       />
 

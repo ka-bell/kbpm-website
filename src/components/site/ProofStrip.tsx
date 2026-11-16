@@ -3,12 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 
+/** Figma 3626:4316 — lilac → black → blue → lime */
 const CARD_STYLES = [
-  {
-    card: "bg-[#c9ff6e]",
-    ink: "text-[#1e1e1e]",
-    rule: "border-[#1e1e1e]/15",
-  },
   {
     card: "bg-[#c7b0fe]",
     ink: "text-white",
@@ -18,6 +14,16 @@ const CARD_STYLES = [
     card: "bg-[#1e1e1e]",
     ink: "text-white",
     rule: "border-white/20",
+  },
+  {
+    card: "bg-[#006ff7]",
+    ink: "text-white",
+    rule: "border-white/20",
+  },
+  {
+    card: "bg-[#c9ff6e]",
+    ink: "text-[#1e1e1e]",
+    rule: "border-[#1e1e1e]/15",
   },
 ] as const;
 
@@ -115,7 +121,7 @@ function StatCard({
   return (
     <article
       ref={ref}
-      className={`metrics-stack__card flex min-h-[16rem] flex-col justify-between rounded-[24px] p-7 sm:min-h-[18rem] sm:p-8 lg:min-h-[20rem] lg:p-10 ${style.card}`}
+      className={`metrics-stack__card flex min-h-[16rem] flex-col justify-between p-7 sm:min-h-[18rem] sm:p-8 lg:min-h-[20rem] lg:p-8 ${style.card}`}
       style={{ ["--stack-i" as string]: String(index) }}
     >
       <p
@@ -146,7 +152,9 @@ function StatCard({
           transitionDelay: visible ? "120ms" : "0ms",
         }}
       >
-        <p className={`max-w-[16rem] text-[14px] leading-5 tracking-[-0.01em] ${style.ink}`}>
+        <p
+          className={`max-w-[16rem] text-[14px] leading-5 tracking-[-0.01em] ${style.ink}`}
+        >
           {metric.label}
         </p>
       </div>
@@ -155,8 +163,9 @@ function StatCard({
 }
 
 /**
- * Proof metrics — mobile vertical sticky stack; desktop horizontal row.
- * Count-up: Animated Stats Pro–style blur enter + easeOutExpo.
+ * Proof metrics — Figma 3626:4316.
+ * Desktop: fixed-width cards in a full-bleed row (no stretch).
+ * Mobile: vertical sticky stack.
  */
 export function ProofStrip() {
   const t = useTranslations("ProofStrip");
@@ -165,19 +174,20 @@ export function ProofStrip() {
       { value: t("yearsValue"), label: t("yearsLabel") },
       { value: t("platformsValue"), label: t("platformsLabel") },
       { value: t("usersValue"), label: t("usersLabel") },
+      { value: t("launchesValue"), label: t("launchesLabel") },
     ],
     [t],
   );
 
   return (
     <section
-      className="kbpm-hi-fi bg-white px-5 pb-6 pt-2 sm:px-6 md:px-10 md:pb-10 lg:px-20 lg:pb-12"
+      className="metrics-strip kbpm-hi-fi bg-white px-0 pb-6 pt-0 md:pb-10 md:pt-0 lg:pb-12"
       aria-label={t("ariaLabel")}
     >
-      <div className="metrics-stack mx-auto max-w-[1440px]">
+      <div className="metrics-stack">
         {metrics.map((metric, i) => (
           <StatCard
-            key={metric.label}
+            key={`${metric.label}-${i}`}
             metric={metric}
             style={CARD_STYLES[i % CARD_STYLES.length]}
             index={i}

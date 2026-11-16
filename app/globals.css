@@ -280,12 +280,16 @@
   }
 }
 
-/* Proof metrics — mobile: vertical sticky stack; desktop: horizontal row */
+/* Proof metrics — Figma 3626:4316: fixed 416px cards, bleed past viewport edges */
+.metrics-strip {
+  overflow-x: clip;
+}
+
 .metrics-stack {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  padding-bottom: 2rem;
+  gap: 0.75rem;
+  padding: 0 1.25rem 2rem;
 }
 
 .metrics-stack__card {
@@ -298,17 +302,25 @@
 @media (min-width: 768px) {
   .metrics-stack {
     flex-direction: row;
+    flex-wrap: nowrap;
     align-items: stretch;
-    gap: 1.5rem;
-    padding-bottom: 0;
+    gap: 1.5rem; /* 24px */
+    width: max-content;
+    max-width: none;
+    /* Center the track so first/last cards peek off both edges */
+    margin-inline: auto;
+    padding: 0;
+    overflow: visible;
   }
 
   .metrics-stack__card {
     position: relative;
     top: auto;
-    flex: 1 1 0;
-    min-width: 0;
-    border-radius: 24px;
+    flex: 0 0 416px;
+    width: 416px;
+    min-width: 416px;
+    max-width: 416px;
+    border-radius: 16px;
     box-shadow: none;
   }
 }
@@ -331,12 +343,6 @@
   box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.1);
 }
 
-/* Last card (Support) stays in flow — stack ends when it lands (Figma 3674:503) */
-.services-stack__card:last-child {
-  position: relative;
-  top: auto;
-}
-
 .kbpm-hi-fi .services-stack__card {
   border-radius: 16px !important;
   box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.1) !important;
@@ -351,12 +357,8 @@
 
 @media (min-width: 1024px) {
   .services-stack__card {
-    /* Desktop: taller peek for 64px titles */
+    /* Desktop: taller peek for 64px titles — Support (i=3) locks here */
     top: calc(0.75rem + (var(--stack-i, 0) * 5.25rem));
-  }
-
-  .services-stack__card:last-child {
-    top: auto;
   }
 }
 
@@ -418,6 +420,62 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .kbpm-marquee-track { animation: none; }
+}
+
+/* TrustedBy — desktop horizontal logo marquee (Figma 3674:494) */
+@keyframes clients-logo-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+.clients-logo-viewport {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+.clients-logo-scroller {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  mix-blend-mode: luminosity;
+  will-change: transform;
+  animation: clients-logo-marquee 45s linear infinite;
+}
+.clients-logo-scroller__cell {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14rem; /* equal slots + more air between marks */
+  height: 5.5rem;
+  padding: 0 2.5rem;
+  border: none;
+  border-right: 1px solid #dee3e7;
+  background: transparent;
+  box-sizing: border-box;
+}
+/* Identical render box for every mark — aspect stays via contain */
+.clients-logo-scroller__cell img {
+  display: block;
+  width: 8.5rem !important;  /* 136px */
+  height: 3rem !important;   /* 48px */
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: contain;
+  object-position: center;
+  transform: none !important;
+}
+.clients-logo-viewport:hover .clients-logo-scroller {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .clients-logo-scroller {
+    animation: none;
+  }
 }
 
 /* Hero tiles — mobile L→R drift (duplicated track, -50% → 0) */

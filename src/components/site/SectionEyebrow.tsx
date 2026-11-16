@@ -1,4 +1,8 @@
-/** Section eyebrow — Figma Custom Eyebrow (optional 32px brand mark + mono label). */
+/**
+ * Section eyebrow — Figma Custom Eyebrow.
+ * Mobile Tags/Mobile: 10px / mark 23px (3674:2683).
+ * Desktop Tags/Desktop: 14px / mark 32px.
+ */
 
 export type BrandMark = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
@@ -20,7 +24,9 @@ export function SectionEyebrow({
   const labelInk = ink === "light" ? "text-white" : "text-[#1e1e1e]";
   return (
     <div
-      className={`flex items-center ${mark != null ? "h-8 gap-4" : ""} ${className}`.trim()}
+      className={`flex items-center ${
+        mark != null ? "h-[23px] gap-2 md:h-8 md:gap-4" : ""
+      } ${className}`.trim()}
     >
       {mark != null ? (
         <img
@@ -29,12 +35,12 @@ export function SectionEyebrow({
           width={32}
           height={32}
           decoding="async"
-          className="size-8 shrink-0 object-cover"
+          className="size-[23px] shrink-0 object-cover md:size-8"
           aria-hidden
         />
       ) : null}
       <p
-        className={`font-mono text-[14px] uppercase leading-[1.1] tracking-[0.42px] ${labelInk}`}
+        className={`font-mono uppercase leading-[1.1] tracking-[0.3px] md:tracking-[0.42px] text-[10px] md:text-[14px] ${labelInk}`}
       >
         {label}
       </p>

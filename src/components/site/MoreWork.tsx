@@ -281,10 +281,9 @@ export function MoreWork({
   const mobileCta = isScroll ? "Read more" : ctaLabel;
 
   return (
+    /* Figma 3626:4494 — frame 1440 / 80px inset → 1280 content */
     <section
       className={`kbpm-hi-fi ${
-        isScroll ? "px-0" : "px-6 md:px-10 lg:px-20"
-      } ${
         hideHeader
           ? "pb-16 pt-10 md:pb-20 md:pt-12 lg:pb-[80px] lg:pt-14"
           : isScroll
@@ -293,7 +292,7 @@ export function MoreWork({
       } ${bg}`}
     >
       <div
-        className={`mx-auto flex max-w-[1440px] flex-col ${
+        className={`mx-auto flex w-full max-w-[1440px] flex-col px-5 md:px-10 lg:px-20 ${
           showHeader && title
             ? isScroll
               ? "gap-6 md:gap-12 lg:gap-[72px]"
@@ -305,7 +304,7 @@ export function MoreWork({
           <Reveal>
             {/* Mobile header — Figma 3674:2807 */}
             {isScroll ? (
-              <div className="flex flex-col gap-4 px-5 md:hidden">
+              <div className="flex flex-col gap-4 md:hidden">
                 <SectionEyebrow label="Featured Engagement" mark={eyebrowMark} />
                 <h2
                   className="font-display text-[#1e1e1e]"
@@ -327,9 +326,7 @@ export function MoreWork({
             {/* Desktop / grid header */}
             <div
               className={`flex-col gap-8 lg:flex-row lg:items-end lg:justify-between ${
-                isScroll
-                  ? "hidden px-6 md:flex md:px-10 lg:px-20"
-                  : "flex"
+                isScroll ? "hidden md:flex" : "flex"
               }`}
             >
               <div className="flex max-w-[720px] flex-col gap-8">
@@ -364,7 +361,7 @@ export function MoreWork({
         {isScroll ? (
           <>
             {/* Mobile — vertical stack */}
-            <div className="flex flex-col gap-[21px] px-5 md:hidden">
+            <div className="flex flex-col gap-[21px] md:hidden">
               {mobileCards.map((card, i) => {
                 if (!card) return null;
                 return (
@@ -382,7 +379,7 @@ export function MoreWork({
             </div>
 
             {showAllLink ? (
-              <div className="flex justify-center px-5 pt-0 md:hidden">
+              <div className="flex justify-center pt-0 md:hidden">
                 <Link
                   to="/work"
                   className="inline-flex items-center justify-center rounded-full border border-[#d9d9d9] px-6 py-4 font-mono text-[14px] uppercase leading-[1.1] tracking-[0.42px] text-black transition-opacity hover:opacity-70"
@@ -394,7 +391,7 @@ export function MoreWork({
 
             {/* Desktop — three-up row (Figma 3626:4494) */}
             <div className="relative hidden md:block">
-              <div className="grid grid-cols-3 gap-[21px] px-6 md:px-10 lg:px-20">
+              <div className="grid grid-cols-3 gap-[21px]">
                 {scrollCards.map((card) => {
                   if (!card) return null;
                   return (

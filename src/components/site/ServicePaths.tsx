@@ -63,7 +63,7 @@ export function ServicePaths() {
   const tg = useTranslations("Services.groups");
 
   return (
-    <section className="kbpm-hi-fi bg-[#f5f5f5] pb-16 pt-10 md:pb-20 md:pt-20 lg:pb-[80px] lg:pt-[80px]">
+    <section className="kbpm-hi-fi bg-[#f5f5f5] pb-10 pt-10 md:pb-12 md:pt-20 lg:pb-16 lg:pt-[80px]">
       <div className="mx-auto max-w-[1440px] px-5 md:px-10 lg:px-20">
         <Reveal>
           <div className="flex max-w-[720px] flex-col gap-4 md:gap-8">
@@ -119,7 +119,7 @@ export function ServicePaths() {
             return (
               <article
                 key={group.slug}
-                className={`services-stack__card flex min-h-[541px] flex-col justify-between p-6 md:min-h-[28rem] md:gap-8 md:p-9 lg:min-h-[32rem] lg:flex-row lg:items-center lg:gap-12 lg:p-14 ${style.card}`}
+                className={`services-stack__card flex min-h-[541px] flex-col justify-between p-6 md:min-h-0 md:gap-8 md:p-9 lg:flex-row lg:items-stretch lg:gap-12 lg:p-10 xl:p-14 ${style.card}`}
                 style={
                   {
                     zIndex: index + 1,
@@ -178,7 +178,7 @@ export function ServicePaths() {
                       {tags.map((name) => {
                         const offer = getServiceDetailByPlainName(name);
                         const chip = (
-                          <span className="inline-flex h-8 items-center bg-[#c9ff6e] px-3 text-[14px] leading-[21px] tracking-[-0.02em] text-[#1e1e1e]">
+                          <span className="inline-flex min-h-8 items-center bg-[#c9ff6e] px-3 py-1.5 text-[14px] leading-[1.3] tracking-[-0.02em] text-[#1e1e1e]">
                             {name}
                           </span>
                         );
@@ -248,7 +248,7 @@ export function ServicePaths() {
                       {tags.map((name) => {
                         const offer = getServiceDetailByPlainName(name);
                         const chip = (
-                          <span className="inline-flex h-8 items-center bg-[#c9ff6e] px-5 text-[14px] leading-[21px] tracking-[-0.02em] text-[#1e1e1e]">
+                          <span className="inline-flex min-h-8 items-center bg-[#c9ff6e] px-5 py-1.5 text-[14px] leading-[1.3] tracking-[-0.02em] text-[#1e1e1e]">
                             {name}
                           </span>
                         );
@@ -278,7 +278,7 @@ export function ServicePaths() {
                   </div>
                 </div>
 
-                <div className="relative mx-auto hidden aspect-square w-full max-w-[280px] shrink-0 self-center overflow-hidden sm:max-w-[320px] md:block lg:mx-0 lg:size-[24rem] lg:max-w-none">
+                <div className="relative mx-auto hidden aspect-square w-full max-w-[280px] shrink-0 self-center overflow-hidden sm:max-w-[320px] md:block lg:mx-0 lg:size-[min(24rem,100%)] lg:max-w-[24rem] lg:self-center">
                   <img
                     src={style.graphicSrc}
                     alt={style.graphicAlt}

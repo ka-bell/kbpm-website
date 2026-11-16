@@ -4,33 +4,55 @@ import { useTranslations } from "next-intl";
 import { Reveal } from "./Reveal";
 import { SectionEyebrow } from "./SectionEyebrow";
 
+/** Client logos — Figma 3674:2683 / 3674:2685 (black PNGs). */
 const LOGOS = [
-  { name: "Virtue", src: "/clients/virtue.png" },
-  { name: "Mix Interiors", src: "/clients/mix-interiors.png" },
-  { name: "Mediahuis", src: "/clients/mediahuis.png" },
+  { name: "VICE", src: "/clients/vice.png" },
   { name: "Spilnews", src: "/clients/spilnews.png" },
+  { name: "De Speld", src: "/clients/de-speld.png" },
+  { name: "Frameweb", src: "/clients/frameweb.png" },
+  { name: "Mix Interiors", src: "/clients/mix-interiors.png" },
+  { name: "PLUS Supermarkt", src: "/clients/plus-supermarkt.png" },
+  { name: "Staatsloterij", src: "/clients/staatsloterij.png" },
+  { name: "Pepperminds", src: "/clients/pepperminds.png" },
+  { name: "Virtue", src: "/clients/virtue.png" },
+  { name: "Videoland", src: "/clients/videoland.png" },
+  { name: "bol.com", src: "/clients/bol.png" },
+  { name: "Parteon", src: "/clients/parteon.png" },
 ] as const;
-
-/** Mobile Figma 3674:2685 — 2×5 logo cells */
-const MOBILE_GRID_COUNT = 10;
 
 type Logo = (typeof LOGOS)[number];
 
 /**
- * Inner logo frame — Figma “frame in frame”: fixed box, PNG fills it.
- * Desktop inner: 193.7×104 (3674:496). Mobile inner: 114.5×61.5 (3674:2687).
+ * Logo glyph — desktop size is locked in CSS (equal height); mobile uses framed box.
  */
-function LogoFill({ logo, className }: { logo: Logo; className: string }) {
+function LogoFill({
+  logo,
+  className,
+  framed = false,
+}: {
+  logo: Logo;
+  className?: string;
+  /** Mobile cells keep a white inset frame; desktop is bare glyph (3674:494). */
+  framed?: boolean;
+}) {
   return (
-    <div className={`relative shrink-0 overflow-hidden ${className}`}>
+    <div
+      className={`flex shrink-0 items-center justify-center overflow-hidden ${
+        framed ? "bg-white" : "bg-transparent"
+      } ${className ?? ""}`}
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={logo.src}
         alt={logo.name}
-        width={194}
-        height={104}
+        width={160}
+        height={44}
         decoding="async"
-        className="pointer-events-none absolute inset-0 size-full object-contain"
+        className={
+          framed
+            ? "pointer-events-none h-auto max-h-[70%] w-auto max-w-[82%] object-contain"
+            : "pointer-events-none"
+        }
       />
     </div>
   );
@@ -38,10 +60,7 @@ function LogoFill({ logo, className }: { logo: Logo; className: string }) {
 
 export function TrustedBy() {
   const t = useTranslations("TrustedBy");
-  const mobileGrid = Array.from(
-    { length: MOBILE_GRID_COUNT },
-    (_, i) => LOGOS[i % LOGOS.length],
-  );
+  const loop = [...LOGOS, ...LOGOS];
 
   return (
     <section className="kbpm-hi-fi bg-white pb-10 pt-4 md:pb-20 md:pt-8 lg:pb-[80px] lg:pt-10">
@@ -90,40 +109,38 @@ export function TrustedBy() {
           </div>
         </Reveal>
 
-        {/* Mobile — 2×5 bordered grid, inner fill frames (Figma 3674:2685) */}
+        {/* Mobile — 2×6 bordered grid (Figma 3674:2685) */}
         <ul
-          className="grid grid-cols-2 gap-2 mix-blend-luminosity max-md:grid md:hidden"
+          className="grid grid-cols-2 gap-2 max-md:grid md:hidden"
           aria-label={t("clientsAria")}
         >
-          {mobileGrid.map((logo, i) => (
+          {LOGOS.map((logo) => (
             <li
-              key={`${logo.src}-m-${i}`}
-              className="flex aspect-[167/120] items-center justify-center overflow-hidden border border-[#1e1e1e]/08 bg-white"
+              key={`${logo.src}-m`}
+              className="flex aspect-[163.5/121] items-center justify-center overflow-hidden border-[0.5px] border-[#ccc] bg-white p-2"
             >
-              <LogoFill logo={logo} className="h-[61.5px] w-[114.5px]" />
+              <LogoFill logo={logo} className="h-[72px] w-[68px]" framed />
             </li>
           ))}
         </ul>
 
-        {/* Desktop — 4 partners, gap 40, divider rules, inner 194×104 (Figma 3674:494) */}
-        <ul
-          className="hidden mix-blend-luminosity md:flex md:items-start md:gap-10"
+        {/* Desktop — horizontal marquee, divider rules only (Figma 3674:494) */}
+        <div
+          className="clients-logo-viewport hidden md:block"
           aria-label={t("clientsAria")}
         >
-          {LOGOS.map((logo, i) => (
-            <li
-              key={logo.src}
-              className={`flex min-w-0 flex-1 flex-col items-center px-5 ${
-                i < LOGOS.length - 1 ? "border-r border-solid border-[#1e1e1e]/10" : ""
-              }`}
-            >
-              <LogoFill
-                logo={logo}
-                className="h-[104px] w-full max-w-[193.66px]"
-              />
-            </li>
-          ))}
-        </ul>
+          <ul className="clients-logo-scroller">
+            {loop.map((logo, i) => (
+              <li
+                key={`${logo.src}-d-${i}`}
+                className="clients-logo-scroller__cell"
+                aria-hidden={i >= LOGOS.length}
+              >
+                <LogoFill logo={logo} />
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

@@ -59,7 +59,9 @@
     "platformsValue": "31",
     "platformsLabel": "Platforms die we vandaag nog onderhouden",
     "usersValue": "500K+",
-    "usersLabel": "Dagelijkse gebruikers op ons grootste platform"
+    "usersLabel": "Dagelijkse gebruikers op ons grootste platform",
+    "launchesValue": "40+",
+    "launchesLabel": "Digitale producten gelanceerd"
   },
   "TrustedBy": {
     "eyebrow": "Onze klanten",

@@ -28,20 +28,22 @@ const CARDS = [
 
 /**
  * Visual + text highlights — Figma 3674:615.
+ * Side-by-side from xl so the 856∶412 ratio keeps card copy readable.
  */
 export function WhyKbpm() {
   const t = useTranslations("WhyKbpm");
 
   return (
-    <section className="kbpm-hi-fi bg-white px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-10 md:gap-12 lg:gap-[56px]">
+    /* Figma 3674:615 — frame 1440 / 80px inset → 1280 content */
+    <section className="kbpm-hi-fi bg-white py-16 md:py-20 lg:py-[80px]">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-10 px-5 md:gap-12 md:px-10 lg:gap-[56px] lg:px-20">
         <Reveal>
-          <div className="flex max-w-[45rem] flex-col gap-8">
+          <div className="flex max-w-[45rem] flex-col gap-4 md:gap-8">
             <SectionEyebrow label={t("eyebrow")} mark={4} />
             <h2
               className="font-display text-[#1e1e1e]"
               style={{
-                fontSize: "3.5rem",
+                fontSize: "clamp(2.5rem, 4vw, 3.5rem)",
                 lineHeight: 1.2,
                 letterSpacing: "-0.02em",
                 fontWeight: 500,
@@ -52,10 +54,13 @@ export function WhyKbpm() {
           </div>
         </Reveal>
 
-        {/* Figma 3674:617 — image 856 + cards 412, gap 12 */}
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-3">
-          <Reveal className="min-h-[22rem] w-full lg:min-h-0 lg:w-[min(100%,53.5rem)] lg:shrink-0">
-            <div className="relative h-full min-h-[22rem] overflow-hidden rounded-[24px] lg:min-h-[46.7rem]">
+        {/*
+          Figma 3674:617 — image ∶ cards ≈ 856∶412, gap 12.
+          Stack until xl so cards aren’t crushed below ~412px.
+        */}
+        <div className="flex flex-col gap-3 xl:flex-row xl:items-stretch">
+          <Reveal className="w-full min-w-0 xl:flex-[856] xl:basis-0">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] sm:aspect-[856/747] xl:aspect-auto xl:h-full xl:min-h-[40rem]">
               <img
                 src="/highlights/studio.png"
                 alt="Studio collaboration — reviewing work together at a desk"
@@ -67,7 +72,7 @@ export function WhyKbpm() {
             </div>
           </Reveal>
 
-          <div className="flex min-w-0 flex-1 flex-col gap-3">
+          <div className="flex min-w-0 w-full flex-col gap-3 xl:flex-[412] xl:basis-0">
             {CARDS.map((card, i) => (
               <Reveal
                 key={card.title}
@@ -75,11 +80,13 @@ export function WhyKbpm() {
                 className="flex min-h-0 flex-1"
               >
                 <article
-                  className={`flex min-h-[241px] w-full flex-col justify-between gap-16 rounded-[24px] p-8 md:gap-0 ${card.card}`}
+                  className={`flex h-full min-h-[13.5rem] w-full flex-col justify-between gap-6 rounded-[24px] p-6 sm:p-8 md:min-h-[15rem] ${card.card}`}
                 >
-                  {/* Heading/H4 — 32 Medium, leading 1.2, tracking -2% */}
                   <h3
-                    className="font-display text-[32px] font-medium leading-[1.2] tracking-[-0.02em]"
+                    className="font-display font-medium leading-[1.2] tracking-[-0.02em]"
+                    style={{
+                      fontSize: "clamp(1.5rem, 2.2vw, 2rem)",
+                    }}
                   >
                     {card.title.split("\n").map((line) => (
                       <span key={line} className="block">
@@ -87,9 +94,8 @@ export function WhyKbpm() {
                       </span>
                     ))}
                   </h3>
-                  {/* Text/Regular — 16, leading 1.3, tracking -1%, opacity 80 */}
                   <p
-                    className={`max-w-none text-[16px] font-normal leading-[1.3] tracking-[-0.01em] opacity-80 ${card.bodyClass}`}
+                    className={`text-[15px] font-normal leading-[1.3] tracking-[-0.01em] opacity-80 sm:text-[16px] ${card.bodyClass}`}
                   >
                     {card.body}
                   </p>

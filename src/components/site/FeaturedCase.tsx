@@ -20,8 +20,9 @@ export function FeaturedCase() {
   );
 
   return (
-    <section className="kbpm-hi-fi bg-white px-5 pb-5 pt-10 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-6 md:gap-12">
+    /* Figma 3626:4468 — frame 1440 with 80px inset → 1280 content (not 1440 content). */
+    <section className="kbpm-hi-fi bg-white pb-5 pt-10 md:py-20 lg:py-[80px]">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-6 px-5 md:gap-12 md:px-10 lg:px-20">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div className="flex flex-col gap-4 md:gap-5">
@@ -56,7 +57,7 @@ export function FeaturedCase() {
           <Link
             to="/work/$slug"
             params={{ slug: c?.slug ?? "spilnews" }}
-            className="group relative flex h-[534px] w-full flex-col justify-end overflow-hidden rounded-[16px] p-6 md:h-auto md:min-h-[120dvh] md:rounded-[24px] md:p-12 lg:min-h-[130dvh] lg:p-16"
+            className="group relative flex h-[534px] w-full flex-col justify-end overflow-hidden rounded-[16px] p-6 md:h-auto md:aspect-[1280/773] md:min-h-0 md:rounded-[24px] md:p-12 lg:p-16"
           >
             <img
               src="/work/spilnews-featured.jpg"
