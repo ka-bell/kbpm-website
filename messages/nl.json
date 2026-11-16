@@ -194,8 +194,9 @@
       }
     },
     "capabilitiesEyebrow": "Collaborate",
-    "capabilitiesHeadline": "Wat we écht doen.",
-    "capabilitiesBody": "Vier disciplines in één studio. Specialisten haken aan wanneer de brief dat vraagt. Scroll hier door: de capability-kaarten bewegen zijwaarts, daarna gaat de pagina verder.",
+    "capabilitiesHeadline": "What we actually do.",
+    "capabilitiesBody": "Vier disciplines in één studio. Specialisten haken aan wanneer de brief dat vraagt.",
+    "capabilitiesBodyScrub": "Scroll hier door: de capability-kaarten bewegen zijwaarts, daarna gaat de pagina verder.",
     "capabilities": {
       "product": {
         "title": "Product & Strategy",

@@ -51,7 +51,7 @@ export function ServicesMegaMenu({
     createPortal(
       <div
         id={menuId}
-        className={`fixed inset-x-0 z-[80] px-6 sm:px-12 lg:px-[max(5rem,12vw)] ${
+        className={`fixed inset-x-0 z-[80] px-6 md:px-10 lg:px-20 ${
           open
             ? "pointer-events-auto visible"
             : "pointer-events-none invisible"
@@ -66,7 +66,7 @@ export function ServicesMegaMenu({
           aria-hidden
         />
         <div
-          className={`kbpm-hi-fi services-mega-menu mx-auto w-full max-w-[1152px] overflow-hidden bg-white shadow-[0_24px_60px_-20px_rgba(0,0,0,0.18)] transition-all duration-200 ${
+          className={`kbpm-hi-fi services-mega-menu mx-auto w-full max-w-[1440px] overflow-hidden bg-white shadow-[0_24px_60px_-20px_rgba(0,0,0,0.18)] transition-all duration-200 ${
             open
               ? "translate-y-0 opacity-100"
               : "pointer-events-none -translate-y-1 opacity-0"

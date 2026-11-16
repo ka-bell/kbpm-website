@@ -1,12 +1,19 @@
 "use client";
 
-import { Link } from "@/components/Link";
 import { useEffect, useMemo, useRef } from "react";
 import { useLocale } from "next-intl";
+import { FinalCta } from "@/components/site/FinalCta";
 import { ImagePlaceholder } from "@/components/site/ImagePlaceholder";
+import {
+  MoreWork,
+  workCardsFromSlugs,
+} from "@/components/site/MoreWork";
 import { Reveal } from "@/components/site/Reveal";
 import { Tag } from "@/components/site/Tag";
-import type { CaseStudy } from "@/components/site/cases-data";
+import {
+  getRelated,
+  type CaseStudy,
+} from "@/components/site/cases-data";
 import { localizeCaseMeta } from "@/i18n/localize";
 
 type NarrativeCard = { title: string; body: string };
@@ -276,7 +283,7 @@ function CaseMedia({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-[24px] bg-[#f5f5f5] ${className}`.trim()}
+      className={`relative h-[320px] w-full overflow-hidden rounded-[24px] bg-[#f5f5f5] md:h-[800px] ${className}`.trim()}
     >
       {src && video ? (
         <video
@@ -295,7 +302,7 @@ function CaseMedia({
           src={src}
           alt={label}
           width={1296}
-          height={700}
+          height={800}
           decoding="async"
           className="absolute inset-0 size-full object-cover"
         />
@@ -319,17 +326,17 @@ function DetailCard({
 }) {
   return (
     <article
-      className={`flex min-h-[18.5rem] flex-col justify-between rounded-[24px] border border-[#1e1e1e]/20 p-7 ${className}`.trim()}
+      className={`flex min-h-[297px] flex-col justify-between rounded-[24px] border border-[#1e1e1e]/20 p-8 md:p-[29px] ${className}`.trim()}
     >
       <div>
         <p className="font-mono text-[11px] uppercase leading-[16.5px] tracking-[0.05em] text-[#6b6b6b]">
           {String(index).padStart(2, "0")}
         </p>
-        <h3 className="mt-[19px] font-display text-[24px] font-medium leading-7 text-[#1e1e1e]">
+        <h3 className="mt-5 font-display text-[24px] font-medium leading-7 text-[#1e1e1e]">
           {title}
         </h3>
       </div>
-      <p className="text-[14px] leading-[22.75px] text-[#6b6b6b]">{body}</p>
+      <p className="text-[14px] leading-[1.5] text-[#6b6b6b]">{body}</p>
     </article>
   );
 }
@@ -356,6 +363,10 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
   const visuals = c.screens;
   const afterProblem = c.mediaLayout?.afterProblem ?? "full-pair";
   const afterBuild = c.mediaLayout?.afterBuild ?? "two-full";
+  const relatedCards = useMemo(
+    () => workCardsFromSlugs(getRelated(c.slug, 2).map((item) => item.slug)),
+    [c.slug],
+  );
 
   // Screen index after primary (0)
   let mediaIdx = 1;
@@ -386,8 +397,8 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
 
   return (
     <div className="kbpm-hi-fi bg-white text-[#1e1e1e]">
-      {/* Hero — same shell as homepage Hero (Figma 3626:16403 / Blink 3657:578) */}
-      <section className="kbpm-hi-fi w-full bg-white px-5 pt-2 pb-2 sm:px-6 sm:pt-3 sm:pb-0 lg:px-8 lg:pt-4">
+      {/* Hero — Figma 10613:50960 (site gutters, full first viewport) */}
+      <section className="kbpm-hi-fi mx-auto w-full max-w-[1440px] bg-white px-6 pt-2 pb-2 sm:pt-3 sm:pb-0 md:px-10 lg:px-20 lg:pt-4">
         <div className="relative flex w-full min-h-[calc(100dvh-56px-1rem)] items-center justify-center overflow-hidden rounded-[24px] bg-[#1e1e1e] sm:min-h-[40rem] lg:min-h-[min(90vh,56.25rem)]">
           {c.heroImage ? (
             isVideoSrc(c.heroImage) ? (
@@ -448,7 +459,7 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
       {/* Project identity + meta — Figma 3626:16446 */}
       <section
         id="overview"
-        className="mx-auto max-w-[1440px] scroll-mt-24 px-6 py-10 md:px-[72px] md:py-14"
+        className="mx-auto max-w-[1440px] scroll-mt-24 px-6 py-10 md:px-10 lg:px-20 md:py-14"
       >
         <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-10">
           <Reveal className="flex max-w-[440px] flex-col gap-4">
@@ -466,19 +477,19 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
             >
               {mark}
             </h2>
-            <p className="text-[20px] font-medium leading-[1.1] tracking-[-0.03em] text-[#6b6b6b]">
+            <p className="text-[20px] font-medium leading-[1.3] tracking-[-0.03em] text-[#6b6b6b]">
               {c.title}
             </p>
           </Reveal>
 
           <Reveal
             delay={80}
-            className="grid w-full max-w-[514px] grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-4 lg:pt-10"
+            className="grid w-full max-w-[514px] grid-cols-1 gap-x-5 gap-y-6 sm:grid-cols-2 sm:gap-y-8 lg:grid-cols-4 lg:pt-10"
           >
             <MetaCol label="Client" value={c.client} />
             <MetaCol label="Year" value={c.year} />
             <MetaCol label="Service" value={c.service} />
-            <div className="flex min-w-0 flex-col gap-[22px]">
+            <div className="flex min-w-0 flex-col gap-2">
               <p className="font-mono text-[14px] font-medium uppercase leading-[1.35] tracking-[-0.02em] text-[#6b6b6b]">
                 Stack
               </p>
@@ -492,44 +503,43 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
         </div>
       </section>
 
-      {/* Lede — 3626:16468 */}
-      <section className="mx-auto max-w-[1440px] px-6 pb-10 md:px-[72px] md:pb-14">
+      {/* Lede — Figma 10856:7028 */}
+      <section className="mx-auto max-w-[1440px] px-6 pb-10 pt-2 md:px-10 lg:px-20 md:pb-14 md:pt-0">
         <Reveal>
-          <p className="max-w-[1296px] font-display text-[clamp(1.35rem,2.4vw,1.875rem)] font-medium leading-[1.1] tracking-[-0.02em] text-[#1e1e1e]">
+          <p className="max-w-[1440px] font-display text-[clamp(1.35rem,2.4vw,1.875rem)] font-medium leading-[1.35] tracking-[-0.02em] text-[#1e1e1e] md:leading-[1.3]">
             {c.context ?? c.outcome}
           </p>
         </Reveal>
       </section>
 
       {/* Primary image — 3626:16471 */}
-      <section className="mx-auto max-w-[1440px] px-6 md:px-[72px]">
+      <section className="mx-auto max-w-[1440px] px-6 md:px-10 lg:px-20">
         <Reveal>
           <CaseMedia
             src={visuals[0]?.src}
             label={visuals[0]?.caption ?? "Hero image"}
             kind={visuals[0]?.kind}
-            className="aspect-[1296/700] w-full"
           />
         </Reveal>
       </section>
 
-      {/* 01 Problem — 3626:16473 */}
+      {/* 01 Problem — Figma 10614:53406 */}
       <section
         id="problem"
-        className="mx-auto max-w-[1440px] scroll-mt-24 px-6 py-16 md:px-20 md:py-20"
+        className="mx-auto max-w-[1440px] scroll-mt-24 px-6 py-20 md:px-10 lg:px-20 md:py-[80px]"
       >
-        <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
           <Reveal className="max-w-[518px] shrink-0 lg:sticky lg:top-28">
             <SectionEyebrow mark="01" label="Problem" />
             <h2
               className="mt-8 font-display font-medium tracking-[-0.03em] text-[#1e1e1e]"
-              style={{ fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.1 }}
+              style={{ fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.2 }}
             >
               The problem
               <br />
               behind the brief
             </h2>
-            <p className="mt-8 text-[16px] leading-[1.3] tracking-[-0.02em] text-[#6b6b6b]">
+            <p className="mt-8 text-[16px] leading-[1.45] tracking-[-0.02em] text-[#6b6b6b]">
               {c.problem}
             </p>
           </Reveal>
@@ -544,14 +554,13 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
       </section>
 
       {/* Media grid — after problem */}
-      <section className="mx-auto max-w-[1440px] space-y-6 px-6 md:space-y-[24px] md:px-[72px]">
+      <section className="mx-auto max-w-[1440px] space-y-6 px-6 md:space-y-[24px] md:px-10 lg:px-20">
         {problemFull ? (
           <Reveal>
             <CaseMedia
               src={problemFull.src}
               label={problemFull.caption ?? "Image"}
               kind={problemFull.kind}
-              className="aspect-[1296/700] w-full"
             />
           </Reveal>
         ) : null}
@@ -563,7 +572,6 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
                   src={problemA.src}
                   label={problemA.caption ?? "Image"}
                   kind={problemA.kind}
-                  className="aspect-[636/700] w-full"
                 />
               </Reveal>
             ) : null}
@@ -573,7 +581,6 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
                   src={problemB.src}
                   label={problemB.caption ?? "Image"}
                   kind={problemB.kind}
-                  className="aspect-[636/700] w-full"
                 />
               </Reveal>
             ) : null}
@@ -581,22 +588,22 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
         ) : null}
       </section>
 
-      {/* 02 Build — Figma 3626:16507 (header + 3-col cards) */}
+      {/* 02 Build — Figma 10614:53406 card rhythm */}
       <section
         id="build"
-        className="mx-auto max-w-[1440px] scroll-mt-24 px-6 py-16 md:px-20 md:py-20"
+        className="mx-auto max-w-[1440px] scroll-mt-24 px-6 py-20 md:px-10 lg:px-20 md:py-[80px]"
       >
-        <div className="flex flex-col gap-12 md:gap-[49px]">
+        <div className="flex flex-col gap-10 md:gap-[49px]">
           <Reveal className="flex max-w-[604px] flex-col gap-8">
             <SectionEyebrow mark="02" label="Build" />
             <div className="flex flex-col gap-8">
               <h2
                 className="font-display font-medium tracking-[-0.03em] text-[#1e1e1e]"
-                style={{ fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.1 }}
+                style={{ fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.2 }}
               >
                 How we built the right thing, and built it right
               </h2>
-              <p className="text-[16px] leading-[1.3] tracking-[-0.02em] text-[#6b6b6b]">
+              <p className="text-[16px] leading-[1.45] tracking-[-0.02em] text-[#6b6b6b]">
                 {c.built}
               </p>
             </div>
@@ -608,7 +615,7 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
                   index={i + 1}
                   title={card.title}
                   body={card.body}
-                  className="h-full md:min-h-[297px]"
+                  className="h-full"
                 />
               </Reveal>
             ))}
@@ -617,14 +624,13 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
       </section>
 
       {/* Media stack — after build */}
-      <section className="mx-auto max-w-[1440px] space-y-6 px-6 md:space-y-[24px] md:px-[72px]">
+      <section className="mx-auto max-w-[1440px] space-y-6 px-6 md:space-y-[24px] md:px-10 lg:px-20">
         {buildFullOrFirst ? (
           <Reveal>
             <CaseMedia
               src={buildFullOrFirst.src}
               label={buildFullOrFirst.caption ?? "Image"}
               kind={buildFullOrFirst.kind}
-              className="aspect-[1296/700] w-full"
             />
           </Reveal>
         ) : null}
@@ -639,7 +645,6 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
                 src={buildSecond.src}
                 label={buildSecond.caption ?? "Image"}
                 kind={buildSecond.kind}
-                className="aspect-[636/700] w-full"
               />
             </Reveal>
             <Reveal delay={60}>
@@ -647,7 +652,6 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
                 src={buildThird.src}
                 label={buildThird.caption ?? "Image"}
                 kind={buildThird.kind}
-                className="aspect-[636/700] w-full"
               />
             </Reveal>
           </div>
@@ -657,7 +661,6 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
               src={buildSecond.src}
               label={buildSecond.caption ?? "Image"}
               kind={buildSecond.kind}
-              className="aspect-[1296/700] w-full"
             />
           </Reveal>
         ) : null}
@@ -667,142 +670,135 @@ export function WorkCasePage({ c: raw }: { c: CaseStudy }) {
               src={buildAfterPairFull.src}
               label={buildAfterPairFull.caption ?? "Image"}
               kind={buildAfterPairFull.kind}
-              className="aspect-[1296/700] w-full"
             />
           </Reveal>
         ) : null}
       </section>
 
-      {/* 04 Results — 3626:16540 */}
-      <section id="results" className="scroll-mt-24 px-6 py-16 md:px-20 md:py-20">
-        <Reveal>
-          <div className="mx-auto flex max-w-[1280px] flex-col gap-16 rounded-none bg-[#1e1e1e] p-8 text-white md:gap-24 md:p-10">
-            <div className="max-w-[604px]">
-              <div className="flex items-center gap-4 font-mono text-[14px] uppercase leading-[1.1] tracking-[0.05em]">
-                <span>04</span>
-                <span>Results / What actually happened</span>
-              </div>
-              <h2
-                className="mt-8 font-display font-medium tracking-[-0.03em]"
-                style={{ fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.1 }}
-              >
-                Proof it worked.
-              </h2>
-              <p className="mt-8 text-[16px] leading-[1.3] tracking-[-0.02em] text-white/80">
-                {c.outcome}
-              </p>
+      {/* Results — Figma 10613:51099 (full viewport, brand purple cards) */}
+      <section
+        id="results"
+        className="flex min-h-dvh scroll-mt-24 items-center bg-[#1e1e1e] pt-16 pb-24 text-white md:pt-20 md:pb-32"
+      >
+        <Reveal className="mx-auto flex w-full max-w-[1440px] flex-col gap-16 px-6 md:gap-24 md:px-10 lg:px-20">
+          <div className="max-w-[604px]">
+            <div className="flex items-center gap-4 font-mono text-[14px] uppercase leading-[1.1] tracking-[0.05em]">
+              <span>03</span>
+              <span>Result</span>
             </div>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-6">
-              {(c.results.length > 0
-                ? c.results
-                : [
-                    { value: c.metric, label: c.metricLabel },
-                    { value: c.year, label: "Delivery year" },
-                    { value: c.serviceSlug, label: "Engagement" },
-                  ]
-              )
-                .slice(0, 3)
-                .map((result, i) => (
-                  <div
-                    key={`${result.value}-${i}`}
-                    className="flex min-h-[16rem] flex-col justify-between rounded-[24px] bg-[#f5f5f5] p-10 text-[#1e1e1e] md:min-h-[26rem]"
+            <h2
+              className="mt-8 font-display font-medium tracking-[-0.03em]"
+              style={{ fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.1 }}
+            >
+              Proof it worked.
+            </h2>
+            <p className="mt-8 text-[16px] leading-[1.3] tracking-[-0.02em] text-white/80">
+              {c.outcome}
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-6">
+            {(c.results.length > 0
+              ? c.results
+              : [
+                  { value: c.metric, label: c.metricLabel },
+                  { value: c.year, label: "Delivery year" },
+                  { value: c.serviceSlug, label: "Engagement" },
+                ]
+            )
+              .slice(0, 3)
+              .map((result, i) => (
+                <div
+                  key={`${result.value}-${i}`}
+                  className="flex h-[320px] flex-col justify-between rounded-[24px] bg-[#c7b0fe] p-8 text-white md:h-[360px] md:p-10"
+                >
+                  <p
+                    className="font-display font-medium tracking-[-0.03em]"
+                    style={{
+                      fontSize: "clamp(2.75rem, 6vw, 6rem)",
+                      lineHeight: 1.1,
+                    }}
                   >
-                    <p
-                      className="font-display font-medium tracking-[-0.03em]"
-                      style={{
-                        fontSize: "clamp(2.75rem, 6vw, 6rem)",
-                        lineHeight: 1.1,
-                      }}
-                    >
-                      {result.value}
-                    </p>
+                    {result.value}
+                  </p>
+                  <div className="border-t border-white/25 pt-4">
                     <p className="text-[16px] leading-[1.35] tracking-[-0.02em]">
                       {result.label}
                     </p>
                   </div>
-                ))}
-            </div>
+                </div>
+              ))}
           </div>
         </Reveal>
       </section>
 
-      {/* 06 Credits — 3626:16563 */}
+      {/* Credits — desktop 10613:52653 / mobile 10614:53055 (375 × 575 hug) */}
       <section
         id="credits"
-        className="mx-auto max-w-[1440px] scroll-mt-24 px-6 py-14 md:px-[72px] md:py-14"
+        className="mx-auto max-w-[1440px] scroll-mt-24 px-6 py-20 md:px-10 lg:px-20 md:py-[100px]"
       >
-        <div className="flex flex-col gap-12 lg:flex-row lg:gap-[12rem]">
-          <Reveal className="max-w-[547px] shrink-0">
-            <p className="text-[14px] font-medium leading-[1.28] tracking-[-0.02em] text-[#1e1e1e]">
-              06 CREDITS
+        <div className="flex flex-col items-start gap-8 lg:flex-row lg:justify-between lg:gap-24">
+          <Reveal className="w-full shrink-0 lg:w-auto">
+            <p className="font-mono text-[14px] uppercase leading-[1.1] tracking-[0.05em] text-[#6b6b6b]">
+              06 Credits
             </p>
-            <h2 className="mt-4 font-display text-[32px] font-extrabold leading-[1.1] tracking-[-0.03em] text-[#1e1e1e]">
-              Who made it happen?
+            <h2
+              className="mt-4 font-display font-medium tracking-[-0.03em] text-[#1e1e1e]"
+              style={{ fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.2 }}
+            >
+              Credits
             </h2>
           </Reveal>
-          <Reveal delay={60} className="space-y-5 text-[16px] leading-[1.35] tracking-[-0.02em] text-[#1e1e1e]">
-            {DEFAULT_CREDITS.map((credit) => (
-              <div key={credit.role}>
-                <p>{credit.role}</p>
-                <p className="font-medium">{credit.name}</p>
+          <Reveal
+            delay={60}
+            className="flex w-full flex-col items-start gap-6 lg:max-w-[360px] lg:gap-5 lg:pt-1"
+          >
+            {[
+              ...DEFAULT_CREDITS,
+              { role: "Client partner", name: c.quote.name },
+            ].map((credit) => (
+              <div
+                key={credit.role}
+                className="flex flex-col gap-0.5 text-[16px] leading-[1.2] tracking-[-0.02em]"
+              >
+                <p className="text-[#6b6b6b]">{credit.role}</p>
+                <p className="font-medium text-[#1e1e1e]">{credit.name}</p>
               </div>
             ))}
-            <div>
-              <p>Client partner</p>
-              <p className="font-medium">{c.quote.name}</p>
-            </div>
           </Reveal>
         </div>
       </section>
 
       {/* Closing image — 3626:16569 */}
-      <section className="mx-auto max-w-[1440px] px-6 md:px-[72px]">
+      <section className="mx-auto max-w-[1440px] px-6 md:px-10 lg:px-20">
         <Reveal>
           <CaseMedia
             src={closing?.src}
             label={closing?.caption ?? "Image"}
             kind={closing?.kind}
-            className="aspect-[1296/700] w-full"
           />
         </Reveal>
       </section>
 
-      {/* CTA — 3626:16571 */}
-      <section className="mx-auto max-w-[1440px] px-6 py-14 md:px-[72px] md:py-14">
-        <Reveal>
-          <div className="flex flex-col items-start justify-between gap-10 md:flex-row md:items-center">
-            <h2
-              className="max-w-[641px] font-display font-semibold tracking-[-0.03em] text-[#1e1e1e]"
-              style={{ fontSize: "clamp(2rem, 5vw, 4rem)", lineHeight: 1.1 }}
-            >
-              Building something similar? Let’s talk.
-            </h2>
-            <Link
-              to="/contact"
-              className="inline-flex shrink-0 items-center gap-2.5 rounded-full bg-[#c9ff6e] px-6 py-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-90"
-            >
-              Let’s talk
-              <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-[#1e1e1e]">
-                <img
-                  src="/hero/arrow-outward.svg"
-                  alt=""
-                  width={16}
-                  height={16}
-                  className="size-4"
-                />
-              </span>
-            </Link>
-          </div>
-        </Reveal>
-      </section>
+      {/* Related cases — Figma 10613:52831 */}
+      <MoreWork
+        eyebrow="Related case"
+        eyebrowMark={4}
+        title={null}
+        showAllLink={false}
+        cards={relatedCards}
+        bg="bg-white"
+        ctaLabel="Read more"
+      />
+
+      <FinalCta />
     </div>
   );
 }
 
-/** Meta grid — Figma 10613:51013 (label above value, no overlap) */
+/** Meta grid — Figma 10613:51013 / mobile 10856:7028 */
 function MetaCol({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex min-w-0 flex-col gap-[22px]">
+    <div className="flex min-w-0 flex-col gap-2">
       <p className="font-mono text-[14px] font-medium uppercase leading-[1.35] tracking-[-0.02em] text-[#6b6b6b]">
         {label}
       </p>

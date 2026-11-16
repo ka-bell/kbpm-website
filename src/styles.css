@@ -263,7 +263,8 @@
 }
 
 .footer-cradle--cradle {
-  pointer-events: none;
+  pointer-events: auto;
+  touch-action: none;
 }
 
 .footer-cradle__bob {

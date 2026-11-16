@@ -2,24 +2,29 @@ import { Link } from "@/components/Link";
 
 type WordmarkProps = {
   className?: string;
-  /** Default = dark ink + accent plus; white = all white (dark surfaces). */
+  /** Default = black logo on light; white = white logo on dark surfaces. */
   ink?: "default" | "white";
 };
 
 export function Wordmark({ className = "", ink = "default" }: WordmarkProps) {
-  const inkClass = ink === "white" ? "text-white" : "text-foreground";
-  const plusClass = ink === "white" ? "text-white" : "text-accent";
+  const src =
+    ink === "white" ? "/brand/logo-white.png" : "/brand/logo-black.png";
 
   return (
     <Link
       to="/"
-      className={`inline-flex items-baseline text-[1.05rem] font-medium leading-none tracking-tight ${inkClass} ${className}`}
+      className={`inline-flex items-center leading-none ${className}`.trim()}
       aria-label="kbell + postman — home"
-      style={{ letterSpacing: "-0.03em" }}
     >
-      <span>kb</span>
-      <span className={`mx-0.5 ${plusClass}`}>+</span>
-      <span>pm</span>
+      <img
+        src={src}
+        alt=""
+        width={567}
+        height={174}
+        decoding="async"
+        className="h-[1em] w-auto"
+        aria-hidden
+      />
     </Link>
   );
 }

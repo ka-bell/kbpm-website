@@ -108,13 +108,14 @@ export function ContactPage({ interest }: { interest?: string }) {
 
             <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
               <Reveal className="max-w-[44rem]">
-                <div className="flex flex-col gap-4 md:gap-5">
-                  <SectionEyebrow label={t("eyebrow")} mark={3} ink="light" />
+                {/* Figma 3674:4568 — text-only eyebrow, 32px to headline */}
+                <div className="flex flex-col gap-8">
+                  <SectionEyebrow label={t("eyebrow")} ink="light" />
                   <h1
                     className="font-display font-medium text-white"
                     style={{
                       fontSize: "clamp(3rem, 8vw, 6rem)",
-                      lineHeight: 1,
+                      lineHeight: 1.2,
                       letterSpacing: "-0.03em",
                     }}
                   >
@@ -215,11 +216,21 @@ export function ContactPage({ interest }: { interest?: string }) {
                 </p>
               ) : null}
 
+              {/* Mobile Figma 3674:4176 — full-width submit */}
               <button
                 type="submit"
-                className="inline-flex w-fit items-center justify-center rounded-full bg-[#006ff7] px-6 py-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
+                className="inline-flex h-[49px] w-full items-center justify-center gap-2.5 rounded-full bg-[#006ff7] px-6 py-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90 md:w-fit"
               >
                 {status === "success" ? t("submitting") : t("submit")}
+                <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-[#1e1e1e]">
+                  <img
+                    src="/hero/arrow-outward.svg"
+                    alt=""
+                    width={16}
+                    height={16}
+                    className="size-4"
+                  />
+                </span>
               </button>
             </form>
           </Reveal>

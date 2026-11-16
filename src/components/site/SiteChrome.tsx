@@ -94,12 +94,12 @@ export function SiteChrome({ children }: { children: ReactNode }) {
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       {/* In-flow spacer — matches fixed chrome so hero overlap stays stable */}
       <div
-        className="pointer-events-none h-[56px] shrink-0 sm:h-[68px] lg:h-[80px]"
+        className="pointer-events-none h-[64px] shrink-0 sm:h-[72px] lg:h-[80px]"
         aria-hidden
       />
 
       <div
-        className={`kbpm-hi-fi fixed inset-x-0 top-0 z-50 w-full bg-transparent px-6 pt-3 transition-transform ease-[cubic-bezier(0.22,1,0.36,1)] sm:px-12 sm:pt-4 lg:px-[max(5rem,12vw)] lg:pt-5 motion-reduce:duration-150 ${
+        className={`kbpm-hi-fi fixed inset-x-0 top-0 z-50 w-full bg-transparent px-6 pt-5 transition-transform ease-[cubic-bezier(0.22,1,0.36,1)] md:px-10 md:pt-4 lg:px-20 lg:pt-5 motion-reduce:duration-150 ${
           navHidden ? "duration-300" : "duration-700"
         } ${
           navHidden
@@ -107,7 +107,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
             : "translate-y-0"
         }`}
       >
-        <div className="mx-auto w-full max-w-[1152px]">
+        <div className="mx-auto w-full max-w-[1440px]">
           <SiteHeader variant={variant} floating={floating} visible={!navHidden} />
         </div>
       </div>

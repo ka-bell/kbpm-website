@@ -6,7 +6,7 @@ import { Reveal } from "./Reveal";
 
 /**
  * Closing CTA — Figma 3674:632 Text Heading Section / service 10631:31700.
- * Mobile: Figma 10616:1921 — stacked headline, centered lime button.
+ * Mobile: stacked left (headline + button).
  */
 export function FinalCta({ headline }: { headline?: string } = {}) {
   const t = useTranslations("FinalCta");
@@ -21,7 +21,7 @@ export function FinalCta({ headline }: { headline?: string } = {}) {
           </h2>
           <Link
             to="/contact"
-            className="inline-flex shrink-0 items-center justify-center gap-2.5 self-center rounded-full bg-[#c9ff6e] px-6 py-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-90 md:self-auto"
+            className="inline-flex shrink-0 items-center justify-center gap-2.5 self-start rounded-full bg-[#c9ff6e] px-6 py-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-90"
           >
             {tc("letsTalk")}
             <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-[#1e1e1e] p-[6px]">

@@ -195,7 +195,8 @@
     },
     "capabilitiesEyebrow": "Collaborate",
     "capabilitiesHeadline": "What we actually do.",
-    "capabilitiesBody": "Four disciplines in one studio. Specialists join when the brief needs them. Keep scrolling here: the capability cards move sideways, then the page continues.",
+    "capabilitiesBody": "Four disciplines in one studio. Specialists join when the brief needs them.",
+    "capabilitiesBodyScrub": "Keep scrolling here: the capability cards move sideways, then the page continues.",
     "capabilities": {
       "product": {
         "title": "Product & Strategy",

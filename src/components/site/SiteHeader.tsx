@@ -103,7 +103,8 @@ export function SiteHeader({
           .join(" ")}
       >
         <Wordmark
-          className={`text-[clamp(1.05rem,1.8vw,1.25rem)] font-bold tracking-[-0.03em] ${ink} [&_span]:!text-inherit`}
+          ink={isWhite ? "white" : "default"}
+          className="text-[clamp(1.05rem,1.8vw,1.25rem)]"
         />
 
         <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center lg:flex">

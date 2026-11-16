@@ -46,27 +46,28 @@ const TESTIMONIAL_META = [
   },
 ];
 
+/** Tech stack logos — Figma 3674:4379 (colour PNGs). */
 const TOOLS: Array<{ name: string; src: string }> = [
-  { name: "React", src: "/stack/react.svg" },
-  { name: "TanStack", src: "/stack/tanstack.svg" },
-  { name: "Next.js", src: "/stack/nextjs.svg" },
-  { name: "TypeScript", src: "/stack/typescript.svg" },
-  { name: "Supabase", src: "/stack/supabase.svg" },
-  { name: "Postgres", src: "/stack/postgres.svg" },
-  { name: "Cloudflare", src: "/stack/cloudflare.svg" },
-  { name: "Stripe", src: "/stack/stripe.svg" },
-  { name: "Figma", src: "/stack/figma.svg" },
-  { name: "Expo", src: "/stack/expo.svg" },
-  { name: "Hetzner", src: "/stack/hetzner.svg" },
-  { name: "OpenAI", src: "/stack/openai.svg" },
-  { name: "Tailwind", src: "/stack/tailwind.svg" },
-  { name: "Vercel", src: "/stack/vercel.svg" },
-  { name: "Node.js", src: "/stack/nodejs.svg" },
-  { name: "Docker", src: "/stack/docker.svg" },
-  { name: "GitHub", src: "/stack/github.svg" },
-  { name: "Framer", src: "/stack/framer.svg" },
-  { name: "Linear", src: "/stack/linear.svg" },
-  { name: "Notion", src: "/stack/notion.svg" },
+  { name: "React", src: "/stack/react.png" },
+  { name: "TanStack", src: "/stack/tanstack.png" },
+  { name: "Next.js", src: "/stack/nextjs.png" },
+  { name: "TypeScript", src: "/stack/typescript.png" },
+  { name: "Supabase", src: "/stack/supabase.png" },
+  { name: "Postgres", src: "/stack/postgres.png" },
+  { name: "Cloudflare", src: "/stack/cloudflare.png" },
+  { name: "Stripe", src: "/stack/stripe.png" },
+  { name: "Figma", src: "/stack/figma.png" },
+  { name: "Expo", src: "/stack/expo.png" },
+  { name: "Hetzner", src: "/stack/hetzner.png" },
+  { name: "OpenAI", src: "/stack/openai.png" },
+  { name: "Tailwind", src: "/stack/tailwind.png" },
+  { name: "Vercel", src: "/stack/vercel.png" },
+  { name: "Node.js", src: "/stack/nodejs.png" },
+  { name: "Docker", src: "/stack/docker.png" },
+  { name: "GitHub", src: "/stack/github.png" },
+  { name: "Framer", src: "/stack/framer.png" },
+  { name: "Linear", src: "/stack/linear.png" },
+  { name: "Notion", src: "/stack/notion.png" },
 ];
 
 type TestimonialCardData = {
@@ -80,12 +81,11 @@ type TestimonialCardData = {
 };
 
 function TestimonialCard({ card }: { card: TestimonialCardData }) {
+  const lightInk = card.ink.includes("white");
   return (
     <figure
-      className={`flex min-h-[22rem] w-full max-w-[26rem] flex-col justify-between rounded-[24px] p-8 shadow-[0_8px_32px_rgba(0,0,0,0.2)] backdrop-blur-xl backdrop-saturate-150 ${card.ink}`}
-      style={{
-        backgroundColor: `color-mix(in srgb, ${card.tint} 62%, transparent)`,
-      }}
+      className={`flex min-h-[22rem] w-full max-w-[26rem] flex-col justify-between rounded-[24px] p-8 ${card.ink}`}
+      style={{ backgroundColor: card.tint }}
     >
       <blockquote className="text-[20px] font-medium leading-[1.2] tracking-[-0.01em] md:text-[22px]">
         “{card.quote}”
@@ -95,8 +95,8 @@ function TestimonialCard({ card }: { card: TestimonialCardData }) {
       >
         <span
           className={`size-[52px] shrink-0 rounded-full ${
-            card.ink.includes("white") ? "bg-white/80" : "bg-[#1e1e1e]/80"
-          } backdrop-blur-sm`}
+            lightInk ? "bg-white" : "bg-[#1e1e1e]"
+          }`}
           aria-hidden
         />
         <div className="min-w-0">
@@ -145,6 +145,7 @@ export function AboutPage() {
 
   useEffect(() => {
     let frame = 0;
+    const desktopMq = window.matchMedia("(min-width: 768px)");
 
     const updateCapabilities = () => {
       frame = 0;
@@ -152,6 +153,13 @@ export function AboutPage() {
       const viewport = capabilitiesViewportRef.current;
       const track = capabilitiesTrackRef.current;
       if (!section || !viewport || !track) return;
+
+      // Mobile stacks cards — no horizontal scrub (Figma 10611:48641)
+      if (!desktopMq.matches) {
+        track.style.transform = "";
+        setCapabilityProgress(0);
+        return;
+      }
 
       const sectionRect = section.getBoundingClientRect();
       const scrollableDistance = Math.max(section.offsetHeight - window.innerHeight, 1);
@@ -170,10 +178,12 @@ export function AboutPage() {
     updateCapabilities();
     window.addEventListener("scroll", requestUpdate, { passive: true });
     window.addEventListener("resize", requestUpdate);
+    desktopMq.addEventListener("change", requestUpdate);
     return () => {
       if (frame) window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", requestUpdate);
+      desktopMq.removeEventListener("change", requestUpdate);
     };
   }, []);
 
@@ -198,9 +208,9 @@ export function AboutPage() {
             </Link>
           </Reveal>
 
-          <div className="flex flex-col items-stretch justify-between gap-10 lg:flex-row lg:items-end lg:gap-16">
-            <Reveal className="min-w-0 flex-1">
-              <div className="flex max-w-[44rem] flex-col gap-4 md:gap-5">
+          <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-end lg:gap-16">
+            <Reveal className="min-w-0 w-full flex-1">
+              <div className="flex max-w-[44rem] flex-col items-start gap-4 md:gap-5">
                 <SectionEyebrow label={t("eyebrow")} mark={1} />
                 <h1
                   className="font-display text-[#1e1e1e]"
@@ -219,16 +229,17 @@ export function AboutPage() {
             </Reveal>
 
             <Reveal delay={80} className="w-full shrink-0 lg:w-[min(100%,22.5rem)]">
-              <p className="text-[17px] leading-[1.2] tracking-[-0.01em] text-[#6b6b6b] md:text-[18px]">
+              <p className="text-left text-[17px] leading-[1.2] tracking-[-0.01em] text-[#6b6b6b] md:text-[18px]">
                 {t("intro")}
               </p>
             </Reveal>
           </div>
 
           <Reveal delay={120}>
-            <div className="grid grid-cols-2 gap-8 border-t border-[#1e1e1e]/20 pt-8 md:grid-cols-4 md:gap-10 md:pt-10">
+            {/* Mobile Figma 10611:48566 — single column, left-aligned */}
+            <div className="grid grid-cols-1 gap-8 border-t border-[#1e1e1e]/20 pt-8 md:grid-cols-4 md:gap-10 md:pt-10">
               {stats.map(([n, l]) => (
-                <div key={l} className="flex flex-col gap-3">
+                <div key={l} className="flex flex-col items-start gap-3 text-left">
                   <p
                     className="font-display text-[#1e1e1e]"
                     style={{
@@ -250,18 +261,74 @@ export function AboutPage() {
         </div>
       </section>
 
-      {/* Capabilities — Figma 3635:576; sticky scrub fits one viewport */}
+      {/* Capabilities — mobile stacked (Figma 10611:48641); desktop sticky scrub */}
+      <section className="bg-white px-6 py-12 md:hidden">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-8">
+          <Reveal>
+            <div className="flex max-w-[36rem] flex-col gap-3">
+              <SectionEyebrow label={t("capabilitiesEyebrow")} mark={2} />
+              <h2
+                className="font-display text-[#1e1e1e]"
+                style={{
+                  fontSize: "clamp(2rem, 4vw, 3.5rem)",
+                  lineHeight: 1.15,
+                  letterSpacing: "-0.02em",
+                  fontWeight: 500,
+                }}
+              >
+                {t("capabilitiesHeadline")}
+              </h2>
+              <p className="max-w-xl text-[16px] leading-[1.35] tracking-[-0.02em] text-[#6b6b6b]">
+                {t("capabilitiesBody")}
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="flex flex-col gap-5">
+            {capabilities.map((c) => (
+              <article
+                key={c.title}
+                className="flex min-h-[22rem] w-full flex-col rounded-[16px] bg-[#006ff7] p-6"
+              >
+                <div className="flex h-full flex-col justify-between gap-8">
+                  <h3
+                    className="font-display text-white"
+                    style={{
+                      fontSize: "clamp(1.5rem, 2.5vw, 2.25rem)",
+                      lineHeight: 1.1,
+                      letterSpacing: "-0.02em",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {c.title}
+                  </h3>
+                  <div className="flex flex-col items-start gap-2">
+                    {c.items.map((item) => (
+                      <span
+                        key={item}
+                        className="inline-flex h-8 shrink-0 items-center bg-[#c9ff6e] px-5 text-[14px] leading-[21px] tracking-[-0.02em] text-[#1e1e1e]"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section
         ref={capabilitiesSectionRef}
-        className="relative bg-[#f5f5f5]"
+        className="relative hidden bg-white md:block"
         style={{ height: "320vh" }}
       >
-        {/* Stick high; header + cards + progress fill the viewport so nothing clips */}
-        <div className="sticky top-3 flex h-[calc(100dvh-0.75rem)] flex-col overflow-hidden md:top-4">
-          <div className="mx-auto flex h-full w-full max-w-[1440px] flex-col gap-5 px-6 py-3 md:gap-6 md:px-10 md:py-4 lg:gap-8 lg:px-20">
+        <div className="sticky top-0 flex h-dvh flex-col overflow-hidden">
+          <div className="mx-auto flex h-full w-full max-w-[1440px] flex-col gap-8 px-6 py-10 md:gap-10 md:px-10 md:py-14 lg:gap-12 lg:px-20 lg:py-[80px]">
             <div className="shrink-0">
               <Reveal>
-                <div className="flex max-w-[36rem] flex-col gap-4 md:gap-5">
+                <div className="flex max-w-[36rem] flex-col gap-3 md:gap-4">
                   <SectionEyebrow label={t("capabilitiesEyebrow")} mark={2} />
                   <h2
                     className="font-display text-[#1e1e1e]"
@@ -274,8 +341,9 @@ export function AboutPage() {
                   >
                     {t("capabilitiesHeadline")}
                   </h2>
-                  <p className="max-w-xl text-[16px] leading-[1.25] tracking-[-0.02em] text-[#838383] md:text-[18px]">
-                    {t("capabilitiesBody")}
+                  <p className="max-w-xl text-[16px] leading-[1.35] tracking-[-0.02em] text-[#6b6b6b] md:text-[18px]">
+                    {t("capabilitiesBody")}{" "}
+                    {t("capabilitiesBodyScrub")}
                   </p>
                 </div>
               </Reveal>
@@ -287,13 +355,13 @@ export function AboutPage() {
             >
               <div
                 ref={capabilitiesTrackRef}
-                className="flex h-full w-max gap-6 md:gap-8"
+                className="flex h-full w-max gap-5 md:gap-6"
                 style={{ willChange: "transform" }}
               >
                 {capabilities.map((c) => (
                   <article
                     key={c.title}
-                    className="flex h-full w-[min(82vw,30rem)] shrink-0 flex-col rounded-[24px] border border-black/10 bg-[#1e1e1e] p-6 md:w-[30rem] md:p-8 lg:p-10"
+                    className="flex h-full w-[min(82vw,30rem)] shrink-0 flex-col rounded-[24px] bg-[#006ff7] p-6 md:w-[30rem] md:p-8 lg:p-10"
                   >
                     <div className="flex h-full min-h-0 flex-col justify-between gap-6 md:gap-8">
                       <h3
@@ -307,11 +375,12 @@ export function AboutPage() {
                       >
                         {c.title}
                       </h3>
-                      <div className="flex min-h-0 flex-wrap content-start gap-2 overflow-y-auto">
+                      {/* Always stack — same 8px gap on every card (no wrap) */}
+                      <div className="mt-auto flex min-h-0 flex-col items-start gap-2 overflow-y-auto">
                         {c.items.map((item) => (
                           <span
                             key={item}
-                            className="inline-flex h-8 items-center bg-[#c9ff6e] px-5 text-[14px] leading-[21px] tracking-[-0.02em] text-black"
+                            className="inline-flex h-8 shrink-0 items-center bg-[#c9ff6e] px-5 text-[14px] leading-[21px] tracking-[-0.02em] text-[#1e1e1e]"
                           >
                             {item}
                           </span>
@@ -323,7 +392,7 @@ export function AboutPage() {
               </div>
             </div>
 
-            <div className="grid shrink-0 grid-cols-[1fr_auto] items-center gap-5 pb-1">
+            <div className="grid shrink-0 grid-cols-[1fr_auto] items-center gap-5">
               <div className="h-px overflow-hidden bg-[#1e1e1e]/15">
                 <div
                   className="h-full bg-[#1e1e1e] transition-[width] duration-100"
@@ -388,7 +457,7 @@ export function AboutPage() {
         </div>
       </section>
 
-      {/* Stack — Figma 3626:11186; product logos + names */}
+      {/* Stack — Figma 3674:4379; colour logos + names */}
       <section className="bg-white px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
         <div className="mx-auto max-w-[1440px]">
           <Reveal>
@@ -397,7 +466,7 @@ export function AboutPage() {
               <h2
                 className="font-display text-[#1e1e1e]"
                 style={{
-                  fontSize: "clamp(2.5rem, 5vw, 4rem)",
+                  fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
                   lineHeight: 1.2,
                   letterSpacing: "-0.02em",
                   fontWeight: 500,
@@ -408,23 +477,23 @@ export function AboutPage() {
             </div>
           </Reveal>
 
-          <div className="mt-12 grid grid-cols-2 gap-2 sm:grid-cols-3 md:mt-16 md:grid-cols-4 lg:grid-cols-5 lg:gap-2">
-            {TOOLS.map((t) => (
+          <div className="mt-12 grid grid-cols-2 gap-2 sm:grid-cols-3 md:mt-16 md:grid-cols-4 lg:grid-cols-5">
+            {TOOLS.map((tool) => (
               <div
-                key={t.name}
-                className="relative flex min-h-[7.5rem] items-center justify-center border border-[#1e1e1e]/20 px-4 py-6 md:min-h-[7.75rem]"
+                key={tool.name}
+                className="relative flex h-[100px] items-center justify-center border border-[#ccc] p-2"
               >
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-2">
                   <img
-                    src={t.src}
+                    src={tool.src}
                     alt=""
-                    width={28}
-                    height={28}
-                    className="size-7 shrink-0 object-contain"
+                    width={24}
+                    height={24}
+                    className="size-6 shrink-0 object-cover"
                     decoding="async"
                   />
-                  <span className="text-[15px] font-medium tracking-[-0.02em] text-[#1e1e1e] md:text-[16px]">
-                    {t.name}
+                  <span className="text-[13px] leading-normal text-[#1f1f1f]">
+                    {tool.name}
                   </span>
                 </div>
               </div>
@@ -435,52 +504,6 @@ export function AboutPage() {
 
       {/* Founders — Figma 3626:11276 */}
       <WhoYouWorkWith />
-
-      {/* Closing CTA — rewrite */}
-      <section className="border-t border-[#e8e8e8] bg-[#f5f5f5] px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
-        <div className="mx-auto max-w-[1440px]">
-          <Reveal>
-            <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
-              <div className="max-w-3xl">
-                <SectionEyebrow label={t("ctaEyebrow")} mark={7} />
-                <h2
-                  className="mt-8 font-display text-[#1e1e1e]"
-                  style={{
-                    fontSize: "clamp(2.25rem, 5vw, 4rem)",
-                    lineHeight: 1.1,
-                    letterSpacing: "-0.03em",
-                    fontWeight: 500,
-                  }}
-                >
-                  {t("ctaHeadline")}
-                </h2>
-              </div>
-              <div className="flex flex-col gap-4">
-                <Link
-                  to="/contact"
-                  className="inline-flex w-fit items-center gap-2.5 rounded-full bg-[#1e1e1e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
-                >
-                  {tc("startProject")}                  <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-white">
-                    <img
-                      src="/hero/arrow-outward-dark.svg"
-                      alt=""
-                      width={16}
-                      height={16}
-                      className="size-4"
-                    />
-                  </span>
-                </Link>
-                <Link
-                  to="/services"
-                  className="font-mono text-[13px] uppercase tracking-[0.05em] text-[#6b6b6b] underline decoration-[#c9ff6e] decoration-2 underline-offset-4 transition-colors hover:text-[#1e1e1e]"
-                >
-                  {tc("exploreServices")}
-                </Link>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
     </div>
   );
 }

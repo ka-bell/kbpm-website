@@ -57,6 +57,7 @@ function FooterNewtonsCradle() {
       runner: MatterRunner;
       bodies: MatterBody[];
       constraints: MatterConstraint[];
+      mouseConstraint: MatterMouseConstraint;
       onResize: () => void;
     };
 
@@ -115,13 +116,14 @@ function FooterNewtonsCradle() {
 
       if (cradle) {
         Runner.stop(cradle.runner);
+        Mouse.clearSourceEvents(cradle.mouseConstraint.mouse);
         Composite.clear(cradle.engine.world, false);
         Engine.clear(cradle.engine);
         cradle = null;
       }
 
       const width = root.clientWidth;
-      const height = Math.max(root.clientHeight, 320);
+      const height = Math.max(root.clientHeight, 120);
       if (width < 40) {
         building = false;
         return;
@@ -129,8 +131,12 @@ function FooterNewtonsCradle() {
 
       const size = Math.min(69.5, Math.max(28, (width * 0.72) / (CRADLE_COUNT * 1.9)));
       const separation = size * 1.9;
-      const yy = 8;
-      const length = Math.max(200, height - size - 16);
+      const yy = 4;
+      // Short hang in short (mobile) containers; full hang when tall (desktop overlay)
+      const length =
+        height < 200
+          ? Math.min(size * 1.6, height - size - 8)
+          : Math.max(size * 1.35, height - size - 12);
       const totalSpan = (CRADLE_COUNT - 1) * separation;
       const xx = (width - totalSpan) / 2;
 
@@ -166,6 +172,18 @@ function FooterNewtonsCradle() {
       Composite.add(engine.world, composite);
       kickLeft(bodies, constraints, size, length);
 
+      const mouse = Mouse.create(root);
+      mouse.element.removeEventListener("mousewheel", mouse.mousewheel);
+      mouse.element.removeEventListener("DOMMouseScroll", mouse.mousewheel);
+      const mouseConstraint = MouseConstraint.create(engine, {
+        mouse,
+        constraint: {
+          stiffness: 0.2,
+          render: { visible: false },
+        },
+      });
+      Composite.add(engine.world, mouseConstraint);
+
       const runner = Runner.create();
       if (visible) Runner.run(runner, engine);
 
@@ -174,6 +192,7 @@ function FooterNewtonsCradle() {
         runner,
         bodies,
         constraints,
+        mouseConstraint,
         onResize: () => {
           build();
           if (visible && cradle) Runner.run(cradle.runner, cradle.engine);
@@ -224,6 +243,7 @@ function FooterNewtonsCradle() {
       cancelAnimationFrame(raf);
       if (cradle) {
         Runner.stop(cradle.runner);
+        Mouse.clearSourceEvents(cradle.mouseConstraint.mouse);
         Composite.clear(cradle.engine.world, false);
         Engine.clear(cradle.engine);
       }
@@ -233,7 +253,7 @@ function FooterNewtonsCradle() {
   return (
     <div
       ref={rootRef}
-      className="footer-cradle footer-cradle--cradle pointer-events-none absolute inset-0 z-0 w-full select-none"
+      className="footer-cradle footer-cradle--cradle absolute inset-0 z-0 w-full cursor-grab select-none active:cursor-grabbing"
       aria-hidden
     >
       <svg
@@ -485,11 +505,14 @@ function layoutCradleStatic(
   swungLeft: boolean,
 ) {
   const width = root.clientWidth || 800;
-  const height = Math.max(root.clientHeight, 320);
+  const height = Math.max(root.clientHeight, 120);
   const size = Math.min(96, Math.max(40, (width * 0.72) / (CRADLE_COUNT * 1.9)));
   const separation = size * 1.9;
-  const yy = 8;
-  const length = Math.max(200, height - size - 16);
+  const yy = 4;
+  const length =
+    height < 200
+      ? Math.min(size * 1.6, height - size - 8)
+      : Math.max(size * 1.35, height - size - 12);
   const totalSpan = (CRADLE_COUNT - 1) * separation;
   const xx = (width - totalSpan) / 2;
 
