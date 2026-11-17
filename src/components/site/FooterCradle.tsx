@@ -162,10 +162,10 @@ function FooterNewtonsCradle() {
       const size = Math.min(69.5, Math.max(28, (width * 0.72) / (count * 1.9)));
       const separation = size * 1.9;
       const yy = 4;
-      // Short hang in short (mobile) containers; full hang when tall (desktop overlay)
+      // Mobile footer is a short strip — hang the tiles near its bottom (Figma 3802:5759).
       const length =
-        height < 200
-          ? Math.min(size * 1.6, height - size - 8)
+        height < 320
+          ? Math.max(size * 1.15, height - size - 18)
           : Math.max(size * 1.35, height - size - 12);
       const totalSpan = (count - 1) * separation;
       const xx = (width - totalSpan) / 2;
@@ -568,8 +568,8 @@ function layoutCradleStatic(
   const separation = size * 1.9;
   const yy = 4;
   const length =
-    height < 200
-      ? Math.min(size * 1.6, height - size - 8)
+    height < 320
+      ? Math.max(size * 1.15, height - size - 18)
       : Math.max(size * 1.35, height - size - 12);
   const totalSpan = (count - 1) * separation;
   const xx = (width - totalSpan) / 2;

@@ -2,20 +2,39 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/components/Link";
+import { cn } from "@/lib/utils";
 import { Reveal } from "./Reveal";
 
 /**
  * Closing CTA — Figma 3674:632 Text Heading Section / service 10631:31700.
  * Mobile: stacked left (headline + button).
  */
-export function FinalCta({ headline }: { headline?: string } = {}) {
+export function FinalCta({
+  headline,
+  className,
+  contentClassName,
+}: {
+  headline?: string;
+  className?: string;
+  contentClassName?: string;
+} = {}) {
   const t = useTranslations("FinalCta");
   const tc = useTranslations("Common");
 
   return (
-    <section className="kbpm-hi-fi bg-[#006ff7] px-5 py-10 md:px-10 md:py-16 lg:px-20 lg:py-[80px]">
+    <section
+      className={cn(
+        "kbpm-hi-fi bg-[#006ff7] px-5 py-10 md:px-10 md:py-16 lg:px-20 lg:py-[80px]",
+        className,
+      )}
+    >
       <Reveal>
-        <div className="mx-auto flex max-w-[1280px] flex-col items-start justify-between gap-8 md:flex-row md:items-start md:gap-12">
+        <div
+          className={cn(
+            "mx-auto flex max-w-[1280px] flex-col items-start justify-between gap-8 md:flex-row md:items-start md:gap-12",
+            contentClassName,
+          )}
+        >
           <h2 className="font-display max-w-[641px] text-[2.5rem] font-medium leading-[1.2] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,3.5rem)]">
             {headline ?? t("headline")}
           </h2>

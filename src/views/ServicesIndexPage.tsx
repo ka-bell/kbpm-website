@@ -1,8 +1,9 @@
 "use client";
 
 import { Link } from "@/components/Link";
+import { useEffect, useRef, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
-import { Reveal } from "@/components/site/Reveal";
+import { FinalCta } from "@/components/site/FinalCta";
 import { SectionEyebrow, type BrandMark } from "@/components/site/SectionEyebrow";
 import {
   serviceOfferings,
@@ -24,72 +25,157 @@ const GROUP_VISUAL: Record<
   support: { mark: 6, image: "/services/index-support.jpg" },
 };
 
+/** Desktop card rows — Figma 3802:5159. */
+const CARD_ROWS: Record<ServiceSlug, number[]> = {
+  validate: [3, 3],
+  build: [2, 4, 4],
+  evolve: [3, 4],
+  support: [3, 3],
+};
+
+const ROW_COLS: Record<number, string> = {
+  2: "lg:grid-cols-2",
+  3: "lg:grid-cols-3",
+  4: "lg:grid-cols-4",
+};
+
+/** Validate order on this page follows the design; shared lists stay unchanged. */
+const VALIDATE_ORDER = [
+  "Website & Product Audit",
+  "Idea Validation",
+  "Technical Feasibility Review",
+  "Discovery Workshop",
+  "Product Roadmap",
+  "Innovation Sprint",
+] as const;
+
+function offersFor(slug: ServiceSlug) {
+  const offers = [...serviceListsByPhase[slug].all];
+  if (slug !== "validate") return offers;
+  const rank = new Map(VALIDATE_ORDER.map((name, i) => [name, i]));
+  return offers.sort((a, b) => (rank.get(a) ?? 99) - (rank.get(b) ?? 99));
+}
+
+/** Cards fade up one after another as they enter the viewport. */
+function CardCascade({ children }: { children: ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const cards = [
+      ...root.querySelectorAll<HTMLElement>("[data-card-reveal]"),
+    ];
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (reduce) {
+      cards.forEach((card) => card.classList.add("is-visible"));
+      return;
+    }
+
+    let chain = 0;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .map((entry) => entry.target as HTMLElement)
+          .sort(
+            (a, b) =>
+              Number(a.dataset.cardReveal) - Number(b.dataset.cardReveal),
+          );
+        for (const card of visible) {
+          const now = performance.now();
+          const at = Math.max(now, chain);
+          chain = at + 240;
+          window.setTimeout(() => card.classList.add("is-visible"), at - now);
+          io.unobserve(card);
+        }
+      },
+      { threshold: 0.22, rootMargin: "0px 0px -8% 0px" },
+    );
+    cards.forEach((card) => io.observe(card));
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className="flex flex-col gap-4">
+      {children}
+    </div>
+  );
+}
+
+function chunkBy<T>(items: T[], sizes: number[]) {
+  const rows: T[][] = [];
+  let index = 0;
+  for (const size of sizes) {
+    const row = items.slice(index, index + size);
+    if (row.length) rows.push(row);
+    index += size;
+  }
+  if (index < items.length) rows.push(items.slice(index));
+  return rows;
+}
+
 /**
- * Services overview — Figma mobile 3674:3026.
+ * Services overview — Figma 3802:5159 (Service Detail | Desktop Medium).
  */
 export function ServicesIndexPage() {
   const t = useTranslations("Services");
-  const tc = useTranslations("Common");
 
   return (
     <>
-      <section className="kbpm-hi-fi relative -mt-[4.5rem] bg-[#1e1e1e] px-5 pb-10 pt-[5.5rem] sm:-mt-[5.5rem] sm:px-6 sm:pb-16 sm:pt-[6.5rem] md:px-10 lg:-mt-[6.5rem] lg:px-20 lg:pb-[80px] lg:pt-[8.5rem]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-4 md:gap-5">
-          <SectionEyebrow label={t("indexEyebrow")} mark={4} ink="light" />
-          <h1
-            className="font-display max-w-[18ch] text-white md:max-w-none"
-            style={{
-              fontSize: "clamp(2.75rem, 8vw, 4.5rem)",
-              lineHeight: 1.2,
-              letterSpacing: "-0.02em",
-              fontWeight: 500,
-            }}
-          >
+      <section
+        data-services-hero
+        className="kbpm-hi-fi relative -mt-[68px] bg-[#1e1e1e] px-5 pb-10 pt-[calc(68px+2.5rem)] sm:px-6 sm:pb-16 md:px-10 md:pt-[calc(68px+4rem)] lg:-mt-20 lg:px-20 lg:pb-20 lg:pt-[calc(5rem+5rem)]"
+      >
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-8">
+          <SectionEyebrow label={t("indexEyebrow")} ink="light" />
+          <h1 className="font-display text-[3.5rem] font-medium leading-[1.2] tracking-[-0.02em] text-white lg:text-[6rem] lg:tracking-normal">
             {t("indexHeadline")}
           </h1>
         </div>
       </section>
 
-      <section className="kbpm-hi-fi bg-white px-5 py-10 md:px-10 md:py-16 lg:px-20 lg:py-[80px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-8 md:gap-16">
+      <section className="kbpm-hi-fi bg-white px-5 py-10 md:px-10 md:py-16 lg:px-20 lg:py-20">
+        <div className="mx-auto flex max-w-[1440px] flex-col">
           {serviceOfferings.map((group, groupIndex) => {
             const visual = GROUP_VISUAL[group.slug];
-            const offers = serviceListsByPhase[group.slug].all;
+            const offers = offersFor(group.slug);
+            const rows = chunkBy(offers, CARD_ROWS[group.slug]);
+
+            let cardIndex = 0;
 
             return (
-              <Reveal key={group.slug} delay={groupIndex * 40}>
-                <div
-                  id={group.slug}
-                  className={`scroll-mt-28 flex flex-col gap-8 ${
-                    groupIndex > 0
-                      ? "border-t border-[#e8e8e8] pt-8 md:pt-16"
-                      : ""
-                  }`}
-                >
-                  <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-16">
-                    <div className="flex min-w-0 flex-1 flex-col gap-4">
-                      <SectionEyebrow
-                        label={t(`groups.${group.slug}.eyebrow`)}
-                        mark={visual.mark}
-                      />
-                      <h2
-                        className="font-display text-[#1e1e1e]"
-                        style={{
-                          fontSize: "clamp(2.5rem, 5vw, 4rem)",
-                          lineHeight: 1.2,
-                          letterSpacing: "-0.02em",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {group.name}
-                      </h2>
-                      <p className="max-w-[40rem] text-[16px] leading-[1.3] tracking-[-0.01em] text-[#666]">
-                        {t(`groups.${group.slug}.body`)}
-                      </p>
+              <div
+                key={group.slug}
+                id={group.slug}
+                className={`scroll-mt-28 flex flex-col gap-8 lg:gap-14 ${
+                  groupIndex > 0
+                    ? "mt-8 border-t border-[#e6e6e6] pt-8 lg:mt-14 lg:pt-14"
+                    : ""
+                }`}
+              >
+                  <div className="flex flex-col gap-10 lg:grid lg:grid-cols-[minmax(0,611fr)_minmax(0,599fr)] lg:items-stretch lg:gap-10">
+                    <div className="flex min-w-0 flex-col gap-4 lg:min-h-[465px] lg:justify-between lg:gap-8">
+                      <div className="flex flex-col gap-4 lg:gap-8">
+                        <SectionEyebrow
+                          label={t(`groups.${group.slug}.eyebrow`)}
+                          mark={visual.mark}
+                        />
+                        <div className="flex flex-col gap-4 lg:gap-8">
+                          <h2 className="font-display text-[2.5rem] font-medium leading-[1.2] tracking-[-0.02em] text-[#1e1e1e] lg:text-[3.5rem]">
+                            {group.name}
+                          </h2>
+                          <p className="text-[16px] leading-[1.3] tracking-[-0.01em] text-[#666] lg:text-[20px]">
+                            {t(`groups.${group.slug}.body`)}
+                          </p>
+                        </div>
+                      </div>
                       <Link
                         to="/services/$slug"
                         params={{ slug: group.slug }}
-                        className="mt-0 inline-flex w-fit max-w-full items-center justify-between gap-4 rounded-full bg-[#1e1e1e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
+                        className="inline-flex w-full max-w-[267px] items-center justify-between gap-4 rounded-full bg-[#1e1e1e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-white transition-opacity hover:opacity-90"
                       >
                         {t("explore", { name: group.name })}
                         <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-white">
@@ -104,12 +190,12 @@ export function ServicesIndexPage() {
                       </Link>
                     </div>
 
-                    <div className="relative h-[270px] w-full shrink-0 overflow-hidden rounded-[24px] lg:h-[320px] lg:w-[min(100%,28rem)]">
+                    <div className="relative h-[270px] w-full overflow-hidden rounded-[16px] lg:h-[465px] lg:rounded-[24px]">
                       <img
                         src={visual.image}
                         alt=""
-                        width={800}
-                        height={640}
+                        width={599}
+                        height={465}
                         decoding="async"
                         className="absolute inset-0 size-full object-cover"
                       />
@@ -117,85 +203,71 @@ export function ServicesIndexPage() {
                   </div>
 
                   <div className="flex flex-col gap-4">
-                    <p className="text-[18px] leading-[1.3] tracking-[-0.01em] text-[#666] md:text-[20px]">
+                    <p className="text-[18px] leading-[1.3] tracking-[-0.01em] text-[#666] lg:text-[20px]">
                       {t(`groups.${group.slug}.listIntro`)}
                     </p>
-                    <ul className="flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-4 lg:grid-cols-3">
-                      {offers.map((name) => {
-                        const offer = getServiceDetailByPlainName(name);
-                        const copy = getServicePanelCopy(name, group.name);
-                        const card = (
-                          <div className="flex h-full flex-col gap-6 border border-[#ccc] bg-white/80 p-4 backdrop-blur-[11px] md:p-6">
-                            <h3 className="font-display text-[20px] font-medium leading-[1.3] tracking-[-0.01em] text-[#1e1e1e]">
-                              {name}
-                            </h3>
-                            <p className="text-[16px] leading-[1.3] tracking-[-0.01em] text-[#666]">
-                              {copy}
-                            </p>
-                          </div>
-                        );
+                    <CardCascade>
+                      {rows.map((row) => (
+                        <ul
+                          key={row[0]}
+                          className={`grid grid-cols-1 gap-4 ${ROW_COLS[row.length] ?? "lg:grid-cols-3"}`}
+                        >
+                          {row.map((name) => {
+                            const offer = getServiceDetailByPlainName(name);
+                            const copy = getServicePanelCopy(name, group.name);
+                            const index = cardIndex++;
+                            const card = (
+                              <div className="flex h-full flex-col gap-6 border border-[#ccc] bg-white/80 p-6 backdrop-blur-[11px] lg:min-h-[180px] lg:justify-between">
+                                <h3 className="font-display text-[20px] font-medium leading-[1.3] tracking-[-0.01em] text-[#1e1e1e]">
+                                  {name}
+                                </h3>
+                                <p className="text-[16px] leading-[1.3] tracking-[-0.01em] text-[#666]">
+                                  {copy}
+                                </p>
+                              </div>
+                            );
 
-                        return (
-                          <li key={name}>
-                            {offer ? (
-                              <Link
-                                to="/services/offer/$slug"
-                                params={{ slug: offer.slug }}
-                                className="block h-full transition-opacity hover:opacity-80"
+                            return (
+                              <li
+                                key={name}
+                                data-card-reveal={index}
+                                className="kbpm-reveal h-full"
                               >
-                                {card}
-                              </Link>
-                            ) : (
-                              <Link
-                                to="/services/$slug"
-                                params={{ slug: group.slug }}
-                                className="block h-full transition-opacity hover:opacity-80"
-                              >
-                                {card}
-                              </Link>
-                            )}
-                          </li>
-                        );
-                      })}
-                    </ul>
+                                {offer ? (
+                                  <Link
+                                    to="/services/offer/$slug"
+                                    params={{ slug: offer.slug }}
+                                    className="block h-full transition-opacity hover:opacity-80"
+                                  >
+                                    {card}
+                                  </Link>
+                                ) : (
+                                  <Link
+                                    to="/services/$slug"
+                                    params={{ slug: group.slug }}
+                                    className="block h-full transition-opacity hover:opacity-80"
+                                  >
+                                    {card}
+                                  </Link>
+                                )}
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      ))}
+                    </CardCascade>
                   </div>
                 </div>
-              </Reveal>
             );
           })}
         </div>
       </section>
 
-      <section className="kbpm-hi-fi bg-[#006ff7] px-10 py-10 md:px-16 md:py-16 lg:px-20 lg:py-[80px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col items-start gap-10">
-          <h2
-            className="font-display max-w-[16ch] text-white md:max-w-[20ch]"
-            style={{
-              fontSize: "clamp(2.5rem, 5vw, 4rem)",
-              lineHeight: 1.2,
-              letterSpacing: "-0.02em",
-              fontWeight: 500,
-            }}
-          >
-            {t("ctaHeadline")}
-          </h2>
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-2.5 rounded-full bg-[#c9ff6e] py-3 pl-6 pr-3 font-mono text-[14px] uppercase leading-[1.35] tracking-[-0.03em] text-[#1e1e1e] transition-opacity hover:opacity-90"
-          >
-            {tc("letsTalk")}
-            <span className="flex size-[31px] shrink-0 items-center justify-center rounded-full bg-[#1e1e1e]">
-              <img
-                src="/hero/arrow-outward.svg"
-                alt=""
-                width={16}
-                height={16}
-                className="size-4"
-              />
-            </span>
-          </Link>
-        </div>
-      </section>
+      <FinalCta
+        headline={t("ctaHeadline")}
+        className="px-10 py-10 md:px-10 md:py-16 lg:px-20 lg:py-20"
+        contentClassName="gap-10 md:gap-12"
+      />
     </>
   );
 }

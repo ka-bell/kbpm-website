@@ -1,4 +1,5 @@
 import { Link } from "@/components/Link";
+import { cn } from "@/lib/utils";
 
 type WordmarkProps = {
   className?: string;
@@ -13,7 +14,7 @@ export function Wordmark({ className = "", ink = "default" }: WordmarkProps) {
   return (
     <Link
       to="/"
-      className={`inline-flex items-center leading-none ${className}`.trim()}
+      className={cn("inline-flex items-center leading-none", className)}
       aria-label="kbell + postman — home"
     >
       <img

@@ -72,7 +72,7 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
           className={
             light
               ? "absolute inset-x-0 top-0 bottom-[4.75rem] z-0 w-full md:bottom-[5.25rem]"
-              : "relative z-0 h-[112px] w-full overflow-hidden md:absolute md:inset-x-0 md:top-0 md:bottom-[4.75rem] md:h-auto md:overflow-visible"
+              : "relative z-0 h-[200px] w-full overflow-hidden md:absolute md:inset-x-0 md:top-0 md:bottom-[4.75rem] md:h-auto md:overflow-visible"
           }
         >
           <FooterCradle variant={variant} />
@@ -82,7 +82,7 @@ export function SiteFooter({ variant = "dark" }: SiteFooterProps) {
           className={`relative z-10 grid grid-cols-2 gap-6 md:grid-cols-12 md:gap-10 ${contentPe} ${
             light
               ? "pb-12 md:pb-20"
-              : "pb-8 pt-2 md:pb-[clamp(11rem,28vw,18rem)] md:pt-0"
+              : "pb-8 pt-14 md:pb-[clamp(11rem,28vw,18rem)] md:pt-0"
           }`}
         >
           <div className="col-span-2 flex flex-col gap-2 md:col-span-5">

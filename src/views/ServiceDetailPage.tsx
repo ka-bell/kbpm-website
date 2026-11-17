@@ -5,9 +5,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Reveal } from "@/components/site/Reveal";
 import { SectionEyebrow } from "@/components/site/SectionEyebrow";
-import { FeaturedCase } from "@/components/site/FeaturedCase";
+import { getCase, type CaseStudy } from "@/components/site/cases-data";
 import { FinalCta } from "@/components/site/FinalCta";
-import { MoreWork } from "@/components/site/MoreWork";
 import { Tag } from "@/components/site/Tag";
 import type {
   ServiceGroup,
@@ -30,12 +29,98 @@ const OFFER_PANEL_GRAPHICS: ServiceSlug[] = [
   "support",
 ];
 
+const FEATURED_SLUGS = ["blink", "spilnews"] as const;
+
+function stillImage(item: CaseStudy) {
+  const video = /\.(mp4|webm|mov)(\?|$)/i;
+  if (item.heroImage && !video.test(item.heroImage)) return item.heroImage;
+  if (!video.test(item.img)) return item.img;
+  return item.heroImage ?? item.img;
+}
+
+function FeaturedEngagement() {
+  const tc = useTranslations("Common");
+  const cards = FEATURED_SLUGS.map((slug) => getCase(slug)).filter(
+    (item): item is CaseStudy => Boolean(item),
+  );
+
+  return (
+    <section className="kbpm-hi-fi bg-white px-5 py-16 sm:px-6 md:px-10 lg:px-20 lg:py-20">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-8">
+        <SectionEyebrow label="Featured engagement" mark={6} />
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_413px] lg:items-start">
+          {cards.map((item) => (
+            <article key={item.slug} className="flex flex-col gap-5">
+              <Link
+                to="/work/$slug"
+                params={{ slug: item.slug }}
+                className="group relative block h-[280px] overflow-hidden rounded-[24px] sm:h-[400px] lg:h-[540px]"
+              >
+                <img
+                  src={stillImage(item)}
+                  alt=""
+                  className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                />
+                <div className="absolute left-5 top-5 flex gap-2">
+                  {item.displayTags.slice(0, 2).map((tag) => (
+                    <Tag key={tag} variant="frost">
+                      {tag}
+                    </Tag>
+                  ))}
+                </div>
+              </Link>
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-2">
+                  <span className="inline-flex w-fit items-center bg-[#c9ff6e] px-2 py-2 font-mono text-[10px] uppercase leading-[1.1] text-[#1e1e1e]">
+                    case study
+                  </span>
+                  <h3 className="font-display text-[24px] font-medium leading-[1.2] tracking-[-0.02em] text-[#1e1e1e]">
+                    {item.client}
+                  </h3>
+                </div>
+                <p className="text-[16px] leading-[1.3] tracking-[-0.01em] text-[#6b6b6b]">
+                  {item.outcome}
+                </p>
+                <div className="flex flex-col gap-3.5">
+                  <div className="h-px w-full bg-[#1e1e1e]/15" />
+                  <div className="flex items-center justify-between">
+                    <p className="text-[14px] leading-[1.3] tracking-[-0.01em] text-[#6b6b6b]">
+                      {item.year}
+                    </p>
+                    <Link
+                      to="/work/$slug"
+                      params={{ slug: item.slug }}
+                      className="inline-flex items-center gap-1 font-mono text-[14px] uppercase leading-[1.1] tracking-[0.03em] text-[#6b6b6b] transition-opacity hover:opacity-70"
+                    >
+                      {tc("readMore")}
+                      <img
+                        src="/hero/arrow-outward-dark.svg"
+                        alt=""
+                        width={20}
+                        height={20}
+                        className="size-5 opacity-70"
+                      />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function pad(n: number) {
   return String(n).padStart(2, "0");
 }
 
 /** Unique panel image per offer index; phase graphics first, then brand tiles. */
-function offerPanelSrc(slug: ServiceSlug, index: number) {
+function offerPanelSrc(slug: ServiceSlug, index: number, capability: string) {
+  if (capability === "Website & Product Audit") {
+    return "/services/validate-audit.jpg";
+  }
   const start = Math.max(0, OFFER_PANEL_GRAPHICS.indexOf(slug));
   const pool = [
     ...OFFER_PANEL_GRAPHICS.slice(start).map(
@@ -127,7 +212,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
     service.capabilities.indexOf(activeCapability),
   );
   const activeOffer = getServiceDetailByPlainName(activeCapability);
-  const offerImage = offerPanelSrc(service.slug, activeIndex);
+  const offerImage = offerPanelSrc(service.slug, activeIndex, activeCapability);
   const panelTags = getServicePanelTags(activeCapability);
   const total = service.capabilities.length;
   const offerTrackStyle =
@@ -166,26 +251,11 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                   <p className="font-mono text-[12px] uppercase leading-[16.5px] tracking-[0.05em] text-[#6b6b6b] sm:text-[14px] sm:text-[#1e1e1e]">
                     {t("detailBreadcrumb", { name: service.name })}
                   </p>
-                  <h1
-                    className="font-display text-[#1e1e1e]"
-                    style={{
-                      fontSize: "clamp(2.5rem, 8vw, 6rem)",
-                      lineHeight: 0.95,
-                      letterSpacing: "-0.03em",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <h1 className="font-display text-[clamp(2.5rem,8vw,6rem)] font-medium leading-[0.95] tracking-[-0.03em] text-[#1e1e1e] lg:text-[96px] lg:leading-[1.2] lg:tracking-normal">
                     {service.name}
                   </h1>
                 </div>
-                <p
-                  className="max-w-xl text-[#6b6b6b]"
-                  style={{
-                    fontSize: "clamp(1.125rem, 2.2vw, 1.875rem)",
-                    lineHeight: 1.25,
-                    fontWeight: 400,
-                  }}
-                >
+                <p className="max-w-xl text-[18px] leading-[1.25] text-[#6b6b6b] lg:text-[20px] lg:leading-[1.3] lg:tracking-[-0.2px] lg:text-[#666]">
                   {tg("goal")}
                 </p>
               </div>
@@ -245,7 +315,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
               <div className="flex max-w-[45rem] flex-col gap-6 lg:gap-8">
                 <SectionEyebrow
                   label={t("indexEyebrow")}
-                  mark={2}
+                  mark={6}
                   ink="light"
                 />
                 <h2
@@ -260,7 +330,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                   {t("whatWeOffer")}
                 </h2>
               </div>
-              <p className="max-w-md text-[16px] leading-[1.3] tracking-[-0.01em] text-white/70 md:text-[18px] lg:max-w-[22rem] lg:pb-1">
+              <p className="max-w-md text-[16px] leading-[1.3] tracking-[-0.01em] text-white/70 md:text-[18px] lg:max-w-[435px] lg:pb-1 lg:text-[20px] lg:text-[#f5f5f5]">
                 {tg("panelIntro")}
               </p>
             </div>
@@ -274,7 +344,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
             <div className="sticky top-3 flex h-[calc(100dvh-1.25rem)] flex-col gap-4 md:top-4 md:gap-5 lg:h-[min(735px,calc(100dvh-5rem))] lg:gap-6">
               {/* Horizontal row — never wrap/stack */}
               <div
-                className="flex w-full shrink-0 flex-nowrap gap-2 overflow-x-auto overscroll-x-contain pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                className="flex w-full shrink-0 flex-nowrap gap-2 overflow-x-auto overscroll-x-contain pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] lg:flex-wrap lg:overflow-visible [&::-webkit-scrollbar]:hidden"
                 role="tablist"
                 aria-label={`${service.name} services`}
               >
@@ -304,8 +374,8 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                 })}
               </div>
 
-              <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[16px] md:rounded-[24px] lg:flex-row">
-                <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-[#2a2a2a] sm:aspect-auto sm:min-h-[14rem] sm:flex-[0.85] lg:order-2 lg:min-h-0 lg:flex-1 lg:aspect-auto">
+              <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[16px] md:rounded-[24px] lg:h-[601px] lg:flex-none lg:flex-row">
+                <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-[#2a2a2a] sm:aspect-auto sm:min-h-[14rem] sm:flex-[0.85] lg:order-2 lg:aspect-auto lg:h-full lg:min-h-0 lg:w-1/2 lg:flex-none">
                   <img
                     key={activeCapability}
                     src={offerImage}
@@ -317,20 +387,12 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                   />
                 </div>
 
-                <div className="flex min-h-0 flex-1 flex-col justify-between gap-5 overflow-y-auto bg-white p-5 sm:gap-6 sm:p-8 md:p-10 lg:order-1 lg:p-10">
+                <div className="flex min-h-0 flex-1 flex-col justify-between gap-5 overflow-y-auto bg-white p-5 sm:gap-6 sm:p-8 md:p-10 lg:order-1 lg:w-1/2 lg:p-14">
                   <div className="flex flex-col gap-4 sm:gap-5 lg:gap-6">
                     <p className="font-mono text-[12px] uppercase tracking-[0.05em] text-[#6b6b6b] sm:text-[14px]">
                       Selected / {pad(activeIndex + 1)} of {pad(total)}
                     </p>
-                    <h3
-                      className="font-display text-[#1e1e1e]"
-                      style={{
-                        fontSize: "clamp(1.5rem, 3vw, 2.75rem)",
-                        lineHeight: 1.15,
-                        letterSpacing: "-0.02em",
-                        fontWeight: 500,
-                      }}
-                    >
+                    <h3 className="font-display text-[clamp(1.5rem,3vw,2.75rem)] font-medium leading-[1.15] tracking-[-0.02em] text-[#1e1e1e] lg:text-[48px] lg:leading-[1.2]">
                       {activeCapability}
                     </h3>
                     <p className="max-w-md text-[15px] leading-[1.3] tracking-[-0.01em] text-[#6b6b6b] sm:text-[16px]">
@@ -386,9 +448,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
         </div>
       </section>
 
-      {/* Same cases block as homepage */}
-      <FeaturedCase />
-      <MoreWork layout="scroll" bg="bg-white" />
+      <FeaturedEngagement />
 
       {/* Related sales pages — build / support only */}
       {service.slug === "support" || service.slug === "build" ? (

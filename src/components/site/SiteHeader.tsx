@@ -1,6 +1,7 @@
 "use client";
 
 import { Link } from "@/components/Link";
+import { cn } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { LanguageSwitcher } from "./LanguageSwitcher";
@@ -87,24 +88,25 @@ export function SiteHeader({
     <>
       <header
         ref={headerRef}
-        className={[
+        className={cn(
           "relative z-20 flex w-full items-center justify-between",
-          floating
-            ? "h-[68px] rounded-[24px] px-4 backdrop-blur-[50px] sm:px-6 lg:h-[60px] lg:px-8 xl:px-10"
-            : "h-[68px] lg:h-[60px]",
-          floating && variant === "white"
-            ? "bg-white/5"
-            : floating && variant === "black"
-              ? "bg-white/80"
-              : "",
+          // Mobile bar — Figma 3674:2566: full-width, 16px radius, frosted fill.
+          "h-[68px] rounded-b-[16px] bg-white/80 px-6 backdrop-blur-[100px]",
+          "lg:h-[60px] lg:rounded-none lg:bg-transparent lg:px-0 lg:backdrop-blur-none",
+          floating &&
+            "lg:rounded-[24px] lg:px-8 lg:backdrop-blur-[50px] xl:px-10",
+          floating && variant === "white" && "lg:bg-white/5",
+          floating && variant === "black" && "lg:bg-white/80",
           className,
-        ]
-          .filter(Boolean)
-          .join(" ")}
+        )}
       >
         <Wordmark
+          ink="default"
+          className="text-[clamp(1.05rem,1.8vw,1.25rem)] lg:hidden"
+        />
+        <Wordmark
           ink={isWhite ? "white" : "default"}
-          className="text-[clamp(1.05rem,1.8vw,1.25rem)]"
+          className="hidden text-[clamp(1.05rem,1.8vw,1.25rem)] lg:inline-flex"
         />
 
         <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center lg:flex">

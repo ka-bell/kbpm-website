@@ -18,8 +18,9 @@ export function SiteChrome({ children }: { children: ReactNode }) {
   const caseMatch = pathname.match(CASE_PATH_RE);
   const caseSlug = caseMatch?.[1] ?? null;
   const serviceGroupPage = SERVICE_GROUP_RE.test(pathname);
-  /** Home / service heroes sit on white — black ink at top. Contact starts dark. */
-  const startsOverDark = isContact;
+  const isServicesIndex = pathname === "/services";
+  /** Home / service heroes sit on white — black ink at top. Contact and the services index start dark. */
+  const startsOverDark = isContact || isServicesIndex;
 
   /** White ink over dark surfaces; black elsewhere. */
   const [overDark, setOverDark] = useState(startsOverDark);
@@ -54,6 +55,9 @@ export function SiteChrome({ children }: { children: ReactNode }) {
         } else {
           setOverDark(false);
         }
+      } else if (isServicesIndex) {
+        const hero = document.querySelector("[data-services-hero]");
+        setOverDark(hero ? hero.getBoundingClientRect().bottom > 64 : true);
       } else {
         setOverDark(false);
       }
@@ -84,25 +88,25 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, [isHome, isContact, serviceGroupPage, pathname]);
+  }, [isHome, isContact, isServicesIndex, serviceGroupPage, pathname]);
 
   const variant = overDark ? "white" : "black";
-  // Home: frosted after scroll; elsewhere: pill when over dark surfaces.
-  const floating = isHome ? scrolled : overDark;
+  // Home: frosted after scroll. Services index keeps plain white type on the dark hero.
+  const floating = isHome ? scrolled : overDark && !isServicesIndex;
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       {/*
-        In-flow spacer = fixed chrome height (pt + header row).
-        Mobile: pt-5 (20) + h-[68] = 88. md: pt-4 (16) + 68 = 84. lg: pt-5 + 60 = 80.
+        In-flow spacer = fixed chrome height.
+        Mobile/md: the header bar is flush, 68px. lg: pt-5 (20) + 60 = 80.
       */}
       <div
-        className="pointer-events-none h-[88px] shrink-0 md:h-[84px] lg:h-[80px]"
+        className="pointer-events-none h-[68px] shrink-0 lg:h-[80px]"
         aria-hidden
       />
 
       <div
-        className={`kbpm-hi-fi fixed inset-x-0 top-0 z-50 w-full bg-transparent px-6 pt-5 transition-transform ease-[cubic-bezier(0.22,1,0.36,1)] md:px-10 md:pt-4 lg:px-20 lg:pt-5 motion-reduce:duration-150 ${
+        className={`kbpm-hi-fi fixed inset-x-0 top-0 z-50 w-full bg-transparent lg:px-20 lg:pt-5 transition-transform ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:duration-150 ${
           navHidden ? "duration-300" : "duration-700"
         } ${
           navHidden
