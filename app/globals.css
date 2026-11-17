@@ -280,7 +280,11 @@
   }
 }
 
-/* Proof metrics — Figma 3626:4316: fixed 416px cards, bleed past viewport edges */
+/* Proof metrics — Figma 3626:4316
+ * Mobile: sticky vertical stack
+ * Desktop: fixed 416px cards, L→R marquee bleeding past edges
+ * (display toggles live in CSS so they don't fight Tailwind utilities)
+ */
 .metrics-strip {
   overflow-x: clip;
 }
@@ -299,29 +303,60 @@
   box-shadow: 0 -10px 32px rgba(0, 0, 0, 0.08);
 }
 
+@keyframes metrics-marquee-ltr {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.metrics-marquee-viewport {
+  display: none;
+  width: 100%;
+  overflow: hidden;
+}
+
+.metrics-marquee-track {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 1.5rem; /* 24px */
+  width: max-content;
+  will-change: transform;
+  animation: metrics-marquee-ltr 40s linear infinite;
+}
+
+.metrics-marquee-viewport:hover .metrics-marquee-track {
+  animation-play-state: paused;
+}
+
+.metrics-marquee-track .metrics-stack__card {
+  position: relative;
+  top: auto;
+  flex: 0 0 416px;
+  width: 416px;
+  min-width: 416px;
+  max-width: 416px;
+  border-radius: 16px;
+  box-shadow: none;
+}
+
 @media (min-width: 768px) {
   .metrics-stack {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: stretch;
-    gap: 1.5rem; /* 24px */
-    width: max-content;
-    max-width: none;
-    /* Center the track so first/last cards peek off both edges */
-    margin-inline: auto;
-    padding: 0;
-    overflow: visible;
+    display: none;
   }
 
-  .metrics-stack__card {
-    position: relative;
-    top: auto;
-    flex: 0 0 416px;
-    width: 416px;
-    min-width: 416px;
-    max-width: 416px;
-    border-radius: 16px;
-    box-shadow: none;
+  .metrics-marquee-viewport {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .metrics-marquee-track {
+    animation: none;
+    transform: translate3d(-12%, 0, 0); /* still bleed both edges when static */
   }
 }
 
@@ -443,7 +478,7 @@
   list-style: none;
   mix-blend-mode: luminosity;
   will-change: transform;
-  animation: clients-logo-marquee 45s linear infinite;
+  animation: clients-logo-marquee 70s linear infinite;
 }
 .clients-logo-scroller__cell {
   flex: 0 0 auto;

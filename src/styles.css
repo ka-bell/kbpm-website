@@ -257,7 +257,7 @@
   list-style: none;
   mix-blend-mode: luminosity;
   will-change: transform;
-  animation: clients-logo-marquee 45s linear infinite;
+  animation: clients-logo-marquee 70s linear infinite;
 }
 .clients-logo-scroller__cell {
   flex: 0 0 auto;

@@ -61,10 +61,12 @@ function StatCard({
   metric,
   style,
   index,
+  ariaHidden = false,
 }: {
   metric: Metric;
   style: (typeof CARD_STYLES)[number];
   index: number;
+  ariaHidden?: boolean;
 }) {
   const ref = useRef<HTMLElement>(null);
   const { target, suffix, decimals } = useMemo(
@@ -121,6 +123,7 @@ function StatCard({
   return (
     <article
       ref={ref}
+      aria-hidden={ariaHidden || undefined}
       className={`metrics-stack__card flex min-h-[16rem] flex-col justify-between p-7 sm:min-h-[18rem] sm:p-8 lg:min-h-[20rem] lg:p-8 ${style.card}`}
       style={{ ["--stack-i" as string]: String(index) }}
     >
@@ -164,7 +167,7 @@ function StatCard({
 
 /**
  * Proof metrics — Figma 3626:4316.
- * Desktop: fixed-width cards in a full-bleed row (no stretch).
+ * Desktop: fixed-width cards, full-bleed marquee left → right.
  * Mobile: vertical sticky stack.
  */
 export function ProofStrip() {
@@ -178,21 +181,42 @@ export function ProofStrip() {
     ],
     [t],
   );
+  // Duplicate for seamless desktop marquee loop
+  const loop = useMemo(() => [...metrics, ...metrics], [metrics]);
 
   return (
     <section
       className="metrics-strip kbpm-hi-fi bg-white px-0 pb-6 pt-0 md:pb-10 md:pt-0 lg:pb-12"
       aria-label={t("ariaLabel")}
     >
+      {/* Mobile sticky stack / desktop marquee — toggled in globals.css */}
       <div className="metrics-stack">
         {metrics.map((metric, i) => (
           <StatCard
-            key={`${metric.label}-${i}`}
+            key={`${metric.label}-m-${i}`}
             metric={metric}
             style={CARD_STYLES[i % CARD_STYLES.length]}
             index={i}
           />
         ))}
+      </div>
+
+      <div className="metrics-marquee-viewport">
+        <div className="metrics-marquee-track">
+          {loop.map((metric, i) => {
+            const styleIndex = i % CARD_STYLES.length;
+            const isClone = i >= metrics.length;
+            return (
+              <StatCard
+                key={`${metric.label}-d-${i}`}
+                metric={metric}
+                style={CARD_STYLES[styleIndex]}
+                index={styleIndex}
+                ariaHidden={isClone}
+              />
+            );
+          })}
+        </div>
       </div>
     </section>
   );
