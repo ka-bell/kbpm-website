@@ -48,9 +48,9 @@ function FeaturedEngagement() {
     <section className="kbpm-hi-fi bg-white px-5 py-16 sm:px-6 md:px-10 lg:px-20 lg:py-20">
       <div className="mx-auto flex max-w-[1440px] flex-col gap-8">
         <SectionEyebrow label="Featured engagement" mark={6} />
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_413px] lg:items-start">
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_413px] lg:items-stretch">
           {cards.map((item) => (
-            <article key={item.slug} className="flex flex-col gap-5">
+            <article key={item.slug} className="flex h-full flex-col gap-5">
               <Link
                 to="/work/$slug"
                 params={{ slug: item.slug }}
@@ -69,7 +69,7 @@ function FeaturedEngagement() {
                   ))}
                 </div>
               </Link>
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-1 flex-col gap-4">
                 <div className="flex flex-col gap-2">
                   <span className="inline-flex w-fit items-center bg-[#c9ff6e] px-2 py-2 font-mono text-[10px] uppercase leading-[1.1] text-[#1e1e1e]">
                     case study
@@ -81,7 +81,7 @@ function FeaturedEngagement() {
                 <p className="text-[16px] leading-[1.3] tracking-[-0.01em] text-[#6b6b6b]">
                   {item.outcome}
                 </p>
-                <div className="flex flex-col gap-3.5">
+                <div className="mt-auto flex flex-col gap-3.5">
                   <div className="h-px w-full bg-[#1e1e1e]/15" />
                   <div className="flex items-center justify-between">
                     <p className="text-[14px] leading-[1.3] tracking-[-0.01em] text-[#6b6b6b]">
@@ -341,7 +341,7 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
             className="relative"
             style={offerTrackStyle}
           >
-            <div className="sticky top-3 flex h-[calc(100dvh-1.25rem)] flex-col gap-4 md:top-4 md:gap-5 lg:h-[min(735px,calc(100dvh-5rem))] lg:gap-6">
+            <div className="sticky top-[68px] flex h-[calc(100dvh-68px-1rem)] flex-col gap-4 lg:top-20 lg:h-[calc(100dvh-5rem-1.5rem)] lg:gap-6">
               {/* Horizontal row — never wrap/stack */}
               <div
                 className="flex w-full shrink-0 flex-nowrap gap-2 overflow-x-auto overscroll-x-contain pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] lg:flex-wrap lg:overflow-visible [&::-webkit-scrollbar]:hidden"
@@ -374,8 +374,8 @@ export function ServiceDetailPage({ service }: { service: ServiceGroup }) {
                 })}
               </div>
 
-              <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[16px] md:rounded-[24px] lg:h-[601px] lg:flex-none lg:flex-row">
-                <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-[#2a2a2a] sm:aspect-auto sm:min-h-[14rem] sm:flex-[0.85] lg:order-2 lg:aspect-auto lg:h-full lg:min-h-0 lg:w-1/2 lg:flex-none">
+              <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[16px] md:rounded-[24px] lg:flex-row">
+                <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-[#2a2a2a] sm:aspect-auto sm:min-h-[14rem] sm:flex-[0.85] lg:order-2 lg:aspect-auto lg:h-auto lg:min-h-0 lg:w-1/2 lg:flex-1">
                   <img
                     key={activeCapability}
                     src={offerImage}

@@ -190,7 +190,7 @@ export function AboutPage() {
   return (
     <div className="kbpm-hi-fi min-h-screen bg-white text-[#1e1e1e]">
       {/* Hero — Figma 3626:10981; rewrite copy */}
-      <section className="bg-white px-6 pb-16 pt-8 md:px-10 md:pb-20 lg:px-20 lg:pb-[80px] lg:pt-10">
+      <section className="bg-white px-5 pb-16 pt-8 md:px-10 md:pb-20 lg:px-20 lg:pb-[80px] lg:pt-10">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-10 md:gap-12 lg:gap-14">
           <Reveal>
             <Link
@@ -209,7 +209,7 @@ export function AboutPage() {
           </Reveal>
 
           <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-end lg:gap-16">
-            <Reveal className="min-w-0 w-full flex-1">
+            <Reveal className="min-w-0 w-full lg:flex-1">
               <div className="flex max-w-[44rem] flex-col items-start gap-4 md:gap-5">
                 <SectionEyebrow label={t("eyebrow")} mark={1} />
                 <h1
@@ -228,7 +228,7 @@ export function AboutPage() {
               </div>
             </Reveal>
 
-            <Reveal delay={80} className="w-full shrink-0 lg:w-[min(100%,22.5rem)]">
+            <Reveal delay={80} className="w-full shrink-0 lg:w-[26rem]">
               <p className="text-left text-[17px] leading-[1.2] tracking-[-0.01em] text-[#6b6b6b] md:text-[18px]">
                 {t("intro")}
               </p>
@@ -262,7 +262,7 @@ export function AboutPage() {
       </section>
 
       {/* Capabilities — mobile stacked (Figma 10611:48641); desktop sticky scrub */}
-      <section className="bg-white px-6 py-12 md:hidden">
+      <section className="bg-white px-5 py-12 md:hidden">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-8">
           <Reveal>
             <div className="flex max-w-[36rem] flex-col gap-3">
@@ -325,7 +325,8 @@ export function AboutPage() {
         style={{ height: "320vh" }}
       >
         <div className="sticky top-0 flex h-dvh flex-col overflow-hidden">
-          <div className="mx-auto flex h-full w-full max-w-[1440px] flex-col gap-8 px-6 py-10 md:gap-10 md:px-10 md:py-14 lg:gap-12 lg:px-20 lg:py-[80px]">
+          <div className="flex h-full w-full flex-col px-5 py-10 md:px-10 md:py-14 lg:px-20 lg:py-[80px]">
+            <div className="mx-auto flex h-full w-full max-w-[1440px] flex-col gap-8 md:gap-10 lg:gap-12">
             <div className="shrink-0">
               <Reveal>
                 <div className="flex max-w-[36rem] flex-col gap-3 md:gap-4">
@@ -409,6 +410,7 @@ export function AboutPage() {
                 / {String(capabilities.length).padStart(2, "0")}
               </p>
             </div>
+            </div>
           </div>
         </div>
       </section>
@@ -431,7 +433,7 @@ export function AboutPage() {
         </div>
 
         {/* After the title viewport, cards rise from below and flow over it */}
-        <div className="relative z-10 px-6 pb-[30vh] pt-8 md:px-10 md:pb-[40vh] md:pt-12 lg:px-20">
+        <div className="relative z-10 px-5 pb-[30vh] pt-8 md:px-10 md:pb-[40vh] md:pt-12 lg:px-20">
           <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-16 md:grid-cols-2 md:gap-x-16 lg:gap-x-24">
             <div className="flex flex-col items-center gap-[min(50vh,26rem)] md:items-start">
               {testimonials
@@ -458,7 +460,7 @@ export function AboutPage() {
       </section>
 
       {/* Stack — Figma 3674:4379; colour logos + names */}
-      <section className="bg-white px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
+      <section className="bg-white px-5 py-16 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
         <div className="mx-auto max-w-[1440px]">
           <Reveal>
             <div className="flex flex-col gap-8">

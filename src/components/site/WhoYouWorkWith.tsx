@@ -24,7 +24,7 @@ export function WhoYouWorkWith() {
   const tc = useTranslations("Common");
 
   return (
-    <section className="kbpm-hi-fi bg-white px-6 py-16 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
+    <section className="kbpm-hi-fi bg-white px-5 py-16 md:px-10 md:py-20 lg:px-20 lg:py-[80px]">
       <div className="mx-auto max-w-[1440px]">
         <Reveal>
           <div className="flex max-w-[45rem] flex-col gap-8">
